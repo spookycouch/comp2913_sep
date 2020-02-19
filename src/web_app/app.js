@@ -9,16 +9,13 @@ var path = require('path');
 const request = require('request');
 
 // Components
-var css = require('./scaffholding/css');
+
 
 app.use(express.static('src'));  // Used to make the resources accessible (css etc.)
 app.set('view engine', 'ejs');
 
 
 app.get('/', function(req, res) {
-
-    
-
     res.render(path.join(__dirname + '/views/pages/index.ejs'),
     {
         title: "home"
