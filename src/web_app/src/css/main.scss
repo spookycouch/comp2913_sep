@@ -1,5 +1,5 @@
 // fonts
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800&display=swap');
 
 
 // libs
@@ -7,6 +7,8 @@
 
 // components
 @import "components/reset";
+@import "components/header";
+@import "components/footer";
 
 
 body {
@@ -14,30 +16,9 @@ body {
 }
 
 h1 {
-    color: white;
     font-size: $header_1;
-    font-weight: bold;
-
-    &.dark {
-        color: black;
-    }
 }
 
-.test__color {
-    width: 100%;
-    height: 200px;
-
-    &.color1 {
-        background: $primary;
-    }
-    
-    &.color2 {
-        background: $secondary;
-    }
-    &.color3 {
-        background: $tertiary;
-    }
-    &.color4 {
-        background: $quatenary;
-    }
+h2 {
+    font-size: $header_2;
 }
