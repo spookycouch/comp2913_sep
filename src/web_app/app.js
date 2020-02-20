@@ -10,7 +10,7 @@ const request = require('request');
 
 
 // Descriptive
-const webname = ' Sports Centre ';
+const webname = ' The Edgy ';
 
 // Components
 

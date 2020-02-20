@@ -18,12 +18,22 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        img {
+            height: 80px;
+        }
     }
 
     &__content {
         margin-right: 40px;
         text-align: right;
         margin-left: auto;
+
+        &--hamburger {
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     &__login {
@@ -40,6 +50,20 @@
             display: inline-block;
             text-transform: uppercase;
             padding: 5px 15px;
+        }
+    }
+}
+
+
+@media only screen and (max-width: 950px) {
+    .header {
+
+        &__content {
+            display: none;
+
+            &--hamburger {
+                display: flex;
+            }
         }
     }
 }
