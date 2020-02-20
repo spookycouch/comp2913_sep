@@ -8,6 +8,16 @@
     padding: 20px 40px;
     display: inline-block;
 
+    &__nav {
+        .nav {
+            &__item {
+                display: inline-block;
+                text-transform: uppercase;
+                padding: 5px 15px;
+            }
+        }
+    }
+
     &__container {
         display: flex;
         flex-wrap: wrap;
@@ -44,20 +54,68 @@
     }
 
 
+    &__dropdown {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 7;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0);
+        overflow: hidden;
 
-    .nav {
-        &__item {
-            display: inline-block;
-            text-transform: uppercase;
-            padding: 5px 15px;
+        .dropdown {
+            &__nav {
+                padding: 40px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+
+                .nav {
+                    &__items {
+                        margin-left: 25%;
+                    }
+
+                    &__item {
+                        padding: 5px 0;
+                        &--login {
+                            border: $border_thickness solid $black;
+                            padding: 5px 15px;
+                            display: inline-block;
+                        }
+                    }
+                }
+            }
+
+            &__container {
+                position: relative;
+                background: $tertiary;
+                width: 0;
+                height: 100%;
+                z-index: 8;
+                clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+                transition: all 0.5s;
+                float: right;
+
+                &--open {
+                    width: 70%;
+                    clip-path: polygon(0 0, 100% 0%, 100% 100%, 24% 100%);
+                }
+            }
         }
     }
 }
 
+@media only screen and (min-width: 950px) {
+    .header {
+        &__dropdown {
+            display: none !important;
+        }
+    }
+}
 
 @media only screen and (max-width: 950px) {
     .header {
-
         &__content {
             display: none;
 
@@ -66,4 +124,30 @@
             }
         }
     }
+}
+
+@media only screen and (max-width: 600px) {
+    .header {
+        padding: 20px;
+        &__logo {
+            margin-left: 10px;
+        }
+
+        &__content {
+            margin-right: 10px;
+        }
+
+        &__dropdown {
+            .dropdown {        
+                &__container {
+                    &--open {
+                        width: 90%;
+                        clip-path: polygon(0 0, 100% 0%, 100% 100%, 18% 100%);
+
+                    }
+                }
+            }
+        }
+    }
+
 }

@@ -8,6 +8,7 @@
   transition-property: opacity, filter;
   transition-duration: 0.15s;
   transition-timing-function: linear;
+  z-index: 10;
 
   // Normalize (<button>)
   font: inherit;
@@ -41,6 +42,12 @@
     .hamburger-inner::before,
     .hamburger-inner::after {
       background-color: $hamburger-active-layer-color;
+    }
+
+    .hamburger-inner--white,
+    .hamburger-inner--white::before,
+    .hamburger-inner--white::after {
+      background-color: white;
     }
   }
 }
