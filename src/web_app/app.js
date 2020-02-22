@@ -7,6 +7,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 const request = require('request');
+var user = require('./modules/user.js');
 
 
 // Descriptive
@@ -21,10 +22,17 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.get(['/', '/home'], function(req, res) {
-    res.render(path.join(__dirname + '/views/pages/index.ejs'),
-    {
-        title: webname + "| Home"
-    });
+    
+    //user.registerUser("Diego Calanzone", "diegocalanzone@gmail.com", "123", "123", "Leeds", "Leeds", 1582394167);
+    user.loginUser("john.d@mail.com", "123").then(function(user){
+
+        console.log(user);
+
+        res.render(path.join(__dirname + '/views/pages/index.ejs'),
+        {
+            title: webname + "| Home"
+        });
+    }).catch(function(error){});
 });
 
 app.get('/login', function(req, res) {

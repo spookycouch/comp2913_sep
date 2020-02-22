@@ -1,3 +1,6 @@
+CREATE DATABASE comp2913_sep;
+USE comp2913_sep;
+
 -- --------------------------------------------------------
 
 --
@@ -203,11 +206,15 @@ CREATE TABLE `Timetable` (
 --
 
 CREATE TABLE `User` (
-  `id` int(11) NOT NULL,
-  `full_name` varchar(400) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `full_name` varchar(400) NOT NULL,  
   `email` varchar(200) NOT NULL,
+  `password` varchar(400) NOT NULL,
   `phone` varchar(200) NOT NULL,
-  `birth` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `address` varchar(500) NOT NULL,
+  `city` varchar(200) NOT NULL,
+  `birth` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -263,12 +270,6 @@ ALTER TABLE `Timetable`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `User`
---
-ALTER TABLE `User`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for `Card`
 --
 ALTER TABLE `Card`
@@ -283,3 +284,9 @@ ALTER TABLE `Lecturer`
 --
 ALTER TABLE `Membership`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- SAMPLE DATA
+--
+
+INSERT INTO User(full_name, email, password, phone) VALUES ('John Doe', 'john.d@mail.com', '202cb962ac59075b964b07152d234b70', '+44 1234567890');
