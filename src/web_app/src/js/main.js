@@ -6,7 +6,7 @@ $(document).ready(function() {
         hamburgerPressed = !hamburgerPressed;
 
         if (hamburgerPressed) {
-            $('.hamburger').addClass('is-active')
+            $('.hamburger').addClass('is-active');
 
             $('.header__dropdown').css('display', 'block').animate({
                 backgroundColor: 'rgba(0, 0, 0, .6)'
@@ -14,7 +14,8 @@ $(document).ready(function() {
             $('.dropdown__container').addClass('dropdown__container--open');
 
         } else {
-            $('.hamburger').removeClass('is-active');
+            $('.hamburger').removeClass('is-active').css('position', 'static');
+
             $('.header__dropdown').animate({
                 backgroundColor: 'rgba(0, 0, 0, 0)'
             }, function() {

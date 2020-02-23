@@ -27,12 +27,14 @@ app.get(['/', '/home'], function(req, res) {
     });
 });
 
+
 app.get('/login', function(req, res) {
     res.render(path.join(__dirname + '/views/pages/login.ejs'),
     {
         title: webname + "| Login"
     });
 });
+
 
 app.get('/memberships', function(req, res) {
     res.render(path.join(__dirname + '/views/pages/memberships.ejs'),
@@ -48,6 +50,7 @@ app.get('/facilities', function(req, res) {
         title: webname + "| Facilities"
     });
 });
+
 
 app.get('/contact', function(req, res) {
     res.render(path.join(__dirname + '/views/pages/contact.ejs'),

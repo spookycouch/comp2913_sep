@@ -1,12 +1,20 @@
 // Styles for the header and navigation bar
+.header-spacing {
+    width: 100%;
+    height: 115px;
+}
 
 .header {
     color: $black;
     width: 100%;
-    border-bottom: $border_thickness solid $black;
-    // height: 100px;
-    padding: 20px 40px;
+    border-bottom: $border_thickness solid $primary;
+    padding: 15px 40px;
     display: inline-block;
+    position: fixed;
+    z-index: 8;
+    top: 0;
+    background-color: $white;
+    min-height: 115px;
 
     &__nav {
         .nav {
@@ -55,7 +63,7 @@
 
 
     &__dropdown {
-        position: absolute;
+        position: fixed;
         width: 100%;
         height: 100%;
         z-index: 7;
@@ -63,6 +71,7 @@
         left: 0;
         background-color: rgba(0, 0, 0, 0);
         overflow: hidden;
+        display: none;
 
         .dropdown {
             &__nav {
