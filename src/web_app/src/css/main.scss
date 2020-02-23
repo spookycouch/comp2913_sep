@@ -172,7 +172,7 @@ h3 {
     color: $white;
 
     &__container {
-        margin: 100px;
+        margin: 100px 60px;
     }
 
     &__header {
@@ -181,6 +181,23 @@ h3 {
         padding: $padding_border_block;
         margin-top: 20px;
         text-align: center;
+    }
+
+    &__carousel {
+        .carousel {
+            &__item {
+                text-align: center;
+                display: flex !important;
+                justify-content: center;
+                align-items: center;
+
+                .item {
+                    &__text {
+                        width: 60%;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -234,6 +251,13 @@ h3 {
         }
     }
 
+    .reviews {
+        &__container {
+            margin: 100px 10px;
+        }
+    
+    }
+
     .hours {
         clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
 
@@ -264,6 +288,20 @@ h3 {
     .webpart {
         &__option {
             width: 100%;
+        }
+    }
+
+    .reviews {
+        &__carousel {
+            .carousel {
+                &__item {
+                    .item {
+                        &__text {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
         }
     }
 

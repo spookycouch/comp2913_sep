@@ -1918,7 +1918,7 @@ h3 {
 }
 
 .reviews__container {
-  margin: 100px;
+  margin: 100px 60px;
 }
 
 .reviews__header {
@@ -1927,6 +1927,23 @@ h3 {
   padding: 5px 15px;
   margin-top: 20px;
   text-align: center;
+}
+
+.reviews__carousel .carousel__item {
+  text-align: center;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.reviews__carousel .carousel__item .item__text {
+  width: 60%;
 }
 
 .hours {
@@ -1975,6 +1992,9 @@ h3 {
   .gallery__container {
     margin: 10px;
   }
+  .reviews__container {
+    margin: 100px 10px;
+  }
   .hours {
     -webkit-clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
             clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
@@ -1996,6 +2016,9 @@ h3 {
             clip-path: none;
   }
   .webpart__option {
+    width: 100%;
+  }
+  .reviews__carousel .carousel__item .item__text {
     width: 100%;
   }
   .gallery__content .content__image {

@@ -1,6 +1,30 @@
 $(document).ready(function() {
     var hamburgerPressed = false
 
+    // slick configuration
+    $(".reviews__carousel").slick({
+        autoplay: true,
+        autoplaySpeed: 3000,
+        dots: true,
+        customPaging : function(slider, i) {
+            var thumb = $(slider.$slides[i]).data();
+            return '<a>'+ (i + 1) +'</a>';;
+        }
+        
+        // responsive: [{ 
+        //     breakpoint: 500,
+        //     settings: {
+        //         dots: false,
+        //         arrows: false,
+        //         infinite: false,
+        //         slidesToShow: 2,
+        //         slidesToScroll: 2
+        //     } 
+        // }]
+    });
+
+
+    // hamburger dropdown menu open and close effects
     $('.hamburger').on('click', function(e) {
         e.preventDefault();
         hamburgerPressed = !hamburgerPressed;
@@ -23,7 +47,5 @@ $(document).ready(function() {
             });
             $('.dropdown__container').removeClass('dropdown__container--open');
         }
-
-
     });
 });
