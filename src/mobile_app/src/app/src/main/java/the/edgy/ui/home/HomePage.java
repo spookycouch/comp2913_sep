@@ -18,9 +18,7 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Toast.makeText(HomePage.this, "Welcome", Toast.LENGTH_SHORT).show();
-
+        
         setContentView(R.layout.activity_home_page);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
