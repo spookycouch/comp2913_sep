@@ -4,14 +4,14 @@
   "description": "Web App",
   "main": "app.js",
   "dependencies": {
-    "express": "4.17.1",
-    "request": "2.88.2",
     "ejs": "3.0.1",
-    "nodemon": "2.0.2",
-    "mysql": "2.18.1",
+    "express": "4.17.1",
     "md5": "2.2.1",
     "moment": "2.24.0",
-    "passport": "0.4.1"
+    "mysql": "^2.18.1",
+    "nodemon": "2.0.2",
+    "passport": "0.4.1",
+    "request": "2.88.2"
   },
   "devDependencies": {},
   "scripts": {

@@ -20,8 +20,6 @@ app.use('/',routes);
 app.set('view engine', 'ejs');
 
 
-
-
 // Run the app
 app.listen(port, hostname, function() {
     console.log(`Server running at http://${hostname}:${port}/`);

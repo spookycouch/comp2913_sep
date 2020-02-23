@@ -1,0 +1,32 @@
+.gallery {
+    padding: 40px;
+    color: $black;
+
+    &__container {
+        margin: 60px;
+    }
+
+    &__content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .content {
+            &__image {
+                padding: 10px;
+                height: 25vw;
+                min-height: 250px;
+                object-fit: cover;
+            }
+
+            &__image--first {
+                width: 60%;
+            }
+
+            &__image--last {
+                width: 40%;
+            }
+        }
+    }
+}

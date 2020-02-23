@@ -9,6 +9,7 @@
 @import "components/reset";
 @import "components/header";
 @import "components/footer";
+@import "components/gallery";
 @import "hamburgers/hamburgers.scss";
 
 
@@ -103,15 +104,61 @@ h3 {
 
     &__option {
         max-width: 425px;
-        width: 33%;
+        width: 25%;
+        display: flex;
+        height: 230px;
+        background-color: $white;
+        margin: 20px 50px;
+        border: $border_thickness solid $primary;
+        box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        transition: all .4s ease 0s;
+        
+        // border-bottom: 6px solid darken($color: $tertiary, $amount: 10);
+
 
         .option {
             &__content {
-                background-color: $white;
-                height: 200px;
-                margin: 20px 50px;
-                border: $border_thickness solid $primary;
-                box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+                width: 100%;
+                position: relative;
+            
+                .content {
+                    &__image {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 10px;
+
+                        img {
+                            width: 80px;
+                        }
+                    }
+
+                    &__desc {
+                        display: flex;
+                        flex-wrap: wrap;
+                        // background-color: $tertiary;
+                        position: absolute;
+                        bottom: 0;
+                        margin-left: 10px;
+                        width: 100%;
+                    }
+
+                    &__title {
+                        width: 70%;
+                    }
+
+                    &__open {
+                        width: 30%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        img {
+                            width: 40px;
+                        }
+                    }  
+                }
             }
         }
     }
@@ -119,19 +166,79 @@ h3 {
 
 
 .reviews {
-    height: 800px;
     background-color: $primary;
     clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+    padding: 40px;
+    color: $white;
+
+    &__container {
+        margin: 100px;
+    }
+
+    &__header {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: $padding_border_block;
+        margin-top: 20px;
+        text-align: center;
+    }
 }
 
-.gallery {
-    height: 800px;
+.hours {
+    background-color: $primary;
+    clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+    padding: 40px;
+    color: $white;
+
+    &__container {
+        margin: 100px 60px;
+    }
+
+    &__header {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: $padding_border_block;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    &__table {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+
+        table {
+            border: $border_thickness solid $white;
+            padding: 10px;
+
+            tr {
+                td {
+                    padding: 5px 60px;
+                }
+            }
+        }
+    }
+    
 }
 
 @media only screen and (max-width: 950px) {
     .webpart {
         &__option {
             width: 50%;
+        }
+    }
+
+    .gallery {
+        &__container {
+            margin: 10px;
+        }
+    }
+
+    .hours {
+        clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
+
+        &__container {
+            margin: 100px 10px;
         }
     }
 }
@@ -159,10 +266,38 @@ h3 {
             width: 100%;
         }
     }
+
+    .gallery {
+        &__content {
+            .content {
+                &__image {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+
+    .hours {
+        clip-path: polygon(100% 0, 100% 90%, 0 100%, 0 10%);
+        
+        &__table {
+            table {
+                tr {
+                    td {
+                        padding: $padding_border_block;
+                    }
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 400px) {
     h1 {
         font-size: $header_1 - 10;
+    }
+
+    .gallery {
+        padding: 20px;
     }
 }
