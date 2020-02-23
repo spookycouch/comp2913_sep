@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import the.edgy.R;
-import the.edgy.ui.HomePage;
+import the.edgy.ui.home.HomePage;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayHomePage() {
-        // Create an Intent to start the second activity
+        // Create an Intent to start the Home Page.
         Intent mainPageIntent = new Intent(MainActivity.this, HomePage.class);
 
         startActivity(mainPageIntent);

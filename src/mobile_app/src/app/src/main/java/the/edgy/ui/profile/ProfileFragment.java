@@ -1,6 +1,7 @@
 package the.edgy.ui.profile;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import the.edgy.R;
+import the.edgy.ui.home.HomePage;
+import the.edgy.ui.login.MainActivity;
 
 public class ProfileFragment extends Fragment {
 
@@ -33,5 +36,17 @@ public class ProfileFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    void displayMembership() {
+        // Create an Intent to start the Memberships page.
+        Intent mainPageIntent = new Intent(ProfileFragment.this, HomePage.class);
+
+        startActivity(mainPageIntent);
     }
 }
