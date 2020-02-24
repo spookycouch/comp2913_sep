@@ -2,4 +2,13 @@
 
 <h1>Login page</h1>
 
+<form method="POST">
+
+    <input name="email" type="text" />
+    <input name="password" type="password" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"/>
+
+    <button name="login" type="submit">Login</button>
+
+</form>
+
 <%- include('../partials/foot') %>

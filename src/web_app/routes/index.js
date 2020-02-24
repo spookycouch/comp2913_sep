@@ -5,10 +5,21 @@ var path = require('path');
 const request = require('request');
 var user = require('../modules/user');
 
+// Request parsers
+var bodyParser = require('body-parser');
+
+// Use this to handle JSON endpoints
+var jsonParser = bodyParser.json();
+
+// Use this to handle FORM endpoints
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+// Website header
 const webname = ' The Edgy ';
 
-
-// Routes
+/*
+ *  Function:   Homepage Router
+*/
 router.get(['/', '/home'], function(req, res) {
     
     //user.registerUser("Diego Calanzone", "diegocalanzone@gmail.com", "123", "123", "Leeds", "Leeds", 1582394167);
@@ -23,6 +34,9 @@ router.get(['/', '/home'], function(req, res) {
     //}).catch(function(error){});
 });
 
+/*
+ *  Function:   Login Page Router
+*/
 router.get('/login', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/login.ejs'),
     {
@@ -30,6 +44,31 @@ router.get('/login', function(req, res) {
     });
 });
 
+/*
+ *  Function:   Login Backend Query
+*/
+router.post('/login', urlencodedParser, function(req, res) {
+
+    // Data
+    let email = req.body.email;
+    let password = req.body.password;
+
+    // Query
+    user.loginUser(email, password).then(function(user){
+
+        // Success
+        res.send("Login successful.");
+
+    // Error
+    }). catch(function(error){
+        
+        res.send(error);
+    });
+});
+
+/*
+ *  Function:   Memberships Page Router
+*/
 router.get('/memberships', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/memberships.ejs'),
     {
@@ -37,7 +76,9 @@ router.get('/memberships', function(req, res) {
     });
 });
 
-
+/*
+ *  Function:   Facilities Page Router
+*/
 router.get('/facilities', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
     {
@@ -45,6 +86,9 @@ router.get('/facilities', function(req, res) {
     });
 });
 
+/*
+ *  Function:   Contact Page Router
+*/
 router.get('/contact', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/contact.ejs'),
     {

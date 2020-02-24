@@ -9,6 +9,7 @@ var path = require('path');
 var routes = require('./routes/index');
 const request = require('request');
 var user = require('./modules/user.js');
+var bodyParser = require('body-parser');
 
 
 // Descriptive
