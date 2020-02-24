@@ -115,7 +115,7 @@
     }
 }
 
-@media only screen and (min-width: 950px) {
+@media only screen and (min-width: $max_width_primary) {
     .header {
         &__dropdown {
             display: none !important;
@@ -123,7 +123,7 @@
     }
 }
 
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: $max_width_primary) {
     .header {
         &__content {
             display: none;
@@ -135,7 +135,7 @@
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: $max_width_secondary) {
     .header {
         padding: 20px;
         &__logo {

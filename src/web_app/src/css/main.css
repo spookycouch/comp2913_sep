@@ -333,6 +333,385 @@ ul {
   }
 }
 
+.jumbotron {
+  height: 600px;
+  background-image: url("/img/woman-doing-exercise-inside-gym-2247179.jpg");
+  background-position: 80% 25%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  position: relative;
+}
+
+.jumbotron__overlay {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+}
+
+.jumbotron__overlay .overlay__half {
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.jumbotron__overlay .overlay__half--background {
+  background-color: #00A984;
+  opacity: .9;
+  -webkit-clip-path: polygon(0 0, 100% 0%, 76% 100%, 0 100%);
+          clip-path: polygon(0 0, 100% 0%, 76% 100%, 0 100%);
+}
+
+.jumbotron__content {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0 40px;
+  margin-left: 40px;
+}
+
+.jumbotron__content .content__text {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.jumbotron__content .content__link {
+  border: 2px solid white;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-top: 10px;
+}
+
+.webpart {
+  position: relative;
+  margin-top: -80px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.webpart__option {
+  max-width: 425px;
+  width: 25%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 230px;
+  background-color: white;
+  margin: 20px 50px;
+  border: 2px solid #23c9dc;
+  -webkit-box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  -webkit-transition: all .4s ease 0s;
+  transition: all .4s ease 0s;
+}
+
+.webpart__option .option__content {
+  width: 100%;
+  position: relative;
+}
+
+.webpart__option .option__content .content__image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 10px;
+}
+
+.webpart__option .option__content .content__image img {
+  width: 80px;
+}
+
+.webpart__option .option__content .content__desc {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  position: absolute;
+  bottom: 0;
+  margin-left: 10px;
+  width: 100%;
+}
+
+.webpart__option .option__content .content__title {
+  width: 70%;
+}
+
+.webpart__option .option__content .content__open {
+  width: 30%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.webpart__option .option__content .content__open img {
+  width: 40px;
+}
+
+.reviews {
+  background-color: #23c9dc;
+  -webkit-clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+          clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+  padding: 40px;
+  color: white;
+}
+
+.reviews__container {
+  margin: 100px 60px;
+}
+
+.reviews__header {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.reviews__carousel .carousel__item {
+  text-align: center;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.reviews__carousel .carousel__item .item__text {
+  width: 60%;
+}
+
+.hours {
+  background-color: #23c9dc;
+  -webkit-clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+          clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+  padding: 40px;
+  color: white;
+}
+
+.hours__container {
+  margin: 100px 60px;
+}
+
+.hours__header {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.hours__table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 40px;
+}
+
+.hours__table table {
+  border: 2px solid white;
+  padding: 10px;
+}
+
+.hours__table table tr td {
+  padding: 5px 60px;
+}
+
+@media only screen and (max-width: 950px) {
+  .webpart__option {
+    width: 50%;
+  }
+  .reviews {
+    -webkit-clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
+            clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
+  }
+  .reviews__container {
+    margin: 100px 10px;
+  }
+  .hours {
+    -webkit-clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
+            clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
+  }
+  .hours__container {
+    margin: 100px 10px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .jumbotron__content {
+    width: 100%;
+    margin: 0;
+  }
+  .jumbotron__overlay .overlay__half {
+    width: 100%;
+    height: 100%;
+    -webkit-clip-path: none;
+            clip-path: none;
+  }
+  .webpart__option {
+    width: 100%;
+  }
+  .reviews {
+    -webkit-clip-path: polygon(100% 0, 100% 90%, 0 100%, 0 10%);
+            clip-path: polygon(100% 0, 100% 90%, 0 100%, 0 10%);
+  }
+  .reviews__carousel .carousel__item .item__text {
+    width: 100%;
+  }
+  .hours {
+    -webkit-clip-path: polygon(100% 0, 100% 90%, 0 100%, 0 10%);
+            clip-path: polygon(100% 0, 100% 90%, 0 100%, 0 10%);
+  }
+  .hours__table table tr td {
+    padding: 5px 15px;
+  }
+}
+
+.pricing-table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 40px;
+}
+
+.pricing-table__option {
+  width: 25%;
+}
+
+.pricing-table__option .option__content {
+  margin: 40px 20px;
+  border: 2px solid #413E4B;
+  padding: 30px 20px;
+  background-color: white;
+}
+
+.pricing-table__option .option__content .content__membership-plan {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.pricing-table__option .option__content .content__membership-desc {
+  margin: 40px 20px;
+  padding: 0 20px;
+}
+
+.pricing-table__option .option__content .content__membership-price {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 40px 0;
+}
+
+.pricing-table__option .option__content .content__membership-join {
+  text-align: center;
+}
+
+.pricing-table__option .option__content .content__membership-join .join__link {
+  border: 2px solid #413E4B;
+  padding: 5px 15px;
+  display: inline-block;
+}
+
+.pricing-table__option--focus {
+  border: 2px solid #413E4B;
+  -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.9);
+          box-shadow: 0 3px 15px rgba(0, 0, 0, 0.9);
+}
+
+.pricing-table__option--focus .option__content {
+  margin: 0;
+  border: none;
+}
+
+.pricing-table__option--focus .option__content .content__image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.pricing-table__option--focus .option__content .content__image img {
+  width: 80px;
+}
+
+.pricing-table__option--focus .option__content .content__membership-plan {
+  margin-top: 20px;
+}
+
+.pricing-table__option--focus .option__content .content__membership-desc {
+  padding: 0 40px;
+}
+
+.statistics {
+  height: 800px;
+  background-color: #23c9dc;
+  -webkit-clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+          clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+  padding: 40px;
+}
+
 .gallery {
   padding: 40px;
   color: #413E4B;
@@ -370,6 +749,24 @@ ul {
 
 .gallery__content .content__image--last {
   width: 40%;
+}
+
+@media only screen and (max-width: 950px) {
+  .gallery__container {
+    margin: 10px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .gallery__content .content__image {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .gallery {
+    padding: 20px;
+  }
 }
 
 /*!
@@ -1750,295 +2147,21 @@ h3 {
   width: 100%;
 }
 
-.jumbotron {
-  height: 600px;
-  background-image: url("/img/woman-doing-exercise-inside-gym-2247179.jpg");
-  background-position: 80% 25%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: white;
-  position: relative;
+.slick-dots {
+  bottom: -60px !important;
 }
 
-.jumbotron__overlay {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  width: 100%;
-  height: 100%;
-}
-
-.jumbotron__overlay .overlay__half {
-  width: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.jumbotron__overlay .overlay__half--background {
-  background-color: #00A984;
-  opacity: .9;
-  -webkit-clip-path: polygon(0 0, 100% 0%, 76% 100%, 0 100%);
-          clip-path: polygon(0 0, 100% 0%, 76% 100%, 0 100%);
-}
-
-.jumbotron__content {
-  width: 50%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding: 0 40px;
-  margin-left: 40px;
-}
-
-.jumbotron__content .content__text {
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-.jumbotron__content .content__link {
+.slick-dots li {
   border: 2px solid white;
-  display: inline-block;
-  padding: 5px 15px;
-  margin-top: 10px;
-}
-
-.webpart {
-  position: relative;
-  margin-top: -80px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.webpart__option {
-  max-width: 425px;
-  width: 25%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 230px;
-  background-color: white;
-  margin: 20px 50px;
-  border: 2px solid #23c9dc;
-  -webkit-box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  -webkit-transition: all .4s ease 0s;
-  transition: all .4s ease 0s;
-}
-
-.webpart__option .option__content {
-  width: 100%;
-  position: relative;
-}
-
-.webpart__option .option__content .content__image {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding: 10px;
-}
-
-.webpart__option .option__content .content__image img {
-  width: 80px;
-}
-
-.webpart__option .option__content .content__desc {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  position: absolute;
-  bottom: 0;
-  margin-left: 10px;
-  width: 100%;
-}
-
-.webpart__option .option__content .content__title {
-  width: 70%;
-}
-
-.webpart__option .option__content .content__open {
-  width: 30%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.webpart__option .option__content .content__open img {
-  width: 40px;
-}
-
-.reviews {
-  background-color: #23c9dc;
-  -webkit-clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
-          clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
-  padding: 40px;
-  color: white;
-}
-
-.reviews__container {
-  margin: 100px 60px;
-}
-
-.reviews__header {
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 5px 15px;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.reviews__carousel .carousel__item {
-  text-align: center;
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.reviews__carousel .carousel__item .item__text {
-  width: 60%;
-}
-
-.hours {
-  background-color: #23c9dc;
-  -webkit-clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
-          clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
-  padding: 40px;
-  color: white;
-}
-
-.hours__container {
-  margin: 100px 60px;
-}
-
-.hours__header {
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 5px 15px;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.hours__table {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin-top: 40px;
-}
-
-.hours__table table {
-  border: 2px solid white;
-  padding: 10px;
-}
-
-.hours__table table tr td {
-  padding: 5px 60px;
-}
-
-@media only screen and (max-width: 950px) {
-  .webpart__option {
-    width: 50%;
-  }
-  .gallery__container {
-    margin: 10px;
-  }
-  .reviews__container {
-    margin: 100px 10px;
-  }
-  .hours {
-    -webkit-clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
-            clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
-  }
-  .hours__container {
-    margin: 100px 10px;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .jumbotron__content {
-    width: 100%;
-    margin: 0;
-  }
-  .jumbotron__overlay .overlay__half {
-    width: 100%;
-    height: 100%;
-    -webkit-clip-path: none;
-            clip-path: none;
-  }
-  .webpart__option {
-    width: 100%;
-  }
-  .reviews__carousel .carousel__item .item__text {
-    width: 100%;
-  }
-  .gallery__content .content__image {
-    width: 100% !important;
-  }
-  .hours {
-    -webkit-clip-path: polygon(100% 0, 100% 90%, 0 100%, 0 10%);
-            clip-path: polygon(100% 0, 100% 90%, 0 100%, 0 10%);
-  }
-  .hours__table table tr td {
-    padding: 5px 15px;
-  }
+  border-radius: 40px;
+  width: auto !important;
+  height: auto !important;
+  padding: 5px 13px !important;
 }
 
 @media only screen and (max-width: 400px) {
   h1 {
     font-size: 36px;
-  }
-  .gallery {
-    padding: 20px;
   }
 }
 /*# sourceMappingURL=main.css.map */

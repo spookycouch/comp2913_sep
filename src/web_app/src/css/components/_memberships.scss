@@ -1,0 +1,94 @@
+// Memberships page styling
+
+.pricing-table {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 40px;    
+
+    &__option {
+        width: 25%;
+
+        .option {
+            &__content {
+                margin: 40px 20px;
+                border: $border_thickness solid $black;
+                padding: 30px 20px;
+                background-color: $white;
+                // background-color: $quatenary;
+                // color: $white;
+
+                .content {
+                    &__membership-plan {
+                        text-align: center;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                    }
+
+                    &__membership-desc {
+                        margin: 40px 20px;
+                        padding: 0 20px;
+                    }
+
+                    &__membership-price {
+                        text-align: center;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        margin: 40px 0;
+                    }
+
+                    &__membership-join {
+                        text-align: center;
+
+                        .join {
+                            &__link {
+                                border: $border_thickness solid $black;
+                                padding: $padding_border_block;
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &--focus {
+            border: $border_thickness solid $black;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.9);
+
+            .option {
+                &__content {
+                    margin: 0;
+                    border: none;
+
+                    .content {
+                        &__image {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            img {
+                                width: $icon_default_width;
+                            }
+                        }
+
+                        &__membership-plan {
+                            margin-top: 20px;
+                        }
+                        
+                        &__membership-desc {
+                            padding: 0 40px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.statistics {
+    height: 800px;
+    background-color: $primary;
+    clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
+    padding: 40px;
+}

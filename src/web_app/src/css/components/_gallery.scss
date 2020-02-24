@@ -30,3 +30,31 @@
         }
     }
 }
+
+
+@media only screen and (max-width: $max_width_primary) {
+    .gallery {
+        &__container {
+            margin: 10px;
+        }
+    }
+}
+
+
+@media only screen and (max-width: $max_width_secondary) {
+    .gallery {
+        &__content {
+            .content {
+                &__image {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_tertiary) {
+    .gallery {
+        padding: 20px;
+    }
+}
