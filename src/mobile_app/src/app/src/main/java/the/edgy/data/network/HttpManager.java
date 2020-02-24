@@ -76,12 +76,14 @@ public class HttpManager {
                 connection.setRequestMethod(method);
                 connection.setRequestProperty("Content-Type", "application/json");
 
-                // encode json to UTF-8 and send request to server
-                byte[] utfOut = payload.toString().getBytes("UTF-8");
-                OutputStream out = connection.getOutputStream();
-                out.write(utfOut);
-                out.flush();
-                out.close();
+                if (method.equals("POST")) {
+                    // encode json to UTF-8 and send request to server
+                    byte[] utfOut = payload.toString().getBytes("UTF-8");
+                    OutputStream out = connection.getOutputStream();
+                    out.write(utfOut);
+                    out.flush();
+                    out.close();
+                }
 
                 // read response from server
                 byte[] utfIn = new byte[1024];
@@ -103,7 +105,7 @@ public class HttpManager {
             HttpManager http = new HttpManager("http://127.0.0.1:3000");
             JSONObject payload = new JSONObject();
             payload.put("test","hi");
-            String res = http.serverPost("test", payload);
+            String res = http.serverGet("test", payload);
             System.out.println(res);
         }
         catch (org.json.JSONException e) {
