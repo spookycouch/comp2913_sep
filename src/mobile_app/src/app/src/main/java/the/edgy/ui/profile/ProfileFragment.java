@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -19,7 +20,7 @@ import the.edgy.R;
 import the.edgy.ui.home.HomePage;
 import the.edgy.ui.login.MainActivity;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private ProfileViewModel profileViewModel;
 
@@ -35,18 +36,24 @@ public class ProfileFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+
+        Button buyMembership = (Button) root.findViewById(R.id.buy_membership);
+
+        buyMembership.setOnClickListener(this);
+
         return root;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onClick(View v) {
+        displayMembership();
     }
 
     void displayMembership() {
         // Create an Intent to start the Memberships page.
-        Intent mainPageIntent = new Intent(ProfileFragment.this, HomePage.class);
+        Intent membershipIntent = new Intent(getActivity(), MembershipPage.class);
 
-        startActivity(mainPageIntent);
+        startActivity(membershipIntent);
     }
 }

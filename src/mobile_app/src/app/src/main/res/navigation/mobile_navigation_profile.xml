@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_profile">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="the.edgy.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_activities"
+        android:name="the.edgy.ui.activities.ActivitiesFragment"
+        android:label="@string/title_activities"
+        tools:layout="@layout/fragment_activities" />
+
+    <fragment
+        android:id="@+id/navigation_venues"
+        android:name="the.edgy.ui.venues.VenuesFragment"
+        android:label="@string/title_venues"
+        tools:layout="@layout/fragment_venues" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="the.edgy.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/navigation_dashboard"-->
+    <!--        android:name="the.edgy.ui.dashboard.DashboardFragment"-->
+    <!--        android:label="@string/title_dashboard"-->
+    <!--        tools:layout="@layout/fragment_dashboard" />-->
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/navigation_notifications"-->
+    <!--        android:name="the.edgy.ui.notifications.NotificationsFragment"-->
+    <!--        android:label="@string/title_notifications"-->
+    <!--        tools:layout="@layout/fragment_notifications" />-->
+</navigation>
