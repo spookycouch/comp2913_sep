@@ -71,7 +71,7 @@ public class HttpManager {
         public void run() {
             try {
                 URL url = new URL(path);
-                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(true);
                 connection.setRequestMethod(method);
                 connection.setRequestProperty("Content-Type", "application/json");
@@ -95,7 +95,19 @@ public class HttpManager {
             catch (IOException e) {
                 System.out.println(e);
             }
+        }
+    }
 
+    public static void main (String [] args) {
+        try {
+            HttpManager http = new HttpManager("http://127.0.0.1:3000");
+            JSONObject payload = new JSONObject();
+            payload.put("test","hi");
+            String res = http.serverPost("test", payload);
+            System.out.println(res);
+        }
+        catch (org.json.JSONException e) {
+            System.out.println(e);
         }
     }
 }
