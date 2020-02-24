@@ -2,12 +2,12 @@
 
 .pricing-table {
     padding: 40px 0;    
-    background-color: $primary;
-    color: $white;
-    clip-path: polygon(0 0, 100% 0, 100% 76%, 0% 100%);
     
     &__container {
-        margin-bottom: 100px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 40px;
     }
 
     &__header {
@@ -16,13 +16,6 @@
         padding: $padding_border_block;
         margin-top: 20px;
         text-align: center;
-    }
-
-    &__centre {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 40px;
     }
 
     &__option {
@@ -75,7 +68,7 @@
         }
 
         &--focus {
-            border: $border_thickness solid $black;
+            border: $border_thickness solid $tertiary;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.9);
 
             .option {
@@ -101,6 +94,8 @@
                         &__membership-desc {
                             padding: 0 40px;
                         }
+
+                       
                     }
                 }
             }
@@ -109,10 +104,36 @@
 }
 
 .statistics {
-    height: 800px;
     background-color: $primary;
     clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
     padding: 40px;
+    color: $white;
+
+    &__container {
+        margin: 100px 60px;
+    }
+
+    &__header {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: $padding_border_block;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    &__content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .content {
+            &__statistic {
+                width: 33%;
+                min-width: 200px;
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: $max_width_primary) {
