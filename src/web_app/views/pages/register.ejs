@@ -1,0 +1,22 @@
+<%- include('../partials/head') %>
+
+<h1>Register page</h1>
+
+<form method="POST">
+
+    <input name="fullName" type="text" placeholder="Full Name"/>
+    <input name="phone" type="text" placeholder="Phone"/>
+    <input name="address" type="text" placeholder="Address Line"/>
+    <input name="city" type="text" placeholder="City"/>
+
+    <!-- Please feed backend with unix timestamp string to submit -->
+    <input name="birth" type="text" placeholder="Date of Birth"/>
+
+    <input name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
+    <input name="password" type="password" placeholder="Password"/>
+
+    <button type="submit">Join us!</button>
+
+</form>
+
+<%- include('../partials/foot') %>

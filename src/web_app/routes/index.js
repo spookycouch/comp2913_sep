@@ -21,17 +21,48 @@ const webname = ' The Edgy ';
  *  Function:   Homepage Router
 */
 router.get(['/', '/home'], function(req, res) {
-    
-    //user.registerUser("Diego Calanzone", "diegocalanzone@gmail.com", "123", "123", "Leeds", "Leeds", 1582394167);
-    //user.loginUser("john.d@mail.com", "123").then(function(user){
 
-        //console.log(user);
+    res.render(path.join(__dirname + '/../views/pages/index.ejs'),
+    {
+        title: webname + "| Home"
+    });
+});
 
-        res.render(path.join(__dirname + '/../views/pages/index.ejs'),
-        {
-            title: webname + "| Home"
-        });
-    //}).catch(function(error){});
+/*
+ *  Function:   Register Page Router
+*/
+router.get('/register', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/register.ejs'),
+    {
+        title: webname + "| Register"
+    });
+});
+
+/*
+ *  Function:   Register Backend Query
+*/
+router.post('/register', urlencodedParser, function(req, res) {
+
+    // Data
+    let fullName = req.body.fullName;
+    let phone = req.body.phone;
+    let address = req.body.address;
+    let city = req.body.city;
+    let birth = req.body.birth;
+    let email = req.body.email;
+    let password = req.body.password;
+
+    // Query
+    user.registerUser(fullName, email, password, phone, address, city, birth).then(function(result){;
+
+        // Success
+        res.send("Register successful.");
+
+    // Error
+    }). catch(function(error){
+        
+        res.send(error);
+    });
 });
 
 /*

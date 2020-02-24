@@ -7,7 +7,7 @@ let psw = ""
 let port = 3306
 
 /*
- *  Function:   Query User by username
+ *  Function:   Query User by email
  *  Input:      Email, password
  *  Output:     User Object / Error Message
 */

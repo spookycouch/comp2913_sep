@@ -32,10 +32,11 @@ exports.loginUser = function(email, password){
 */
 exports.registerUser = function(fullName, email, password, phone, address, city, birth){
 
-    // Timestamp validity
-    if(new Date(birth).getTime() <= 0) throw "Invalid Timestamp";
+    // Timestamp validity & conversion
+    birth = new Date(birth * 1000);
+    if(birth.getTime() <= 0) throw "Invalid Timestamp";
 
-    birth = moment(new Date(birth)).format('YYYY-MM-DD HH:mm:ss');
+    birth = moment(birth).format('YYYY-MM-DD HH:mm:ss');
 
     // Md5 encryption
     password = md5(password);
