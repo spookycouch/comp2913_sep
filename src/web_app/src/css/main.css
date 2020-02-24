@@ -418,6 +418,7 @@ ul {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  color: #413E4B;
 }
 
 .webpart__option {
@@ -510,6 +511,10 @@ ul {
   padding: 5px 15px;
   margin-top: 20px;
   text-align: center;
+}
+
+.reviews__carousel {
+  margin-top: 40px;
 }
 
 .reviews__carousel .carousel__item {
@@ -619,6 +624,26 @@ ul {
 }
 
 .pricing-table {
+  padding: 40px 0;
+  background-color: #23c9dc;
+  color: white;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 76%, 0% 100%);
+          clip-path: polygon(0 0, 100% 0, 100% 76%, 0% 100%);
+}
+
+.pricing-table__container {
+  margin-bottom: 100px;
+}
+
+.pricing-table__header {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pricing-table__centre {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -627,11 +652,12 @@ ul {
           justify-content: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  padding: 40px;
+  margin-top: 40px;
 }
 
 .pricing-table__option {
-  width: 25%;
+  width: 27%;
+  min-width: 400px;
 }
 
 .pricing-table__option .option__content {
@@ -639,6 +665,7 @@ ul {
   border: 2px solid #413E4B;
   padding: 30px 20px;
   background-color: white;
+  color: #413E4B;
 }
 
 .pricing-table__option .option__content .content__membership-plan {
@@ -710,6 +737,25 @@ ul {
   -webkit-clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
           clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
   padding: 40px;
+}
+
+@media only screen and (max-width: 950px) {
+  .pricing-table__option {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .pricing-table__option {
+    min-width: 0;
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .pricing-table__option {
+    width: 90%;
+  }
 }
 
 .gallery {

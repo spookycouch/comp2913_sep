@@ -67,6 +67,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    color: $black;
 
     &__option {
         max-width: 425px;
@@ -148,6 +149,7 @@
     }
 
     &__carousel {
+        margin-top: 40px;
         .carousel {
             &__item {
                 text-align: center;

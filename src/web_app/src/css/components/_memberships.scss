@@ -1,13 +1,34 @@
 // Memberships page styling
 
 .pricing-table {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 40px;    
+    padding: 40px 0;    
+    background-color: $primary;
+    color: $white;
+    clip-path: polygon(0 0, 100% 0, 100% 76%, 0% 100%);
+    
+    &__container {
+        margin-bottom: 100px;
+    }
+
+    &__header {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: $padding_border_block;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    &__centre {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 40px;
+    }
 
     &__option {
-        width: 25%;
+        width: 27%;
+        min-width: 400px;
+        
 
         .option {
             &__content {
@@ -15,8 +36,9 @@
                 border: $border_thickness solid $black;
                 padding: 30px 20px;
                 background-color: $white;
+                color: $black;
                 // background-color: $quatenary;
-                // color: $white;
+                
 
                 .content {
                     &__membership-plan {
@@ -92,3 +114,28 @@
     clip-path: polygon(100% 0, 100% 76%, 0 100%, 0 24%);
     padding: 40px;
 }
+
+@media only screen and (max-width: $max_width_primary) {
+    .pricing-table {
+        &__option {
+            width: 60%;
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_secondary) {
+    .pricing-table {
+        &__option {
+            min-width: 0;
+            width: 80%;
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_tertiary) {
+    .pricing-table {
+        &__option {
+            width: 90%;
+        }
+    }
+}   
