@@ -126,11 +126,31 @@
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        margin-top: 40px;
+
 
         .content {
             &__statistic {
                 width: 33%;
                 min-width: 200px;
+
+                .statistic {
+                    &__image {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        img {
+                            width: $icon_default_width;
+                        }
+                    }
+
+                    &__desc {
+                        margin: 20px 40px;
+                  
+                        
+                    }
+                }
             }
         }
     }
@@ -142,6 +162,26 @@
             width: 60%;
         }
     }
+
+    .statistics {
+        clip-path: polygon(100% 0, 100% 80%, 0 100%, 0 20%);
+
+        &__container {
+            margin: 100px 10px;
+        }
+
+        &__content {
+            .content {
+                &__statistic {
+                    .statistic {
+                        &__desc {
+                            margin: 20px 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: $max_width_secondary) {
@@ -150,6 +190,11 @@
             min-width: 0;
             width: 80%;
         }
+    }
+
+    .statistics {
+        clip-path: polygon(100% 0, 100% 90%, 0 100%, 0 10%);
+
     }
 }
 
