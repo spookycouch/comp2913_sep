@@ -112,7 +112,7 @@ router.get('/memberships', function(req, res) {
 */
 router.get('/facilities', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
-    {
+    {  
         title: webname + "| Facilities"
     });
 });

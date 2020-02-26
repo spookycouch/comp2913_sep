@@ -3,16 +3,39 @@
 <div class="container">
 
     <div class="login">
-        <form method="POST">
+        <div class="login__half login__half--form">
+            <div class="half__login-icon">
+                <img src="/img/icons/user.png" />
+            </div>
 
-            <input name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
-            <input name="password" type="password" placeholder="Password"/>
+            <div class="half__login-header">
+                <h2>Login</h2>
+            </div>
+
+            <form class="half__login-form" method="POST">
+                <div class="login-form__group">
+                    <label class="login-form__label"><h3>Email</h3></label>
+                    <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
+                </div>
+                
+                <div class="login-form__group">
+                    <label class="login-form__label"><h3>Password</h3></label>
+                    <input class="login-form__input" name="password" type="password" placeholder="Password"/>
+                </div>
+                
+                <div class="login-form__group">
+                    <button class="login-form__btn" type="submit"><h3>Login</h3></button>
+
+                </div>
+
+                <div class="half__register">
+                    Don't have an account? <a href="/register">Create one here</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- <div class="login__half login__half--background">fdf</div> -->
         
-            <button type="submit">Login</button>
-        
-        </form>
-    
-        Don't have an account? <a href="/register">Get your life together</a>
     </div>
 </div>
 
