@@ -817,6 +817,113 @@ ul {
   }
 }
 
+.facilities {
+  padding: 40px 0;
+}
+
+.facilities__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.facilities__header {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.facilities__facility {
+  width: 50%;
+  color: white;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.facilities__facility .facility__spacing {
+  padding: 30px;
+  height: 100%;
+}
+
+.facilities__facility .facility__spacing .spacing__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.facilities__facility .facility__spacing .spacing__content .content__desc {
+  width: 70%;
+}
+
+.facilities__facility .facility__spacing .spacing__content .content__desc .desc__facility-info {
+  margin: 20px 0;
+}
+
+.facilities__facility .facility__spacing .spacing__content .content__desc .desc__facility-discover .discover__link {
+  border: 2px solid white;
+  padding: 5px 15px;
+  display: inline-block;
+}
+
+.facilities__facility .facility__spacing .spacing__content .content__image {
+  width: 30%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.facilities__facility .facility__spacing .spacing__content .content__image img {
+  width: 80px;
+}
+
+.facilities__facility:nth-child(odd) .facility__spacing {
+  margin-right: 15px;
+}
+
+.facilities__facility:nth-child(odd) .facility__spacing .spacing__content {
+  margin-left: 20%;
+}
+
+.facilities__facility:nth-child(even) .facility__spacing {
+  margin-left: 15px;
+}
+
+.facilities__facility:nth-child(even) .facility__spacing .spacing__content {
+  margin-right: 20%;
+}
+
+.facilities__facility:nth-child(4n + 1) .facility__spacing {
+  background-color: #23c9dc;
+}
+
+.facilities__facility:nth-child(4n + 2) .facility__spacing {
+  background-color: #652D87;
+}
+
+.facilities__facility:nth-child(4n + 3) .facility__spacing {
+  background-color: #eedc37;
+}
+
+.facilities__facility:nth-child(4n + 4) .facility__spacing {
+  background-color: #00A984;
+}
+
 .login {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -1,0 +1,136 @@
+// Facilities style sheet
+
+.facilities {
+    padding: 40px 0;
+
+    &__container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 40px;
+    }
+
+    &__header {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: $padding_border_block;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    &__facility {
+        width: 50%;
+        color: $white;
+        margin-top: 15px;
+        margin-bottom: 15px;
+
+        .facility {
+            &__spacing {
+                padding: 30px;
+                height: 100%;
+
+                .spacing {
+                    &__content {
+                        display: flex;
+                        flex-wrap: wrap;
+
+                        .content {
+                            &__desc {
+                                width: 70%;
+
+                                .desc {
+                                    &__facility-info {
+                                        margin: 20px 0;
+                                    }
+
+                                    &__facility-discover {
+                                        .discover {
+                                            &__link {
+                                                border: $border_thickness solid $white;
+                                                padding: $padding_border_block;
+                                                display: inline-block;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            &__image {
+                                width: 30%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                                img {
+                                    width: $icon_default_width;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &:nth-child(odd) {
+            .facility {
+                &__spacing {
+                    margin-right: 15px;
+
+                    .spacing {
+                        &__content {
+                            margin-left: 20%;
+                        }
+                    }
+                }
+            }
+        }
+
+        &:nth-child(even) {
+            .facility {
+                &__spacing {
+                    margin-left: 15px;
+
+                    .spacing {
+                        &__content {
+                            margin-right: 20%;
+                        }
+                    }
+                }
+            }
+        }
+
+        &:nth-child(4n + 1) {
+            .facility {
+                &__spacing {
+                    background-color: $primary;
+                }
+            }
+        }
+
+        &:nth-child(4n + 2) {
+            .facility {
+                &__spacing {
+                    background-color: $secondary;
+                }
+            }   
+        }
+
+        &:nth-child(4n + 3) {
+            .facility {
+                &__spacing {
+                    background-color: $tertiary;
+                }
+            }   
+        }
+
+        &:nth-child(4n + 4) {
+            .facility {
+                &__spacing {
+                    background-color: $quatenary;
+                }
+            }   
+        }
+
+   
+    }
+}
