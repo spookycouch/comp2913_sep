@@ -28,6 +28,7 @@ class TestDb(unittest.TestCase):
                 self.cursor.execute('CREATE DATABASE ' + db_name)
             except mysql.connector.errors.DatabaseError as e:
                 print e
+                assert False
             
 
             self.cursor.execute('USE ' + db_name)
@@ -47,12 +48,12 @@ class TestDb(unittest.TestCase):
     def test_0_new_user(self):
         commands = [
             [True,  'INSERT INTO User VALUES(1, "test person", "test_person@test.com", "07777777777", "01/01/0001")'],
-            [False,  'INSERT INTO User VALUES(1, "test person", "test_person@test.com", "07777777777", "01/01/0001")'],
+            [False, 'INSERT INTO User VALUES(1, "test person", "test_person@test.com", "07777777777", "01/01/0001")'],
             [False, 'INSERT INTO User VALUES("test person", "test_person@test.com", "07777777777", "01/01/0001")'],
             [False, 'INSERT INTO User(id, full_name, phone, birth) VALUES("test person", "07777777777", "01/01/0001")']
             # [False, 'INSERT INTO User VALUES("test person", "test_person@test.com", "abcdefg", "01/01/0001")']
         ]
-
+        # TODO: turn this into a function
         for command in commands:
             try:
                 self.cursor.execute(command[1])
