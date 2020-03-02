@@ -831,19 +831,23 @@ ul {
       flex-wrap: wrap;
 }
 
-.login__half {
-  width: 50%;
-}
-
-.login__half--background {
+.login--background {
   background-image: url("/img/gallery/person-holding-barbell-841130.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
+.login__half {
+  width: 70%;
+  color: white;
+}
+
 .login__half--form {
-  background-color: white;
+  background-color: #00A984;
+  opacity: .9;
+  -webkit-clip-path: polygon(24% 0%, 100% 0%, 76% 100%, 0% 100%);
+          clip-path: polygon(24% 0%, 100% 0%, 76% 100%, 0% 100%);
   padding: 40px 60px;
 }
 
@@ -892,7 +896,8 @@ ul {
   border: 2px solid #413E4B;
   padding: 5px 15px;
   max-width: 400px;
-  width: 100%;
+  min-width: 200px;
+  width: 60%;
 }
 
 .login__half .half__login-form .login-form__btn {
@@ -904,6 +909,35 @@ ul {
 
 .login__half .half__register a {
   text-decoration: underline;
+}
+
+@media only screen and (max-width: 950px) {
+  .login__half {
+    width: 100%;
+  }
+  .login__half--form {
+    -webkit-clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+            clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .login__half {
+    width: 100%;
+  }
+  .login__half--form {
+    -webkit-clip-path: none;
+            clip-path: none;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .login__half--form {
+    padding: 40px 0;
+  }
+  .login__half .half__login-form .login-form__input {
+    width: 60%;
+  }
 }
 
 .gallery {

@@ -7,18 +7,24 @@
     justify-content: center;
     flex-wrap: wrap;
 
-    &__half {
-        width: 50%;
+    &--background {
+        background-image: url('/img/gallery/person-holding-barbell-841130.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
 
-        &--background {
-            background-image: url('/img/gallery/person-holding-barbell-841130.jpg');
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
+
+    &__half {
+        // width: 50%;
+        width: 70%;
+        color: $white;
 
         &--form {
-            background-color: $white;
+            background-color: $quatenary;
+            opacity: .9;
+            clip-path: polygon(24% 0%, 100% 0%, 76% 100%, 0% 100%);
+
             // border: $border_thickness solid $primary;
             padding: 40px 60px;
         }
@@ -66,7 +72,8 @@
                         border: $border_thickness solid $black;
                         padding: $padding_border_block;
                         max-width: 400px;
-                        width: 100%;
+                        min-width: 200px;
+                        width: 60%;
                     }
 
                     &__btn {
@@ -81,6 +88,52 @@
             &__register {
                 a {
                     text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: $max-width-primary) {
+    .login {
+        &__half {
+            width: 100%;
+
+            &--form {
+                clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $max-width-secondary) {  
+    .login {
+        &__half {
+            width: 100%;
+
+            &--form {
+                clip-path: none;
+            }
+        }
+    }  
+}
+
+@media only screen and (max-width: $max-width-tertiary) {
+    .login {
+        &__half {
+            &--form {
+                padding: 40px 0;
+            }
+
+            .half {
+                &__login-form {
+                    .login-form{
+                        &__input {
+                            width: 60%;
+                        }
+                    }
                 }
             }
         }
