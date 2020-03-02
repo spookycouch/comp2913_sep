@@ -7,6 +7,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var routes = require('./routes/index');
+var userRoutes = require('./routes/userRoutes.js');
 const request = require('request');
 var user = require('./modules/user.js');
 
@@ -15,10 +16,12 @@ var user = require('./modules/user.js');
 const webname = ' The Edgy ';
 
 // Components
-app.use(express.static('src'));  // Used to make the resources accessible (css etc.)
-app.use('/',routes);
-app.set('view engine', 'ejs');
 
+app.use(express.json()); //Used to parse JSON POST
+app.use(express.static('src'));  // Used to make the resources accessible (css etc.)
+app.set('view engine', 'ejs');
+app.use('/',routes);
+app.use('/user',userRoutes);
 
 
 
