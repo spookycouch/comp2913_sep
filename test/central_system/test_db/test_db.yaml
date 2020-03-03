@@ -1,0 +1,5 @@
+test_0:
+  - result: False
+    command: 'INSERT INTO User VALUES(1, "test person", "test_person@test.com", "07777777777", "01/01/0001")'
+  - result: False
+    command: 'INSERT INTO User(id, full_name, phone, birth) VALUES("test person", "07777777777", "01/01/0001")'

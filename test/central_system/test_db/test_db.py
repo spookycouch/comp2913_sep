@@ -2,14 +2,17 @@ import mysql.connector
 import os
 import subprocess
 import unittest
+import yaml
 
-db_path = os.path.dirname(os.path.abspath(__file__)) + '/../../src/central_system/sql/sep_db.sql'
+db_path = os.path.dirname(os.path.abspath(__file__)) + '/../../../src/central_system/sql/sep_db.sql'
 db_name = 'sep_test_proc_1'
+YAML_PATH = os.path.dirname(os.path.abspath(__file__)) + '/test_db.yaml'
+
 
 class TestDb(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-    # Connect to the MySQL server, and create new database for test sequence
+        # Connect to the MySQL server, and create new database for test sequence
         try:
             print 'CONNECTING TO MYSQL SERVER...',
 
@@ -43,28 +46,22 @@ class TestDb(unittest.TestCase):
             print
             print '\n', e
             assert False
+        
+        # load the yaml file with test cases
+        self.test_cases = yaml.safe_load(open(YAML_PATH,'r'))
+
     
 
     def test_0_new_user(self):
-        commands = [
-            [True,  'INSERT INTO User VALUES(1, "test person", "test_person@test.com", "07777777777", "01/01/0001")'],
-            [False, 'INSERT INTO User VALUES(1, "test person", "test_person@test.com", "07777777777", "01/01/0001")'],
-            [False, 'INSERT INTO User VALUES("test person", "test_person@test.com", "07777777777", "01/01/0001")'],
-            [False, 'INSERT INTO User(id, full_name, phone, birth) VALUES("test person", "07777777777", "01/01/0001")']
-            # [False, 'INSERT INTO User VALUES("test person", "test_person@test.com", "abcdefg", "01/01/0001")']
-        ]
-        # TODO: turn this into a function
-        for command in commands:
+        cases = self.test_cases['test_0']
+        for case in cases:
             try:
-                self.cursor.execute(command[1])
-                if command[0] == False:
+                self.cursor.execute(case['command'])
+                if not case['result']:
                     self.fail('query {} should throw an error'.format(command))
 
-            except mysql.connector.errors.DataError as e:
-                if command[0] == True:
-                    self.fail('query {} failed'.format(command))
-            except mysql.connector.errors.IntegrityError as e:
-                if command[0] == True:
+            except:
+                if case['result']:
                     self.fail('query {} failed'.format(command))
 
 
