@@ -13,7 +13,7 @@ const registerValidation = function(data){
             .email(),
         password: joi.string()
             .min(6)
-            .required(),
+            .required(), // Need another field, confirm password, which must be validated to be equal to password.
         phone: joi.number()
             .required(),
         address: joi.string()
