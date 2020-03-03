@@ -1,0 +1,31 @@
+test_0:
+  - code: 400
+    payload:
+      name: not_real
+      email: test@leeds.ac.uk
+      password: password
+      phone: 123456789
+      city: leeds
+      birth: 01/01/20
+  - code: 400
+    payload:
+      name: not_real
+      email: test@leeds.ac.uk
+      password: password
+      phone: 123456789
+      city: leeds
+      birth: 01/01/20
+  - code: 400
+    payload:
+      name: not_real
+      email: test@leeds.ac.uk
+      password: password
+      phone: 123456789
+      city: leeds
+      birth: 01/01/20
+
+test_1:
+  - code: 400
+    payload:
+      email: test@leeds.ac.uk
+      password: password
