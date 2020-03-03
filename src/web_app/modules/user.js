@@ -1,6 +1,5 @@
 var db = require('./db.js');
 var md5 = require('md5');
-var moment = require('moment');
 
 /*
  *  Function:   Login User 
@@ -31,12 +30,6 @@ exports.loginUser = function(email, password){
  *  Output:     Bool / Error Message
 */
 exports.registerUser = function(fullName, email, password, phone, address, city, birth){
-
-    // Timestamp validity & conversion
-    birth = new Date(birth * 1000);
-    if(birth.getTime() <= 0) throw "Invalid Timestamp";
-
-    birth = moment(birth).format('YYYY-MM-DD HH:mm:ss');
 
     // Md5 encryption
     password = md5(password);

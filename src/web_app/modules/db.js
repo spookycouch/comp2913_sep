@@ -1,4 +1,6 @@
 var mysql = require('mysql');
+var SqlString = require('sqlstring');
+var moment = require('moment');
 
 let host = "127.0.0.1"
 let db = "comp2913_sep"
@@ -20,6 +22,10 @@ exports.queryUser = function(email, password) {
         database: db
     });
 
+    // SQL Validation
+    email = SqlString.escape(email);
+    password = SqlString.escape(password);
+
     // Synching request
     return new Promise(function(resolve, reject) {
 
@@ -27,10 +33,12 @@ exports.queryUser = function(email, password) {
             
             // Error 
             if (err) reject(err);
-            
-            query = "SELECT * FROM User WHERE email = '" 
-                    + email + "' AND password = '" 
-                    + password + "'";
+
+            query = SqlString.format(
+        
+                'SELECT * FROM User WHERE email = ? AND password = ?',
+                    [email, password]
+            );
 
             // Query
             conn.query(query, function (err, results, fields) {
@@ -68,19 +76,22 @@ exports.createUser = function(fullName, email, password, phone, address, city, b
     // Synching request
     return new Promise(function(resolve, reject) {
 
+        // Timestamp validity & conversion
+        birth = new Date(birth * 1000);
+        if(birth.getTime() <= 0) reject("Invalid Timestamp");
+        birth = moment(birth).format('YYYY-MM-DD HH:mm:ss');
+
+        // Connection
         conn.connect(function(err) {
             
             // Error 
             if (err) reject(err);
-            
-            query = "INSERT INTO User(full_name, email, password, phone, address, city, birth) VALUES(" + 
-                    "'" + fullName + "', " +
-                    "'" + email + "', " +
-                    "'" + password + "', " +
-                    "'" + phone + "', " +
-                    "'" + address + "', " +
-                    "'" + city + "', " +
-                    "TIMESTAMP('" + birth + "'));";
+
+            query = SqlString.format(
+                
+                'INSERT INTO User(full_name, email, password, phone, address, city, birth) VALUES(?, ?, ?, ?, ?, ?, TIMESTAMP(?))',
+                 [fullName, email, password, phone, address, city, birth]
+            );
 
             // Query
             conn.query(query, function (err, results, fields) {

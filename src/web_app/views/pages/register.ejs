@@ -1,10 +1,11 @@
 <%- include('../partials/head') %>
 
-
-
 <div class="container">
+    
+    <%- error %>
+
     <div class="register">
-        <form method="POST">
+        <form method="POST" action="/user/register" autocomplete="off">
 
             <input name="fullName" type="text" placeholder="Full Name"/>
             <input name="phone" type="text" placeholder="Phone"/>

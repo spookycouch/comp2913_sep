@@ -2,6 +2,8 @@
 
 <div class="container">
 
+    <%- error %>
+
     <div class="login">
         <div class="login__half login__half--form">
             <div class="half__login-icon">
@@ -12,7 +14,7 @@
                 <h2>Login</h2>
             </div>
 
-            <form class="half__login-form" method="POST">
+            <form class="half__login-form" method="POST" action="/user/login">
                 <div class="login-form__group">
                     <label class="login-form__label"><h3>Email</h3></label>
                     <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>

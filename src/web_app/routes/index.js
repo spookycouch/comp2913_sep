@@ -39,65 +39,6 @@ router.get('/register', function(req, res) {
 });
 
 /*
- *  Function:   Register Backend Query
-*/
-router.post('/register', urlencodedParser, function(req, res) {
-
-    // Data
-    let fullName = req.body.fullName;
-    let phone = req.body.phone;
-    let address = req.body.address;
-    let city = req.body.city;
-    let birth = req.body.birth;
-    let email = req.body.email;
-    let password = req.body.password;
-
-    // Query
-    user.registerUser(fullName, email, password, phone, address, city, birth).then(function(result){;
-
-        // Success
-        res.send("Register successful.");
-
-    // Error
-    }). catch(function(error){
-        
-        res.send(error);
-    });
-});
-
-/*
- *  Function:   Login Page Router
-*/
-router.get('/login', function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/login.ejs'),
-    {
-        title: webname + "| Login"
-    });
-});
-
-/*
- *  Function:   Login Backend Query
-*/
-router.post('/login', urlencodedParser, function(req, res) {
-
-    // Data
-    let email = req.body.email;
-    let password = req.body.password;
-
-    // Query
-    user.loginUser(email, password).then(function(user){
-
-        // Success
-        res.send("Login successful.");
-
-    // Error
-    }). catch(function(error){
-        
-        res.send(error);
-    });
-});
-
-/*
  *  Function:   Memberships Page Router
 */
 router.get('/memberships', function(req, res) {
@@ -124,6 +65,16 @@ router.get('/contact', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/contact.ejs'),
     {
         title: webname + "| Contact"
+    });
+});
+
+/*
+ *  Function:   Login Page Router
+*/
+router.get('/login', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/login.ejs'),
+    {
+        title: webname + "| Login"
     });
 });
 
