@@ -2,15 +2,18 @@ import unittest
 import requests
 import json
 import yaml
+import os
 
 HOST = 'http://127.0.0.1:3000'
 HEADERS = {'content-type': 'application/json'}
+YAML_PATH = os.path.dirname(os.path.abspath(__file__)) + '/test_node.yaml'
+
 
 class TestNode(unittest.TestCase):
     @classmethod
     def setUpClass(self):
     # load test yaml
-        self.test_cases = yaml.safe_load(open('test_node.yaml','r'))
+        self.test_cases = yaml.safe_load(open(YAML_PATH,'r'))
 
 
     def test_0_register(self):
@@ -19,6 +22,7 @@ class TestNode(unittest.TestCase):
         for case in cases:
             payload = json.dumps(case['payload'])
             resp = requests.post(url, data=payload, headers=HEADERS)
+            print resp
 
     def test_1_login(self):
         url = HOST + '/user/register'
@@ -26,6 +30,7 @@ class TestNode(unittest.TestCase):
         for case in cases:
             payload = json.dumps(case['payload'])
             resp = requests.post(url, data=payload, headers=HEADERS)
+            print resp
 
     @classmethod
     def tearDownClass(self):
