@@ -11,17 +11,18 @@ const registerValidation = function(data){
             .min(6)
             .required()
             .email(),
-        password: joi.string()
-            .min(6)
-            .required(), // Need another field, confirm password, which must be validated to be equal to password.
+        birth: joi.string()
+            .required(),
         phone: joi.number()
             .required(),
         address: joi.string()
             .required(),
         city: joi.string()
             .required(),
-        birth: joi.string()
-            .required()
+        password: joi.string()
+            .min(6)
+            .required(), // Need another field, confirm password, which must be validated to be equal to password.
+        
     });
 
     return registerValidationSchema.validate(data, {abortEarly: false});
@@ -39,7 +40,7 @@ const loginValidation = function(data){
             .required()
     });
     
-    return LoginValidationSchema.validate(data, {abortEarly: false});
+    return LoginValidationSchema.validate(data);
 }
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;

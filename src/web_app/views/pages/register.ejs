@@ -4,75 +4,89 @@
     <div class="register">
         <form method="POST" action="/user/register" autocomplete="off">
 
-            <input name="fullName" type="text" placeholder="Full Name" value="<%- form.fullName %>" />
-            <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
-                    <% if(error[i].path == 'fullName'){ %>
-                        <p style="color: red;"><%- error[i].message %></p>
+            <div class="register-form__group">
+                <input name="fullName" type="text" placeholder="Full Name" value="<%- form.fullName %>" />
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'fullName'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
                     <% } %>
                 <% } %>
-            <% } %>
-
-
-            <input name="phone" type="text" placeholder="Phone" value="<%- form.phone %>" />
-            <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
-                    <% if(error[i].path == 'phone'){ %>
-                        <p style="color: red;"><%- error[i].message %></p>
-                    <% } %>
-                <% } %>
-            <% } %>
-
-
-            <input name="address" type="text" placeholder="Address Line" value="<%- form.address %>"/>
-            <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
-                    <% if(error[i].path == 'address'){ %>
-                        <p style="color: red;"><%- error[i].message %></p>
-                    <% } %>
-                <% } %>
-            <% } %>
-
-
-            <input name="city" type="text" placeholder="City"  value="<%- form.city %>"/>
-            <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
-                    <% if(error[i].path == 'city'){ %>
-                        <p style="color: red;"><%- error[i].message %></p>
-                    <% } %>
-                <% } %>
-            <% } %>
-
-        
-            <!-- Please feed backend with unix timestamp string to submit -->
-            <input name="birth" type="text" placeholder="Date of Birth"  value="<%- form.birth %>"/>
-            <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
-                    <% if(error[i].path == 'birth'){ %>
-                        <p style="color: red;"><%- error[i].message %></p>
-                    <% } %>
-                <% } %>
-            <% } %>
-        
-
-            <input name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"  value="<%- form.email %>"/>
-            <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
-                    <% if(error[i].path == 'email'){ %>
-                        <p style="color: red;"><%- error[i].message %></p>
-                    <% } %>
-                <% } %>
-            <% } %>
+            </div>
             
-            
-            <input name="password" type="password" placeholder="Password"/>
-            <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
-                    <% if(error[i].path == 'password'){ %>
-                        <p style="color: red;"><%- error[i].message %></p>
+
+            <div class="register-form__group">
+                <input name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"  value="<%- form.email %>"/>
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'email'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
                     <% } %>
                 <% } %>
-            <% } %>
+            </div>
+
+
+            <div class="register-form__group">
+                <!-- Please feed backend with unix timestamp string to submit -->
+                <input name="birth" type="text" placeholder="Date of Birth"  value="<%- form.birth %>"/>
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'birth'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+
+
+            <div class="register-form__group">
+                <input name="phone" type="text" placeholder="Phone" value="<%- form.phone %>" />
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'phone'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+
+
+            <div class="register-form__group">
+                <input name="address" type="text" placeholder="Address Line" value="<%- form.address %>"/>
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'address'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+
+
+            <div class="register-form__group">
+                <input name="city" type="text" placeholder="City"  value="<%- form.city %>"/>
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'city'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+
+            
+            <div class="register-form__group">
+                <input name="password" type="password" placeholder="Password"/>
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'password'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
         
             <button type="submit">Join us!</button>
         
