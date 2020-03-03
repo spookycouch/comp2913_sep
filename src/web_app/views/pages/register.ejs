@@ -2,7 +2,9 @@
 
 <div class="container">
     
-    <%- error %>
+    <% if(locals.error){ %>
+        <%- error %>  
+    <% } %>
 
     <div class="register">
         <form method="POST" action="/user/register" autocomplete="off">

@@ -2,8 +2,6 @@
 
 <div class="container">
 
-    <%- error %>
-
     <div class="login">
         <div class="login__half login__half--form">
             <div class="half__login-icon">
@@ -18,11 +16,27 @@
                 <div class="login-form__group">
                     <label class="login-form__label"><h3>Email</h3></label>
                     <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
+
+                    <% if(locals.error){ %>
+                        <% for (var i =0; i < error.length;  i++ ) { %>
+                            <% if(error[i].path == 'email'){ %>
+                                <%- error[i].message %>
+                            <% } %>
+                        <% } %>
+                    <% } %>
                 </div>
                 
                 <div class="login-form__group">
                     <label class="login-form__label"><h3>Password</h3></label>
                     <input class="login-form__input" name="password" type="password" placeholder="Password"/>
+
+                    <% if(locals.error){ %>
+                        <% for (var i =0; i < error.length;  i++ ) { %>
+                            <% if(error[i].path == 'password'){ %>
+                                <%- error[i].message %>
+                            <% } %>
+                        <% } %>
+                    <% } %>
                 </div>
                 
                 <div class="login-form__group">

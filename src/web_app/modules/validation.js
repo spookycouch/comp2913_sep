@@ -24,7 +24,7 @@ const registerValidation = function(data){
             .required()
     });
 
-    return registerValidationSchema.validate(data);
+    return registerValidationSchema.validate(data, {abortEarly: false});
 }
 
 const loginValidation = function(data){
@@ -36,9 +36,10 @@ const loginValidation = function(data){
             .email(),
         password: joi.string()
             .min(6)
-            .required(),
+            .required()
     });
-    return LoginValidationSchema.validate(data);
+    
+    return LoginValidationSchema.validate(data, {abortEarly: false});
 }
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;

@@ -74,12 +74,13 @@ router.post('/register', urlencodedParser, function(req, res) {
 router.post('/login', urlencodedParser, function(req, res) {
 
     try { 
-
         // Validation
         const value = validation.loginValidation(req.body);
         
-        if(value.error != undefined)
-            throw value.error.message;
+        if(value.error != undefined) {
+            console.log(value.error);
+            throw value.error.details;
+        }
 
         // Data
         let email = req.body.email;
