@@ -25,12 +25,12 @@ class TestNode(unittest.TestCase):
             print resp
 
     def test_1_login(self):
-        url = HOST + '/user/register'
-        cases = self.test_cases['test_0']
+        url = HOST + '/user/login'
+        cases = self.test_cases['test_1']
         for case in cases:
             payload = json.dumps(case['payload'])
             resp = requests.post(url, data=payload, headers=HEADERS)
-            print resp
+            print resp.text
 
     @classmethod
     def tearDownClass(self):
