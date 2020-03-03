@@ -50,23 +50,47 @@ class TestDb(unittest.TestCase):
         # load the yaml file with test cases
         self.test_cases = yaml.safe_load(open(YAML_PATH,'r'))
 
-    
 
-    def test_0_new_user(self):
-        cases = self.test_cases['test_0']
+    def assert_commands(self, cases):
         for case in cases:
             try:
                 self.cursor.execute(case['command'])
                 if not case['result']:
-                    self.fail('query {} should throw an error'.format(command))
-
+                    self.fail('invalid query {} should throw an error'.format(case['command']))
             except:
                 if case['result']:
-                    self.fail('query {} failed'.format(command))
+                    self.fail('valid query {} failed'.format(case['command']))
 
+    def test_0_new_sport(self):
+        cases = self.test_cases['test_0']
+        self.assert_commands(cases)
 
     def test_1_new_activity(self):
-        pass
+        cases = self.test_cases['test_1']
+        self.assert_commands(cases)
+
+    def test_2_new_user(self):
+        cases = self.test_cases['test_2']
+        self.assert_commands(cases)
+
+    def test_3_new_card(self):
+        cases = self.test_cases['test_3']
+        self.assert_commands(cases)
+    
+    def test_4_new_card_user(self):
+        cases = self.test_cases['test_4']
+        self.assert_commands(cases)
+
+    def test_5_new_booked_activity(self):
+        cases = self.test_cases['test_5']
+        self.assert_commands(cases)
+
+    def test_6_new_payment(self):
+        cases = self.test_cases['test_6']
+        self.assert_commands(cases)
+    
+
+        
 
     @classmethod
     def tearDownClass(self):
