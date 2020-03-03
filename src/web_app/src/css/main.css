@@ -866,7 +866,8 @@ ul {
 }
 
 .facilities__facility .facility__spacing .spacing__content .content__desc .desc__facility-info {
-  margin: 20px 0;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
 .facilities__facility .facility__spacing .spacing__content .content__desc .desc__facility-discover .discover__link {
