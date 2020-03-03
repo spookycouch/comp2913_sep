@@ -32,7 +32,7 @@ router.post('/register', urlencodedParser, function(req, res) {
         
         // Error
         if(value.error != undefined)
-            throw value.error;
+            throw value.error.details;
         
         // Success
         let fullName = req.body.fullName;
@@ -51,7 +51,6 @@ router.post('/register', urlencodedParser, function(req, res) {
 
         // Error
         }). catch(function(error){
-            
             throw error;
         });
 
@@ -62,7 +61,8 @@ router.post('/register', urlencodedParser, function(req, res) {
         res.render(path.join(__dirname + '/../views/pages/register.ejs'),
         {
             title: webname + "| Register",
-            error: err
+            error: err,
+            form: req.body
         });
     }
 });
@@ -78,7 +78,6 @@ router.post('/login', urlencodedParser, function(req, res) {
         const value = validation.loginValidation(req.body);
         
         if(value.error != undefined) {
-            console.log(value.error);
             throw value.error.details;
         }
 
@@ -114,7 +113,8 @@ router.post('/login', urlencodedParser, function(req, res) {
         res.render(path.join(__dirname + '/../views/pages/login.ejs'),
         {
             title: webname + "| Login",
-            error: err
+            error: err,
+            form: req.body
         });
     }
 });

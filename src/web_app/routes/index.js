@@ -34,7 +34,8 @@ router.get(['/', '/home'], function(req, res) {
 router.get('/register', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/register.ejs'),
     {
-        title: webname + "| Register"
+        title: webname + "| Register",
+        form: req.body
     });
 });
 
@@ -74,7 +75,8 @@ router.get('/contact', function(req, res) {
 router.get('/login', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/login.ejs'),
     {
-        title: webname + "| Login"
+        title: webname + "| Login",
+        form: req.body
     });
 });
 

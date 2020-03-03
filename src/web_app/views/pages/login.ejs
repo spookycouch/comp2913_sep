@@ -15,12 +15,12 @@
             <form class="half__login-form" method="POST" action="/user/login">
                 <div class="login-form__group">
                     <label class="login-form__label"><h3>Email</h3></label>
-                    <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
+                    <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
 
                     <% if(locals.error){ %>
                         <% for (var i =0; i < error.length;  i++ ) { %>
                             <% if(error[i].path == 'email'){ %>
-                                <%- error[i].message %>
+                                <p style="color: red;"><%- error[i].message %></p>
                             <% } %>
                         <% } %>
                     <% } %>
@@ -33,7 +33,7 @@
                     <% if(locals.error){ %>
                         <% for (var i =0; i < error.length;  i++ ) { %>
                             <% if(error[i].path == 'password'){ %>
-                                <%- error[i].message %>
+                                <p style="color: red;"><%- error[i].message %></p>
                             <% } %>
                         <% } %>
                     <% } %>
