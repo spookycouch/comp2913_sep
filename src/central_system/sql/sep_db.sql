@@ -289,4 +289,4 @@ ALTER TABLE `Membership`
 -- SAMPLE DATA
 --
 
-INSERT INTO User(full_name, email, password, phone) VALUES ('John Doe', 'john.d@mail.com', '202cb962ac59075b964b07152d234b70', '+44 1234567890');
+INSERT INTO User(full_name, email, password, phone, address, city) VALUES ('John Doe', 'john.d@mail.com', '202cb962ac59075b964b07152d234b70', '+44 1234567890', '', '');
