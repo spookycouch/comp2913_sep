@@ -17,6 +17,10 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 // Website header
 const webname = ' The Edgy ';
 
+const csurf = require('csurf');
+var csrfProtection = csurf({cookie: true});
+
+router.use(csrfProtection);
 router.use(express.json());
 
 
@@ -114,7 +118,8 @@ router.post('/login', urlencodedParser, function(req, res) {
         {
             title: webname + "| Login",
             error: err,
-            form: req.body
+            form: req.body,
+            csrfToken: req.csrfToken()
         });
     }
 });

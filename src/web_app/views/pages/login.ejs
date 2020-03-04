@@ -13,6 +13,8 @@
             </div>
 
             <form class="half__login-form" method="POST" action="/user/login">
+                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+
                 <div class="login-form__group">
                     <label class="login-form__label"><h3>Email</h3></label>
                     <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>

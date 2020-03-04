@@ -5,6 +5,7 @@ var path = require('path');
 const request = require('request');
 var user = require('../modules/user');
 
+
 // Request parsers
 var bodyParser = require('body-parser');
 
@@ -13,6 +14,11 @@ var jsonParser = bodyParser.json();
 
 // Use this to handle FORM endpoints
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+
+const csurf = require('csurf');
+var csrfProtection = csurf({cookie: true});
+router.use(csrfProtection);
 
 // Website header
 const webname = ' The Edgy ';
@@ -76,7 +82,8 @@ router.get('/login', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/login.ejs'),
     {
         title: webname + "| Login",
-        form: req.body
+        form: req.body,
+        csrfToken: req.csrfToken()
     });
 });
 

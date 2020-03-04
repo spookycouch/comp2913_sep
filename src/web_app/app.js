@@ -11,6 +11,9 @@ var userRoutes = require('./routes/userRoutes.js');
 const request = require('request');
 var user = require('./modules/user.js');
 var bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
 
 
 // Descriptive
@@ -21,6 +24,8 @@ const webname = ' The Edgy ';
 app.use(express.json()); //Used to parse JSON POST
 app.use(express.static('src'));  // Used to make the resources accessible (css etc.)
 app.set('view engine', 'ejs');
+app.use(cookieParser());
+app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
 app.use('/',routes);
 app.use('/user',userRoutes);
 
