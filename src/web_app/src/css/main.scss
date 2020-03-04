@@ -35,6 +35,10 @@ h3 {
 
 .container {
     width: 100%;
+
+    &--full-height {
+        height: 100%;
+    }
 }
 
 .slick-dots {
@@ -51,5 +55,15 @@ h3 {
 @media only screen and (max-width: $max_width_tertiary) {
     h1 {
         font-size: $header_1 - 10;
+    }
+
+    
+}
+
+@media only screen and (max-height: 627px) {
+    .container {
+        &--full-height {
+            height: auto;
+        }
     }
 }

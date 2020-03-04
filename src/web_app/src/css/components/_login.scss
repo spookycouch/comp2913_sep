@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    height: 100%;
 
     &--background {
         background-image: url('/img/gallery/person-holding-barbell-841130.jpg');
@@ -17,19 +18,42 @@
 
     &__half {
         // width: 50%;
-        width: 70%;
+        height: 100%;
+        width: 50%;
         color: $white;
+        display: flex;
+        align-items: center;
 
         &--form {
             background-color: $quatenary;
             opacity: .9;
-            clip-path: polygon(24% 0%, 100% 0%, 76% 100%, 0% 100%);
-
-            // border: $border_thickness solid $primary;
+            // clip-path: polygon(24% 0%, 100% 0%, 76% 100%, 0% 100%);
             padding: 40px 60px;
         }
 
+        &--register {
+            display: none;
+        }
+
+        &--background {
+            background-image: url('/img/gallery/person-holding-barbell-841130.jpg');
+            background-position: 50% 0%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
         .half {
+            &__divider {
+                width: 100%;
+                text-align: center;
+            }
+
+            &__form-transition-header {
+                border: $border_thickness solid $white;
+                display: inline-block;
+                padding: $padding_border_block;
+            }
+
             &__login-header {
                 font-weight: bold;
                 text-transform: uppercase;
@@ -102,7 +126,11 @@
             width: 100%;
 
             &--form {
-                clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+                // clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+            }
+
+            &--background {
+                display: none;
             }
         }
     }

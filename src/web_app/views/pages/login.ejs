@@ -1,58 +1,133 @@
 <%- include('../partials/head') %>
 
-<div class="container">
+<div class="container container--full-height">
 
     <div class="login">
-        <div class="login__half login__half--form">
-            <div class="half__login-icon">
-                <img src="/img/icons/user.png" />
-            </div>
+        <div class="login__half login__half--form login__half--login">
+            <div class="half__divider">
+                <div class="half__login-icon">
+                    <img src="/img/icons/user.png" />
+                </div>
 
-            <div class="half__login-header">
-                <h2>Login</h2>
-            </div>
+                <div class="half__login-header">
+                    <h2>Login</h2>
+                </div>
 
-            <form class="half__login-form" method="POST" action="/user/login">
-                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                <form class="half__login-form" method="POST" action="/user/login">
+                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
-                <div class="login-form__group">
-                    <label class="login-form__label"><h3>Email</h3></label>
-                    <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                    <div class="login-form__group">
+                        <label class="login-form__label"><h3>Email</h3></label>
+                        <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
 
-                    <% if(locals.error){ %>
-                        <% for (var i =0; i < error.length;  i++ ) { %>
-                            <% if(error[i].path == 'email'){ %>
-                                <p style="color: red;"><%- error[i].message %></p>
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'email'){ %>
+                                    <p style="color: red;"><%- error[i].message %></p>
+                                <% } %>
                             <% } %>
                         <% } %>
-                    <% } %>
-                </div>
-                
-                <div class="login-form__group">
-                    <label class="login-form__label"><h3>Password</h3></label>
-                    <input class="login-form__input" name="password" type="password" placeholder="Password"/>
+                    </div>
+                    
+                    <div class="login-form__group">
+                        <label class="login-form__label"><h3>Password</h3></label>
+                        <input class="login-form__input" name="password" type="password" placeholder="Password"/>
 
-                    <% if(locals.error){ %>
-                        <% for (var i =0; i < error.length;  i++ ) { %>
-                            <% if(error[i].path == 'password'){ %>
-                                <p style="color: red;"><%- error[i].message %></p>
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'password'){ %>
+                                    <p style="color: red;"><%- error[i].message %></p>
+                                <% } %>
                             <% } %>
                         <% } %>
-                    <% } %>
-                </div>
-                
-                <div class="login-form__group">
-                    <button class="login-form__btn" type="submit"><h3>Login</h3></button>
+                    </div>
+                    
+                    <div class="login-form__group">
+                        <button class="login-form__btn" type="submit"><h3>Login</h3></button>
 
-                </div>
+                    </div>
 
-                <div class="half__register">
-                    Don't have an account? <a href="/register">Create one here</a>
-                </div>
-            </form>
+                    <!-- <div class="half__register">
+                        Don't have an account? <a href="/register">Create one here</a>
+                    </div> -->
+
+                    <div class="half__register">
+                        <a href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <!-- <div class="login__half login__half--background">fdf</div> -->
+
+
+
+        <div class="login__half login__half--background">
+            <div class="half__divider">
+                <div class="half__form-transition-header">
+                    <a href="/register"><h2 class="form-transition-header__text">Register</h2></a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="login__half login__half--form login__half--register">
+            <div class="half__divider">
+                <div class="half__login-icon">
+                    <img src="/img/icons/user.png" />
+                </div>
+    
+                <div class="half__login-header">
+                    <h2>Register</h2>
+                </div>
+
+                <form class="half__login-form" method="POST" action="/user/register">
+                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+
+                    <div class="login-form__group">
+                        <label class="login-form__label"><h3>Email</h3></label>
+                        <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'email'){ %>
+                                    <p style="color: red;"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    
+                    <div class="login-form__group">
+                        <label class="login-form__label"><h3>Password</h3></label>
+                        <input class="login-form__input" name="password" type="password" placeholder="Password"/>
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'password'){ %>
+                                    <p style="color: red;"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    
+                    <div class="login-form__group">
+                        <button class="login-form__btn" type="submit"><h3>Register</h3></button>
+
+                    </div>
+
+                    <!-- <div class="half__register">
+                        Don't have an account? <a href="/register">Create one here</a>
+                    </div> -->
+
+                    <div class="half__register">
+                        <a href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
+                    </div>
+                </form>
+            </div>
+
+
+            
+            
+        </div>
     </div>
 </div>
 

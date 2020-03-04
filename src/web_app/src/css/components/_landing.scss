@@ -53,7 +53,7 @@
             &__link {
                 border: $border_thickness solid $white;
                 display: inline-block;
-                padding: 5px 15px;
+                padding: $padding_border_block;
                 margin-top: 10px;
             }
         }
