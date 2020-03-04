@@ -103,8 +103,7 @@ router.post('/login', urlencodedParser, function(req, res) {
             */
 
             // TODO: redirect to my account 
-            res.send("Login successful.");
-
+            res.redirect('/account');
         // Error
         }). catch(function(error){
             
@@ -122,6 +121,15 @@ router.post('/login', urlencodedParser, function(req, res) {
             csrfToken: req.csrfToken()
         });
     }
+});
+
+
+
+router.get('/account', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
+    {
+        title: webname + "| Account"
+    });
 });
 
 module.exports = router;

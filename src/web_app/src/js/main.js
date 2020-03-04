@@ -54,6 +54,8 @@ $(document).ready(function() {
 
     $('.half__form-transition-header').on('click', function(e) {
 
+        return;
+
         // $('#half-2').removeClass('login__half--background');
         // $('#half-2').addClass('login__half--form');
 

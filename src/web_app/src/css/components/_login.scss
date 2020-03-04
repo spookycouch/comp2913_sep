@@ -27,7 +27,6 @@
         &--form {
             background-color: $quatenary;
             opacity: .9;
-            // clip-path: polygon(24% 0%, 100% 0%, 76% 100%, 0% 100%);
             padding: 40px 60px;
         }
 
@@ -69,8 +68,6 @@
                 margin-top: 20px;
                 padding: $padding_border_block;
 
-
-
                 img {
                     width: $icon_default_width;
                 }
@@ -109,7 +106,13 @@
                 }
             }
 
-            &__register {
+            &__bottom-link {
+                margin: 5px 0;
+
+                &--register {
+                    display: none;
+                }
+
                 a {
                     text-decoration: underline;
                 }
@@ -125,12 +128,16 @@
         &__half {
             width: 100%;
 
-            &--form {
-                // clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
-            }
-
             &--background {
                 display: none;
+            }
+
+            .half {
+                &__bottom-link {
+                    &--register {
+                        display: block;
+                    }
+                }
             }
         }
     }
@@ -140,10 +147,6 @@
     .login {
         &__half {
             width: 100%;
-
-            &--form {
-                clip-path: none;
-            }
         }
     }  
 }

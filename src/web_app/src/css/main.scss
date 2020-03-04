@@ -3,6 +3,7 @@
 
 // libs
 @import "libs/vars";
+@import "libs/hover";
 
 // components
 @import "components/reset";
@@ -51,6 +52,8 @@ h3 {
         padding: 5px 13px !important;
     }
 }
+
+
 
 @media only screen and (max-width: $max_width_tertiary) {
     h1 {
