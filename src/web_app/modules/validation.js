@@ -22,6 +22,9 @@ const registerValidation = function(data){
         password: joi.string()
             .min(6)
             .required(), // Need another field, confirm password, which must be validated to be equal to password.
+        _csrf: joi.string()
+            .min(6)
+            .required()
         
     });
 
@@ -36,6 +39,9 @@ const loginValidation = function(data){
             .required()
             .email(),
         password: joi.string()
+            .min(6)
+            .required(),
+        _csrf: joi.string()
             .min(6)
             .required()
     });

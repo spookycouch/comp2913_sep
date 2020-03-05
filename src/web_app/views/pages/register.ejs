@@ -4,6 +4,8 @@
     <div class="register">
         <form method="POST" action="/user/register" autocomplete="off">
 
+            <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+
             <div class="register-form__group">
                 <input name="fullName" type="text" placeholder="Full Name" value="<%- form.fullName %>" />
                 <% if(locals.error){ %>

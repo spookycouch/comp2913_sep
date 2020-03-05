@@ -25,6 +25,46 @@ exports.loginUser = function(email, password){
 }
 
 /*
+ *  Function:   Get User Details
+ *  Input:      Id
+ *  Output:     Error Message
+*/
+exports.getUser = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getUserDetails(id).then(function(user){
+
+            resolve(user);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+ /*
+ *  Function:   Update User Details
+ *  Input:      Id
+ *  Output:     Error Message
+*/
+exports.updateUser = function(id, full_name, email, phone, address, city, birth, profile_pic){
+
+    return new Promise(function(resolve, reject) {
+
+        db.changeUserDetails(id, full_name, email, phone, address, city, birth, profile_pic).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
  *  Function:   Create New User 
  *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
  *  Output:     Bool / Error Message

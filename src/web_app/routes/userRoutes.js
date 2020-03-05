@@ -4,30 +4,24 @@ const jwt = require('jsonwebtoken');
 var path = require('path');
 const router = express.Router();
 var user = require('../modules/user');
-
-// Request parsers
+const csurf = require('csurf');
+const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// Use this to handle JSON endpoints
-var jsonParser = bodyParser.json();
-
-// Use this to handle FORM endpoints
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+// Router settings
+router.use(cookieParser(process.env.SESSION_SECRET));
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(csurf({ cookie: true }));
 
 // Website header
 const webname = ' The Edgy ';
-
-const csurf = require('csurf');
-var csrfProtection = csurf({cookie: true});
-
-router.use(csrfProtection);
-router.use(express.json());
 
 
 /*
  *  Function:   Register Backend Query
 */
-router.post('/register', urlencodedParser, function(req, res) {
+router.post('/register', function(req, res) {
 
     // Data validation
     try {
@@ -55,7 +49,15 @@ router.post('/register', urlencodedParser, function(req, res) {
 
         // Error
         }). catch(function(error){
-            throw error;
+
+            // Render with error
+            res.render(path.join(__dirname + '/../views/pages/register.ejs'),
+            {
+                title: webname + "| Register",
+                error: error,
+                form: req.body,
+                csrfToken: req.csrfToken()
+            });
         });
 
     // Error
@@ -66,7 +68,8 @@ router.post('/register', urlencodedParser, function(req, res) {
         {
             title: webname + "| Register",
             error: err,
-            form: req.body
+            form: req.body,
+            csrfToken: req.csrfToken()
         });
     }
 });
@@ -75,7 +78,7 @@ router.post('/register', urlencodedParser, function(req, res) {
 /*
  *  Function:   Login Backend Query
 */
-router.post('/login', urlencodedParser, function(req, res) {
+router.post('/login', function(req, res) {
 
     try { 
         // Validation
@@ -92,8 +95,6 @@ router.post('/login', urlencodedParser, function(req, res) {
         // Query
         user.loginUser(email, password).then(function(user){
 
-            console.log(user.id);
-
             /*
 
                 // Session creation
@@ -104,10 +105,19 @@ router.post('/login', urlencodedParser, function(req, res) {
 
             // TODO: redirect to my account 
             res.redirect('/account');
+
         // Error
         }). catch(function(error){
-            
-            throw error;
+
+            // Render with error
+            // need to duplicate because !compatible(promises, try-catch)
+            res.render(path.join(__dirname + '/../views/pages/login.ejs'),
+            {
+                title: webname + "| Login",
+                error: errs,
+                form: req.body,
+                csrfToken: req.csrfToken()
+            });
         });
 
     } catch(err) {

@@ -22,10 +22,6 @@ exports.queryUser = function(email, password) {
         database: db
     });
 
-    // SQL Validation
-    email = SqlString.escape(email);
-    password = SqlString.escape(password);
-
     // Synching request
     return new Promise(function(resolve, reject) {
 
@@ -52,6 +48,99 @@ exports.queryUser = function(email, password) {
 
                 else
                     reject("Unsuccessful login.")
+
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query User by id once logged in
+ *  Input:      Id
+ *  Output:     User Object / Error Message
+*/
+exports.getUserDetails = function(id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT full_name, email, phone, address, city, birth, profile_pic FROM User WHERE id = ?',
+                    [id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.length > 0)
+                    resolve(results[0]);
+
+                else
+                    reject("User not found.");
+
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query User by id once logged in
+ *  Input:      Id
+ *  Output:     User Object / Error Message
+*/
+exports.changeUserDetails = function(id, full_name, email, phone, address, city, birth, profile_pic) {
+
+    // Timestamp validity & conversion
+    birth = new Date(birth * 1000);
+    if(birth.getTime() <= 0) reject("Invalid Timestamp");
+    birth = moment(birth).format('YYYY-MM-DD HH:mm:ss');
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'UPDATE User SET full_name = ?, email = ?, phone = ?, address = ?, city = ?, birth = TIMESTAMP(?), profile_pic = ? WHERE id = ?',
+                    [full_name, email, phone, address, city, birth, profile_pic, id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                else
+                    resolve(true);
 
             });
         });

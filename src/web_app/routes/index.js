@@ -4,21 +4,15 @@ const router = express.Router();
 var path = require('path');
 const request = require('request');
 var user = require('../modules/user');
-
-
-// Request parsers
+const csurf = require('csurf');
+const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// Use this to handle JSON endpoints
-var jsonParser = bodyParser.json();
-
-// Use this to handle FORM endpoints
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
-
-const csurf = require('csurf');
-var csrfProtection = csurf({cookie: true});
-router.use(csrfProtection);
+// Router settings
+router.use(cookieParser(process.env.SESSION_SECRET));
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(csurf({ cookie: true }));
 
 // Website header
 const webname = ' The Edgy ';
@@ -37,11 +31,12 @@ router.get(['/', '/home'], function(req, res) {
 /*
  *  Function:   Register Page Router
 */
-router.get('/register', function(req, res) {
+router.get('/user/register', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/register.ejs'),
     {
         title: webname + "| Register",
-        form: req.body
+        form: req.body,
+        csrfToken: req.csrfToken()
     });
 });
 
@@ -78,7 +73,7 @@ router.get('/contact', function(req, res) {
 /*
  *  Function:   Login Page Router
 */
-router.get('/login', function(req, res) {
+router.get('/user/login', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/login.ejs'),
     {
         title: webname + "| Login",

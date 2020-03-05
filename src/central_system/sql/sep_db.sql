@@ -207,6 +207,7 @@ CREATE TABLE `Timetable` (
 
 CREATE TABLE `User` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_pic` varchar(400) DEFAULT '',
   `full_name` varchar(400) NOT NULL,  
   `email` varchar(200) NOT NULL,
   `password` varchar(400) NOT NULL,
@@ -289,4 +290,4 @@ ALTER TABLE `Membership`
 -- SAMPLE DATA
 --
 
-INSERT INTO User(full_name, email, password, phone, address, city) VALUES ('John Doe', 'john.d@mail.com', '202cb962ac59075b964b07152d234b70', '+44 1234567890', '', '');
+INSERT INTO User(full_name, email, password, phone, address, city) VALUES ('John Doe', 'test@mail.com', 'e10adc3949ba59abbe56e057f20f883e', '+44 1234567890', '', '');
