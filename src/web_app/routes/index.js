@@ -8,11 +8,12 @@ const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var csrf = csurf({ cookie: true });
+
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(csurf({ cookie: true }));
 
 // Website header
 const webname = ' The Edgy ';
@@ -20,7 +21,7 @@ const webname = ' The Edgy ';
 /*
  *  Function:   Homepage Router
 */
-router.get(['/', '/home'], function(req, res) {
+router.get(['/', '/home'], csrf, function(req, res) {
 
     res.render(path.join(__dirname + '/../views/pages/index.ejs'),
     {
@@ -31,7 +32,7 @@ router.get(['/', '/home'], function(req, res) {
 /*
  *  Function:   Register Page Router
 */
-router.get('/user/register', function(req, res) {
+router.get('/user/register', csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/register.ejs'),
     {
         title: webname + "| Register",
@@ -43,7 +44,7 @@ router.get('/user/register', function(req, res) {
 /*
  *  Function:   Memberships Page Router
 */
-router.get('/memberships', function(req, res) {
+router.get('/memberships', csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/memberships.ejs'),
     {
         title: webname + "| Memberships"
@@ -53,7 +54,7 @@ router.get('/memberships', function(req, res) {
 /*
  *  Function:   Facilities Page Router
 */
-router.get('/facilities', function(req, res) {
+router.get('/facilities', csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
     {  
         title: webname + "| Facilities"
@@ -63,7 +64,7 @@ router.get('/facilities', function(req, res) {
 /*
  *  Function:   Contact Page Router
 */
-router.get('/contact', function(req, res) {
+router.get('/contact', csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/contact.ejs'),
     {
         title: webname + "| Contact"
@@ -73,7 +74,7 @@ router.get('/contact', function(req, res) {
 /*
  *  Function:   Login Page Router
 */
-router.get('/user/login', function(req, res) {
+router.get('/user/login', csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/login.ejs'),
     {
         title: webname + "| Login",

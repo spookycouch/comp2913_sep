@@ -33,7 +33,7 @@ router.post('/register', function(req, res) {
             throw value.error.details;
 
         // Query
-        user.registerUser(req.body).then(function(result){;
+        user.registerUser(req.body).then(function(result){
 
             // Success
             // TODO: redirect to the page set in session
