@@ -70,4 +70,35 @@ $(document).ready(function() {
         
         e.preventDefault();
     })
+
+
+    // For Scroll up
+    $('.scroll-to-top').on('click', function(e) {
+		$('html, body').animate({scrollTop: 0}, 500);
+		e.preventDefault();
+    });    
 });
+
+
+$(window).scroll(function() {
+    showScrollToggle();
+});
+
+
+function showScrollToggle() {
+    var self = $(this),
+		height = 250,
+        top = self.scrollTop(),
+        button = $('.scroll-to-top');
+    displayTop = top;	
+			
+	if (displayTop > height){		
+		if (!button.is(':visible')){
+			button.css('bottom', '0%');
+			button.show();
+			button.animate({bottom: '5%'}, 300);
+		}			
+	} else{		
+		button.fadeOut();
+	}	
+}

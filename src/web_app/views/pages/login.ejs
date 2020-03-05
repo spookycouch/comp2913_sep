@@ -18,27 +18,35 @@
 
                     <div class="login-form__group">
                         <label class="login-form__label"><h3>Email</h3></label>
-                        <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
 
                         <% if(locals.error){ %>
                             <% for (var i =0; i < error.length;  i++ ) { %>
                                 <% if(error[i].path == 'email'){ %>
-                                    <p style="color: red;"><%- error[i].message %></p>
+                                    <input class="login-form__input login-form__input--error wobble-horizontal" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                                    <p id="email-error" class="login-form__error"><%- error[i].message %></p>
+                                <% }else{ %>
+                                    <input class="login-form__input " name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
                                 <% } %>
                             <% } %>
-                        <% } %>
+                        <% }else{ %>
+                            <input class="login-form__input " name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                        <% }%>
                     </div>
                     
                     <div class="login-form__group">
                         <label class="login-form__label"><h3>Password</h3></label>
-                        <input class="login-form__input" name="password" type="password" placeholder="Password"/>
 
                         <% if(locals.error){ %>
                             <% for (var i =0; i < error.length;  i++ ) { %>
                                 <% if(error[i].path == 'password'){ %>
-                                    <p style="color: red;"><%- error[i].message %></p>
+                                    <input class="login-form__input login-form__input--error wobble-horizontal" name="password" type="password" placeholder="Password"/>
+                                    <p id="password-error" class="login-form__error"><%- error[i].message %></p>
+                                <% }else{ %>
+                                    <input class="login-form__input" name="password" type="password" placeholder="Password"/>
                                 <% } %>
                             <% } %>
+                        <% }else{ %>
+                            <input class="login-form__input" name="password" type="password" placeholder="Password"/>
                         <% } %>
                     </div>
                     
@@ -58,9 +66,7 @@
             </div>
         </div>
 
-
-
-
+        
         <div class="login__half login__half--background">
             <div class="half__divider">
                 <div class="half__form-transition-header hvr-sweep-to-right">
@@ -70,7 +76,7 @@
         </div>
         
 
-        <div class="login__half login__half--form login__half--register">
+        <!-- <div class="login__half login__half--form login__half--register">
             <div class="half__divider">
                 <div class="half__login-icon">
                     <img src="/img/icons/user.png" />
@@ -116,18 +122,14 @@
 
                     <!-- <div class="half__register">
                         Don't have an account? <a href="/register">Create one here</a>
-                    </div> -->
+                    </div> 
 
                     <div class="half__register">
-                        <a href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
+                        <a href="/home">Back to The Edgy</a> 
                     </div>
                 </form>
             </div>
-
-
-            
-            
-        </div>
+        </div> -->
     </div>
 </div>
 
