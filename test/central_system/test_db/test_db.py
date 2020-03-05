@@ -2,14 +2,17 @@ import mysql.connector
 import os
 import subprocess
 import unittest
+import yaml
 
-db_path = os.path.dirname(os.path.abspath(__file__)) + '/../../src/central_system/sql/sep_db.sql'
+db_path = os.path.dirname(os.path.abspath(__file__)) + '/../../../src/central_system/sql/sep_db.sql'
 db_name = 'sep_test_proc_1'
+YAML_PATH = os.path.dirname(os.path.abspath(__file__)) + '/test_db.yaml'
+
 
 class TestDb(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-    # Connect to the MySQL server, and create new database for test sequence
+        # Connect to the MySQL server, and create new database for test sequence
         try:
             print 'CONNECTING TO MYSQL SERVER...',
 
@@ -28,6 +31,7 @@ class TestDb(unittest.TestCase):
                 self.cursor.execute('CREATE DATABASE ' + db_name)
             except mysql.connector.errors.DatabaseError as e:
                 print e
+                assert False
             
 
             self.cursor.execute('USE ' + db_name)
@@ -42,33 +46,51 @@ class TestDb(unittest.TestCase):
             print
             print '\n', e
             assert False
-    
+        
+        # load the yaml file with test cases
+        self.test_cases = yaml.safe_load(open(YAML_PATH,'r'))
 
-    def test_0_new_user(self):
-        commands = [
-            [True,  'INSERT INTO User VALUES(1, "test person", "test_person@test.com", "07777777777", "01/01/0001")'],
-            [False,  'INSERT INTO User VALUES(1, "test person", "test_person@test.com", "07777777777", "01/01/0001")'],
-            [False, 'INSERT INTO User VALUES("test person", "test_person@test.com", "07777777777", "01/01/0001")'],
-            [False, 'INSERT INTO User(id, full_name, phone, birth) VALUES("test person", "07777777777", "01/01/0001")']
-            # [False, 'INSERT INTO User VALUES("test person", "test_person@test.com", "abcdefg", "01/01/0001")']
-        ]
 
-        for command in commands:
+    def assert_commands(self, cases):
+        for case in cases:
             try:
-                self.cursor.execute(command[1])
-                if command[0] == False:
-                    self.fail('query {} should throw an error'.format(command))
+                self.cursor.execute(case['command'])
+                if not case['result']:
+                    self.fail('invalid query {} should throw an error'.format(case['command']))
+            except:
+                if case['result']:
+                    self.fail('valid query {} failed'.format(case['command']))
 
-            except mysql.connector.errors.DataError as e:
-                if command[0] == True:
-                    self.fail('query {} failed'.format(command))
-            except mysql.connector.errors.IntegrityError as e:
-                if command[0] == True:
-                    self.fail('query {} failed'.format(command))
-
+    def test_0_new_sport(self):
+        cases = self.test_cases['test_0']
+        self.assert_commands(cases)
 
     def test_1_new_activity(self):
-        pass
+        cases = self.test_cases['test_1']
+        self.assert_commands(cases)
+
+    def test_2_new_user(self):
+        cases = self.test_cases['test_2']
+        self.assert_commands(cases)
+
+    def test_3_new_card(self):
+        cases = self.test_cases['test_3']
+        self.assert_commands(cases)
+    
+    def test_4_new_card_user(self):
+        cases = self.test_cases['test_4']
+        self.assert_commands(cases)
+
+    def test_5_new_booked_activity(self):
+        cases = self.test_cases['test_5']
+        self.assert_commands(cases)
+
+    def test_6_new_payment(self):
+        cases = self.test_cases['test_6']
+        self.assert_commands(cases)
+    
+
+        
 
     @classmethod
     def tearDownClass(self):

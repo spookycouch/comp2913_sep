@@ -38,7 +38,7 @@ CREATE TABLE `Activity_Timetable` (
 -- --------------------------------------------------------
 
 --
--- Definition of the table `BookedActivity`
+-- Definition of the table ``
 --
 
 CREATE TABLE `BookedActivity` (
@@ -207,7 +207,7 @@ CREATE TABLE `User` (
   `full_name` varchar(400) NOT NULL,
   `email` varchar(200) NOT NULL,
   `phone` varchar(200) NOT NULL,
-  `birth` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `birth` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
