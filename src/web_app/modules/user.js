@@ -1,5 +1,6 @@
 var db = require('./db.js');
 var md5 = require('md5');
+var moment = require('moment');
 
 /*
  *  Function:   Login User 
@@ -71,7 +72,7 @@ exports.updateUser = function(id, name, surname, email, password, phone, address
 */
 exports.registerUser = function(req_body){
 
-    // Success
+    // Parameters
     let name = req_body.name;
     let surname = req_body.surname;
     let phone = req_body.phone;
@@ -79,7 +80,12 @@ exports.registerUser = function(req_body){
     let address_2 = req_body.address_2;
     let zipcode = req_body.zipcode;
     let city = req_body.city;
-    let birth = req_body.birth;
+    
+    var d = req_body.birth.split("-");
+    var dTimestamp = d[1] + "/" + d[2] + "/" + d[0];
+    let birth = new Date(dTimestamp).getTime();
+    birth = moment(birth).format('YYYY-MM-DD HH:mm:ss');
+
     let email = req_body.email;
     let password = req_body.password;
     let confirm_password = req_body.confirm_password;

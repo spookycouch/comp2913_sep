@@ -26,8 +26,8 @@ router.post('/register', function(req, res) {
     // Data validation
     try {
         
-        const value = validation.registerValidation(req.body);
-        
+        const value = validation.registerValidation(req.body);   
+
         // Error
         if(value.error != undefined)
             throw value.error.details;
@@ -99,14 +99,18 @@ router.post('/login', function(req, res) {
             res.redirect('/account');
 
         // Error
-        }). catch(function(error){
+        }). catch(function(err){
 
+            var error = [{
+                message: err,
+                path: 'email'
+            }];
             // Render with error
             // need to duplicate because !compatible(promises, try-catch)
             res.render(path.join(__dirname + '/../views/pages/login.ejs'),
             {
                 title: webname + "| Login",
-                error: errs,
+                error: error,
                 form: req.body,
                 csrfToken: req.csrfToken()
             });

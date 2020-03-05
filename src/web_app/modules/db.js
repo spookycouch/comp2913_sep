@@ -1,6 +1,5 @@
 var mysql = require('mysql');
 var SqlString = require('sqlstring');
-var moment = require('moment');
 
 let host = "127.0.0.1"
 let db = "comp2913_sep"
@@ -159,11 +158,6 @@ exports.createUser = function(name, surname, email, password, phone, address_1, 
 
     // Synching request
     return new Promise(function(resolve, reject) {
-
-        // Timestamp validity & conversion
-        birth = new Date(birth * 1000);
-        if(birth.getTime() <= 0) reject("Invalid Timestamp");
-        birth = moment(birth).format('YYYY-MM-DD HH:mm:ss');
 
         // Connection
         conn.connect(function(err) {
