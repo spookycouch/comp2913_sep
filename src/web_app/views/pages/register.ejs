@@ -44,7 +44,7 @@
 
             <div class="register-form__group">
                 <!-- Please feed backend with unix timestamp string to submit -->
-                <input name="birth" type="text" placeholder="Date of Birth"  value="<%- form.birth %>"/>
+                <input name="birth" type="date" placeholder="Date of Birth"  value="<%- form.birth %>"/>
                 <% if(locals.error){ %>
                     <% for (var i =0; i < error.length;  i++ ) { %>
                         <% if(error[i].path == 'birth'){ %>
