@@ -26,8 +26,11 @@ router.post('/register', function(req, res) {
     // Data validation
     try {
         
-        const value = validation.registerValidation(req.body);
+        const value = validation.registerValidation(req.body);   
         
+        
+        
+
         // Error
         if(value.error != undefined)
             throw value.error.details;
@@ -37,7 +40,9 @@ router.post('/register', function(req, res) {
         let phone = req.body.phone;
         let address = req.body.address;
         let city = req.body.city;
-        let birth = req.body.birth;
+        var d = req.body.birth.split("-");
+        var dTimestamp = d[1] + "/" + d[2] + "/" + d[0];
+        let birth = new Date(dTimestamp).getTime();
         let email = req.body.email;
         let password = req.body.password;
 
@@ -107,14 +112,18 @@ router.post('/login', function(req, res) {
             res.redirect('/account');
 
         // Error
-        }). catch(function(error){
+        }). catch(function(err){
 
+            var error = [{
+                message: err,
+                path: 'email'
+            }];
             // Render with error
             // need to duplicate because !compatible(promises, try-catch)
             res.render(path.join(__dirname + '/../views/pages/login.ejs'),
             {
                 title: webname + "| Login",
-                error: errs,
+                error: error,
                 form: req.body,
                 csrfToken: req.csrfToken()
             });

@@ -53,14 +53,8 @@ $(document).ready(function() {
 
 
     $('.half__form-transition-header').on('click', function(e) {
-
         return;
 
-        // $('#half-2').removeClass('login__half--background');
-        // $('#half-2').addClass('login__half--form');
-
-        // $('#half-1').removeClass('login__half--form');
-        // $('#half-1').addClass('login__half--background');
         registertoggle = !registertoggle
 
         if (registertoggle) {
@@ -74,6 +68,6 @@ $(document).ready(function() {
 
         }
         
-        // e.preventDefault();
+        e.preventDefault();
     })
 });
