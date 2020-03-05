@@ -1,49 +1,80 @@
 package the.edgy.ui.home;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-import java.util.List;
-
 import the.edgy.R;
+import the.edgy.ui.activities.ActivitiesFragment;
 import the.edgy.ui.profile.ProfileFragment;
+import the.edgy.ui.venues.VenuesFragment;
 
 public class HomePage extends AppCompatActivity {
 
 
+    // Listener for navigation buttons.
+    // Every button opens up a new fragment to put in the fragment container.
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selectedFragment = null;
+
+                    // Id changes with different buttons,
+                    // so we can detect which button has been clicked.
+                    switch (menuItem.getItemId()) {
+                        case R.id.navigation_home:
+                            selectedFragment = new HomeFragment();
+                            break;
+
+                        case R.id.navigation_activities:
+                            selectedFragment = new ActivitiesFragment();
+                            break;
+
+                        case R.id.navigation_venues:
+                            selectedFragment = new VenuesFragment();
+                            break;
+
+                        case R.id.navigation_profile:
+                            selectedFragment = new ProfileFragment();
+                            break;
+                    }
+
+                    // Replaces the current fragment in the fragment container with the new
+                    // fragment corresponding to the button clicked.
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+
+                    // Returning true highlights the clicked navigation button.
+                    return true;
+                }
+
+
+            };
+
+    // Creates the initial home page.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.frame_layout); // activity_home_page
+        setContentView(R.layout.frame_layout);
+
+        BottomNavigationView bottom_navigation = findViewById(R.id.bottom_navigation);
+
+        // Listens for the navigation panel buttons to be pressed.
+        bottom_navigation.setOnNavigationItemSelectedListener(navListener);
+
+        // Puts the first (home) fragment in the container, so that it appears
+        // right after login has been made.
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
 
 
-        BottomNavigationView navView = findViewById(R.id.nav_view3);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_activities, R.id.navigation_venues, R.id.navigation_profile)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment3);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
     }
 
     @Override

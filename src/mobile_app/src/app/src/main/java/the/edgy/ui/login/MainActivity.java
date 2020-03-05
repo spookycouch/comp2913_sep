@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Listener for the Login Button
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 
+    // Function which opens home page after successful login.
+    // Invoked by the button.
     public void displayHomePage() {
         // Create an Intent to start the Home Page.
         Intent mainPageIntent = new Intent(MainActivity.this, HomePage.class);
