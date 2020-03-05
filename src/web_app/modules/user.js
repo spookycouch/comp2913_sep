@@ -50,7 +50,19 @@ exports.getUser = function(id){
  *  Input:      Id
  *  Output:     Error Message
 */
-exports.updateUser = function(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic){
+exports.updateUser = function(req_body){
+
+    let id = req_body.id;
+    let name = req_body.name;
+    let surname = req_body.surname;
+    let email = req_body.email;
+    let password = req_body.password;
+    let phone = req_body.phone;
+    let address_1 = req_body.address_1;
+    let address_2 = req_body.address_2;
+    let zipcode = req_body.zipcode;
+    let city = req_body.city;
+    let profile_pic = req_body.profile_pic;
 
     return new Promise(function(resolve, reject) {
 
