@@ -31,21 +31,13 @@ router.post('/register', function(req, res) {
         // Error
         if(value.error != undefined)
             throw value.error.details;
-        
-        // Success
-        let fullName = req.body.fullName;
-        let phone = req.body.phone;
-        let address = req.body.address;
-        let city = req.body.city;
-        let birth = req.body.birth;
-        let email = req.body.email;
-        let password = req.body.password;
 
         // Query
-        user.registerUser(fullName, email, password, phone, address, city, birth).then(function(result){;
+        user.registerUser(req.body).then(function(result){;
 
             // Success
-            res.send("Register successful.");
+            // TODO: redirect to the page set in session
+            res.redirect('/user/login');
 
         // Error
         }). catch(function(error){

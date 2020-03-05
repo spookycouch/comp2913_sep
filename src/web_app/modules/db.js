@@ -105,12 +105,7 @@ exports.getUserDetails = function(id) {
  *  Input:      Id
  *  Output:     User Object / Error Message
 */
-exports.changeUserDetails = function(id, full_name, email, phone, address, city, birth, profile_pic) {
-
-    // Timestamp validity & conversion
-    birth = new Date(birth * 1000);
-    if(birth.getTime() <= 0) reject("Invalid Timestamp");
-    birth = moment(birth).format('YYYY-MM-DD HH:mm:ss');
+exports.changeUserDetails = function(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -129,8 +124,8 @@ exports.changeUserDetails = function(id, full_name, email, phone, address, city,
 
             query = SqlString.format(
         
-                'UPDATE User SET full_name = ?, email = ?, phone = ?, address = ?, city = ?, birth = TIMESTAMP(?), profile_pic = ? WHERE id = ?',
-                    [full_name, email, phone, address, city, birth, profile_pic, id]
+                'UPDATE User SET name = ?, surname = ?, email = ?, phone = ?, address_1 = ?, address_2 = ?, zipcode = ?, city = ?, profile_pic = ? WHERE id = ?',
+                    [name, surname, email, phone, address_1, address_2, zipcode, city, profile_pic, id]
             );
 
             // Query
@@ -153,7 +148,7 @@ exports.changeUserDetails = function(id, full_name, email, phone, address, city,
  *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
  *  Output:     Bool / Error Message
 */
-exports.createUser = function(fullName, email, password, phone, address, city, birth) {
+exports.createUser = function(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -178,8 +173,8 @@ exports.createUser = function(fullName, email, password, phone, address, city, b
 
             query = SqlString.format(
                 
-                'INSERT INTO User(full_name, email, password, phone, address, city, birth) VALUES(?, ?, ?, ?, ?, ?, TIMESTAMP(?))',
-                 [fullName, email, password, phone, address, city, birth]
+                'INSERT INTO User(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, TIMESTAMP(?))',
+                 [name, surname, email, password, phone, address_1, address_2, zipcode, city, birth]
             );
 
             // Query

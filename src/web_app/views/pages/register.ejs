@@ -7,10 +7,22 @@
             <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
             <div class="register-form__group">
-                <input name="fullName" type="text" placeholder="Full Name" value="<%- form.fullName %>" />
+                <input name="name" type="text" placeholder="Name" value="<%- form.name %>" />
                 <% if(locals.error){ %>
                     <% for (var i =0; i < error.length;  i++ ) { %>
-                        <% if(error[i].path == 'fullName'){ %>
+                        <% if(error[i].path == 'name'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+
+
+            <div class="register-form__group">
+                <input name="surname" type="text" placeholder="Surname" value="<%- form.surname %>" />
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'surname'){ %>
                             <p style="color: red;"><%- error[i].message %></p>
                         <% } %>
                     <% } %>
@@ -56,10 +68,34 @@
 
 
             <div class="register-form__group">
-                <input name="address" type="text" placeholder="Address Line" value="<%- form.address %>"/>
+                <input name="address_1" type="text" placeholder="Address Line 1" value="<%- form.address_1 %>"/>
                 <% if(locals.error){ %>
                     <% for (var i =0; i < error.length;  i++ ) { %>
-                        <% if(error[i].path == 'address'){ %>
+                        <% if(error[i].path == 'address_1'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+
+
+            <div class="register-form__group">
+                <input name="address_2" type="text" placeholder="Address Line 2" value="<%- form.address_2 %>"/>
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'address_2'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+
+
+            <div class="register-form__group">
+                <input name="zipcode" type="text" placeholder="Zip Code" value="<%- form.zipcode %>"/>
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'zipcode'){ %>
                             <p style="color: red;"><%- error[i].message %></p>
                         <% } %>
                     <% } %>
@@ -84,6 +120,17 @@
                 <% if(locals.error){ %>
                     <% for (var i =0; i < error.length;  i++ ) { %>
                         <% if(error[i].path == 'password'){ %>
+                            <p style="color: red;"><%- error[i].message %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+
+            <div class="register-form__group">
+                <input name="confirm_password" type="password" placeholder="Confirm Password"/>
+                <% if(locals.error){ %>
+                    <% for (var i =0; i < error.length;  i++ ) { %>
+                        <% if(error[i].path == 'confirm_password'){ %>
                             <p style="color: red;"><%- error[i].message %></p>
                         <% } %>
                     <% } %>
