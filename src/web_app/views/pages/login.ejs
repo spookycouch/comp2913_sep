@@ -16,6 +16,14 @@
                 <form class="half__login-form" method="POST" action="/user/login">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
+                    <% if(locals.error){ %>
+                        <% for (var i =0; i < error.length;  i++ ) { %>
+                            <% if(error[i].path == 'unsuccessful'){ %>
+                                <p id="unsuccessful-error" class="login-form__error"><%- error[i].message %></p>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+
                     <div class="login-form__group">
                         <label class="login-form__label"><h3>Email</h3></label>
 
@@ -23,7 +31,7 @@
                             <% for (var i =0; i < error.length;  i++ ) { %>
                                 <% if(error[i].path == 'email'){ %>
                                     <input class="login-form__input login-form__input--error wobble-horizontal" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
-                                    <p id="email-error" class="login-form__error"><%- error[i].message %></p>
+                                    <p class="login-form__error"><%- error[i].message %></p>
                                 <% }else{ %>
                                     <input class="login-form__input " name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
                                 <% } %>
@@ -40,7 +48,7 @@
                             <% for (var i =0; i < error.length;  i++ ) { %>
                                 <% if(error[i].path == 'password'){ %>
                                     <input class="login-form__input login-form__input--error wobble-horizontal" name="password" type="password" placeholder="Password"/>
-                                    <p id="password-error" class="login-form__error"><%- error[i].message %></p>
+                                    <p class="login-form__error"><%- error[i].message %></p>
                                 <% }else{ %>
                                     <input class="login-form__input" name="password" type="password" placeholder="Password"/>
                                 <% } %>
@@ -52,17 +60,16 @@
                     
                     <div class="login-form__group">
                         <button class="login-form__btn hvr-sweep-to-right" type="submit" ><h3>Login</h3></button>
-
-                    </div>
-
-                    <div class="half__bottom-link half__bottom-link--register">
-                        Don't have an account? <a href="/user/register">Create one here</a>
-                    </div>
-
-                    <div class="half__bottom-link">
-                        <a href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
-                    </div>
+                    </div>  
                 </form>
+
+                <div class="half__bottom-link half__bottom-link--register">
+                    Don't have an account? <a href="/user/register">Create one here</a>
+                </div>
+
+                <div class="half__bottom-link">
+                    <a href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
+                </div>
             </div>
         </div>
 
@@ -76,7 +83,7 @@
         </div>
         
 
-        <!-- <div class="login__half login__half--form login__half--register">
+        <div class="login__half login__half--form login__half--register">
             <div class="half__divider">
                 <div class="half__login-icon">
                     <img src="/img/icons/user.png" />
@@ -86,50 +93,129 @@
                     <h2>Register</h2>
                 </div>
 
-                <form class="half__login-form" method="POST" action="/user/register">
-                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                <div id="slide-1">
+                    <form id="form-1" class="half__login-form" method="POST" action="/user/register">
+                        <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
-                    <div class="login-form__group">
-                        <label class="login-form__label"><h3>Email</h3></label>
-                        <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                        <div class="login-form__group login-form__group--col">
+                            <div class="login-form__group--row">
+                                <label class="login-form__label"><h3>Firstname</h3></label>
+                                <input class="login-form__input" name="name" type="text" placeholder="Name" value="<%- form.name %>" />
+                                <p id="name-error" class="login-form__error login-form__error--d-none"></p>
+                            </div>
 
-                        <% if(locals.error){ %>
-                            <% for (var i =0; i < error.length;  i++ ) { %>
-                                <% if(error[i].path == 'email'){ %>
-                                    <p style="color: red;"><%- error[i].message %></p>
-                                <% } %>
-                            <% } %>
-                        <% } %>
-                    </div>
+                            <div class="login-form__group--row">
+                                <label class="login-form__label"><h3>Surname</h3></label>
+                                <input class="login-form__input" name="surname" type="text" placeholder="Surname" value="<%- form.surname %>" />
+                                <p id="surname-error" class="login-form__error login-form__error--d-none"></p>
+                            </div>
+                        </div>
+
+                        <div class="login-form__group">
+                            <label class="login-form__label"><h3>Email</h3></label>
+                            <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                            <p id="email-error" class="login-form__error login-form__error--d-none"></p>
+                        </div>
+                        
+                        <div class="login-form__group">
                     
-                    <div class="login-form__group">
-                        <label class="login-form__label"><h3>Password</h3></label>
-                        <input class="login-form__input" name="password" type="password" placeholder="Password"/>
+                            <label class="login-form__label"><h3>Password</h3></label>
+                            <input class="login-form__input" name="password" type="password" placeholder="Password"/>
+                            <p id="password-error" class="login-form__error login-form__error--d-none"></p>
+                        </div>
 
-                        <% if(locals.error){ %>
-                            <% for (var i =0; i < error.length;  i++ ) { %>
-                                <% if(error[i].path == 'password'){ %>
-                                    <p style="color: red;"><%- error[i].message %></p>
-                                <% } %>
-                            <% } %>
-                        <% } %>
-                    </div>
-                    
-                    <div class="login-form__group">
-                        <button class="login-form__btn" type="submit"><h3>Register</h3></button>
+                        <div class="login-form__group">
+                            <label class="login-form__label"><h3>Confirm Password</h3></label>
+                            <input class="login-form__input" name="confirm_password" type="password" placeholder="Confirm Password"/>
+                            <p id="confirm_password-error" class="login-form__error login-form__error--d-none"></p>
+                        </div>
+                        
+                        <div class="login-form__group">
+                            <button class="login-form__btn hvr-sweep-to-right" type="submit"><h3>Next</h3></button>
+                        </div>
+                    </form>
+                </div>
 
-                    </div>
+                <div id="slide-2" class="half__slide--d-none">
+                    <form id="form-2" class="half__login-form" method="POST" action="/user/register">
+                        <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
-                    <!-- <div class="half__register">
-                        Don't have an account? <a href="/register">Create one here</a>
-                    </div> 
+                        <div class="login-form__group">
+                            <label class="login-form__label"><h3>Date of Birth</h3></label>
+                            <input class="login-form__input" name="birth" type="date" placeholder="Date of Birth"  value="<%- form.birth %>"/>
+                            <p id="birth-error" class="login-form__error login-form__error--d-none"></p>
+                        </div>
+        
+        
+                        <div class="login-form__group">
+                            <label class="login-form__label"><h3>Phone Number</h3></label>
+                            <input class="login-form__input" name="phone" type="text" placeholder="Phone" value="<%- form.phone %>" />
+                            <p id="phone-error" class="login-form__error login-form__error--d-none"></p>
+                        </div>
 
-                    <div class="half__register">
-                        <a href="/home">Back to The Edgy</a> 
-                    </div>
-                </form>
+                        <div class="login-form__group">
+                            <button class="login-form__btn hvr-sweep-to-right" type="submit"><h3>Next</h3></button>
+                        </div>
+                    </form> 
+                </div>
+
+
+                <div id="slide-3" class="half__slide--d-none">
+                    <form id="form-3" class="half__login-form" method="POST" action="/user/register">
+                        <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                        
+                        <div class="login-form__group">
+                            <label class="login-form__label"><h3>Address Line 1</h3></label>
+                            <input class="login-form__input" name="address_1" type="text" placeholder="Address Line 1" value="<%- form.address_1 %>"/>
+                            <p id="address_1-error" class="login-form__error login-form__error--d-none"></p>
+                        </div>
+        
+        
+                        <div class="login-form__group">
+                            <label class="login-form__label"><h3>Address Line 2</h3></label>
+                            <input class="login-form__input" name="address_2" type="text" placeholder="Address Line 2" value="<%- form.address_2 %>"/>
+                            <p id="address_2-error" class="login-form__error login-form__error--d-none"></p>
+                        </div>
+        
+        
+                        
+                        <div class="login-form__group login-form__group--col">
+                            <div class="login-form__group--row">
+                                <label class="login-form__label"><h3>City</h3></label>
+                                <input class="login-form__input" name="city" type="text" placeholder="City"  value="<%- form.city %>"/>
+                                <p id="city-error" class="login-form__error login-form__error--d-none"></p>
+                            </div>
+
+                            <div class="login-form__group--row">
+                                <label class="login-form__label"><h3>Postal / Zip Code</h3></label>
+                                <input class="login-form__input" name="zipcode" type="text" placeholder="Zip Code" value="<%- form.zipcode %>"/>
+                                <p id="zipcode-error" class="login-form__error login-form__error--d-none"></p>
+                            </div>
+                        </div>
+
+                        <div class="login-form__group">
+                            <input  type="submit" style="position: absolute; width: 1px; height: 1px; left: -9999px;" tabindex="-1"/>
+                        </div>
+                    </form>
+
+                    <form id="form-4" class="half__login-form">
+                        <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                        
+                        <div class="login-form__group">
+                            <button class="login-form__btn hvr-sweep-to-right" type="submit"><h3>Register</h3></button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="half__bottom-link half__bottom-link--register">
+                    Don't have an account? <a href="/user/register">Create one here</a>
+                </div>
+
+                <div class="half__bottom-link">
+                    <a href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
+                </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 

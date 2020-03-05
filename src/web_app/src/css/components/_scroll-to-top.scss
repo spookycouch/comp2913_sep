@@ -1,17 +1,13 @@
 .scroll-to-top {
-	background-color: $tertiary;
+	background-color: $quatenary;
 	position: fixed;
 	bottom: 0%;
 	right: 40px;
 	cursor: pointer;
     text-align: center;
     display: none;
-    z-index: 10;
+    z-index: 6;
     opacity: .9;
-    
-    &:hover {
-        background-color: $tertiary;
-    }
 
     span {
         width: 100%;

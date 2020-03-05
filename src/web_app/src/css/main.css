@@ -81,44 +81,43 @@
 @-webkit-keyframes hvr-bob {
   0% {
     -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
+            transform: translateY(-8px);
   }
   50% {
     -webkit-transform: translateY(-4px);
-    transform: translateY(-4px);
+            transform: translateY(-4px);
   }
   100% {
     -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
+            transform: translateY(-8px);
   }
 }
-
 @keyframes hvr-bob {
   0% {
     -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
+            transform: translateY(-8px);
   }
   50% {
     -webkit-transform: translateY(-4px);
-    transform: translateY(-4px);
+            transform: translateY(-4px);
   }
   100% {
     -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
+            transform: translateY(-8px);
   }
 }
 
 @-webkit-keyframes hvr-bob-float {
   100% {
     -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
+            transform: translateY(-8px);
   }
 }
 
 @keyframes hvr-bob-float {
   100% {
     -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
+            transform: translateY(-8px);
   }
 }
 
@@ -148,58 +147,57 @@
   animation-direction: normal, alternate;
 }
 
-/* Wobble Horizontal */
 @-webkit-keyframes hvr-wobble-horizontal {
   16.65% {
-    -webkit-transform: translateX(8px);
-    transform: translateX(8px);
+    -webkit-transform: translateX(12px);
+            transform: translateX(12px);
   }
   33.3% {
-    -webkit-transform: translateX(-6px);
-    transform: translateX(-6px);
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px);
   }
   49.95% {
-    -webkit-transform: translateX(4px);
-    transform: translateX(4px);
+    -webkit-transform: translateX(8px);
+            transform: translateX(8px);
   }
   66.6% {
-    -webkit-transform: translateX(-2px);
-    transform: translateX(-2px);
+    -webkit-transform: translateX(-6px);
+            transform: translateX(-6px);
   }
   83.25% {
-    -webkit-transform: translateX(1px);
-    transform: translateX(1px);
+    -webkit-transform: translateX(4px);
+            transform: translateX(4px);
   }
   100% {
     -webkit-transform: translateX(0);
-    transform: translateX(0);
+            transform: translateX(0);
   }
 }
 
 @keyframes hvr-wobble-horizontal {
   16.65% {
-    -webkit-transform: translateX(8px);
-    transform: translateX(8px);
+    -webkit-transform: translateX(12px);
+            transform: translateX(12px);
   }
   33.3% {
-    -webkit-transform: translateX(-6px);
-    transform: translateX(-6px);
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px);
   }
   49.95% {
-    -webkit-transform: translateX(4px);
-    transform: translateX(4px);
+    -webkit-transform: translateX(8px);
+            transform: translateX(8px);
   }
   66.6% {
-    -webkit-transform: translateX(-2px);
-    transform: translateX(-2px);
+    -webkit-transform: translateX(-6px);
+            transform: translateX(-6px);
   }
   83.25% {
-    -webkit-transform: translateX(1px);
-    transform: translateX(1px);
+    -webkit-transform: translateX(4px);
+            transform: translateX(4px);
   }
   100% {
     -webkit-transform: translateX(0);
-    transform: translateX(0);
+            transform: translateX(0);
   }
 }
 
@@ -226,8 +224,8 @@
 .wobble-horizontal {
   -webkit-animation-name: hvr-wobble-horizontal;
           animation-name: hvr-wobble-horizontal;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
+  -webkit-animation-duration: .7s;
+          animation-duration: .7s;
   -webkit-animation-timing-function: ease-in-out;
           animation-timing-function: ease-in-out;
   -webkit-animation-iteration-count: 1;
@@ -346,19 +344,15 @@ ul {
 }
 
 .scroll-to-top {
-  background-color: #eedc37;
+  background-color: #00A984;
   position: fixed;
   bottom: 0%;
   right: 40px;
   cursor: pointer;
   text-align: center;
   display: none;
-  z-index: 10;
+  z-index: 6;
   opacity: .9;
-}
-
-.scroll-to-top:hover {
-  background-color: #eedc37;
 }
 
 .scroll-to-top span {
@@ -1263,6 +1257,10 @@ ul {
   background-repeat: no-repeat;
 }
 
+.login__half .half__slide--d-none {
+  display: none;
+}
+
 .login__half .half__divider {
   width: 100%;
   text-align: center;
@@ -1307,7 +1305,24 @@ ul {
 }
 
 .login__half .half__login-form .login-form__group {
-  margin-bottom: 30px;
+  margin: 15px 20%;
+}
+
+.login__half .half__login-form .login-form__group--col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.login__half .half__login-form .login-form__group--row:first-child {
+  padding-right: 5px;
+}
+
+.login__half .half__login-form .login-form__group--row:last-child {
+  padding-left: 5px;
 }
 
 .login__half .half__login-form .login-form__label {
@@ -1318,13 +1333,7 @@ ul {
 .login__half .half__login-form .login-form__input {
   border: 2px solid #413E4B;
   padding: 5px 15px;
-  max-width: 400px;
-  min-width: 200px;
-  width: 60%;
-}
-
-.login__half .half__login-form .login-form__input--error {
-  border-color: #D0002E;
+  width: 100%;
 }
 
 .login__half .half__login-form .login-form__btn {
@@ -1335,7 +1344,11 @@ ul {
 }
 
 .login__half .half__login-form .login-form__error {
-  color: #D0002E;
+  color: red;
+}
+
+.login__half .half__login-form .login-form__error--d-none {
+  display: none;
 }
 
 .login__half .half__bottom-link {
@@ -1375,6 +1388,34 @@ ul {
   .login__half .half__login-form .login-form__input {
     width: 60%;
   }
+}
+
+.register {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  background-color: #00A984;
+}
+
+.register--background {
+  background-image: url("/img/gallery/person-holding-barbell-841130.jpg");
+  background-position: 50% 0%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.register__divider {
+  background-color: #00A984;
+  width: 80%;
 }
 
 .gallery {

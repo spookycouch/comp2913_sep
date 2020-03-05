@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var hamburgerPressed = false;
     var registertoggle = false;
+    var pageCount = 0;
 
     // slick configuration
     $(".reviews__carousel").slick({
@@ -53,9 +54,8 @@ $(document).ready(function() {
 
 
     $('.half__form-transition-header').on('click', function(e) {
-        return;
-
         registertoggle = !registertoggle
+        
 
         if (registertoggle) {
             $('.login__half--login').css('display', 'none');
@@ -77,9 +77,173 @@ $(document).ready(function() {
 		$('html, body').animate({scrollTop: 0}, 500);
 		e.preventDefault();
     });    
+
+
+
+    $('#form-1').submit(function(e) {
+        var errorIds = ['name-error', 'surname-error', 'email-error', 'password-error', 'confirm_password-error'];
+        $.each(errorIds, function(key, value) {
+            $('#' + value).text("");
+            $('#' + value).addClass('d-none')
+        });
+
+
+        $.ajax({
+            url: 'register/response-1',
+            type: 'POST',
+            data: $('#form-1').serialize(),
+            datatype: 'json',
+            success: function(data) {
+                data = JSON.parse(data);
+                if (data.error) {
+                    $.each(data.error, function(key, value) {
+                        $('#' + value.path + '-error').text(value.message);
+                        $('#' + value.path + '-error').removeClass('login-form__error--d-none');
+                    });
+                } else {
+                    pageCount++;
+                    changePage(pageCount, "next", 2);
+                }
+            },
+            error: function(error) {
+                alert(error);
+            }
+        }); 
+
+        e.preventDefault();
+    }); 
+
+    $('#form-2').submit(function(e) {
+        var errorIds = ['birth-error', 'phone-error'];
+        $.each(errorIds, function(key, value) {
+            $('#' + value).text("");
+            $('#' + value).addClass('d-none')
+        });
+
+        $.ajax({
+            url: 'register/response-2',
+            type: 'POST',
+            data: $('#form-2').serialize(),
+            datatype: 'json',
+            success: function(data) {
+                data = JSON.parse(data);
+                if (data.error) {
+                    $.each(data.error, function(key, value) {
+                        $('#' + value.path + '-error').text(value.message);
+                        $('#' + value.path + '-error').removeClass('login-form__error--d-none');
+                    });
+                } else {
+                    pageCount++;
+                    changePage(pageCount, "next", 2);
+                }
+            },
+            error: function(error) {
+                alert(error);
+            }
+        });
+
+        e.preventDefault();
+    });
+
+
+    $('#form-3').submit(function(e) {
+        var errorIds = ['address_1-error', 'address_1-error', 'city-error', 'zipcode-error'];
+        $.each(errorIds, function(key, value) {
+            $('#' + value).text("");
+            $('#' + value).addClass('d-none')
+        });
+
+        $.ajax({
+            url: 'register/response-3',
+            type: 'POST',
+            data: $('#form-3').serialize(),
+            datatype: 'json',
+            success: function(data) {
+                data = JSON.parse(data);
+                if (data.error) {
+                    $.each(data.error, function(key, value) {
+                        $('#' + value.path + '-error').text(value.message);
+                        $('#' + value.path + '-error').removeClass('login-form__error--d-none');
+                    });
+                } else {
+                    combineForms();
+                }
+            },
+            error: function(error) {
+                alert(error);
+            }   
+        });
+
+        e.preventDefault();
+    });
+
+
+    $('#form-4').submit(function(e) {
+        $('#form-3').submit();
+        e.preventDefault();
+    });
 });
 
 
+function combineForms() {
+    var $newForm = $("<form></form>").attr({method: "POST", action: "/user/register"});
+
+    $('#form-1').find(":input:not(:submit, :button)").each(function() {
+        $newForm.append($("<input type=\"hidden\" />")  
+            .attr('name', this.name)   
+            .val($(this).val())  
+        );
+    })
+
+    $('#form-2').find(":input:not(:submit, :button)").each(function() {
+        if (this.name != "_csrf") {
+            $newForm.append($("<input type=\"hidden\" />")  
+                .attr('name', this.name)   
+                .val($(this).val())  
+            );
+        }
+            
+    })
+
+    $('#form-3').find(":input:not(:submit, :button)").each(function() {
+        if (this.name != "_csrf") {
+            $newForm.append($("<input type=\"hidden\" />")  
+                .attr('name', this.name)   
+                .val($(this).val())  
+            );
+        }
+    })
+
+    $newForm.appendTo(document.body).submit();
+}
+
+
+
+function changePage(count, direction, size) {
+    // if (count == 0)
+    //     $('#btn-prev').addClass('d-none');
+
+    // percent = (count * 100) / size;
+    // $('.progress-bar').css("width", percent + '%');
+
+    if (direction == "next") {
+        $('#slide-' + count).addClass('half__slide--d-none');
+        $('#slide-' + (count + 1)).removeClass('half__slide--d-none');
+    } else {
+        $('#slide-' + (count + 2)).addClass('half__slide--d-none');
+        $('#slide-' + (count + 1)).removeClass('half__slide--d-none');
+    }
+}
+
+
+
+
+
+
+
+/*
+    Scroll function
+*/
 $(window).scroll(function() {
     showScrollToggle();
 });

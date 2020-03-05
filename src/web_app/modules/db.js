@@ -46,7 +46,7 @@ exports.queryUser = function(email, password) {
                     resolve(results[0]);
 
                 else
-                    reject("Unsuccessful login.")
+                    reject("Email or Password Incorrect.");
 
             });
         });

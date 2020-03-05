@@ -66,6 +66,72 @@ router.post('/register', function(req, res) {
     }
 });
 
+router.post('/register/response-1', function(req, res) {
+    try {
+        const value = validation.registerValidation1(req.body);   
+
+        // Error
+        if(value.error != undefined)
+            throw value.error.details;
+
+        res.end(JSON.stringify({
+            name: req.body.name,
+            surname: req.body.surname,
+            email: req.body.email,
+            password: req.body.password,
+            confirm_password: req.body.confirm_password
+        }));
+
+    } catch(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    }
+});
+
+router.post('/register/response-2', function(req, res) {
+    try {
+        const value = validation.registerValidation2(req.body);
+
+        // Error
+        if(value.error != undefined)
+            throw value.error.details;
+
+        res.end(JSON.stringify({
+            birth: req.body.birth,
+            phone: req.body.phone
+        }));
+
+    } catch(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    }
+});
+
+router.post('/register/response-3', function(req, res) {
+    try {
+        const value = validation.registerValidation3(req.body);
+        
+        // Error
+        if(value.error != undefined)
+            throw value.error.details;
+
+        res.end(JSON.stringify({
+            address_1: req.body.address_1,
+            address_2: req.body.address_2,
+            city: req.body.city,
+            zipcode: req.body.zipcode
+        }));
+
+    } catch(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    }
+
+});
+
 
 /*
  *  Function:   Login Backend Query
@@ -103,7 +169,7 @@ router.post('/login', function(req, res) {
 
             var error = [{
                 message: err,
-                path: 'email'
+                path: 'unsuccessful'
             }];
             // Render with error
             // need to duplicate because !compatible(promises, try-catch)

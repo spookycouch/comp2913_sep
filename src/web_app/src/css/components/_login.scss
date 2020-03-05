@@ -42,6 +42,12 @@
         }
 
         .half {
+            &__slide {
+                &--d-none {
+                    display: none;
+                }
+            }
+
             &__divider {
                 width: 100%;
                 text-align: center;
@@ -81,7 +87,22 @@
 
                 .login-form {
                     &__group {
-                        margin-bottom: 30px;
+                        margin: 15px 20%;
+
+                        &--col {
+                            display: flex;
+                            justify-content: center;
+                        }
+
+                        &--row {
+                            &:first-child {
+                                padding-right: 5px;
+                            }
+
+                            &:last-child {
+                                padding-left: 5px;
+                            }
+                        }
                     }
 
                     &__label {
@@ -92,13 +113,10 @@
                     &__input {
                         border: $border_thickness solid $black;
                         padding: $padding_border_block;
-                        max-width: 400px;
-                        min-width: 200px;
-                        width: 60%;
-
-                        &--error {
-                            border-color: $red;
-                        }
+                        width: 100%;
+                        // max-width: 400px;
+                        // min-width: 200px;
+                        // width: 60%;
                     }
 
                     &__btn {
@@ -110,6 +128,10 @@
 
                     &__error {
                         color: $red;
+
+                        &--d-none {
+                            display: none;
+                        }
                     }
                 }
             }
@@ -128,7 +150,6 @@
         }
     }
 }
-
 
 
 @media only screen and (max-width: $max-width-primary) {
