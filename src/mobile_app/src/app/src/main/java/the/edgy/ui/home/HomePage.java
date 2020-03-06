@@ -48,7 +48,9 @@ public class HomePage extends AppCompatActivity {
                     // Replaces the current fragment in the fragment container with the new
                     // fragment corresponding to the button clicked.
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
+                            selectedFragment).
+                            addToBackStack(null).
+                            commit();
 
                     // Returning true to highlight the clicked navigation button.
                     return true;
