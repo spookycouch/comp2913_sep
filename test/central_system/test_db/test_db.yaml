@@ -1,0 +1,84 @@
+test_0:
+  - result: True
+    command: 'INSERT INTO Sport VALUES(0, "walking", "go for a walk")'
+  - result: True
+    command: 'INSERT INTO Sport VALUES(99999999999, "sit down", "go for a nice sit down")'
+  - result: False
+    command: 'INSERT INTO Sport VALUES(0, "nothing", "do nothing")'
+  - result: False
+    command: 'INSERT INTO Sport(id, name) VALUES(1, "generic sport")'
+
+test_1:
+  - result: True
+    command: 'INSERT INTO Activity VALUES(0, 0, 100.0, "2020-01-01 10:00:00", 2, 0)'
+  - result: True
+    command: 'INSERT INTO Activity VALUES(1, 100, 100.0, "2020-01-01 10:00:00", 2, 0)'
+  - result: True
+    command: 'INSERT INTO Activity VALUES(2, 0, -100.0, "2020-01-01 10:00:00", 2, 0)'
+  - result: False
+    command: 'INSERT INTO Activity VALUES(0, 0, 100.0, "2020-01-01 10:00:00", 0, 0)'
+  - result: False
+    command: 'INSERT INTO Activity VALUES(3, -100, 100.0, "2020-01-01 10:00:00", 0, 0)'
+  - result: False
+    command: 'INSERT INTO Activity VALUES(4, 0, 0, "2020-01-01 10:00:00", -1, 0)'
+  - result: False
+    command: 'INSERT INTO Activity VALUES(5, 0, 0, "2020-01-01 24:01:00", 2, 0)'
+  - result: False
+    command: 'INSERT INTO Activity VALUES(6, 0, 0, "2020-01-01 10:00:00", 2, 99)'
+
+  
+test_2:
+  - result: True
+    command: 'INSERT INTO User VALUES(0, "person0", "person0@leeds.ac.uk", "07777777777", "1990-01-01")'
+  - result: True
+    command: 'INSERT INTO User VALUES(1, "grandpa", "person1_with_an_excessively_lengthy_but_valid_emial_address@leeds.ac.uk", "07777777777", "1910-01-01")'
+  - result: False
+    command: 'INSERT INTO User VALUES(2, "person2", "person2@leeds.ac.uk", "07777777777", "1990-01-01")'
+  - result: False
+    command: 'INSERT INTO User(id, full_name, phone, birth) VALUES(2, "person3", "07777777777", "1990-01-01")'
+  - result: False
+    command: 'INSERT INTO User VALUES(4, "person4", "person0@leeds.ac.uk", "07777777777", "1990-01-01")'
+  
+test_3:
+  - result: True
+    command: 'INSERT INTO Card VALUES(0, "1234 1234 1234 1234", 000, "01/20", "visa")'
+  - result: True
+    command: 'INSERT INTO Card VALUES(99999999999, "1234 1234 1234 1234 1", 99999999999, "012020", "vvvvvvvvvvvvvvvvvisa")'
+  - result: False
+    command: 'INSERT INTO Card VALUES(0, "2234 1234 1234 1234", 000, "01/20", "visa")'
+  - result: False
+    command: 'INSERT INTO Card(id, number, expire_date, type) VALUES(0, "1234 1234 1234 1234", 000, "01/20", "visa")'
+  - result: False
+    command: 'INSERT INTO Card VALUES(2, "1234 1234 1234 1234", 000, "01/20", "visa")'
+
+test_4:
+  - result: True
+    command: 'INSERT INTO Card_User VALUES(0,0)'
+  - result: False
+    command: 'INSERT INTO Card VALUES(-1,-1)'
+  - result: False
+    command: 'INSERT INTO Card VALUES(0,99)'
+
+test_5:
+  - result: True
+    command: 'INSERT INTO BookedActivity VALUES(0,0,"2020-01-01 19:00:00")'
+  - result: True
+    command: 'INSERT INTO BookedActivity VALUES(99999999999,0,"2020-02-29 23:59:99")'
+  - result: False
+    command: 'INSERT INTO BookedActivity VALUES(1,99,"2020-01-01 19:00:00")'
+  - result: False
+    command: 'INSERT INTO BookedActivity VALUES(2,0,"2020-01-01 24:01:00")'
+  - result: False
+    command: 'INSERT INTO BookedActivity VALUES(0,0,"2020-01-01 19:00:00")'
+  
+test_6:
+  - result: True
+    command: 'INSERT INTO Payment VALUES(0,"2020-01-01 19:00:00",1,100,0,0,0)'
+  - result: True
+    command: 'INSERT INTO Payment VALUES(99999999999,"2020-02-29 23:59:99",1,-100,0,0,0)'
+  - result: False
+    command: 'INSERT INTO Payment VALUES(1,"2020-01-01 19:00:00",1,100,99,99,99)'
+  - result: False
+    command: 'INSERT INTO Payment VALUES(2,"2020-01-01 24:01:00",1,100,0,0,0)'
+  - result: False
+    command: 'INSERT INTO Payment VALUES(0,"2020-01-01 19:00:00",1,100,0,0,0)'
