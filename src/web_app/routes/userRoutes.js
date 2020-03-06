@@ -79,21 +79,22 @@ router.post('/register/response-1', function(req, res) {
             throw value.error.details;
         
         // Email check
-        let emailRegistered = user.checkEmailRegistered(req.body.email);
-        
-        if(emailRegistered) throw [{
-            message: 'Email already registered',
-            path: 'email'
-        }];
+        user.checkEmailRegistered(req.body.email).then(function(result) {
 
-        // Response
-        res.end(JSON.stringify({
-            name: req.body.name,
-            surname: req.body.surname,
-            email: req.body.email,
-            password: req.body.password,
-            confirm_password: req.body.confirm_password
-        }));
+            if(result == true) throw [{
+                message: 'Email already registered',
+                path: 'email'
+            }];
+
+             // Response
+            res.end(JSON.stringify({
+                name: req.body.name,
+                surname: req.body.surname,
+                email: req.body.email,
+                password: req.body.password,
+                confirm_password: req.body.confirm_password
+            }));
+        });
 
     } catch(err) {
 
