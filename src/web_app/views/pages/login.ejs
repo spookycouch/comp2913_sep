@@ -77,7 +77,7 @@
         <div class="login__half login__half--background">
             <div class="half__divider">
                 <div class="half__form-transition-header hvr-sweep-to-right">
-                    <a href="/user/register"><h2 class="form-transition-header__text">Register</h2></a>
+                    <a href="#"><h2 class="form-transition-header__text">Register</h2></a>
                 </div>
             </div>
         </div>
@@ -94,39 +94,39 @@
                 </div>
 
                 <div id="slide-1">
-                    <form id="form-1" class="half__login-form" method="POST" action="/user/register">
+                    <form id="form-1" class="half__login-form" method="POST">
                         <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
                         <div class="login-form__group login-form__group--col">
                             <div class="login-form__group--row">
                                 <label class="login-form__label"><h3>Firstname</h3></label>
-                                <input class="login-form__input" name="name" type="text" placeholder="Name" />
+                                <input id="name" class="login-form__input" name="name" type="text" placeholder="Name" />
                                 <p id="name-error" class="login-form__error login-form__error--d-none"></p>
                             </div>
 
                             <div class="login-form__group--row">
                                 <label class="login-form__label"><h3>Surname</h3></label>
-                                <input class="login-form__input" name="surname" type="text" placeholder="Surname" />
+                                <input id="surname" class="login-form__input" name="surname" type="text" placeholder="Surname" />
                                 <p id="surname-error" class="login-form__error login-form__error--d-none"></p>
                             </div>
                         </div>
 
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Email</h3></label>
-                            <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
+                            <input id="email" class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
                             <p id="email-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
                         
                         <div class="login-form__group">
                     
                             <label class="login-form__label"><h3>Password</h3></label>
-                            <input class="login-form__input" name="password" type="password" placeholder="Password"/>
+                            <input id="password" class="login-form__input" name="password" type="password" placeholder="Password"/>
                             <p id="password-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
 
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Confirm Password</h3></label>
-                            <input class="login-form__input" name="confirm_password" type="password" placeholder="Confirm Password"/>
+                            <input id="confirm_password" class="login-form__input" name="confirm_password" type="password" placeholder="Confirm Password"/>
                             <p id="confirm_password-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
                         
@@ -137,19 +137,19 @@
                 </div>
 
                 <div id="slide-2" class="half__slide--d-none">
-                    <form id="form-2" class="half__login-form" method="POST" action="/user/register">
+                    <form id="form-2" class="half__login-form" method="POST">
                         <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Date of Birth</h3></label>
-                            <input class="login-form__input" name="birth" type="date" placeholder="Date of Birth"/>
+                            <input id="birth" class="login-form__input" name="birth" type="date" placeholder="Date of Birth"/>
                             <p id="birth-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
         
         
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Phone Number</h3></label>
-                            <input class="login-form__input" name="phone" type="text" placeholder="Phone" />
+                            <input id="phone" class="login-form__input" name="phone" type="text" placeholder="Phone" />
                             <p id="phone-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
 
@@ -162,19 +162,19 @@
 
 
                 <div id="slide-3" class="half__slide--d-none">
-                    <form id="form-3" class="half__login-form" method="POST" action="/user/register">
+                    <form id="form-3" class="half__login-form" method="POST">
                         <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
                         
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Address Line 1</h3></label>
-                            <input class="login-form__input" name="address_1" type="text" placeholder="Address Line 1"/>
+                            <input id="address_1" class="login-form__input" name="address_1" type="text" placeholder="Address Line 1"/>
                             <p id="address_1-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
         
         
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Address Line 2 <small>(optional)</small></h3></label>
-                            <input class="login-form__input" name="address_2" type="text" placeholder="Address Line 2"/>
+                            <input id="address_2" class="login-form__input" name="address_2" type="text" placeholder="Address Line 2"/>
                             <p id="address_2-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
         
@@ -183,13 +183,13 @@
                         <div class="login-form__group login-form__group--col">
                             <div class="login-form__group--row">
                                 <label class="login-form__label"><h3>City</h3></label>
-                                <input class="login-form__input" name="city" type="text" placeholder="City"/>
+                                <input id="city" class="login-form__input" name="city" type="text" placeholder="City"/>
                                 <p id="city-error" class="login-form__error login-form__error--d-none"></p>
                             </div>
 
                             <div class="login-form__group--row">
                                 <label class="login-form__label"><h3>Postal / Zip Code</h3></label>
-                                <input class="login-form__input" name="zipcode" type="text" placeholder="Zip Code"/>
+                                <input id="zipcode" class="login-form__input" name="zipcode" type="text" placeholder="Zip Code"/>
                                 <p id="zipcode-error" class="login-form__error login-form__error--d-none"></p>
                             </div>
                         </div>

@@ -2,11 +2,14 @@
 *       document load function (on ready)
 */
 $(document).ready(function() {
+    // Variables 
     var hamburgerPressed = false;
     var registertoggle = false;
     var pageCount = 0;
 
-    // slick configuration
+    /*
+    *  Slick configuration (for carousel)
+    */
     $(".reviews__carousel").slick({
         autoplay: true,
         autoplaySpeed: 3000,
@@ -18,7 +21,9 @@ $(document).ready(function() {
     });
 
 
-    // hamburger dropdown menu open and close effects
+    /*
+    *  hamburger dropdown menu open and close effects
+    */
     $('.hamburger').on('click', function(e) {
         e.preventDefault();
         hamburgerPressed = !hamburgerPressed;
@@ -44,7 +49,9 @@ $(document).ready(function() {
     });
 
 
-
+    /*
+    *  Transition from login to registration form (and vise-versa)
+    */ 
     $('.half__form-transition-header, .half__bottom-link--transition').on('click', function(e) {
         registertoggle = !registertoggle
 
@@ -62,12 +69,24 @@ $(document).ready(function() {
     })
 
 
-    // For Scroll up
+    /*
+    *  Scroll up function
+    */ 
     $('.scroll-to-top').on('click', function(e) {
 		$('html, body').animate({scrollTop: 0}, 500);
 		e.preventDefault();
     });    
 
+
+    /*
+    *  Remove animation after animation complete
+    */  
+    $('.login-form__input').on(
+        "webkitAnimationEnd oanimationend msAnimationEnd animationend",
+        function() {
+            $(this).removeClass("wobble-horizontal");
+        }
+    );
 
 
     /*
@@ -93,6 +112,7 @@ $(document).ready(function() {
                     $.each(data.error, function(key, value) {
                         $('#' + value.path + '-error').text(value.message);
                         $('#' + value.path + '-error').removeClass('login-form__error--d-none');
+                        $('#' + value.path).addClass('wobble-horizontal');
                     });
                 } else {
                     pageCount++;
@@ -131,6 +151,7 @@ $(document).ready(function() {
                     $.each(data.error, function(key, value) {
                         $('#' + value.path + '-error').text(value.message);
                         $('#' + value.path + '-error').removeClass('login-form__error--d-none');
+                        $('#' + value.path).addClass('wobble-horizontal');
                     });
                 } else {
                     pageCount++;
@@ -169,6 +190,7 @@ $(document).ready(function() {
                     $.each(data.error, function(key, value) {
                         $('#' + value.path + '-error').text(value.message);
                         $('#' + value.path + '-error').removeClass('login-form__error--d-none');
+                        $('#' + value.path).addClass('wobble-horizontal');
                     });
                 } else {
                     combineForms();

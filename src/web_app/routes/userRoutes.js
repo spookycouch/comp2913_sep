@@ -43,9 +43,9 @@ router.post('/register', function(req, res) {
         }). catch(function(error){
 
             // Render with error
-            res.render(path.join(__dirname + '/../views/pages/register.ejs'),
+            res.render(path.join(__dirname + '/../views/pages/login.ejs'),
             {
-                title: webname + "| Register",
+                title: webname + "| Login",
                 error: error,
                 form: req.body,
                 csrfToken: req.csrfToken()
@@ -56,9 +56,9 @@ router.post('/register', function(req, res) {
     } catch(err) {
 
         // Render with error
-        res.render(path.join(__dirname + '/../views/pages/register.ejs'),
+        res.render(path.join(__dirname + '/../views/pages/login.ejs'),
         {
-            title: webname + "| Register",
+            title: webname + "| Login",
             error: err,
             form: req.body,
             csrfToken: req.csrfToken()
@@ -66,6 +66,10 @@ router.post('/register', function(req, res) {
     }
 });
 
+
+/*
+ *  Function:   Register Backend Query (for Registration subform 1)
+*/
 router.post('/register/response-1', function(req, res) {
     try {
         const value = validation.registerValidation1(req.body);   
@@ -89,6 +93,10 @@ router.post('/register/response-1', function(req, res) {
     }
 });
 
+
+/*
+ *  Function:   Register Backend Query (for Registration subform 2)
+*/
 router.post('/register/response-2', function(req, res) {
     try {
         const value = validation.registerValidation2(req.body);
@@ -109,6 +117,10 @@ router.post('/register/response-2', function(req, res) {
     }
 });
 
+
+/*
+ *  Function:   Register Backend Query (for Registration subform 3)
+*/
 router.post('/register/response-3', function(req, res) {
     try {
         const value = validation.registerValidation3(req.body);
