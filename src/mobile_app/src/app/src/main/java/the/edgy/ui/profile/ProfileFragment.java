@@ -26,6 +26,7 @@ public class ProfileFragment extends Fragment {
                     // Replaces current fragment with a new fragment.
                     getActivity().getSupportFragmentManager().beginTransaction().
                             replace(R.id.fragment_container, buyMembershipFragment, "buy_membership_fragment").
+                            addToBackStack("buy_membership_fragment").
                             commit();
                 }
             };

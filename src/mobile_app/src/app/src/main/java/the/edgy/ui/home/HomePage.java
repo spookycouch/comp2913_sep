@@ -50,7 +50,7 @@ public class HomePage extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
 
-                    // Returning true highlights the clicked navigation button.
+                    // Returning true to highlight the clicked navigation button.
                     return true;
                 }
 
@@ -74,7 +74,20 @@ public class HomePage extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
 
+    }
 
+    // Pressing a back button while there are existing fragments on top of main one
+    // causes the application to go back in fragments.
+    // If there are no fragments, the behaviour is default, which is going back in activity levels.
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        }
+        else {
+            // Popping the current fragment and showing the previous one.
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     @Override
