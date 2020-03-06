@@ -36,8 +36,8 @@ router.post('/register', function(req, res) {
         user.registerUser(req.body).then(function(result){
 
             // Success
-            // TODO: redirect to the page set in session
-            res.redirect('/user/login');
+            // TODO: login user and redirect to the page set in session
+            res.redirect('/user/account');
 
         // Error
         }). catch(function(error){
