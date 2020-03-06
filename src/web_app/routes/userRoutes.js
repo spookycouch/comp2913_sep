@@ -71,6 +71,7 @@ router.post('/register', function(req, res) {
  *  Function:   Register Backend Query (for Registration subform 1)
 */
 router.post('/register/response-1', function(req, res) {
+    
     try {
         const value = validation.registerValidation1(req.body);   
 
@@ -94,6 +95,14 @@ router.post('/register/response-1', function(req, res) {
                 password: req.body.password,
                 confirm_password: req.body.confirm_password
             }));
+
+        }).catch(function(err){
+
+            // Error
+           res.end(JSON.stringify({
+                error: err
+            }));
+
         });
 
     } catch(err) {
