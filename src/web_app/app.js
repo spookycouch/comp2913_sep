@@ -7,55 +7,33 @@ var express = require('express');
 var app = express();
 var path = require('path');
 const request = require('request');
+var user = require('./modules/user.js');
+var bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
+var routes = require('./routes/index');
+var user = require('./routes/userRoutes.js');
+var api = require('./routes/api.js');
 
 // Descriptive
 const webname = ' The Edgy ';
 
-// Components
-
-
+// Engine
 app.use(express.static('src'));  // Used to make the resources accessible (css etc.)
 app.set('view engine', 'ejs');
 
+// Parsing
+app.use(express.json()); //Used to parse JSON POST
+app.use(cookieParser());
+
+// Session
+app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
 
 // Routes
-app.get(['/', '/home'], function(req, res) {
-    res.render(path.join(__dirname + '/views/pages/index.ejs'),
-    {
-        title: webname + "| Home"
-    });
-});
-
-app.get('/login', function(req, res) {
-    res.render(path.join(__dirname + '/views/pages/login.ejs'),
-    {
-        title: webname + "| Login"
-    });
-});
-
-app.get('/memberships', function(req, res) {
-    res.render(path.join(__dirname + '/views/pages/memberships.ejs'),
-    {
-        title: webname + "| Memberships"
-    });
-});
-
-
-app.get('/facilities', function(req, res) {
-    res.render(path.join(__dirname + '/views/pages/facilities.ejs'),
-    {
-        title: webname + "| Facilities"
-    });
-});
-
-app.get('/contact', function(req, res) {
-    res.render(path.join(__dirname + '/views/pages/contact.ejs'),
-    {
-        title: webname + "| Contact"
-    });
-});
-
+app.use('/',routes);
+app.use('/user',user);
+app.use('/api',api);
 
 // Run the app
 app.listen(port, hostname, function() {

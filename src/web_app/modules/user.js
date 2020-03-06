@@ -3,6 +3,29 @@ var md5 = require('md5');
 var moment = require('moment');
 
 /*
+<<<<<<< HEAD
+=======
+ *  Function:   Check email registration
+ *  Input:      Username, password
+ *  Output:     Error Message
+*/
+exports.checkEmailRegistered = function(email){
+
+    return new Promise(function(resolve, reject) {
+
+        db.checkEmailRegistered(email).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+>>>>>>> web_app
  *  Function:   Login User 
  *  Input:      Username, password
  *  Output:     Error Message
@@ -26,10 +49,66 @@ exports.loginUser = function(email, password){
 }
 
 /*
+<<<<<<< HEAD
+=======
+ *  Function:   Get User Details
+ *  Input:      Id
+ *  Output:     Error Message
+*/
+exports.getUser = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getUserDetails(id).then(function(user){
+
+            resolve(user);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+ /*
+ *  Function:   Update User Details
+ *  Input:      Id
+ *  Output:     Error Message
+*/
+exports.updateUser = function(req_body){
+
+    let id = req_body.id;
+    let name = req_body.name;
+    let surname = req_body.surname;
+    let email = req_body.email;
+    let password = req_body.password;
+    let phone = req_body.phone;
+    let address_1 = req_body.address_1;
+    let address_2 = req_body.address_2;
+    let zipcode = req_body.zipcode;
+    let city = req_body.city;
+    let profile_pic = req_body.profile_pic;
+
+    return new Promise(function(resolve, reject) {
+
+        db.changeUserDetails(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+>>>>>>> web_app
  *  Function:   Create New User 
  *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
  *  Output:     Bool / Error Message
 */
+<<<<<<< HEAD
 exports.registerUser = function(fullName, email, password, phone, address, city, birth){
 
     // Timestamp validity
@@ -43,10 +122,46 @@ exports.registerUser = function(fullName, email, password, phone, address, city,
     return new Promise(function(resolve, reject) {
 
         db.createUser(fullName, email, password, phone, address, city, birth).then(function(result){
+=======
+exports.registerUser = function(req_body){
+
+    // Parameters
+    let name = req_body.name;
+    let surname = req_body.surname;
+    let phone = req_body.phone;
+    let address_1 = req_body.address_1;
+    let address_2 = req_body.address_2;
+    let zipcode = req_body.zipcode;
+    let city = req_body.city;
+    
+    var d = req_body.birth.split("-");
+    var dTimestamp = d[1] + "/" + d[2] + "/" + d[0];
+    let birth = new Date(dTimestamp).getTime();
+    birth = moment(birth).format('YYYY-MM-DD HH:mm:ss');
+
+    let email = req_body.email;
+    let password = req_body.password;
+    let confirm_password = req_body.confirm_password;
+
+    // Md5 encryption
+    password = md5(password);
+    confirm_password = md5(confirm_password);
+
+    if(password != confirm_password) throw "Passwords not matching.";
+
+    return new Promise(function(resolve, reject) {
+
+        db.createUser(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth).then(function(result){
+>>>>>>> web_app
 
             resolve(result);
 
         }).catch(function(err){
+<<<<<<< HEAD
+=======
+            
+            console.log(err);
+>>>>>>> web_app
 
             reject(err);
         });
