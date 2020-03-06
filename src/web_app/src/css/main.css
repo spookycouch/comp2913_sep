@@ -286,6 +286,8 @@ html, body {
 
 /* Set core body defaults */
 body {
+  min-height: 100vh !important;
+  height: 100vh;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
@@ -1210,12 +1212,6 @@ ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   height: 100%;
@@ -1229,7 +1225,6 @@ ul {
 }
 
 .login__half {
-  height: 100%;
   width: 50%;
   color: white;
   display: -webkit-box;
@@ -1355,12 +1350,13 @@ ul {
   margin: 5px 0;
 }
 
-.login__half .half__bottom-link--register {
+.login__half .half__bottom-link--transition {
   display: none;
 }
 
-.login__half .half__bottom-link a {
+.login__half .half__bottom-link .bottom-link__link {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 950px) {
@@ -1370,7 +1366,7 @@ ul {
   .login__half--background {
     display: none;
   }
-  .login__half .half__bottom-link--register {
+  .login__half .half__bottom-link--transition {
     display: block;
   }
 }
@@ -1385,8 +1381,8 @@ ul {
   .login__half--form {
     padding: 40px 0;
   }
-  .login__half .half__login-form .login-form__input {
-    width: 60%;
+  .login__half .half__login-form .login-form__group {
+    margin: 10px 10%;
   }
 }
 
@@ -2851,6 +2847,7 @@ h3 {
 
 .container {
   width: 100%;
+  position: relative;
 }
 
 .container--full-height {
@@ -2872,12 +2869,6 @@ h3 {
 @media only screen and (max-width: 400px) {
   h1 {
     font-size: 36px;
-  }
-}
-
-@media only screen and (max-height: 627px) {
-  .container--full-height {
-    height: auto;
   }
 }
 /*# sourceMappingURL=main.css.map */

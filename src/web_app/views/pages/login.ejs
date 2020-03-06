@@ -63,12 +63,12 @@
                     </div>  
                 </form>
 
-                <div class="half__bottom-link half__bottom-link--register">
-                    Don't have an account? <a href="/user/register">Create one here</a>
+                <div class="half__bottom-link half__bottom-link--transition">
+                    Don't have an account? <span class="bottom-link__link">Create one here</span>
                 </div>
 
                 <div class="half__bottom-link">
-                    <a href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
+                    <a class="bottom-link__link" href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
         <div class="login__half login__half--form login__half--register">
             <div class="half__divider">
                 <div class="half__login-icon">
-                    <img src="/img/icons/user.png" />
+                    <img src="/img/icons/register.png" />
                 </div>
     
                 <div class="half__login-header">
@@ -100,20 +100,20 @@
                         <div class="login-form__group login-form__group--col">
                             <div class="login-form__group--row">
                                 <label class="login-form__label"><h3>Firstname</h3></label>
-                                <input class="login-form__input" name="name" type="text" placeholder="Name" value="<%- form.name %>" />
+                                <input class="login-form__input" name="name" type="text" placeholder="Name" />
                                 <p id="name-error" class="login-form__error login-form__error--d-none"></p>
                             </div>
 
                             <div class="login-form__group--row">
                                 <label class="login-form__label"><h3>Surname</h3></label>
-                                <input class="login-form__input" name="surname" type="text" placeholder="Surname" value="<%- form.surname %>" />
+                                <input class="login-form__input" name="surname" type="text" placeholder="Surname" />
                                 <p id="surname-error" class="login-form__error login-form__error--d-none"></p>
                             </div>
                         </div>
 
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Email</h3></label>
-                            <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                            <input class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
                             <p id="email-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
                         
@@ -142,18 +142,19 @@
 
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Date of Birth</h3></label>
-                            <input class="login-form__input" name="birth" type="date" placeholder="Date of Birth"  value="<%- form.birth %>"/>
+                            <input class="login-form__input" name="birth" type="date" placeholder="Date of Birth"/>
                             <p id="birth-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
         
         
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Phone Number</h3></label>
-                            <input class="login-form__input" name="phone" type="text" placeholder="Phone" value="<%- form.phone %>" />
+                            <input class="login-form__input" name="phone" type="text" placeholder="Phone" />
                             <p id="phone-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
 
                         <div class="login-form__group">
+                            <button class="login-form__btn login-form__btn--return hvr-sweep-to-right" type="button"><h3>Back</h3></button>
                             <button class="login-form__btn hvr-sweep-to-right" type="submit"><h3>Next</h3></button>
                         </div>
                     </form> 
@@ -166,14 +167,14 @@
                         
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Address Line 1</h3></label>
-                            <input class="login-form__input" name="address_1" type="text" placeholder="Address Line 1" value="<%- form.address_1 %>"/>
+                            <input class="login-form__input" name="address_1" type="text" placeholder="Address Line 1"/>
                             <p id="address_1-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
         
         
                         <div class="login-form__group">
-                            <label class="login-form__label"><h3>Address Line 2</h3></label>
-                            <input class="login-form__input" name="address_2" type="text" placeholder="Address Line 2" value="<%- form.address_2 %>"/>
+                            <label class="login-form__label"><h3>Address Line 2 <small>(optional)</small></h3></label>
+                            <input class="login-form__input" name="address_2" type="text" placeholder="Address Line 2"/>
                             <p id="address_2-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
         
@@ -182,13 +183,13 @@
                         <div class="login-form__group login-form__group--col">
                             <div class="login-form__group--row">
                                 <label class="login-form__label"><h3>City</h3></label>
-                                <input class="login-form__input" name="city" type="text" placeholder="City"  value="<%- form.city %>"/>
+                                <input class="login-form__input" name="city" type="text" placeholder="City"/>
                                 <p id="city-error" class="login-form__error login-form__error--d-none"></p>
                             </div>
 
                             <div class="login-form__group--row">
                                 <label class="login-form__label"><h3>Postal / Zip Code</h3></label>
-                                <input class="login-form__input" name="zipcode" type="text" placeholder="Zip Code" value="<%- form.zipcode %>"/>
+                                <input class="login-form__input" name="zipcode" type="text" placeholder="Zip Code"/>
                                 <p id="zipcode-error" class="login-form__error login-form__error--d-none"></p>
                             </div>
                         </div>
@@ -202,17 +203,18 @@
                         <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
                         
                         <div class="login-form__group">
+                            <button class="login-form__btn login-form__btn--return hvr-sweep-to-right" type="button"><h3>Back</h3></button>
                             <button class="login-form__btn hvr-sweep-to-right" type="submit"><h3>Register</h3></button>
                         </div>
                     </form>
                 </div>
 
-                <div class="half__bottom-link half__bottom-link--register">
-                    Don't have an account? <a href="/user/register">Create one here</a>
+                <div class="half__bottom-link half__bottom-link--transition">
+                    Already have an Account? <span class="bottom-link__link">Login Here</span>
                 </div>
 
                 <div class="half__bottom-link">
-                    <a href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
+                    <a class="bottom-link__link"  href="/home">Back to The Edgy</a> <!-- Return to the previously visited page -->
                 </div>
             </div>
         </div>

@@ -141,6 +141,7 @@ router.post('/login', function(req, res) {
     try { 
         // Validation
         const value = validation.loginValidation(req.body);
+
         
         if(value.error != undefined) {
             throw value.error.details;

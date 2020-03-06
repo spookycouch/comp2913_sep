@@ -1,3 +1,6 @@
+/*
+*       document load function (on ready)
+*/
 $(document).ready(function() {
     var hamburgerPressed = false;
     var registertoggle = false;
@@ -12,17 +15,6 @@ $(document).ready(function() {
             var thumb = $(slider.$slides[i]).data();
             return '<a>'+ (i + 1) +'</a>';;
         }
-        
-        // responsive: [{ 
-        //     breakpoint: 500,
-        //     settings: {
-        //         dots: false,
-        //         arrows: false,
-        //         infinite: false,
-        //         slidesToShow: 2,
-        //         slidesToScroll: 2
-        //     } 
-        // }]
     });
 
 
@@ -53,19 +45,17 @@ $(document).ready(function() {
 
 
 
-    $('.half__form-transition-header').on('click', function(e) {
+    $('.half__form-transition-header, .half__bottom-link--transition').on('click', function(e) {
         registertoggle = !registertoggle
-        
 
         if (registertoggle) {
             $('.login__half--login').css('display', 'none');
             $('.login__half--register').css('display', 'flex');
-            $(this).find('.form-transition-header__text').text("Login");
+            $('.form-transition-header__text').text("Login");
         } else {
             $('.login__half--login').css('display', 'flex');
             $('.login__half--register').css('display', 'none');
-            $(this).find('.form-transition-header__text').text("Register");
-
+            $('.form-transition-header__text').text("Register");
         }
         
         e.preventDefault();
@@ -80,13 +70,17 @@ $(document).ready(function() {
 
 
 
+    /*
+    *  Function:   Register form (subform 1) Submit AJAX Request 
+    *  Input:      Request Body
+    *  Output:     Success/Error function
+    */  
     $('#form-1').submit(function(e) {
         var errorIds = ['name-error', 'surname-error', 'email-error', 'password-error', 'confirm_password-error'];
         $.each(errorIds, function(key, value) {
             $('#' + value).text("");
             $('#' + value).addClass('d-none')
         });
-
 
         $.ajax({
             url: 'register/response-1',
@@ -113,6 +107,12 @@ $(document).ready(function() {
         e.preventDefault();
     }); 
 
+
+    /*
+    *  Function:   Register form (subform 2) Submit AJAX Request 
+    *  Input:      Request Body
+    *  Output:     Success/Error function
+    */ 
     $('#form-2').submit(function(e) {
         var errorIds = ['birth-error', 'phone-error'];
         $.each(errorIds, function(key, value) {
@@ -146,6 +146,11 @@ $(document).ready(function() {
     });
 
 
+    /*
+    *  Function:   Register form (subform 3) Submit AJAX Request 
+    *  Input:      Request Body
+    *  Output:     Success/Error function
+    */ 
     $('#form-3').submit(function(e) {
         var errorIds = ['address_1-error', 'address_1-error', 'city-error', 'zipcode-error'];
         $.each(errorIds, function(key, value) {
@@ -182,6 +187,11 @@ $(document).ready(function() {
         $('#form-3').submit();
         e.preventDefault();
     });
+
+    $('.login-form__btn--return').on('click', function(e) {
+        pageCount--;
+        changePage(pageCount, "back", 2);
+    });
 });
 
 
@@ -193,7 +203,7 @@ function combineForms() {
             .attr('name', this.name)   
             .val($(this).val())  
         );
-    })
+    });
 
     $('#form-2').find(":input:not(:submit, :button)").each(function() {
         if (this.name != "_csrf") {
@@ -203,7 +213,7 @@ function combineForms() {
             );
         }
             
-    })
+    });
 
     $('#form-3').find(":input:not(:submit, :button)").each(function() {
         if (this.name != "_csrf") {
@@ -212,7 +222,7 @@ function combineForms() {
                 .val($(this).val())  
             );
         }
-    })
+    });
 
     $newForm.appendTo(document.body).submit();
 }
@@ -236,13 +246,8 @@ function changePage(count, direction, size) {
 }
 
 
-
-
-
-
-
 /*
-    Scroll function
+*    Scroll function
 */
 $(window).scroll(function() {
     showScrollToggle();

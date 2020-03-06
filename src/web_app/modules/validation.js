@@ -1,7 +1,7 @@
 const joi = require('@hapi/joi');
 
 /*
- *  Function:   Register Validation
+ *  Function:   Register form (whole form) Validation 
  *  Input:      Request Body
  *  Output:     Null/Error Object
 */
@@ -32,10 +32,13 @@ const registerValidation = function(data){
             .required(),
         password: joi.string()
             .min(6)
-            .required(), // Need another field, confirm password, which must be validated to be equal to password.
-        confirm_password: joi.string()
-            .min(6)
-            .required(), // Need another field, confirm password, which must be validated to be equal to password.
+            .required(), 
+        confirm_password: joi.any()
+            .valid(joi.ref('password'))
+            .required()
+            .messages({
+                "any.only": "Must match Password"
+            }),
         _csrf: joi.string()
             .min(6)
             .required()
@@ -46,38 +49,77 @@ const registerValidation = function(data){
 }
 
 
+/*
+ *  Function:   Register form (subform 1) Validation 
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
 const registerValidation1 = function(data) {
     const registerValidationSchema1 = joi.object({
         name: joi.string()
             .min(3)
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Firstname is required",
+                "string.min": "Firstname must be at least 3 characters long"
+            }),
         surname: joi.string()
             .min(3)
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Surname is required",
+                "string.min": "Surname must be at least 3 characters"
+            }),
         email: joi.string()
             .min(6)
             .required()
-            .email(),
+            .email()
+            .messages({
+                "string.empty": "Email is Required",
+                "string.min": "Email must be at least 6 characters long",
+                "string.email": "Invalid Email Address"
+            }),
         password: joi.string()
             .min(6)
-            .required(), // Need another field, confirm password, which must be validated to be equal to password.
-        confirm_password: joi.string()
-            .min(6)
-            .required(), // Need another field, confirm password, which must be validated to be equal to password.
+            .required()
+            .messages({
+                "string.empty": "Password is Required",
+                "string.min": "Password must be at least 6 characters long"
+            }),
+        confirm_password: joi.any()
+            .valid(joi.ref('password'))
+            .required()
+            .messages({
+                "string.empty": "Confirm Password is Required",
+                "any.only": "Must match Password"
+            }),
         _csrf: joi.string()
             .min(6)
             .required()
     });
 
+
     return registerValidationSchema1.validate(data, {abortEarly: false});
 }
 
+
+/*
+ *  Function:   Register form (subform 2) Validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
 const registerValidation2 = function(data) {
     const registerValidationSchema2 = joi.object({
         birth: joi.string()
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Date of Birth is Required"
+            }),
         phone: joi.number()
-            .required(),
+            .required()
+            .messages({
+                "number.base": "Phone Number Invalid"
+            }),
         _csrf: joi.string()
             .min(6)
             .required()
@@ -86,16 +128,31 @@ const registerValidation2 = function(data) {
     return registerValidationSchema2.validate(data, {abortEarly: false});
 }   
 
+
+/*
+ *  Function:   Register form (subform 3) Validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
 const registerValidation3 = function(data) {
     const registerValidationSchema3 = joi.object({
         address_1: joi.string()
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Address Line 1 is Required"
+            }),
         address_2: joi.string()
             .allow(''),
         zipcode: joi.string()
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Postal / Zip Code is Required"
+            }),
         city: joi.string()
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "City is Required"
+            }),
         _csrf: joi.string()
             .min(6)
             .required()
@@ -158,10 +215,19 @@ const loginValidation = function(data){
         email: joi.string()
             .min(6)
             .required()
-            .email(),
+            .email()
+            .messages({
+                "string.empty": "Email is Required",
+                "string.min": "Email must be at least 6 characters long",
+                "string.email": "Invalid Email Address"
+            }),
         password: joi.string()
             .min(6)
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Password is Required",
+                "string.min": "Password must be at least 6 characters long"
+            }),
         _csrf: joi.string()
             .min(6)
             .required()
@@ -191,16 +257,11 @@ const apiLoginValidation = function(data){
 }
 
 
-/*
- *
- *
- *
-*/
 
-module.exports.registerValidation = registerValidation;
-module.exports.registerValidation1 = registerValidation1;
-module.exports.registerValidation2 = registerValidation2;
-module.exports.registerValidation3 = registerValidation3;
-module.exports.loginValidation = loginValidation;
-module.exports.apiLoginValidation = apiLoginValidation;
-module.exports.apiRegisterValidation = apiRegisterValidation;
+module.exports.registerValidation = registerValidation;         // Registration (whole form)
+module.exports.registerValidation1 = registerValidation1;       // Registration (subform 1)
+module.exports.registerValidation2 = registerValidation2;       // Registration (subform 2)
+module.exports.registerValidation3 = registerValidation3;       // Registration (subform 3)
+module.exports.loginValidation = loginValidation;               // Login
+module.exports.apiLoginValidation = apiLoginValidation;         // ApiLogin
+module.exports.apiRegisterValidation = apiRegisterValidation;   // ApiRegister
