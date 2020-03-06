@@ -77,7 +77,16 @@ router.post('/register/response-1', function(req, res) {
         // Error
         if(value.error != undefined)
             throw value.error.details;
+        
+        // Email check
+        let emailRegistered = user.checkEmailRegistered(req.body.email);
+        
+        if(emailRegistered) throw [{
+            message: 'Email already registered',
+            path: 'email'
+        }];
 
+        // Response
         res.end(JSON.stringify({
             name: req.body.name,
             surname: req.body.surname,
@@ -87,6 +96,8 @@ router.post('/register/response-1', function(req, res) {
         }));
 
     } catch(err) {
+
+        // Error
         res.end(JSON.stringify({
             error: err
         }));
@@ -184,6 +195,7 @@ router.post('/login', function(req, res) {
                 message: err,
                 path: 'unsuccessful'
             }];
+
             // Render with error
             // need to duplicate because !compatible(promises, try-catch)
             res.render(path.join(__dirname + '/../views/pages/login.ejs'),

@@ -3,6 +3,26 @@ var md5 = require('md5');
 var moment = require('moment');
 
 /*
+ *  Function:   Check email registration
+ *  Input:      Username, password
+ *  Output:     Error Message
+*/
+exports.checkEmailRegistered = function(email){
+
+    return new Promise(function(resolve, reject) {
+
+        db.checkEmailRegistered(email).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
  *  Function:   Login User 
  *  Input:      Username, password
  *  Output:     Error Message

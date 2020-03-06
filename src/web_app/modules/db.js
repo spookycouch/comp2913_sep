@@ -8,6 +8,51 @@ let psw = ""
 let port = 3306
 
 /*
+ *  Function:   Check for email registration existance
+ *  Input:      Email
+ *  Output:     Bool / Error Message
+*/
+exports.checkEmailRegistered = function(email) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT * FROM User WHERE email = ?',
+                    [email]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.length > 0)
+                    resolve(true);
+
+                else
+                    resolve(false);
+            });
+        });
+    });
+}
+
+/*
  *  Function:   Query User by email
  *  Input:      Email, password
  *  Output:     User Object / Error Message
