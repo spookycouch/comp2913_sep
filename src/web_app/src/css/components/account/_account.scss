@@ -1,0 +1,96 @@
+// Account page (pages) styling
+
+
+.account {
+    display: flex;
+    flex-wrap: wrap;
+    
+    &__side-bar {
+        width: 20%;
+        min-width: 250px;
+        height: 800px;
+        background-color: $primary; //or quatenary??
+        color: $white;
+        padding: 40px 0;
+        // clip-path: polygon(0 0, 100% 0%, 100% 76%, 0% 100%);
+
+
+        .side-bar {
+            &__header {
+                font-weight: bold;
+                text-transform: uppercase;
+                padding: $padding_border_block;
+                margin-top: 20px;
+                text-align: center
+            }   
+
+            &__profile-image {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding: $padding_border_block;
+    
+                img {
+                    width: $icon_default_width;
+                }
+            }
+
+            &__nav {
+                display: flex;
+                justify-content: center;
+
+                .nav {
+                    &__items {
+                        padding: 20px;
+                    }
+
+                    &__item {
+                        padding: 10px 0;
+
+                        &--last {
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 20px;
+                        }
+
+                        &--logout {
+                            border: $border_thickness solid $white;
+                            display: inline-block;
+                            padding: $padding_border_block;
+                            margin-right: 15px;
+                        }
+
+                        .item {
+                            &__link {
+                                display: flex;
+                                align-items: center;
+
+                                
+                                img {
+                                    width: 35px;
+                                    padding-right: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+
+
+@media only screen and (max-width: $max_width_primary) {
+
+}
+
+@media only screen and (max-width: $max_width_secondary) {
+    
+}
+
+@media only screen and (max-width: $max_width_tertiary) {
+    
+}

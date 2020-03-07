@@ -196,7 +196,7 @@ router.post('/login', function(req, res) {
             */
 
             // TODO: redirect to my account 
-            res.redirect('/account');
+            res.redirect('/user/account');
 
         // Error
         }). catch(function(err){
@@ -231,12 +231,63 @@ router.post('/login', function(req, res) {
 });
 
 
+// I have included account routes (get and post) within userRoutes because they will only be able to be accessed by a user,
+// hence all should be in userRoutes
 
+
+/*
+ *  Function:   Account Page Router
+*/
 router.get('/account', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
     {
         title: webname + "| Account"
     });
 });
+
+
+/*
+ *  Function:   Account Bookings Page Router
+*/
+router.get('/account/bookings', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
+    {
+        title: webname + "| Account | Bookings"
+    });
+});
+
+
+/*
+ *  Function:   Login Details Page Router
+*/
+router.get('/account/details', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
+    {
+        title: webname + "| Account | Details"
+    });
+});
+
+
+/*
+ *  Function:   Account Memberships Page Router
+*/
+router.get('/account/memberships', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
+    {
+        title: webname + "| Account | Memberships"
+    });
+});
+
+
+/*
+ *  Function:   Account Payment Page Router
+*/
+router.get('/account/payment', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
+    {
+        title: webname + "| Account | Payment"
+    });
+});
+
 
 module.exports = router;

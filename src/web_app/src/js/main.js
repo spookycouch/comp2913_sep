@@ -273,6 +273,14 @@ function changePage(count, direction, size) {
 */
 $(window).scroll(function() {
     showScrollToggle();
+
+    if ($(document).scrollTop() > 200){
+        $('.header-spacing').addClass('header-spacing--scroll');
+        $('.header').addClass('header--scroll');
+    } else{
+        $('.header-spacing').removeClass('header-spacing--scroll');
+        $('.header').removeClass('header--scroll');
+    }	
 });
 
 

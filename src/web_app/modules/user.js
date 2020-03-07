@@ -3,8 +3,6 @@ var md5 = require('md5');
 var moment = require('moment');
 
 /*
-<<<<<<< HEAD
-=======
  *  Function:   Check email registration
  *  Input:      Username, password
  *  Output:     Error Message
@@ -25,7 +23,6 @@ exports.checkEmailRegistered = function(email){
 }
 
 /*
->>>>>>> web_app
  *  Function:   Login User 
  *  Input:      Username, password
  *  Output:     Error Message
@@ -49,8 +46,6 @@ exports.loginUser = function(email, password){
 }
 
 /*
-<<<<<<< HEAD
-=======
  *  Function:   Get User Details
  *  Input:      Id
  *  Output:     Error Message
@@ -103,26 +98,10 @@ exports.updateUser = function(req_body){
 }
 
 /*
->>>>>>> web_app
  *  Function:   Create New User 
  *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
  *  Output:     Bool / Error Message
 */
-<<<<<<< HEAD
-exports.registerUser = function(fullName, email, password, phone, address, city, birth){
-
-    // Timestamp validity
-    if(new Date(birth).getTime() <= 0) throw "Invalid Timestamp";
-
-    birth = moment(new Date(birth)).format('YYYY-MM-DD HH:mm:ss');
-
-    // Md5 encryption
-    password = md5(password);
-
-    return new Promise(function(resolve, reject) {
-
-        db.createUser(fullName, email, password, phone, address, city, birth).then(function(result){
-=======
 exports.registerUser = function(req_body){
 
     // Parameters
@@ -152,16 +131,12 @@ exports.registerUser = function(req_body){
     return new Promise(function(resolve, reject) {
 
         db.createUser(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth).then(function(result){
->>>>>>> web_app
 
             resolve(result);
 
         }).catch(function(err){
-<<<<<<< HEAD
-=======
             
             console.log(err);
->>>>>>> web_app
 
             reject(err);
         });

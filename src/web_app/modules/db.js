@@ -1,8 +1,5 @@
 var mysql = require('mysql');
-<<<<<<< HEAD
-=======
 var SqlString = require('sqlstring');
->>>>>>> web_app
 
 let host = "127.0.0.1"
 let db = "comp2913_sep"
@@ -11,9 +8,6 @@ let psw = ""
 let port = 3306
 
 /*
-<<<<<<< HEAD
- *  Function:   Query User by username
-=======
  *  Function:   Check for email registration existance
  *  Input:      Email
  *  Output:     Bool / Error Message
@@ -60,7 +54,6 @@ exports.checkEmailRegistered = function(email) {
 
 /*
  *  Function:   Query User by email
->>>>>>> web_app
  *  Input:      Email, password
  *  Output:     User Object / Error Message
 */
@@ -80,12 +73,6 @@ exports.queryUser = function(email, password) {
             
             // Error 
             if (err) reject(err);
-<<<<<<< HEAD
-            
-            query = "SELECT * FROM User WHERE email = '" 
-                    + email + "' AND password = '" 
-                    + password + "'";
-=======
 
             query = SqlString.format(
         
@@ -138,7 +125,6 @@ exports.getUserDetails = function(id) {
                 'SELECT full_name, email, phone, address, city, birth, profile_pic FROM User WHERE id = ?',
                     [id]
             );
->>>>>>> web_app
 
             // Query
             conn.query(query, function (err, results, fields) {
@@ -151,9 +137,6 @@ exports.getUserDetails = function(id) {
                     resolve(results[0]);
 
                 else
-<<<<<<< HEAD
-                    reject("Unsuccessful login.")
-=======
                     reject("User not found.");
 
             });
@@ -197,7 +180,6 @@ exports.changeUserDetails = function(id, name, surname, email, password, phone, 
 
                 else
                     resolve(true);
->>>>>>> web_app
 
             });
         });
@@ -210,11 +192,7 @@ exports.changeUserDetails = function(id, name, surname, email, password, phone, 
  *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
  *  Output:     Bool / Error Message
 */
-<<<<<<< HEAD
-exports.createUser = function(fullName, email, password, phone, address, city, birth) {
-=======
 exports.createUser = function(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth) {
->>>>>>> web_app
 
     var conn = mysql.createConnection({
         host: host,
@@ -226,32 +204,17 @@ exports.createUser = function(name, surname, email, password, phone, address_1, 
     // Synching request
     return new Promise(function(resolve, reject) {
 
-<<<<<<< HEAD
-=======
         // Connection
->>>>>>> web_app
         conn.connect(function(err) {
             
             // Error 
             if (err) reject(err);
-<<<<<<< HEAD
-            
-            query = "INSERT INTO User(full_name, email, password, phone, address, city, birth) VALUES(" + 
-                    "'" + fullName + "', " +
-                    "'" + email + "', " +
-                    "'" + password + "', " +
-                    "'" + phone + "', " +
-                    "'" + address + "', " +
-                    "'" + city + "', " +
-                    "TIMESTAMP('" + birth + "'));";
-=======
 
             query = SqlString.format(
                 
                 'INSERT INTO User(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, TIMESTAMP(?))',
                  [name, surname, email, password, phone, address_1, address_2, zipcode, city, birth]
             );
->>>>>>> web_app
 
             // Query
             conn.query(query, function (err, results, fields) {
