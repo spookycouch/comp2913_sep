@@ -249,4 +249,7 @@ INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (1, 1);
 -- Creating a membership
 INSERT INTO Membership(validity, id_user, id_sport) VALUES (31, 1, 1);
 
+USE comp2913_sep; 
+SELECT * FROM User;
+
  

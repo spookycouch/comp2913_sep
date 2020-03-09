@@ -7,6 +7,7 @@ var user = require('../modules/user');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var error = require('../modules/error');
 
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
@@ -16,7 +17,6 @@ router.use(csurf({ cookie: true }));
 
 // Website header
 const webname = ' The Edgy ';
-
 
 /*
  *  Function:   Register Backend Query
@@ -35,35 +35,129 @@ router.post('/register', function(req, res) {
         // Query
         user.registerUser(req.body).then(function(result){
 
+            let email = req.body.email;
+
             // Success
-            // TODO: login user and redirect to the page set in session
-            res.redirect('/user/account');
+            user.setUserSession(req, email).then(function(result){
+
+                // Redirect
+                res.redirect('/user/account');
+
+            // Error
+            }).catch(function(err){
+
+                error.loginErrorPage(req, res, webname, [{
+                    message: err,
+                    path: 'unsuccessful'
+                }]);
+            });
 
         // Error
-        }). catch(function(error){
+        }). catch(function(err){
 
-            // Render with error
-            res.render(path.join(__dirname + '/../views/pages/login.ejs'),
-            {
-                title: webname + "| Login",
-                error: error,
-                form: req.body,
-                csrfToken: req.csrfToken()
-            });
+            error.loginErrorPage(req, res, webname, [{
+                message: err,
+                path: 'unsuccessful'
+            }]);
         });
 
     // Error
     } catch(err) {
 
-        // Render with error
-        res.render(path.join(__dirname + '/../views/pages/login.ejs'),
-        {
-            title: webname + "| Login",
-            error: err,
-            form: req.body,
-            csrfToken: req.csrfToken()
-        });
+        error.loginErrorPage(req, res, webname, err);
     }
+});
+
+
+/*
+ *  Function:   Login Backend Query
+*/
+router.post('/login', function(req, res) {
+
+    try { 
+
+        // Validation
+        const value = validation.loginValidation(req.body);
+        
+        if(value.error != undefined) {
+            throw value.error.details;
+        }
+
+        // Data
+        let email = req.body.email;
+        let password = req.body.password;
+
+        // Query
+        user.loginUser(email, password).then(function(result){
+
+            // Set session logged user
+            user.setUserSession(req, email).then(function(result){
+
+                // Success!
+                res.redirect('/user/account');
+
+            // Error
+            }).catch(function(err){
+
+                error.loginErrorPage(req, res, webname, [{
+                    message: err,
+                    path: 'unsuccessful'
+                }]);
+
+            });
+
+        // Error
+        }). catch(function(err){
+
+            error.loginErrorPage(req, res, webname, [{
+                message: err,
+                path: 'unsuccessful'
+            }]);
+        });
+
+
+    } catch(err) {
+
+        error.loginErrorPage(req, res, webname, err);
+    }
+});
+
+/*
+ *  Function:   Account Page
+*/
+router.get('/account', function(req, res) {
+    
+    if(req.session.userId == undefined)
+        res.redirect('/home');
+    
+    else {
+
+        user.getUser(req.session.userId).then(function(result) {
+            res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
+            {
+                title: webname + "| Account",
+                session: req.session,
+                user: result
+            });
+        }).catch(function(err) {
+            redirect('/logout');
+        });
+
+        
+    }
+});
+
+
+/*
+ *  Function:   Logout Redirect
+*/
+router.get('/logout', function(req, res) {
+    
+    // Deleting session
+    delete req.session.userId;
+
+    // -> Homepage
+    res.redirect('/');
 });
 
 
@@ -82,6 +176,7 @@ router.post('/register/response-1', function(req, res) {
         // Email check
         user.checkEmailRegistered(req.body.email).then(function(result) {
 
+            // Email already existing
             if(result == true) throw [{
                 message: 'Email already registered',
                 path: 'email'
@@ -132,6 +227,7 @@ router.post('/register/response-2', function(req, res) {
         }));
 
     } catch(err) {
+
         res.end(JSON.stringify({
             error: err
         }));
@@ -158,93 +254,13 @@ router.post('/register/response-3', function(req, res) {
         }));
 
     } catch(err) {
+
         res.end(JSON.stringify({
             error: err
         }));
     }
 
 });
-
-
-/*
- *  Function:   Login Backend Query
-*/
-router.post('/login', function(req, res) {
-
-    try { 
-        // Validation
-        const value = validation.loginValidation(req.body);
-
-        
-        if(value.error != undefined) {
-            throw value.error.details;
-        }
-
-        // Data
-        let email = req.body.email;
-        let password = req.body.password;
-
-        // Query
-        user.loginUser(email, password).then(function(user){
-
-            /*
-
-                // Session creation
-                const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET);
-                res.header('auth-token',token).send(token);
-
-            */
-
-            // TODO: redirect to my account 
-            res.redirect('/user/account');
-
-        // Error
-        }). catch(function(err){
-
-            var error = [{
-                message: err,
-                path: 'unsuccessful'
-            }];
-
-            // Render with error
-            // need to duplicate because !compatible(promises, try-catch)
-            res.render(path.join(__dirname + '/../views/pages/login.ejs'),
-            {
-                title: webname + "| Login",
-                error: error,
-                form: req.body,
-                csrfToken: req.csrfToken()
-            });
-        });
-
-    } catch(err) {
-
-        // Render with error
-        res.render(path.join(__dirname + '/../views/pages/login.ejs'),
-        {
-            title: webname + "| Login",
-            error: err,
-            form: req.body,
-            csrfToken: req.csrfToken()
-        });
-    }
-});
-
-
-// I have included account routes (get and post) within userRoutes because they will only be able to be accessed by a user,
-// hence all should be in userRoutes
-
-
-/*
- *  Function:   Account Page Router
-*/
-router.get('/account', function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
-    {
-        title: webname + "| Account"
-    });
-});
-
 
 /*
  *  Function:   Account Bookings Page Router

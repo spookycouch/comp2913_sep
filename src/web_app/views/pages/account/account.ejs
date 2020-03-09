@@ -8,7 +8,97 @@
         <%- include('../../partials/account-side-bar') %>
 
         <div class="account__overview">
-            <h1>Account Overview</h1>
+            <div class="overview__option overview__option--full-width">
+                <div class="option__content">
+                    <div class="content__title content__title--margin">
+                        <h2><%- user.name %> <%- user.surname%></h2>
+                    </div>
+
+                    <b>Email: </b>
+                    <%- user.email%>
+                </div>
+            </div>
+
+
+            <a href="/user/account/details" class="overview__option hvr-float">
+                <div class="option__content option__content--center">
+                    <div class="content__image">
+                        <img src="/img/account/account.png"/>
+                    </div>
+
+                    <div class="content__title">
+                        <h2>My Details</h2>
+                    </div>
+
+                    <div class="content__dsc">
+                        Keep your verification methods and security info up to date.
+                    </div>
+
+                    <div class="content__explore hvr-sweep-to-right">
+                        <h3>Explore</h3>
+                    </div>
+                </div>
+            </a>
+
+            <a href="/user/account/memberships" class="overview__option hvr-float">
+                <div class="option__content option__content--center">
+                    <div class="content__image">
+                        <img src="/img/account/membership.png"/>
+                    </div>
+
+                    <div class="content__title">
+                        <h2>My Memberships</h2>
+                    </div>
+
+                    <div class="content__dsc">
+                        See your current memberships and choose your renewal methods. 
+                    </div>
+
+                    <div class="content__explore hvr-sweep-to-right">
+                        <h3>Explore</h3>
+                    </div>
+                </div>
+            </a>
+
+            <a href="/user/account/bookings" class="overview__option hvr-float">
+                <div class="option__content option__content--center">
+                    <div class="content__image">
+                        <img src="/img/account/calendar.png"/>
+                    </div>
+
+                    <div class="content__title">
+                        <h2>My Bookings</h2>
+                    </div>
+
+                    <div class="content__dsc">
+                        Check your upcoming bookings and make new ones.
+                    </div>
+
+                    <div class="content__explore hvr-sweep-to-right">
+                        <h3>Explore</h3>
+                    </div>
+                </div>
+            </a>
+
+            <a href="/user/account/payment" class="overview__option hvr-float">
+                <div class="option__content option__content--center">
+                    <div class="content__image">
+                        <img src="/img/account/discount.png"/>
+                    </div>
+
+                    <div class="content__title">
+                        <h2>My Payment Details</h2> 
+                    </div>
+
+                    <div class="content__dsc">
+                        See charges to your account, payment history and change your payment details.
+                    </div>
+
+                    <div class="content__explore hvr-sweep-to-right">
+                        <h3>Explore</h3>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 </div>
