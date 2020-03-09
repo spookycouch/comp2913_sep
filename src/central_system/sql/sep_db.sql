@@ -25,7 +25,8 @@ CREATE TABLE `Card` (
 CREATE TABLE `BookedActivity` (
   `id` int(11) NOT NULL,
   `id_activity` int(11) NOT NULL,
-  `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -205,18 +206,6 @@ CREATE TABLE `Activity_Timetable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
-
---
--- Definition of the table `BookedActivity`
---
-
-CREATE TABLE `User` (
-  `id` int(11) NOT NULL,
-  `full_name` varchar(400) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `phone` varchar(200) NOT NULL,
-  `birth` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- --------------------------------------------------------
