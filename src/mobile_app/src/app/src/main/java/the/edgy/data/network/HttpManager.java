@@ -77,22 +77,23 @@ public class HttpManager {
                 connection.setRequestProperty("Content-Type", "application/json");
 
                 if (method.equals("POST")) {
-                    // encode json to UTF-8 and send request to server
-                    byte[] utfOut = payload.toString().getBytes("UTF-8");
-                    OutputStream out = connection.getOutputStream();
-                    out.write(utfOut);
-                    out.flush();
+                    // write json to server
+                    PrintWriter out = new PrintWriter(connection.getOutputStream(), true);
+                    out.println(payload.toString());
                     out.close();
                 }
 
                 // read response from server
-                byte[] utfIn = new byte[1024];
-                InputStream in = connection.getInputStream();
-                in.read(utfIn);
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-                // decode UTF-8 response to String
-                String response = new String(utfIn, StandardCharsets.US_ASCII);
-                lastResponse = response.split("\0")[0];
+                int inputInt;
+                StringBuilder builder = new StringBuilder();
+                while ((inputInt = in.read()) != -1)
+                    builder.append((char)inputInt);
+
+                // set instance attribute to the string
+                lastResponse = builder.toString();
+
             }
             catch (IOException e) {
                 System.out.println(e);

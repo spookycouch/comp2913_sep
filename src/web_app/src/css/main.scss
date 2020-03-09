@@ -1,10 +1,69 @@
+// fonts
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800&display=swap');
+
 // libs
-    
+@import "libs/vars";
+@import "libs/hover";
 
 // components
 @import "components/reset";
+@import "components/scroll-to-top";
+@import "components/header";
+@import "components/footer";
+@import "components/landing";
+@import "components/memberships";
+@import "components/facilities";
+@import "components/login";
+@import "components/register";
+@import "components/account/account";
+@import "components/gallery";
+@import "hamburgers/hamburgers.scss";
 
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
 
 h1 {
-    color: red;
+    font-size: $header_1;
+}
+
+h2 {
+    font-size: $header_2;
+}
+
+h3 {
+    font-size: $header_3;
+}
+
+.container {
+    width: 100%;
+    position: relative;
+
+    &--full-height { height: 100%; }
+
+    &--margin {
+        margin: 0 10%;
+        width: auto;
+    }
+
+}
+
+.slick-dots {
+    bottom: -60px !important;
+    li {
+        border: $border_thickness solid $white;
+        border-radius: 40px;
+        width: auto !important;
+        height: auto !important;
+        padding: 5px 13px !important;
+    }
+}
+
+
+
+@media only screen and (max-width: $max_width_tertiary) {
+    h1 {
+        font-size: $header_1 - 10;
+    }    
 }

@@ -1,0 +1,248 @@
+// Account page (pages) styling
+
+
+.account {
+    display: flex;
+    opacity: .9;
+    overflow: hidden;
+
+    &__side-open {
+        cursor: pointer;
+        color: $white;
+        display: none;
+
+
+        .side-open {
+            &__bar {
+                background-color: $black;
+                width: 20px;
+                min-width: 20px;
+                height: 100%;
+            }
+
+            &__label {
+                position: absolute;
+                margin-left: 20px;
+                z-index: 6;
+
+                .label {
+                    &__expand {
+                        background-color: $tertiary;
+                        transform: rotate(-90deg);
+                        transform-origin: 51px 51px;
+                        padding: 5px;
+                    }
+                }
+            }
+        }
+        
+    }
+
+    &__side-bar {
+        width: 20%;
+        min-width: $account_side_bar_width;
+        background-color: $quatenary; //or quatenary??
+        color: $white;
+        padding: 40px 0;
+        padding-bottom: 60px;
+        margin-left: 0;
+        transition: .25s;
+
+
+        &--open {
+            margin-left: 0 !important;
+        }
+
+
+        .side-bar {
+            &__header {
+                font-weight: bold;
+                text-transform: uppercase;
+                padding: $padding_border_block;
+                margin-top: 20px;
+                text-align: center;
+
+                .header {
+                    &__email {
+                        font-weight: normal;
+                        text-transform: none;
+                    }
+                }
+            }
+
+            &__profile-image {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding: $padding_border_block;
+
+                img {
+                    width: $icon_default_width;
+                }
+            }
+
+            &__nav {
+                display: flex;
+                justify-content: center;
+
+                .nav {
+                    &__items {
+                        padding: 20px;
+                    }
+
+                    &__item {
+                        padding: 10px 0;
+
+                        &--last {
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 20px;
+                        }
+
+                        &--logout {
+                            border: $border_thickness solid $white;
+                            display: inline-block;
+                            padding: $padding_border_block;
+                            margin-right: 15px;
+                        }
+
+                        .item {
+                            &__link {
+                                display: flex;
+                                align-items: center;
+
+                                img {
+                                    width: $icon_small_width;
+                                    padding-right: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &__section {
+        width: 80%;
+        color: $white;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 60px 0px;
+    }
+
+
+    &__overview {
+        .overview {
+            &__option {
+                width: 45%;
+                min-width: 350px;
+                max-width: 450px; 
+                display: flex;
+
+                &--full-width {
+                    width: 100%;
+                    max-width: none;
+                }
+
+
+                .option {
+                    &__content {
+                        width: 100%;
+                        background-color: $primary;
+                        margin: 20px;
+                        padding: 20px;
+
+                        &--center {
+                            text-align: center;
+                            background-color: $primary;
+                        }
+
+                        .content {
+                            &__image {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                padding: 10px;
+
+                                img {
+                                    width: $icon_default_width;
+                                }
+                            }
+
+                            &__title {
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                display: inline-block;
+
+                                &--margin {
+                                    margin-right: 20px;
+                                }
+                            }
+
+                            &__explore {
+                                border: $border_thickness solid $white;
+                                display: inline-block;
+                                padding: $padding_border_block;
+                                margin-top: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: $max_width_primary) {
+    .account {
+        &__side-bar {
+            margin-left: 0 !important;
+        }
+    }
+}
+
+
+@media only screen and (max-width: $max_width_primary) {
+    .account {
+        &__side-open {
+            display: flex;
+        }
+
+        &__side-bar {
+            margin-left: -$account_side_bar_width;
+        }
+
+        &__section {
+            width: 100%;
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_secondary) {
+
+}
+
+@media only screen and (max-width: $max_width_tertiary) {
+    .account {
+        &__side-bar {
+            min-width: $account_side_bar_small_width;
+            margin-left: -$account_side_bar_small_width;
+        }
+
+        // &__section {
+        //     margin: 60px 10px;
+        // }
+
+        &__overview {
+            .overview {
+                &__option {
+                    min-width: 300px;
+                }
+            }
+        }
+    }
+}

@@ -1,33 +1,55 @@
 test_0:
-  - code: 200
+  - result: True
     payload:
-      name: not_real
+      name: not
+      surname: real
       email: test@leeds.ac.uk
       password: password
-      phone: 123456789
-      address: Leeds Uni
-      city: leeds
-      birth: 01/01/20
-  - code: 200
+      confirm_password: password
+      phone: "07777777777"
+      address_1: Leeds Uni
+      zipcode: LS2 9JT
+      city: Leeds
+      birth: '2020-01-01'
+  - result: True
     payload:
-      name: not_real
+      name: not
+      surname: real
       email: test@leeds.ac.uk
       password: password
-      phone: 123456789
-      address: Leeds Uni
-      city: leeds
-      birth: 01/01/20
-  - code: 400
+      confirm_password: password
+      phone: "07777777777"
+      address_1: Leeds Uni
+      zipcode: LS2 9JT
+      city: Leeds
+      birth: '2020-01-01'
+  - result: False
     payload:
-      name: not_real
+      name: not
+      surname: real
       password: password
-      phone: 123456789
-      address: Leeds Uni
-      city: leeds
-      birth: 01/01/20
+      confirm_password: password
+      phone: "07777777777"
+      address_1: Leeds Uni
+      zipcode: LS2 9JT
+      city: Leeds
+      birth: '2020-01-01'
 
 test_1:
-  - code: 400
+  - result: True
     payload:
       email: test@leeds.ac.uk
       password: password
+  - result: False
+    payload:
+      email: test@leeds.ac.uk
+      password: wrongpassword
+  - result: False
+    payload:
+      email: BOIII
+      password: password
+  - result: False
+    payload:
+      email: BOIII@test.com
+      password: password
+    
