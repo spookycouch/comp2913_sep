@@ -1418,17 +1418,15 @@ ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
 }
 
 .account__side-bar {
   width: 20%;
   min-width: 250px;
-  height: 800px;
   background-color: #23c9dc;
   color: white;
   padding: 40px 0;
+  padding-bottom: 60px;
 }
 
 .account__side-bar .side-bar__header {
@@ -1503,6 +1501,73 @@ ul {
 .account__side-bar .side-bar__nav .nav__item .item__link img {
   width: 35px;
   padding-right: 10px;
+}
+
+.account__overview {
+  width: 80%;
+  color: #413E4B;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 60px 0px;
+}
+
+.account__overview .overview__option {
+  width: 50%;
+  max-width: 500px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.account__overview .overview__option .option__content {
+  border: 2px solid #413E4B;
+  -webkit-box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+  margin: 20px;
+  text-align: center;
+  padding: 20px;
+}
+
+.account__overview .overview__option .option__content .content__image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 10px;
+}
+
+.account__overview .overview__option .option__content .content__image img {
+  width: 80px;
+}
+
+.account__overview .overview__option .option__content .content__title {
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.account__overview .overview__option .option__content .content__explore {
+  border: 2px solid #413E4B;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 950px) {
+  .account__overview .overview__option {
+    width: 100%;
+  }
 }
 
 .gallery {
