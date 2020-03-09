@@ -17,7 +17,7 @@ class TestNode(unittest.TestCase):
 
 
     def test_0_register(self):
-        url = HOST + '/user/register'
+        url = HOST + '/api/register'
         cases = self.test_cases['test_0']
         for case in cases:
             payload = json.dumps(case['payload'])
@@ -25,7 +25,7 @@ class TestNode(unittest.TestCase):
             print resp
 
     def test_1_login(self):
-        url = HOST + '/user/login'
+        url = HOST + '/api/login'
         cases = self.test_cases['test_1']
         for case in cases:
             payload = json.dumps(case['payload'])
