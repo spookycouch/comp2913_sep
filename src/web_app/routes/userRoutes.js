@@ -245,6 +245,50 @@ router.post('/register/response-3', function(req, res) {
             error: err
         }));
     }
+
+});
+
+/*
+ *  Function:   Account Bookings Page Router
+*/
+router.get('/account/bookings', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
+    {
+        title: webname + "| Account | Bookings"
+    });
+});
+
+
+/*
+ *  Function:   Login Details Page Router
+*/
+router.get('/account/details', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
+    {
+        title: webname + "| Account | Details"
+    });
+});
+
+
+/*
+ *  Function:   Account Memberships Page Router
+*/
+router.get('/account/memberships', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
+    {
+        title: webname + "| Account | Memberships"
+    });
+});
+
+
+/*
+ *  Function:   Account Payment Page Router
+*/
+router.get('/account/payment', function(req, res) {
+    res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
+    {
+        title: webname + "| Account | Payment"
+    });
 });
 
 

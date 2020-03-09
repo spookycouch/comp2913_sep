@@ -522,7 +522,7 @@ ul {
 
 @media only screen and (max-width: 600px) {
   .header {
-    padding: 20px;
+    padding: 15px;
   }
   .header__logo {
     margin-left: 10px;
@@ -1414,6 +1414,162 @@ ul {
   width: 80%;
 }
 
+.account {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.account__side-bar {
+  width: 20%;
+  min-width: 250px;
+  background-color: #23c9dc;
+  color: white;
+  padding: 40px 0;
+  padding-bottom: 60px;
+}
+
+.account__side-bar .side-bar__header {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.account__side-bar .side-bar__profile-image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 20px;
+  padding: 5px 15px;
+}
+
+.account__side-bar .side-bar__profile-image img {
+  width: 80px;
+}
+
+.account__side-bar .side-bar__nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.account__side-bar .side-bar__nav .nav__items {
+  padding: 20px;
+}
+
+.account__side-bar .side-bar__nav .nav__item {
+  padding: 10px 0;
+}
+
+.account__side-bar .side-bar__nav .nav__item--last {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 20px;
+}
+
+.account__side-bar .side-bar__nav .nav__item--logout {
+  border: 2px solid white;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-right: 15px;
+}
+
+.account__side-bar .side-bar__nav .nav__item .item__link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.account__side-bar .side-bar__nav .nav__item .item__link img {
+  width: 35px;
+  padding-right: 10px;
+}
+
+.account__overview {
+  width: 80%;
+  color: #413E4B;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 60px 0px;
+}
+
+.account__overview .overview__option {
+  width: 50%;
+  max-width: 500px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.account__overview .overview__option .option__content {
+  border: 2px solid #413E4B;
+  -webkit-box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+  margin: 20px;
+  text-align: center;
+  padding: 20px;
+}
+
+.account__overview .overview__option .option__content .content__image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 10px;
+}
+
+.account__overview .overview__option .option__content .content__image img {
+  width: 80px;
+}
+
+.account__overview .overview__option .option__content .content__title {
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.account__overview .overview__option .option__content .content__explore {
+  border: 2px solid #413E4B;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 950px) {
+  .account__overview .overview__option {
+    width: 100%;
+  }
+}
+
 .gallery {
   padding: 40px;
   color: #413E4B;
@@ -2269,14 +2425,14 @@ ul {
    * Minus
    */
 .hamburger--minus .hamburger-inner::before, .hamburger--minus .hamburger-inner::after {
-  -webkit-transition: bottom 0.08s 0s ease-out, top 0.08s 0s ease-out, opacity 0s linear;
-  transition: bottom 0.08s 0s ease-out, top 0.08s 0s ease-out, opacity 0s linear;
+  -webkit-transition: bottom 0.08s 0s ease-out, top 0.08s 0s ease-out, opacity 0s linear;
+  transition: bottom 0.08s 0s ease-out, top 0.08s 0s ease-out, opacity 0s linear;
 }
 
 .hamburger--minus.is-active .hamburger-inner::before, .hamburger--minus.is-active .hamburger-inner::after {
   opacity: 0;
-  -webkit-transition: bottom 0.08s ease-out, top 0.08s ease-out, opacity 0s 0.08s linear;
-  transition: bottom 0.08s ease-out, top 0.08s ease-out, opacity 0s 0.08s linear;
+  -webkit-transition: bottom 0.08s ease-out, top 0.08s ease-out, opacity 0s 0.08s linear;
+  transition: bottom 0.08s ease-out, top 0.08s ease-out, opacity 0s 0.08s linear;
 }
 
 .hamburger--minus.is-active .hamburger-inner::before {
@@ -2376,8 +2532,8 @@ ul {
 }
 
 .hamburger--spin .hamburger-inner::before {
-  -webkit-transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
-  transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
+  -webkit-transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
+  transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
 }
 
 .hamburger--spin .hamburger-inner::after {
@@ -2399,8 +2555,8 @@ ul {
 .hamburger--spin.is-active .hamburger-inner::before {
   top: 0;
   opacity: 0;
-  -webkit-transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
-  transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+  -webkit-transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+  transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
 }
 
 .hamburger--spin.is-active .hamburger-inner::after {
@@ -2424,8 +2580,8 @@ ul {
 }
 
 .hamburger--spin-r .hamburger-inner::before {
-  -webkit-transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
-  transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
+  -webkit-transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
+  transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
 }
 
 .hamburger--spin-r .hamburger-inner::after {
@@ -2447,8 +2603,8 @@ ul {
 .hamburger--spin-r.is-active .hamburger-inner::before {
   top: 0;
   opacity: 0;
-  -webkit-transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
-  transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+  -webkit-transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+  transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
 }
 
 .hamburger--spin-r.is-active .hamburger-inner::after {
@@ -2684,8 +2840,8 @@ ul {
 }
 
 .hamburger--squeeze .hamburger-inner::before {
-  -webkit-transition: top 0.075s 0.12s ease, opacity 0.075s ease;
-  transition: top 0.075s 0.12s ease, opacity 0.075s ease;
+  -webkit-transition: top 0.075s 0.12s ease, opacity 0.075s ease;
+  transition: top 0.075s 0.12s ease, opacity 0.075s ease;
 }
 
 .hamburger--squeeze .hamburger-inner::after {
@@ -2707,8 +2863,8 @@ ul {
 .hamburger--squeeze.is-active .hamburger-inner::before {
   top: 0;
   opacity: 0;
-  -webkit-transition: top 0.075s ease, opacity 0.075s 0.12s ease;
-  transition: top 0.075s ease, opacity 0.075s 0.12s ease;
+  -webkit-transition: top 0.075s ease, opacity 0.075s 0.12s ease;
+  transition: top 0.075s ease, opacity 0.075s 0.12s ease;
 }
 
 .hamburger--squeeze.is-active .hamburger-inner::after {
@@ -2852,6 +3008,11 @@ h3 {
 
 .container--full-height {
   height: 100%;
+}
+
+.container--margin {
+  margin: 0 10%;
+  width: auto;
 }
 
 .slick-dots {
