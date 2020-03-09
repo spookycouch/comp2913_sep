@@ -5,7 +5,7 @@ import unittest
 import yaml
 
 db_path = os.path.dirname(os.path.abspath(__file__)) + '/../../../src/central_system/sql/sep_db.sql'
-db_name = 'sep_test_proc_1'
+db_name = 'comp2913_sep'
 YAML_PATH = os.path.dirname(os.path.abspath(__file__)) + '/test_db.yaml'
 
 
@@ -14,30 +14,30 @@ class TestDb(unittest.TestCase):
     def setUpClass(self):
         # Connect to the MySQL server, and create new database for test sequence
         try:
-            print 'CONNECTING TO MYSQL SERVER...',
+            print 'CONNECTING TO MYSQL SERVER...',  
 
             self.db = mysql.connector.connect(
                 host='localhost',
-                user='sep',
-                passwd='sepword'
+                user='web_comp2913'
             )
             print 'SUCCESS!'
 
 
-            print 'CREATING TEST DATABASE: ' + db_name +'\n'
+            print 'DELETING EXISTING DATABASE: ' + db_name +'\n'
             try:
                 self.cursor = self.db.cursor()
                 self.cursor.execute('DROP DATABASE IF EXISTS {}'.format(db_name))
-                self.cursor.execute('CREATE DATABASE ' + db_name)
             except mysql.connector.errors.DatabaseError as e:
                 print e
                 assert False
             
 
-            self.cursor.execute('USE ' + db_name)
             print 'IMPORTING FROM PROJECT SQL FILE...',
-            p = subprocess.check_call('mysql -u sep --password=sepword {} < {}'.format(db_name, db_path), stderr=subprocess.PIPE, shell=True)
+            p = subprocess.check_call('mysql -u sep --password=sepword < {}'.format(db_path), stderr=subprocess.PIPE, shell=True)
             print 'SUCCESS!'
+
+            print 'USING IMPORTED DATABASE: ' + db_name + '\n'
+            self.cursor.execute('USE {}'.format(db_name))
 
         except mysql.connector.errors.ProgrammingError as e:
             print '\n', e
@@ -57,7 +57,7 @@ class TestDb(unittest.TestCase):
                 self.cursor.execute(case['command'])
                 if not case['result']:
                     self.fail('invalid query {} should throw an error'.format(case['command']))
-            except:
+            except mysql.connector.errors.DatabaseError as e:
                 if case['result']:
                     self.fail('valid query {} failed'.format(case['command']))
 
