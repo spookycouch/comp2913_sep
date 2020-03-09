@@ -38,7 +38,18 @@
 
                 <ul class="link__items">
                     <li><a href="/memberships">Join Now</a></li>  
-                    <li><a href="/user/login">Login</a></li>  
+
+                    <% if(locals.session.userId) { %>
+                        <li><a href="/user/account">Account Overview</a></li>  
+                        <li><a href="/user/account/details">Account Details</a></li>  
+                        <li><a href="/user/account/memberships">Account Memberships</a></li>  
+                        <li><a href="/user/account/Bookings">Account Bookings</a></li>  
+                        <li><a href="/user/account/Payment">Account Payment Details</a></li>  
+                        <li><a href="/user/logout">Logout</a></li>  
+
+                    <% }else{ %>    
+                        <li><a href="/user/login">Login</a></li>  
+                    <% } %>
                 </ul>
             </div>
 

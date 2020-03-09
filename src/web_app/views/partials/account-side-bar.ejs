@@ -4,8 +4,10 @@
     </div>
 
     <div class="side-bar__header">
-        <h2>My Account</h2>
+        <h2><%- user.name %> <%- user.surname%></h2>
+        <small class="header__email"><%- user.email %></small>
     </div>
+
 
     <div class="side-bar__nav">
         <ul class="nav__items">
@@ -52,5 +54,15 @@
                 </div>
             </li>
         </ul>
+    </div>
+</div>
+
+<div class="account__side-open">
+    <div class="side-open__bar"></div>
+
+    <div class="side-open__label">
+        <div class="label__expand">
+            Expand
+        </div>
     </div>
 </div>

@@ -140,7 +140,7 @@ router.get('/account', function(req, res) {
                 user: result
             });
         }).catch(function(err) {
-            redirect('/logout');
+            res.redirect('/logout');
         });
 
         
@@ -158,6 +158,7 @@ router.get('/logout', function(req, res) {
 
     // -> Homepage
     res.redirect('/');
+    console.log("successfully logged out");
 });
 
 
@@ -266,10 +267,22 @@ router.post('/register/response-3', function(req, res) {
  *  Function:   Account Bookings Page Router
 */
 router.get('/account/bookings', function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
-    {
-        title: webname + "| Account | Bookings"
-    });
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+        user.getUser(req.session.userId).then(function(result) {
+            res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
+            {
+                title: webname + "| Account | Bookings",
+                session: req.session,
+                user: result
+            });
+        }).catch(function(err) {
+            res.redirect('/logout');
+        });
+        
+    }
 });
 
 
@@ -277,10 +290,22 @@ router.get('/account/bookings', function(req, res) {
  *  Function:   Login Details Page Router
 */
 router.get('/account/details', function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
-    {
-        title: webname + "| Account | Details"
-    });
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+    
+    else {
+        user.getUser(req.session.userId).then(function(result) {
+            res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
+            {
+                title: webname + "| Account | Details",
+                session: req.session,
+                user: result
+            });
+
+        }).catch(function(err) {
+            res.redirect('/logout');
+        });
+    }
 });
 
 
@@ -288,10 +313,23 @@ router.get('/account/details', function(req, res) {
  *  Function:   Account Memberships Page Router
 */
 router.get('/account/memberships', function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
-    {
-        title: webname + "| Account | Memberships"
-    });
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+        user.getUser(req.session.userId).then(function(result) {
+            res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
+            {
+                title: webname + "| Account | Memberships",
+                session: req.session,
+                user: result
+            });
+
+        }).catch(function(err) {
+            res.redirect('/logout');
+        });
+        
+    }
 });
 
 
@@ -299,10 +337,23 @@ router.get('/account/memberships', function(req, res) {
  *  Function:   Account Payment Page Router
 */
 router.get('/account/payment', function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
-    {
-        title: webname + "| Account | Payment"
-    });
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+        user.getUser(req.session.userId).then(function(result) {
+            res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
+            {
+                title: webname + "| Account | Payment",
+                session: req.session,
+                user: result
+            });
+
+        }).catch(function(err) {
+            res.redirect('/logout');
+        });
+        
+    }
 });
 
 

@@ -172,8 +172,6 @@ exports.getUserDetails = function(id) {
                     [id.id]
             );
 
-            console.log(query);
-
             // Query
             conn.query(query, function (err, results, fields) {
                 

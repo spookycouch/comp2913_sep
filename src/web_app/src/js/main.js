@@ -5,6 +5,7 @@ $(document).ready(function() {
     // Variables 
     var hamburgerPressed = false;
     var registertoggle = false;
+    var accountToggle = false;
     var pageCount = 0;
 
     /*
@@ -77,6 +78,21 @@ $(document).ready(function() {
 		e.preventDefault();
     });    
 
+
+    $('.account__side-open').on('click', function(e) {
+        accountToggle = !accountToggle;
+
+        if (accountToggle) {
+            $('.account__side-bar').addClass('account__side-bar--open');
+            $('.label__expand').text("Collapse");
+        } else {
+            $('.account__side-bar').removeClass('account__side-bar--open');
+            $('.label__expand').text("Expand");
+        }
+
+        
+
+    });
 
     /*
     *  Remove animation after animation complete

@@ -15,8 +15,17 @@
     top: 0;
     background-color: $white;
     min-height: 115px;
+    
+    &__divider {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
 
     &__nav {
+        &--inline {
+            display: inline-block;
+        }
         .nav {
             &__item {
                 display: inline-block;
