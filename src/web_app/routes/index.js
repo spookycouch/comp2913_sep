@@ -32,10 +32,10 @@ const webname = ' The Edgy ';
  *  Function:   Homepage Router
 */
 router.get(['/', '/home'], csrf, function(req, res) {
-
     res.render(path.join(__dirname + '/../views/pages/index.ejs'),
     {
-        title: webname + "| Home"
+        title: webname + "| Home",
+        session: req.session
     });
 });
 
@@ -45,7 +45,8 @@ router.get(['/', '/home'], csrf, function(req, res) {
 router.get('/memberships', csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/memberships.ejs'),
     {
-        title: webname + "| Memberships"
+        title: webname + "| Memberships",
+        session: req.session
     });
 });
 
@@ -55,7 +56,8 @@ router.get('/memberships', csrf, function(req, res) {
 router.get('/facilities', csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
     {  
-        title: webname + "| Facilities"
+        title: webname + "| Facilities",
+        session: req.session
     });
 });
 
@@ -65,7 +67,8 @@ router.get('/facilities', csrf, function(req, res) {
 router.get('/contact', csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/contact.ejs'),
     {
-        title: webname + "| Contact"
+        title: webname + "| Contact",
+        session: req.session
     });
 });
 

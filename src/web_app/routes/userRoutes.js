@@ -127,10 +127,24 @@ router.post('/login', function(req, res) {
 */
 router.get('/account', function(req, res) {
     
-    res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
-    {
-        title: webname + "| Account"
-    });
+    if(req.session.userId == undefined)
+        res.redirect('/home');
+    
+    else {
+
+        user.getUser(req.session.userId).then(function(result) {
+            res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
+            {
+                title: webname + "| Account",
+                session: req.session,
+                user: result
+            });
+        }).catch(function(err) {
+            redirect('/logout');
+        });
+
+        
+    }
 });
 
 

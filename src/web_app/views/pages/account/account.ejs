@@ -8,10 +8,22 @@
         <%- include('../../partials/account-side-bar') %>
 
         <div class="account__overview">
-            <a href="/user/account/details" class="overview__option hvr-float">
+            <div class="overview__option overview__option--full-width">
                 <div class="option__content">
+                    <div class="content__title content__title--margin">
+                        <h2><%- user.name %> <%- user.surname%></h2>
+                    </div>
+
+                    <b>Email: </b>
+                    <%- user.email%>
+                </div>
+            </div>
+
+
+            <a href="/user/account/details" class="overview__option hvr-float">
+                <div class="option__content option__content--center">
                     <div class="content__image">
-                        <img src="/img/account/account-black.png"/>
+                        <img src="/img/account/account.png"/>
                     </div>
 
                     <div class="content__title">
@@ -29,9 +41,9 @@
             </a>
 
             <a href="/user/account/memberships" class="overview__option hvr-float">
-                <div class="option__content">
+                <div class="option__content option__content--center">
                     <div class="content__image">
-                        <img src="/img/account/membership-black.png"/>
+                        <img src="/img/account/membership.png"/>
                     </div>
 
                     <div class="content__title">
@@ -49,9 +61,9 @@
             </a>
 
             <a href="/user/account/bookings" class="overview__option hvr-float">
-                <div class="option__content">
+                <div class="option__content option__content--center">
                     <div class="content__image">
-                        <img src="/img/account/calendar-black.png"/>
+                        <img src="/img/account/calendar.png"/>
                     </div>
 
                     <div class="content__title">
@@ -69,9 +81,9 @@
             </a>
 
             <a href="/user/account/payment" class="overview__option hvr-float">
-                <div class="option__content">
+                <div class="option__content option__content--center">
                     <div class="content__image">
-                        <img src="/img/account/discount-black.png"/>
+                        <img src="/img/account/discount.png"/>
                     </div>
 
                     <div class="content__title">

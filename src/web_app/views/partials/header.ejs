@@ -8,7 +8,11 @@
 
         <div class="header__content">
             <div class="header__login hvr-sweep-to-right">
-                <a href="/user/login"><h3>Login</h3></a>
+                <% if(locals.session.userId){ %>
+                    <a href="/user/logout"><h3>Logout</h3></a>
+                <% }else{ %>
+                    <a href="/user/login"><h3>Login</h3></a>
+                <% } %>
             </div>
             <div class="header__nav">
                 <ul class="nav__items">
@@ -36,7 +40,12 @@
                     <li class="nav__item hvr-inset hvr-inset--white"><a href="/memberships"><h2>Memberships</h2></a></li>
                     <li class="nav__item hvr-inset hvr-inset--white"><a href="/facilities"><h2>Facilities</h2></a></li>
                     <li class="nav__item hvr-inset hvr-inset--white"><a href="###"><h2>Book an Activity</h2></a></li>
-                    <li class="nav__item nav__item--login hvr-sweep-to-right hvr-sweep-to-right--white"><a href="/user/login"><h2>Login</h2></a></li>
+
+                    <% if(locals.session.userId){ %>
+                        <li class="nav__item nav__item--login hvr-sweep-to-right hvr-sweep-to-right--white"><a href="/user/logout"><h2>Logout</h2></a></li>
+                    <% }else{ %>
+                        <li class="nav__item nav__item--login hvr-sweep-to-right hvr-sweep-to-right--white"><a href="/user/login"><h2>Login</h2></a></li>
+                    <% } %>
                 </ul>
             </div>
         </div>

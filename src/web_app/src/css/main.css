@@ -1423,7 +1423,7 @@ ul {
 .account__side-bar {
   width: 20%;
   min-width: 250px;
-  background-color: #23c9dc;
+  background-color: #00A984;
   color: white;
   padding: 40px 0;
   padding-bottom: 60px;
@@ -1505,7 +1505,7 @@ ul {
 
 .account__overview {
   width: 80%;
-  color: #413E4B;
+  color: white;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1514,24 +1514,30 @@ ul {
           justify-content: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  margin: 60px 0px;
+  margin: 60px;
 }
 
 .account__overview .overview__option {
   width: 50%;
-  max-width: 500px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
+.account__overview .overview__option--full-width {
+  width: 100%;
+  max-width: none;
+}
+
 .account__overview .overview__option .option__content {
-  border: 2px solid #413E4B;
-  -webkit-box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  background-color: #23c9dc;
   margin: 20px;
-  text-align: center;
   padding: 20px;
+}
+
+.account__overview .overview__option .option__content--center {
+  text-align: center;
 }
 
 .account__overview .overview__option .option__content .content__image {
@@ -1557,8 +1563,12 @@ ul {
   display: inline-block;
 }
 
+.account__overview .overview__option .option__content .content__title--margin {
+  margin-right: 20px;
+}
+
 .account__overview .overview__option .option__content .content__explore {
-  border: 2px solid #413E4B;
+  border: 2px solid white;
   display: inline-block;
   padding: 5px 15px;
   margin-top: 20px;

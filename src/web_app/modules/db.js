@@ -168,9 +168,11 @@ exports.getUserDetails = function(id) {
 
             query = SqlString.format(
         
-                'SELECT full_name, email, phone, address, city, birth, profile_pic FROM User WHERE id = ?',
-                    [id]
+                'SELECT name, surname, email, birth, phone, address_1, address_2 city, zipcode, profile_pic FROM User WHERE id = ?',
+                    [id.id]
             );
+
+            console.log(query);
 
             // Query
             conn.query(query, function (err, results, fields) {
