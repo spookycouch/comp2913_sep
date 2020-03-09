@@ -7,8 +7,18 @@ var user = require('../modules/user');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const session = require('client-sessions');
 
 var csrf = csurf({ cookie: true });
+
+// Session
+router.use(session({
+    cookieName: 'session',
+    secret: 'yellowpuddingcoronapspreading',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+}));
+
 
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
@@ -26,18 +36,6 @@ router.get(['/', '/home'], csrf, function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/index.ejs'),
     {
         title: webname + "| Home"
-    });
-});
-
-/*
- *  Function:   Register Page Router
-*/
-router.get('/user/register', csrf, function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/register.ejs'),
-    {
-        title: webname + "| Register",
-        form: req.body,
-        csrfToken: req.csrfToken()
     });
 });
 
@@ -75,12 +73,20 @@ router.get('/contact', csrf, function(req, res) {
  *  Function:   Login Page Router
 */
 router.get('/user/login', csrf, function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/login.ejs'),
-    {
-        title: webname + "| Login",
-        form: req.body,
-        csrfToken: req.csrfToken()
-    });
+
+    // Check logged user
+    if(req.session.userId != undefined)
+        res.redirect('/user/account');
+
+    else {
+        // Otherwise render login page
+        res.render(path.join(__dirname + '/../views/pages/login.ejs'),
+        {
+            title: webname + "| Login",
+            form: req.body,
+            csrfToken: req.csrfToken()
+        });
+    }
 });
 
 module.exports = router;

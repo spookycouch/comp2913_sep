@@ -45,26 +45,6 @@ exports.loginUser = function(email, password){
     });
 }
 
-/*
- *  Function:   Get User Details
- *  Input:      Id
- *  Output:     Error Message
-*/
-exports.getUser = function(id){
-
-    return new Promise(function(resolve, reject) {
-
-        db.getUserDetails(id).then(function(user){
-
-            resolve(user);
-
-        }).catch(function(err){
-
-            reject(err);
-        });
-    });
-}
-
  /*
  *  Function:   Update User Details
  *  Input:      Id
@@ -135,11 +115,55 @@ exports.registerUser = function(req_body){
             resolve(result);
 
         }).catch(function(err){
-            
-            console.log(err);
 
             reject(err);
         });
 
+    });
+}
+
+
+/*
+ *  Function:   Sets user session variable
+ *  Input:      Requst Object, Email
+ *  Output:     Bool / Error Message
+*/
+exports.setUserSession = function(req, email){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getUserId(email).then(function(id){
+
+            // Sets session variable
+            req.session.userId = id;
+
+            resolve(true);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+
+    });
+}
+
+
+/*
+ *  Function:   Get User Details
+ *  Input:      Id
+ *  Output:     Error Message
+*/
+exports.getUser = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getUserDetails(id).then(function(user){
+
+            resolve(user);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
     });
 }

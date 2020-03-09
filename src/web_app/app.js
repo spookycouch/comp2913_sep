@@ -10,7 +10,6 @@ const request = require('request');
 var user = require('./modules/user.js');
 var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
 
 var routes = require('./routes/index');
 var user = require('./routes/userRoutes.js');
@@ -26,9 +25,6 @@ app.set('view engine', 'ejs');
 // Parsing
 app.use(express.json()); //Used to parse JSON POST
 app.use(cookieParser());
-
-// Session
-app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
 
 // Routes
 app.use('/',routes);

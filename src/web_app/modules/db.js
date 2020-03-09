@@ -99,6 +99,52 @@ exports.queryUser = function(email, password) {
 }
 
 /*
+ *  Function:   Query User id by email
+ *  Input:      Email
+ *  Output:     Id / Error Message
+*/
+exports.getUserId = function(email) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT id FROM User WHERE email = ?',
+                    [email]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.length > 0)
+                    resolve(results[0]);
+
+                else
+                    reject("User not found.");
+
+            });
+        });
+    });
+}
+
+/*
  *  Function:   Query User by id once logged in
  *  Input:      Id
  *  Output:     User Object / Error Message
@@ -145,8 +191,8 @@ exports.getUserDetails = function(id) {
 }
 
 /*
- *  Function:   Query User by id once logged in
- *  Input:      Id
+ *  Function:   Change user details
+ *  Input:      Id, Name, Surname, Email, Password, Phone, Address 1, Address 2, Zipcode, City, Profile Pic
  *  Output:     User Object / Error Message
 */
 exports.changeUserDetails = function(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic) {
