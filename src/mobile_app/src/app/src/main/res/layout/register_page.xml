@@ -59,7 +59,7 @@
 
     <ScrollView
         android:id="@+id/scroll_register"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="677dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

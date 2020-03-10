@@ -25,7 +25,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import the.edgy.R;
+import the.edgy.data.network.HttpManager;
 import the.edgy.ui.home.HomeFragment;
 import the.edgy.ui.home.HomePage;
 
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private LoginViewModel loginViewModel;
+    private HttpManager httpManager = new HttpManager("http://10.0.2.2:3000");
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,12 +124,33 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean login = false;
 
-                displayHomePage();
+                String email = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
 
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                JSONObject payload = new JSONObject();
+                try {
+                    payload.put("email", email);
+                    payload.put("password", password);
+                    String res = httpManager.serverPost("api/login", payload);
+                    // if valid json is returned, the login was successful
+                    JSONObject json = new JSONObject(res);
+                    login = true;
+                }
+                catch (org.json.JSONException e) {
+                    System.out.println(e);
+                }
+                if (login) {
+                    displayHomePage();
+
+                    loadingProgressBar.setVisibility(View.VISIBLE);
+                    loginViewModel.login(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString());
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Incorrect user or password!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
