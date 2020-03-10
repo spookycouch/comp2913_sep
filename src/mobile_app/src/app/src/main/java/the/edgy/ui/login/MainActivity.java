@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import the.edgy.R;
+import the.edgy.ui.home.HomeFragment;
 import the.edgy.ui.home.HomePage;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
+
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -144,6 +146,13 @@ public class MainActivity extends AppCompatActivity {
         Intent mainPageIntent = new Intent(MainActivity.this, HomePage.class);
 
         startActivity(mainPageIntent);
+    }
+
+    public void openRegister(View v) {
+        // Create an Intent to start the Register page on register button click.
+        Intent registerPageIntent = new Intent(MainActivity.this, RegisterActivity.class);
+
+        startActivity(registerPageIntent);
     }
 
 }
