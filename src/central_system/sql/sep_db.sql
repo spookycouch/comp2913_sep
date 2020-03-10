@@ -23,7 +23,7 @@ CREATE TABLE `Card` (
 --
 
 CREATE TABLE `BookedActivity` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_activity` int(11) NOT NULL,
   `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
