@@ -125,7 +125,15 @@ public class HomePage extends AppCompatActivity {
                         navigation_menu.findItem(R.id.navigation_home).setChecked(true);
                         break;
 
+                    case "home_sub_fragment":
+                        navigation_menu.findItem(R.id.navigation_home).setChecked(true);
+                        break;
+
                     case "fragment_activities":
+                        navigation_menu.findItem(R.id.navigation_activities).setChecked(true);
+                        break;
+
+                    case "activities_sub_fragment":
                         navigation_menu.findItem(R.id.navigation_activities).setChecked(true);
                         break;
 
@@ -133,7 +141,15 @@ public class HomePage extends AppCompatActivity {
                         navigation_menu.findItem(R.id.navigation_venues).setChecked(true);
                         break;
 
+                    case "venues_sub_fragment":
+                        navigation_menu.findItem(R.id.navigation_venues).setChecked(true);
+                        break;
+
                     case "fragment_profile":
+                        navigation_menu.findItem(R.id.navigation_profile).setChecked(true);
+                        break;
+
+                    case "profile_sub_fragment":
                         navigation_menu.findItem(R.id.navigation_profile).setChecked(true);
                         break;
 

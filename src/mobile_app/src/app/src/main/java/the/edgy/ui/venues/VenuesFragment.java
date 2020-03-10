@@ -28,9 +28,15 @@ public class VenuesFragment extends Fragment {
                     Fragment buyMembershipFragment = new ShowVenuesFragment();
 
                     // Replaces current fragment with a new fragment.
+                    /*
+                     *  @Note: the new fragment is a 'sub_fragment' of its parent,
+                     *         and hence will have a tag of the form:
+                     *
+                     *         '<parent>_sub_fragment'
+                     */
                     getActivity().getSupportFragmentManager().beginTransaction().
-                            replace(R.id.fragment_container, buyMembershipFragment, "show_venues_fragment").
-                            addToBackStack("show_venues_fragment").
+                            replace(R.id.fragment_container, buyMembershipFragment, "venues_sub_fragment").
+                            addToBackStack("venues_sub_fragment").
                             commit();
                 }
             };

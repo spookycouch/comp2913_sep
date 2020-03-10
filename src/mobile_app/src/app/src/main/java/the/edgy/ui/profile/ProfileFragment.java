@@ -24,9 +24,15 @@ public class ProfileFragment extends Fragment {
                     Fragment buyMembershipFragment = new BuyMembershipFragment();
 
                     // Replaces current fragment with a new fragment.
+                    /*
+                     *  @Note: the new fragment is a 'sub_fragment' of its parent,
+                     *         and hence will have a tag of the form:
+                     *
+                     *         '<parent>_sub_fragment'
+                     */
                     getActivity().getSupportFragmentManager().beginTransaction().
-                            replace(R.id.fragment_container, buyMembershipFragment, "buy_membership_fragment").
-                            addToBackStack("buy_membership_fragment").
+                            replace(R.id.fragment_container, buyMembershipFragment, "profile_sub_fragment").
+                            addToBackStack("profile_sub_fragment").
                             commit();
                 }
             };
