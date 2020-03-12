@@ -1224,6 +1224,33 @@ ul {
   background-color: #00A984;
 }
 
+@media only screen and (max-width: 950px) {
+  .facilities__facility {
+    width: 100%;
+  }
+  .facilities__facility:nth-child(odd) .facility__spacing {
+    margin-right: 60px;
+  }
+  .facilities__facility:nth-child(even) .facility__spacing {
+    margin-left: 60px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .facilities__facility:nth-child(odd) .facility__spacing {
+    margin-right: 60px;
+  }
+  .facilities__facility:nth-child(odd) .facility__spacing .spacing__content {
+    margin-left: 5%;
+  }
+  .facilities__facility:nth-child(even) .facility__spacing {
+    margin-left: 60px;
+  }
+  .facilities__facility:nth-child(even) .facility__spacing .spacing__content {
+    margin-right: 5%;
+  }
+}
+
 .login {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1430,12 +1457,85 @@ ul {
   width: 80%;
 }
 
+.account__overview .overview__option {
+  width: 45%;
+  min-width: 350px;
+  max-width: 450px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.account__overview .overview__option--full-width {
+  width: 100%;
+  max-width: none;
+}
+
+.account__overview .overview__option .option__content {
+  width: 100%;
+  background-color: #23c9dc;
+  margin: 20px;
+  padding: 20px;
+}
+
+.account__overview .overview__option .option__content--center {
+  text-align: center;
+  background-color: #23c9dc;
+}
+
+.account__overview .overview__option .option__content .content__image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 10px;
+}
+
+.account__overview .overview__option .option__content .content__image img {
+  width: 80px;
+}
+
+.account__overview .overview__option .option__content .content__title {
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.account__overview .overview__option .option__content .content__title--margin {
+  margin-right: 20px;
+}
+
+.account__overview .overview__option .option__content .content__explore {
+  border: 2px solid white;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 400px) {
+  .account__overview .overview__option {
+    min-width: 300px;
+  }
+}
+
 .account {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   opacity: .9;
   overflow: hidden;
+}
+
+.account--background {
+  background-image: url("/img/test.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .account__side-open {
@@ -1575,64 +1675,8 @@ ul {
   margin: 60px 0px;
 }
 
-.account__overview .overview__option {
-  width: 45%;
-  min-width: 350px;
-  max-width: 450px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.account__overview .overview__option--full-width {
-  width: 100%;
-  max-width: none;
-}
-
-.account__overview .overview__option .option__content {
-  width: 100%;
-  background-color: #23c9dc;
-  margin: 20px;
-  padding: 20px;
-}
-
-.account__overview .overview__option .option__content--center {
-  text-align: center;
-  background-color: #23c9dc;
-}
-
-.account__overview .overview__option .option__content .content__image {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding: 10px;
-}
-
-.account__overview .overview__option .option__content .content__image img {
-  width: 80px;
-}
-
-.account__overview .overview__option .option__content .content__title {
-  font-weight: bold;
-  text-transform: uppercase;
-  display: inline-block;
-}
-
-.account__overview .overview__option .option__content .content__title--margin {
-  margin-right: 20px;
-}
-
-.account__overview .overview__option .option__content .content__explore {
-  border: 2px solid white;
-  display: inline-block;
-  padding: 5px 15px;
-  margin-top: 20px;
+.account__details {
+  color: white;
 }
 
 @media only screen and (min-width: 950px) {
@@ -1659,9 +1703,6 @@ ul {
   .account__side-bar {
     min-width: 250px;
     margin-left: -250px;
-  }
-  .account__overview .overview__option {
-    min-width: 300px;
   }
 }
 

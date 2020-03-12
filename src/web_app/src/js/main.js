@@ -89,9 +89,6 @@ $(document).ready(function() {
             $('.account__side-bar').removeClass('account__side-bar--open');
             $('.label__expand').text("Expand");
         }
-
-        
-
     });
 
     /*

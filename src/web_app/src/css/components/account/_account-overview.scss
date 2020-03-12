@@ -1,0 +1,74 @@
+.account {
+    &__overview {    
+        .overview {
+            &__option {
+                width: 45%;
+                min-width: 350px;
+                max-width: 450px; 
+                display: flex;
+
+                &--full-width {
+                    width: 100%;
+                    max-width: none;
+                }
+
+
+                .option {
+                    &__content {
+                        width: 100%;
+                        background-color: $primary;
+                        margin: 20px;
+                        padding: 20px;
+
+                        &--center {
+                            text-align: center;
+                            background-color: $primary;
+                        }
+
+                        .content {
+                            &__image {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                padding: 10px;
+
+                                img {
+                                    width: $icon_default_width;
+                                }
+                            }
+
+                            &__title {
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                display: inline-block;
+
+                                &--margin {
+                                    margin-right: 20px;
+                                }
+                            }
+
+                            &__explore {
+                                border: $border_thickness solid $white;
+                                display: inline-block;
+                                padding: $padding_border_block;
+                                margin-top: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_tertiary) {
+    .account {
+        &__overview {
+            .overview {
+                &__option {
+                    min-width: 300px;
+                }
+            }
+        }
+    }
+}

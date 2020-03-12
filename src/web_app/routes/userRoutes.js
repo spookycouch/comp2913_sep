@@ -273,17 +273,21 @@ router.get('/account/bookings', function(req, res) {
     else {
         user.getBookings(req.session.userId).then(function(bookings) {
 
-            // Preprocess here
-            console.log(bookings);
+            user.getDetails(req.session.userId).then(function(result) {
+                // Preprocess here
+                console.log(bookings);
 
-            res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
-            {
-                title: webname + "| Account | Bookings",
-                session: req.session,
-                user: {name: "", email: ""},
-                bookings: bookings
+                res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
+                {
+                    title: webname + "| Account | Bookings",
+                    session: req.session,
+                    bookings: bookings,
+                    user: result
+                });
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/logout');
             });
-
         }).catch(function(err) {
 
             console.log(err);
@@ -333,16 +337,22 @@ router.get('/account/memberships', function(req, res) {
 
     else {
         user.getMemberships(req.session.userId).then(function(memberships) {
+            user.getDetails(req.session.userId).then(function(result) {
+
+                res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
+                {
+                    title: webname + "| Account | Memberships",
+                    session: req.session,
+                    memberships: memberships,
+                    user: result
+                });
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/logout');
+            });
 
             // Preprocess here
-            console.log(memberships);
-
-            res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
-            {
-                title: webname + "| Account | Memberships",
-                session: req.session,
-                user: memberships
-            });
+            
 
         }).catch(function(err) {
 

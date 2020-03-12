@@ -131,7 +131,71 @@
                 }
             }   
         }
-
-   
     }
+}
+
+
+@media only screen and (max-width: $max_width_primary) {
+    .facilities {
+        &__facility {
+            width: 100%;
+
+            &:nth-child(odd) {
+                .facility {
+                    &__spacing {
+                        margin-right: 60px;
+                    }
+                }
+            }
+    
+            &:nth-child(even) {
+                .facility {
+                    &__spacing {
+                        margin-left: 60px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_secondary) {
+    .facilities {
+        &__facility {
+
+            // hide image and relocate it to the top of the container 
+
+            &:nth-child(odd) {
+                .facility {
+                    &__spacing {
+                        margin-right: 60px;
+
+                        .spacing {
+                            &__content {
+                                margin-left: 5%;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &:nth-child(even) {
+                .facility {
+                    &__spacing {
+                        margin-left: 60px;
+
+                        .spacing {
+                            &__content {
+                                margin-right: 5%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_secondary) {
+    
 }

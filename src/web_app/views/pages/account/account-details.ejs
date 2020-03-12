@@ -7,7 +7,36 @@
         <%- include('../../partials/account-side-bar') %>
 
         <div class="account__section account__details">
-            <h1>Account Details</h1>
+            <div class="details__form">
+                <form autocomplete="off">
+                    <label><h3>Firstname</h3></label>
+                    <input type="text" name="name" placeholder="Name" value="<%- user.name %>" />
+    
+                    <label><h3>Surname</h3></label>
+                    <input type="text" name="surname" placeholder="Surname" value="<%- user.surname %>" />
+    
+                    <label><h3>Email</h3></label>
+                    <input type="text" name="email" placeholder="E-mail" value="<%- user.email %>" />
+    
+                    <label><h3>Date of Birth</h3></label>
+                    <input type="date" name="birth" placeholder="Date of Birth" value="<%- user.birth %>" />
+    
+                    <label><h3>Phone Number</h3></label>
+                    <input type="text" name="phone" placeholder="Phone" value="<%- user.phone %>" />
+    
+                    <label><h3>Address Line 1</h3></label>
+                    <input  type="text" name="address_1" placeholder="Address Line 1" value="<%- user.address_1 %>" />
+    
+                    <label><h3>Address Line 2 <small>(optional)</small></h3></label>
+                    <input type="text" name="address_2" placeholder="Address Line 2" value="<%- user.address_2 %>" />
+    
+                    <label><h3>City</h3></label>
+                    <input type="text" name="city" placeholder="City" value="<%- user.city %>" />
+    
+                    <label><h3>Postal / Zip Code</h3></label>
+                    <input type="text" name="zipcode" placeholder="Zip Code" value="<%- user.zipcode %>" />
+                </form>
+            </div>
         </div>
     </div>
 </div>
