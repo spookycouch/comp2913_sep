@@ -132,7 +132,7 @@ router.get('/account', function(req, res) {
     
     else {
 
-        user.getUser(req.session.userId).then(function(result) {
+        user.getDetails(req.session.userId).then(function(result) {
             res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
             {
                 title: webname + "| Account",
@@ -271,14 +271,22 @@ router.get('/account/bookings', function(req, res) {
         res.redirect('/home');
 
     else {
-        user.getUser(req.session.userId).then(function(result) {
+        user.getBookings(req.session.userId).then(function(bookings) {
+
+            // Preprocess here
+            console.log(bookings);
+
             res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
             {
                 title: webname + "| Account | Bookings",
                 session: req.session,
-                user: result
+                user: {name: "", email: ""},
+                bookings: bookings
             });
+
         }).catch(function(err) {
+
+            console.log(err);
             res.redirect('/logout');
         });
         
@@ -290,20 +298,27 @@ router.get('/account/bookings', function(req, res) {
  *  Function:   Login Details Page Router
 */
 router.get('/account/details', function(req, res) {
+    
     if (req.session.userId == undefined)
         res.redirect('/home');
     
     else {
-        user.getUser(req.session.userId).then(function(result) {
+        user.getDetails(req.session.userId).then(function(userObj) {
+
+            // Preprocess User here
+            console.log(userObj);
+
             res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
             {
                 title: webname + "| Account | Details",
                 session: req.session,
-                user: result
+                user: userObj
             });
-
+            
+        // Error -> logout
         }).catch(function(err) {
-            res.redirect('/logout');
+            
+            res.redirect('/user/logout');
         });
     }
 });
@@ -317,15 +332,21 @@ router.get('/account/memberships', function(req, res) {
         res.redirect('/home');
 
     else {
-        user.getUser(req.session.userId).then(function(result) {
+        user.getMemberships(req.session.userId).then(function(memberships) {
+
+            // Preprocess here
+            console.log(memberships);
+
             res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
             {
                 title: webname + "| Account | Memberships",
                 session: req.session,
-                user: result
+                user: memberships
             });
 
         }).catch(function(err) {
+
+            console.log(err);
             res.redirect('/logout');
         });
         
@@ -341,7 +362,7 @@ router.get('/account/payment', function(req, res) {
         res.redirect('/home');
 
     else {
-        user.getUser(req.session.userId).then(function(result) {
+        user.getDetails(req.session.userId).then(function(result) {
             res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
             {
                 title: webname + "| Account | Payment",

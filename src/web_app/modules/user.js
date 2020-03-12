@@ -50,7 +50,7 @@ exports.loginUser = function(email, password){
  *  Input:      Id
  *  Output:     Error Message
 */
-exports.updateUser = function(req_body){
+exports.updateDetails = function(req_body){
 
     let id = req_body.id;
     let name = req_body.name;
@@ -136,6 +136,7 @@ exports.setUserSession = function(req, email){
 
             // Sets session variable
             req.session.userId = id;
+            req.session.userType = 'user';
 
             resolve(true);
 
@@ -153,13 +154,93 @@ exports.setUserSession = function(req, email){
  *  Input:      Id
  *  Output:     Error Message
 */
-exports.getUser = function(id){
+exports.getDetails = function(id){
 
     return new Promise(function(resolve, reject) {
 
         db.getUserDetails(id).then(function(user){
 
             resolve(user);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+ *  Function:   Get User's memberships
+ *  Input:      User {id}
+ *  Output:     Membership / Error Message
+*/
+exports.getMemberships = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getUserMemberships(id).then(function(memberships){
+
+            resolve(memberships);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+ *  Function:   Cancel User's Membership
+ *  Input:      User {id}, Membership {id}
+ *  Output:     Boolean Result / Error Message
+*/
+exports.cancelMembership = function(userId, membershipId){
+
+    return new Promise(function(resolve, reject) {
+
+        db.cancelMembership(userId, membershipId).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+ *  Function:   Get User Bookings
+ *  Input:      User {id}
+ *  Output:     Bookings / Error Message
+*/
+exports.getBookings = function(userId){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getUserBookings(userId).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+ *  Function:   Delete Booked Activity
+ *  Input:      BookedActivity Id
+ *  Output:     Boolean Result / Error Message
+*/
+exports.cancelBooking = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.cancelBooking(id).then(function(result){
+
+            resolve(result);
 
         }).catch(function(err){
 

@@ -19,19 +19,6 @@ CREATE TABLE `Card` (
 -- --------------------------------------------------------
 
 --
--- Definition of the table ``
---
-
-CREATE TABLE `BookedActivity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_activity` int(11) NOT NULL,
-  `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Definition of the table `Facility`
 --
 
@@ -41,6 +28,7 @@ CREATE TABLE `Facility` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `id_timetable` int(11) NOT NULL,
+  `pic` varchar(400) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -153,6 +141,21 @@ CREATE TABLE `Activity` (
   FOREIGN KEY(`id_sport`) REFERENCES Sport(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+-- --------------------------------------------------------
+
+--
+-- Definition of the table `BookedActivity`
+--
+
+CREATE TABLE `BookedActivity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_activity` int(11) NOT NULL,
+  `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`id_activity`) REFERENCES Activity(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
@@ -223,7 +226,8 @@ CREATE TABLE `Payment` (
   `id_booked_activity` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`id_booked_activity`) REFERENCES BookedActivity(`id`)
+  FOREIGN KEY (`id_booked_activity`) REFERENCES BookedActivity(`id`),
+  FOREIGN KEY (`id_card`) REFERENCES Card(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -239,6 +243,7 @@ INSERT INTO Facility (name, latitude, longitude, id_timetable) VALUES ('F.Pelleg
 
 -- Creating a sport with an activity by a lecturer
 INSERT INTO Sport(name, description) VALUES ('Swimming', 'Free swimming, Sub Classes, Competitive Freestyle Swimming.');
+INSERT INTO Sport(name, description) VALUES ('Kick Box', 'Lightweight, agility-based martial arts discipline.');
 INSERT INTO Lecturer(full_name, email, phone) VALUES ('John Fish', 'iswimalot@gmail.com', '+44 1234567890');
 INSERT INTO Activity (cost, duration, id_sport) VALUES (15, 60, 1);
 INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
@@ -248,8 +253,11 @@ INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (1, 1);
 
 -- Creating a membership
 INSERT INTO Membership(validity, id_user, id_sport) VALUES (31, 1, 1);
+INSERT INTO Membership(validity, id_user, id_sport) VALUES (14, 1, 2);
 
-USE comp2913_sep; 
-SELECT * FROM User;
+-- Payment simulation
+INSERT INTO Card (number, cvv, expire_date, type) VALUES ('12345678901234567890', '123', '01/02', 'VISA');
+INSERT INTO Card_User(id_card, id_user) VALUES (1, 1);
 
- 
+INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 1, 1);

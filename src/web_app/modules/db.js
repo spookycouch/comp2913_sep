@@ -195,7 +195,7 @@ exports.getUserDetails = function(id) {
  *  Input:      Id, Name, Surname, Email, Password, Phone, Address 1, Address 2, Zipcode, City, Profile Pic
  *  Output:     User Object / Error Message
 */
-exports.changeUserDetails = function(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic) {
+exports.updateUserDetails = function(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -301,7 +301,7 @@ exports.createActivity = function(discount, cost, start_time, duration, id_sport
 
             query = SqlString.format(
                 
-                'INSERT INTO Activity(discount, cost, start_time, duration, id_sport) VALUES(?, ?, ?, ?, ?)',
+                'INSERT INTO Activity (discount, cost, start_time, duration, id_sport) VALUES(?, ?, ?, ?, ?)',
                  [discount, cost, start_time, duration, id_sport]
             );
 
@@ -312,6 +312,211 @@ exports.createActivity = function(discount, cost, start_time, duration, id_sport
                 if (err) return reject(err);
 
                 resolve(true);
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query Membershops by user id (passed from session)
+ *  Input:      User {id}
+ *  Output:     Membership {id, validity, start_date, id_user, id_sport} / Error Message
+*/
+exports.getUserMemberships = function(id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT * FROM Membership INNER JOIN Sport ON Membership.id_sport = Sport.id WHERE id_user = ?',
+                    [id.id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Delete Membership by id 
+ *  Input:      User {id}, Membership {id}
+ *  Output:     Boolean Result / Error Message
+*/
+exports.cancelMembership = function(userId, membershipId) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'DELETE FROM Membership WHERE id = ? AND id_user = ?',
+                    [membershipId, userId.id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(true);
+
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query payments by user id (passed from session)
+ *  Input:      User {id}
+ *  Output:     Payments / Error Message
+*/
+exports.getUserPayments = function(id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT * FROM Payment WHERE id_user = ?',
+                    [id.id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query payments by user id (passed from session)
+ *  Input:      User {id}
+ *  Output:     Start Time, Duration, Booking Status (Payment successful/rejected), Facility ID / Error Message
+*/
+exports.getUserBookings = function(id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Activity_Timetable ON Activity.id = Activity_Timetable.id_activity INNER JOIN Facility ON Activity_Timetable.id_timetable = Facility.id_timetable WHERE Payment.id_user = ?',
+                    [id.id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Delete Booked Activity
+ *  Input:      BookedActivity Id
+ *  Output:     Boolean Result / Error Message
+*/
+exports.cancelBooking = function(id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'DELETE FROM BookedActivity WHERE id = ?',
+                    [id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(true);
+
             });
         });
     });
