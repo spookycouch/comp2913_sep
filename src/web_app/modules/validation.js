@@ -257,6 +257,31 @@ const apiLoginValidation = function(data){
 }
 
 
+/*
+ *  Function:   API New Activity Validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
+const apiNewActivityValidation = function(data){
+
+    const registerValidationSchema = joi.object({
+        image: joi.any()
+            .allow(''),
+        discount: joi.string()
+            .required(),
+        cost: joi.string()
+            .required(),
+        start_time: joi.string()
+            .required(),
+        duration: joi.string()
+            .required(),
+        id_sport: joi.number()
+            .required(),
+    });
+
+    return registerValidationSchema.validate(data, {abortEarly: false});
+}
+
 
 module.exports.registerValidation = registerValidation;         // Registration (whole form)
 module.exports.registerValidation1 = registerValidation1;       // Registration (subform 1)
@@ -265,3 +290,4 @@ module.exports.registerValidation3 = registerValidation3;       // Registration 
 module.exports.loginValidation = loginValidation;               // Login
 module.exports.apiLoginValidation = apiLoginValidation;         // ApiLogin
 module.exports.apiRegisterValidation = apiRegisterValidation;   // ApiRegister
+module.exports.apiNewActivityValidation = apiNewActivityValidation; //ApiNewActivity

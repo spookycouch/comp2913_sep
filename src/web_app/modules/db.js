@@ -273,3 +273,46 @@ exports.createUser = function(name, surname, email, password, phone, address_1, 
         });
     });
 }
+
+
+
+/*
+ *  Function:   Create New User
+ *  Input:      Discount, Cost, Start Time, Duration, Sport ID
+ *  Output:     Bool / Error Message
+*/
+exports.createActivity = function(discount, cost, start_time, duration, id_sport) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        // Connection
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                
+                'INSERT INTO Activity(discount, cost, start_time, duration, id_sport) VALUES(?, ?, ?, ?, ?)',
+                 [discount, cost, start_time, duration, id_sport]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(true);
+            });
+        });
+    });
+}
