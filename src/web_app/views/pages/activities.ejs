@@ -1,0 +1,32 @@
+<%- include('../partials/head') %>
+
+<% if(total && results){ %>
+    <!-- some description -->
+    <p>we have <%=total%> activities in total</p>
+    <p>page number <%=page_no%></p>
+    
+    <!-- activity tabs -->
+    <% for (var i =0; i < total;  i++ ) { %>
+        <div style="border:1px solid black">
+            <h3><%=results[i].id%></h3>
+            <p>start time: <%=results[i].start_time%></p>
+            <p>cost: <%=results[i].cost%></p>
+            <p>discount: <%=results[i].discount%></p>
+            <p>duration: <%=results[i].duration%></p>
+            <p>sport id: <%=results[i].id_sport%></p>
+        </div>
+    <% } %>
+
+    <!-- page numbers -->
+    <% var no_pages = parseInt(total/10)%>
+    <p>number of pages: <%=no_pages%></p>
+    
+    <div> 
+    <% for (var i = 0; i < no_pages + 1; ++i) { %>
+        <form>
+            <input type="submit", value="<%=i%>">
+        </form>
+    <% } %>
+    </div>
+
+<% } %>

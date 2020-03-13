@@ -107,8 +107,16 @@ router.get('/activities', csrf, function(req, res) {
         }
 
         user.upcomingActivities(no_items, page_no).then(function (results) {
-            
-            res.end(results[0][0].count.toString() + ' activities were found');
+            console.log(results[0][0].count);
+            console.log(results[1].length);
+            console.log(results[1][0])
+            // res.end(results[0][0].count.toString() + ' activities were found');
+            res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
+            {
+                page_no: page_no,
+                total: results[0][0].count,
+                results: results[1]
+            });
 
         }).catch(function(err){
            
