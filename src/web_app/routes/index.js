@@ -92,4 +92,37 @@ router.get('/user/login', csrf, function(req, res) {
     }
 });
 
+/*
+ *  Function:   Facilities Page Router
+*/
+router.get('/activities', csrf, function(req, res) {
+
+    async function genFromDB() { 
+        var no_items = 10;
+        var page_no = 0;
+
+        if (req.body.hasOwnProperty('no_items') && req.body.hasOwnProperty('page_no')) {
+            no_items = req.body.no_items;
+            page_no = req.body.page_no - 1;
+        }
+
+        user.upcomingActivities(no_items, page_no).then(function (results) {
+            
+            res.end(results[0][0].count.toString() + ' activities were found');
+
+        }).catch(function(err){
+           
+            reject(err);
+        });
+    }
+
+    genFromDB();
+
+    // res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
+    // {  
+    //     title: webname + "| Facilities",
+    //     session: req.session
+    // });
+});
+
 module.exports = router;

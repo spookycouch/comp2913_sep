@@ -521,3 +521,45 @@ exports.cancelBooking = function(id) {
         });
     });
 }
+
+/*
+ *  Function:   Query User by id once logged in
+ *  Input:      Id
+ *  Output:     User Object / Error Message
+*/
+exports.getUpcomingActivities = function(no_items, page_no) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT COUNT(*) AS count FROM Activity WHERE start_time > CURRENT_TIMESTAMP();SELECT * FROM Activity WHERE start_time > CURRENT_TIMESTAMP() ORDER BY start_time ASC LIMIT ? OFFSET ?;',
+                    [no_items, no_items * (page_no)]
+            );
+            
+            // Query
+            conn.query(query, [1,2], function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
