@@ -239,17 +239,27 @@ INSERT INTO User(name, surname, email, password, phone, address_1, zipcode, city
 
 -- Creating a Facility with a timetable
 INSERT INTO Timetable(validity) VALUES (365);
-INSERT INTO Facility (name, latitude, longitude, id_timetable) VALUES ('F.Pellegrini Swimming Pool', '53.804326', '-1.553167', 1);
+INSERT INTO Timetable(validity) VALUES (365);
+INSERT INTO Facility (name, latitude, longitude, id_timetable, pic) VALUES ('F.Pellegrini Swimming Pool', '53.804326', '-1.553167', 1, 'https://5rd1122q2fb2q9nsj36dtnqz-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/swimming-pool-100x400.jpg');
+INSERT INTO Facility (name, latitude, longitude, id_timetable, pic) VALUES ('M. Ali Box', '53.804326', '-1.553167', 2, 'https://cdn.squaremile.com/featured_image/5af42ccf55937.jpeg');
 
 -- Creating a sport with an activity by a lecturer
 INSERT INTO Sport(name, description) VALUES ('Swimming', 'Free swimming, Sub Classes, Competitive Freestyle Swimming.');
 INSERT INTO Sport(name, description) VALUES ('Kick Box', 'Lightweight, agility-based martial arts discipline.');
 INSERT INTO Lecturer(full_name, email, phone) VALUES ('John Fish', 'iswimalot@gmail.com', '+44 1234567890');
-INSERT INTO Activity (cost, duration, id_sport) VALUES (15, 60, 1);
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 1, '2019-01-02');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 2, '2019-01-03');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 1, '2019-01-04');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 2, '2019-01-05');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 1, '2019-01-06');
 INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
 
 -- Linking the activity to the facility timetable
 INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (1, 1);
+INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (2, 2);
+INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (3, 1);
+INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (4, 2);
+INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (5, 1);
 
 -- Creating a membership
 INSERT INTO Membership(validity, id_user, id_sport) VALUES (31, 1, 1);
@@ -260,4 +270,13 @@ INSERT INTO Card (number, cvv, expire_date, type) VALUES ('12345678901234567890'
 INSERT INTO Card_User(id_card, id_user) VALUES (1, 1);
 
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
+INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (2, '2020-01-01');
+INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (3, '2020-01-01');
+INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (4, '2020-01-01');
+INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (5, '2020-01-01');
+
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 1, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 2, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 3, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 4, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 5, 1);

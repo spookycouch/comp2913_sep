@@ -1466,6 +1466,11 @@ ul {
   display: flex;
 }
 
+.account__overview .overview__option .one-third {
+  max-width: 10% !important;
+  min-width: 300px;
+}
+
 .account__overview .overview__option--full-width {
   width: 100%;
   max-width: none;
@@ -1647,6 +1652,14 @@ ul {
   margin-right: 15px;
 }
 
+.btn--clickable--green {
+  border: 2px solid white;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-right: 15px;
+  background-color: #00A984;
+}
+
 .account__side-bar .side-bar__nav .nav__item .item__link {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1673,6 +1686,15 @@ ul {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   margin: 60px 0px;
+}
+
+.account__section .short-margin {
+
+  margin: 10px 0px;
+}
+
+.account__section .full-width {
+  width:100%;
 }
 
 .account__details {
@@ -2561,14 +2583,22 @@ ul {
    * Minus
    */
 .hamburger--minus .hamburger-inner::before, .hamburger--minus .hamburger-inner::after {
-  -webkit-transition: bottom 0.08s 0s ease-out, top 0.08s 0s ease-out, opacity 0s linear;
-  transition: bottom 0.08s 0s ease-out, top 0.08s 0s ease-out, opacity 0s linear;
+  -webkit-transition: bottom 0.08s 0s ease-out,
+ top 0.08s 0s ease-out,
+ opacity 0s linear;
+  transition: bottom 0.08s 0s ease-out,
+ top 0.08s 0s ease-out,
+ opacity 0s linear;
 }
 
 .hamburger--minus.is-active .hamburger-inner::before, .hamburger--minus.is-active .hamburger-inner::after {
   opacity: 0;
-  -webkit-transition: bottom 0.08s ease-out, top 0.08s ease-out, opacity 0s 0.08s linear;
-  transition: bottom 0.08s ease-out, top 0.08s ease-out, opacity 0s 0.08s linear;
+  -webkit-transition: bottom 0.08s ease-out,
+ top 0.08s ease-out,
+ opacity 0s 0.08s linear;
+  transition: bottom 0.08s ease-out,
+ top 0.08s ease-out,
+ opacity 0s 0.08s linear;
 }
 
 .hamburger--minus.is-active .hamburger-inner::before {
@@ -2668,8 +2698,10 @@ ul {
 }
 
 .hamburger--spin .hamburger-inner::before {
-  -webkit-transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
-  transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
+  -webkit-transition: top 0.1s 0.25s ease-in,
+ opacity 0.1s ease-in;
+  transition: top 0.1s 0.25s ease-in,
+ opacity 0.1s ease-in;
 }
 
 .hamburger--spin .hamburger-inner::after {
@@ -2691,8 +2723,10 @@ ul {
 .hamburger--spin.is-active .hamburger-inner::before {
   top: 0;
   opacity: 0;
-  -webkit-transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
-  transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+  -webkit-transition: top 0.1s ease-out,
+ opacity 0.1s 0.12s ease-out;
+  transition: top 0.1s ease-out,
+ opacity 0.1s 0.12s ease-out;
 }
 
 .hamburger--spin.is-active .hamburger-inner::after {
@@ -2716,8 +2750,10 @@ ul {
 }
 
 .hamburger--spin-r .hamburger-inner::before {
-  -webkit-transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
-  transition: top 0.1s 0.25s ease-in, opacity 0.1s ease-in;
+  -webkit-transition: top 0.1s 0.25s ease-in,
+ opacity 0.1s ease-in;
+  transition: top 0.1s 0.25s ease-in,
+ opacity 0.1s ease-in;
 }
 
 .hamburger--spin-r .hamburger-inner::after {
@@ -2739,8 +2775,10 @@ ul {
 .hamburger--spin-r.is-active .hamburger-inner::before {
   top: 0;
   opacity: 0;
-  -webkit-transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
-  transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+  -webkit-transition: top 0.1s ease-out,
+ opacity 0.1s 0.12s ease-out;
+  transition: top 0.1s ease-out,
+ opacity 0.1s 0.12s ease-out;
 }
 
 .hamburger--spin-r.is-active .hamburger-inner::after {
@@ -2976,8 +3014,10 @@ ul {
 }
 
 .hamburger--squeeze .hamburger-inner::before {
-  -webkit-transition: top 0.075s 0.12s ease, opacity 0.075s ease;
-  transition: top 0.075s 0.12s ease, opacity 0.075s ease;
+  -webkit-transition: top 0.075s 0.12s ease,
+ opacity 0.075s ease;
+  transition: top 0.075s 0.12s ease,
+ opacity 0.075s ease;
 }
 
 .hamburger--squeeze .hamburger-inner::after {
@@ -2999,8 +3039,10 @@ ul {
 .hamburger--squeeze.is-active .hamburger-inner::before {
   top: 0;
   opacity: 0;
-  -webkit-transition: top 0.075s ease, opacity 0.075s 0.12s ease;
-  transition: top 0.075s ease, opacity 0.075s 0.12s ease;
+  -webkit-transition: top 0.075s ease,
+ opacity 0.075s 0.12s ease;
+  transition: top 0.075s ease,
+ opacity 0.075s 0.12s ease;
 }
 
 .hamburger--squeeze.is-active .hamburger-inner::after {

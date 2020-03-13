@@ -161,139 +161,43 @@ router.get('/logout', function(req, res) {
     console.log("successfully logged out");
 });
 
-
-/*
- *  Function:   Register Backend Query (for Registration subform 1)
-*/
-router.post('/register/response-1', function(req, res) {
-    
-    try {
-        const value = validation.registerValidation1(req.body);   
-
-        // Error
-        if(value.error != undefined)
-            throw value.error.details;
-        
-        // Email check
-        user.checkEmailRegistered(req.body.email).then(function(result) {
-
-            // Email already existing
-            if(result == true) throw [{
-                message: 'Email already registered',
-                path: 'email'
-            }];
-
-             // Response
-            res.end(JSON.stringify({
-                name: req.body.name,
-                surname: req.body.surname,
-                email: req.body.email,
-                password: req.body.password,
-                confirm_password: req.body.confirm_password
-            }));
-
-        }).catch(function(err){
-
-            // Error
-           res.end(JSON.stringify({
-                error: err
-            }));
-
-        });
-
-    } catch(err) {
-
-        // Error
-        res.end(JSON.stringify({
-            error: err
-        }));
-    }
-});
-
-
-/*
- *  Function:   Register Backend Query (for Registration subform 2)
-*/
-router.post('/register/response-2', function(req, res) {
-    try {
-        const value = validation.registerValidation2(req.body);
-
-        // Error
-        if(value.error != undefined)
-            throw value.error.details;
-
-        res.end(JSON.stringify({
-            birth: req.body.birth,
-            phone: req.body.phone
-        }));
-
-    } catch(err) {
-
-        res.end(JSON.stringify({
-            error: err
-        }));
-    }
-});
-
-
-/*
- *  Function:   Register Backend Query (for Registration subform 3)
-*/
-router.post('/register/response-3', function(req, res) {
-    try {
-        const value = validation.registerValidation3(req.body);
-        
-        // Error
-        if(value.error != undefined)
-            throw value.error.details;
-
-        res.end(JSON.stringify({
-            address_1: req.body.address_1,
-            address_2: req.body.address_2,
-            city: req.body.city,
-            zipcode: req.body.zipcode
-        }));
-
-    } catch(err) {
-
-        res.end(JSON.stringify({
-            error: err
-        }));
-    }
-
-});
-
 /*
  *  Function:   Account Bookings Page Router
 */
 router.get('/account/bookings', function(req, res) {
+    
+    // Session Check
     if (req.session.userId == undefined)
+        
         res.redirect('/home');
 
+    // Success
     else {
-        user.getBookings(req.session.userId).then(function(bookings) {
 
-            user.getDetails(req.session.userId).then(function(result) {
-                // Preprocess here
-                console.log(bookings);
+        // Get details
+        user.getDetails(req.session.userId).then(function(usr) {
 
+            user.getBookings(req.session.userId).then(function(bookings){
+
+                // Render details
                 res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
                 {
                     title: webname + "| Account | Bookings",
                     session: req.session,
                     bookings: bookings,
-                    user: result
+                    user: usr
                 });
-            }).catch(function(err) {
-                console.log(err);
-                res.redirect('/logout');
-            });
-        }).catch(function(err) {
 
+            // Error catching
+            }).catch(function(err){
+
+                console.log(err);
+            });
+                
+        }).catch(function(err) {
+            
             console.log(err);
-            res.redirect('/logout');
         });
-        
     }
 });
 
@@ -303,15 +207,17 @@ router.get('/account/bookings', function(req, res) {
 */
 router.get('/account/details', function(req, res) {
     
+    // Session check
     if (req.session.userId == undefined)
         res.redirect('/home');
     
+    // Success
     else {
+
+        // Get data
         user.getDetails(req.session.userId).then(function(userObj) {
 
-            // Preprocess User here
-            console.log(userObj);
-
+            // Render data
             res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
             {
                 title: webname + "| Account | Details",

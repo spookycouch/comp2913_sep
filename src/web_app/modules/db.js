@@ -168,7 +168,7 @@ exports.getUserDetails = function(id) {
 
             query = SqlString.format(
         
-                'SELECT name, surname, email, birth, phone, address_1, address_2 city, zipcode, profile_pic FROM User WHERE id = ?',
+                'SELECT id, name, surname, email, birth, phone, address_1, address_2 city, zipcode, profile_pic FROM User WHERE id = ?',
                     [id.id]
             );
 
@@ -464,7 +464,7 @@ exports.getUserBookings = function(id) {
 
             query = SqlString.format(
         
-                'SELECT Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Activity_Timetable ON Activity.id = Activity_Timetable.id_activity INNER JOIN Facility ON Activity_Timetable.id_timetable = Facility.id_timetable WHERE Payment.id_user = ?',
+                'SELECT Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.pic AS facilityPic, Facility.name as facilityName, Sport.name as sportName FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Activity_Timetable ON Activity.id = Activity_Timetable.id_activity INNER JOIN Facility ON Activity_Timetable.id_timetable = Facility.id_timetable INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC',
                     [id.id]
             );
 
@@ -473,6 +473,8 @@ exports.getUserBookings = function(id) {
                 
                 // Error
                 if (err) return reject(err);
+
+                console.log(results);
 
                 // Result
                 resolve(results);

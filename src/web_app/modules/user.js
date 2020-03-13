@@ -214,12 +214,25 @@ exports.cancelMembership = function(userId, membershipId){
  *  Input:      User {id}
  *  Output:     Bookings / Error Message
 */
-exports.getBookings = function(userId){
+exports.getBookings = function(id){
 
     return new Promise(function(resolve, reject) {
 
-        db.getUserBookings(userId).then(function(result){
+        db.getUserBookings(id).then(function(result){
 
+            // Formatting date
+            for(i = 0; i < result.length; i++){
+
+                // Formatting
+                var mysql_date = result[i].start_time;
+
+                let date = mysql_date.getTime();
+                date = moment(date).format('DD/MM/YYYY hh:mm');
+                
+                result[i].start_time = date;
+            }
+
+            // Render
             resolve(result);
 
         }).catch(function(err){

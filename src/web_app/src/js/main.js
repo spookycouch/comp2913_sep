@@ -115,7 +115,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'register/response-1',
+            url: '/ajax/register/response-1',
             type: 'POST',
             data: $('#form-1').serialize(),
             datatype: 'json',
@@ -154,7 +154,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'register/response-2',
+            url: '/ajax/register/response-2',
             type: 'POST',
             data: $('#form-2').serialize(),
             datatype: 'json',
@@ -193,7 +193,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'register/response-3',
+            url: '/ajax/register/response-3',
             type: 'POST',
             data: $('#form-3').serialize(),
             datatype: 'json',

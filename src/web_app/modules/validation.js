@@ -282,7 +282,6 @@ const apiNewActivityValidation = function(data){
     return registerValidationSchema.validate(data, {abortEarly: false});
 }
 
-
 module.exports.registerValidation = registerValidation;         // Registration (whole form)
 module.exports.registerValidation1 = registerValidation1;       // Registration (subform 1)
 module.exports.registerValidation2 = registerValidation2;       // Registration (subform 2)
@@ -290,4 +289,4 @@ module.exports.registerValidation3 = registerValidation3;       // Registration 
 module.exports.loginValidation = loginValidation;               // Login
 module.exports.apiLoginValidation = apiLoginValidation;         // ApiLogin
 module.exports.apiRegisterValidation = apiRegisterValidation;   // ApiRegister
-module.exports.apiNewActivityValidation = apiNewActivityValidation; //ApiNewActivity
+module.exports.apiNewActivityValidation = apiNewActivityValidation; // ApiNewActivity
