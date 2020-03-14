@@ -26,12 +26,7 @@
 
                             <div class="desc__facility-discover">
                                 <div class="discover__link">
-                                    <!-- <a href="###"><h2>Discover</h2></a> -->
-                                    <form method="POST" action="/facilities/discover">
-                                        <input type="submit", value="Discover">
-                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                                        <input type="hidden", name="id", value="<%=results[i].id%>">
-                                    </form>
+                                    <a href="/facilities/discover?id=<%=results[i].id%>"><h2>Discover</h2></a>
                                 </div>
                             </div>
                         </div>
