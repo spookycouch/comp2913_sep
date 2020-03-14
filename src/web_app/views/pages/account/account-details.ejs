@@ -6,12 +6,30 @@
     <div class="account">
         <%- include('../../partials/account-side-bar') %>
 
-        <div class="account__section account__details">
-            <div class="details__form">
+        <div class="account__section account__details" style="color:black;">
+
+            <style>
+
+                input {
+                    width: 100%;
+                }
+
+                input {
+                    margin-bottom: 20px;
+                }
+
+            </style>
+
+            <div class="details__form" style="width:70%;">
+
+                <div style="width:100%;text-align:center;margin-bottom:40px;">
+                    <h1>Account Details</h1>
+                </div>
+
                 <form autocomplete="off">
                     <label><h3>Firstname</h3></label>
                     <input type="text" name="name" placeholder="Name" value="<%- user.name %>" />
-    
+                    
                     <label><h3>Surname</h3></label>
                     <input type="text" name="surname" placeholder="Surname" value="<%- user.surname %>" />
     
@@ -35,6 +53,16 @@
     
                     <label><h3>Postal / Zip Code</h3></label>
                     <input type="text" name="zipcode" placeholder="Zip Code" value="<%- user.zipcode %>" />
+
+                    <br><br>
+                    <div style="text-align:right;">
+                        <div class="content__explore hvr-sweep-to-right" style="background-color:#00A984;color:white;padding:10px;">
+                            <a href="#">
+                                <h2>Update</h2>
+                            </a>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
