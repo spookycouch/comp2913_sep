@@ -10,7 +10,7 @@ const validation = require('../modules/validation');
 var moment = require('moment');
 
 var user = require('../modules/user');
-//var employee = require('../modules/employee');
+var employee = require('../modules/employee');
 var busboy = require('busboy');
 var fs = require('fs');
 var urlEncoded = bodyParser.urlencoded({ extended: true });
@@ -168,16 +168,17 @@ router.post('/new_activity', jsonEncoded, function(req, res) {
         }
 
         // Query
-        /*
         employee.newActivity(req.body).then(function(result){            
 
+            /*
             // Session creation
             const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET);
             res.header('auth-token',token).send(token);
+            */
 
-           res.setHeader('Content-Type', 'application/json');
-           res.end(
-               JSON.stringify(result)
+            res.setHeader('Content-Type', 'application/json');
+            res.end(
+                JSON.stringify(result)
            );
 
         // Error
@@ -188,7 +189,6 @@ router.post('/new_activity', jsonEncoded, function(req, res) {
                 JSON.stringify(err)
             );
         });
-        */
 
     } catch(err) {
 

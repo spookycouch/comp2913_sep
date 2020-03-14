@@ -273,7 +273,6 @@ exports.upcomingActivities = function(no_items, page_no){
     return new Promise(function(resolve, reject) {
 
         db.getUpcomingActivities(no_items, page_no).then(function(result){
-
             resolve(result);
 
         }).catch(function(err){

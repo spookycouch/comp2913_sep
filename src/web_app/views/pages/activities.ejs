@@ -1,32 +1,44 @@
 <%- include('../partials/head') %>
+<%- include('../partials/header') %>
 
-<% if(total && results){ %>
+<% if(locals.total && locals.results){ %>
     <!-- some description -->
     <p>we have <%=total%> activities in total</p>
     <p>page number <%=page_no%></p>
     
     <!-- activity tabs -->
-    <% for (var i =0; i < total;  i++ ) { %>
+    <% for (var i =0; i < results.length;  i++ ) { %>
         <div style="border:1px solid black">
-            <h3><%=results[i].id%></h3>
+            <h3><%=results[i].id%>: <%=results[i].name%></h3>
+            <p><%=results[i].description%></p>
             <p>start time: <%=results[i].start_time%></p>
             <p>cost: <%=results[i].cost%></p>
             <p>discount: <%=results[i].discount%></p>
             <p>duration: <%=results[i].duration%></p>
             <p>sport id: <%=results[i].id_sport%></p>
+            <form method="POST" action="/booking">
+                <input type="submit", value="Book now">
+                <input type="hidden" name="activity_id" value="<%=results[i].id%>">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            </form>
         </div>
     <% } %>
 
     <!-- page numbers -->
-    <% var no_pages = parseInt(total/10)%>
     <p>number of pages: <%=no_pages%></p>
     
     <div> 
-    <% for (var i = 0; i < no_pages + 1; ++i) { %>
-        <form>
+    <% for (var i = 1; i <= no_pages; ++i) { %>
+        <form method="POST" action="/activities">
             <input type="submit", value="<%=i%>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <input type="hidden", name="page_no", value="<%=i%>">
+            <input type="hidden", name="no_items", value="<%=no_items%>">
         </form>
     <% } %>
     </div>
 
 <% } %>
+
+<%- include('../partials/footer') %>
+<%- include('../partials/foot') %>

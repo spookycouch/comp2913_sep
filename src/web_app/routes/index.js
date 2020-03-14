@@ -92,45 +92,82 @@ router.get('/user/login', csrf, function(req, res) {
     }
 });
 
-/*
- *  Function:   Facilities Page Router
-*/
 router.get('/activities', csrf, function(req, res) {
-
     async function genFromDB() { 
-        var no_items = 10;
-        var page_no = 0;
-
-        if (req.body.hasOwnProperty('no_items') && req.body.hasOwnProperty('page_no')) {
-            no_items = req.body.no_items;
-            page_no = req.body.page_no - 1;
-        }
+        var no_items = 7;
+        var page_no = 1;
 
         user.upcomingActivities(no_items, page_no).then(function (results) {
-            console.log(results[0][0].count);
-            console.log(results[1].length);
-            console.log(results[1][0])
-            // res.end(results[0][0].count.toString() + ' activities were found');
             res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
             {
+                no_items: no_items,
                 page_no: page_no,
+                no_pages: Math.ceil(results[0][0].count/no_items),
                 total: results[0][0].count,
-                results: results[1]
+                results: results[1],
+                session: req.session,
+                csrfToken: req.csrfToken()
             });
 
         }).catch(function(err){
            
-            reject(err);
+            console.log(err);
         });
     }
 
     genFromDB();
+});
 
-    // res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
-    // {  
-    //     title: webname + "| Facilities",
-    //     session: req.session
-    // });
+
+/*
+ * Function:    Test new activity
+*/
+router.get('/new_activity', function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write('<form method="POST" action="/api/upload" enctype="multipart/form-data">');
+    res.write('<input type="file" name="image"><br>');
+    res.write('<input type="submit">');
+    res.write('</form>');
+    res.write('<br>');
+    res.write('<form method="POST" action="/api/new_activity">');
+    res.write('<input name="discount" type="text"><br>');
+    res.write('<input name="cost" type="text"><br>');
+    res.write('<input name="start_time" type="text"><br>');
+    res.write('<input name="duration" type="text"><br>');
+    res.write('<input name="id_sport" type="text"><br>');
+    res.write('<input type="submit">');
+    res.write('</form>');
+    return res.end();
+})
+
+/*
+ *  Function:   Facilities Page Router
+*/
+router.post('/activities', csrf, function(req, res) {
+
+    async function genFromDB() { 
+        var no_items = parseInt(req.body.no_items);
+        var page_no = parseInt(req.body.page_no);
+
+        user.upcomingActivities(no_items, page_no).then(function (results) {
+            res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
+            {
+                no_items: no_items,
+                page_no: page_no,
+                no_pages: Math.ceil(results[0][0].count/no_items),
+                total: results[0][0].count,
+                results: results[1],
+                session: req.session,
+                csrfToken: req.csrfToken()
+            });
+
+        }).catch(function(err){
+           
+            console.log(err);
+        });
+    }
+
+    genFromDB();
 });
 
 module.exports = router;
