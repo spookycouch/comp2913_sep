@@ -54,11 +54,88 @@ router.get('/memberships', csrf, function(req, res) {
  *  Function:   Facilities Page Router
 */
 router.get('/facilities', csrf, function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
-    {  
-        title: webname + "| Facilities",
-        session: req.session
-    });
+
+    async function genFromDB() { 
+        var no_items = 7;
+        var page_no = 1;
+
+        user.facilities(no_items, page_no).then(function (results) {
+            res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
+            {
+                no_items: no_items,
+                page_no: page_no,
+                no_pages: Math.ceil(results[0][0].count/no_items),
+                total: results[0][0].count,
+                results: results[1],
+                title: webname + "| Facilities",
+                session: req.session,
+                csrfToken: req.csrfToken()
+            });
+
+        }).catch(function(err){
+           
+            console.log(err);
+        });
+    }
+
+    genFromDB();
+});
+
+/*
+ *  Function:   Facilities Page Router
+*/
+router.post('/facilities/discover', csrf, function(req, res) {
+
+    async function genFromDB() { 
+        var id = parseInt(req.body.id);
+
+        user.facilities_discover(id).then(function (results) {
+            res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
+            {
+                results: results,
+                title: webname + "| Facilities",
+                session: req.session,
+                csrfToken: req.csrfToken()
+            });
+
+        }).catch(function(err){
+           
+            console.log(err);
+        });
+    }
+
+    genFromDB();
+});
+
+/*
+ *  Function:   Facilities Page Router
+*/
+router.post('/facilities', csrf, function(req, res) {
+
+    async function genFromDB() { 
+        var no_items = parseInt(req.body.no_items);
+        var page_no = parseInt(req.body.page_no);
+
+        user.facilities(no_items, page_no).then(function (results) {
+            res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
+            {
+                no_items: no_items,
+                page_no: page_no,
+                no_pages: Math.ceil(results[0][0].count/no_items),
+                total: results[0][0].count,
+                results: results[1],
+                title: webname + "| Facilities",
+                session: req.session,
+                csrfToken: req.csrfToken()
+            });
+
+        }).catch(function(err){
+           
+            console.log(err);
+        });
+    }
+
+    genFromDB();
 });
 
 /*
@@ -169,5 +246,6 @@ router.post('/activities', csrf, function(req, res) {
 
     genFromDB();
 });
+
 
 module.exports = router;

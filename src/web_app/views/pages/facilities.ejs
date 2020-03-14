@@ -9,12 +9,15 @@
         </div>
 
         <div class="facilities__container">
+
+            <%if (locals.results) {%>
+            <%for (var i = 0; i < results.length; ++i) { %>
             <div class="facilities__facility">
                 <div class="facility__spacing">
                     <div class="spacing__content">
                         <div class="content__desc">
                             <div class="desc__facility-name">
-                                <h2>Swimming Pool</h2>
+                                <h2><%=results[i].name%></h2>
                             </div>
 
                             <div class="desc__facility-info">
@@ -23,95 +26,24 @@
 
                             <div class="desc__facility-discover">
                                 <div class="discover__link">
-                                    <a href="###"><h2>Discover</h2></a>
+                                    <!-- <a href="###"><h2>Discover</h2></a> -->
+                                    <form method="POST" action="/facilities/discover">
+                                        <input type="submit", value="Discover">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                                        <input type="hidden", name="id", value="<%=results[i].id%>">
+                                    </form>
                                 </div>
                             </div>
                         </div>
 
                         <div class="content__image">
-                            <img src="/img/icons/gym-white.png" />
+                            <img src="/img/icons/<%=results[i].icon%>"/>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="facilities__facility">
-                <div class="facility__spacing">
-                    <div class="spacing__content">
-                        <div class="content__desc">
-                            <div class="desc__facility-name">
-                                <h2>Fitness Room</h2>
-                            </div>
-
-                            <div class="desc__facility-info">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
-                            </div>
-
-                            <div class="desc__facility-discover">
-                                <div class="discover__link">
-                                    <a href="###"><h2>Discover</h2></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content__image">
-                            <img src="/img/icons/gym-white.png" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="facilities__facility">
-                <div class="facility__spacing">
-                    <div class="spacing__content">
-                        <div class="content__desc">
-                            <div class="desc__facility-name">
-                                <h2>Squash Courts</h2>
-                            </div>
-
-                            <div class="desc__facility-info">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
-                            </div>
-
-                            <div class="desc__facility-discover">
-                                <div class="discover__link">
-                                    <a href="###"><h2>Discover</h2></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content__image">
-                            <img src="/img/icons/gym-white.png" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="facilities__facility">
-                <div class="facility__spacing">
-                    <div class="spacing__content">
-                        <div class="content__desc">
-                            <div class="desc__facility-name">
-                                <h2>Sports Hall</h2>
-                            </div>
-
-                            <div class="desc__facility-info">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
-                            </div>
-
-                            <div class="desc__facility-discover">
-                                <div class="discover__link">
-                                    <a href="###"><h2>Discover</h2></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content__image">
-                            <img src="/img/icons/gym-white.png" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <% } %>
+            <% } %>
 
             
         </div>

@@ -564,3 +564,85 @@ exports.getUpcomingActivities = function(no_items, page_no) {
         });
     });
 }
+
+
+/*
+ *  Function:   Query User by id once logged in
+ *  Input:      Id
+ *  Output:     User Object / Error Message
+*/
+exports.getFacilities = function(no_items, page_no) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT COUNT(*) AS count FROM Facility;SELECT * FROM Facility ORDER BY id ASC LIMIT ? OFFSET ?',
+                    [no_items, no_items * (page_no - 1)]
+            );
+            
+            // Query
+            conn.query(query, [1,2], function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query User by id once logged in
+ *  Input:      Id
+ *  Output:     User Object / Error Message
+*/
+exports.getFacility = function(id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT * FROM Facility WHERE id = ?',
+                    [id]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}

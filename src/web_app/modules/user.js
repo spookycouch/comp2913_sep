@@ -281,3 +281,42 @@ exports.upcomingActivities = function(no_items, page_no){
         });
     });
 }
+
+
+/*
+ *  Function:   Upcoming activities
+ *  Input:      No Items, Page No
+ *  Output:     Error Message
+*/
+exports.facilities = function(no_items, page_no){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getFacilities(no_items, page_no).then(function(result){
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+ *  Function:   Upcoming activities
+ *  Input:      No Items, Page No
+ *  Output:     Error Message
+*/
+exports.facilities_discover = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getFacility(id).then(function(result){
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
