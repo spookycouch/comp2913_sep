@@ -19,6 +19,18 @@ CREATE TABLE `Card` (
 -- --------------------------------------------------------
 
 --
+-- Definition of the table `Image`
+--
+
+CREATE TABLE `Image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ext` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Definition of the table `Facility`
 --
 
@@ -28,9 +40,22 @@ CREATE TABLE `Facility` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `id_timetable` int(11) NOT NULL,
-  `pic` varchar(400) NOT NULL DEFAULT '',
   `icon` varchar(400) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Definition of the table `FacilityImage`
+--
+
+CREATE TABLE `FacilityImage` (
+  `id_image` int(11) NOT NULL,
+  `id_facility` int(11) NOT NULL,
+  PRIMARY KEY (`id_image`, `id_facility`),
+  FOREIGN KEY(`id_image`) REFERENCES Image(`id`),
+  FOREIGN KEY(`id_facility`) REFERENCES Facility(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -241,8 +266,20 @@ INSERT INTO User(name, surname, email, password, phone, address_1, zipcode, city
 -- Creating a Facility with a timetable
 INSERT INTO Timetable(validity) VALUES (365);
 INSERT INTO Timetable(validity) VALUES (365);
-INSERT INTO Facility (name, latitude, longitude, id_timetable, pic, icon) VALUES ('F.Pellegrini Swimming Pool', '53.804326', '-1.553167', 1, 'https://5rd1122q2fb2q9nsj36dtnqz-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/swimming-pool-100x400.jpg', 'gym-white.png');
-INSERT INTO Facility (name, latitude, longitude, id_timetable, pic, icon) VALUES ('M. Ali Box', '53.804326', '-1.553167', 2, 'https://cdn.squaremile.com/featured_image/5af42ccf55937.jpeg', 'gym-white.png');
+INSERT INTO Facility (name, latitude, longitude, id_timetable, icon) VALUES ('F.Pellegrini Swimming Pool', '53.804326', '-1.553167', 1,  'gym-white.png');
+INSERT INTO Facility (name, latitude, longitude, id_timetable, icon) VALUES ('M. Ali Box', '53.804326', '-1.553167', 2, 'gym-white.png');
+
+-- Create image references
+INSERT INTO Image(ext) VALUES('jpg');
+INSERT INTO Image(ext) VALUES('jpg');
+INSERT INTO Image(ext) VALUES('jpg');
+INSERT INTO Image(ext) VALUES('JPG');
+
+-- Create image/facility references
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (1,1);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (2,1);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (3,2);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (4,2);
 
 -- Creating a sport with an activity by a lecturer
 INSERT INTO Sport(name, description) VALUES ('Swimming', 'Free swimming, Sub Classes, Competitive Freestyle Swimming.');

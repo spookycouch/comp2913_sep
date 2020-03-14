@@ -5,19 +5,20 @@
 <div class="container">
     <div class="facilities">
 
-        <%if (locals.results) {%>
-        <%if (results.length > 0) { %>
+        <%if (locals.facility && locals.images) {%>
+        <%if (facility.length > 0) { %>
         
         <div class="facilities__header">
-            <h2><%=results[0].id%>: <%=results[0].name%></h2>
+            <h2><%=facility[0].id%>: <%=facility[0].name%></h2>
         </div>
 
         <div class="facilities__container">
 
             <div>
-                <h3><%=results[0].id%>: <%=results[0].name%></h3>
-                <p><%=results[0].description%></p>
-                <img src="<%=results[0].pic%>"/>
+                <%for (var i = 0; i < images.length; ++i) {%>
+                <img src="/uploads/<%=images[i].id%>.<%=images[i].ext%>"/>
+                <% } %>
+
             </div>
             
         </div>

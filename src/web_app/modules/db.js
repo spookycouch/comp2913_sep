@@ -617,6 +617,7 @@ exports.getFacility = function(id) {
         user: user,
         password: psw,
         database: db,
+        multipleStatements: true
     });
 
     // Synching request
@@ -628,12 +629,48 @@ exports.getFacility = function(id) {
 
             query = SqlString.format(
         
-                'SELECT * FROM Facility WHERE id = ?',
-                    [id]
+                'SELECT * FROM Facility WHERE id = ?;SELECT id, ext FROM Image INNER JOIN FacilityImage ON id = id_image WHERE id_facility = ?',
+                    [id, id]
             );
             
             // Query
-            conn.query(query, function (err, results, fields) {
+            conn.query(query, [1,2], function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
+exports.newImage = function(ext) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO Image(ext) VALUES(?); SELECT LAST_INSERT_ID() AS id;',
+                    [ext]
+            );
+            
+            // Query
+            conn.query(query, [1,2], function (err, results, fields) {
                 // Error
                 if (err) return reject(err);
 

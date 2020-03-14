@@ -30,3 +30,19 @@ exports.newActivity = function(req_body){
 
     });
 }
+
+exports.newImage = function(ext){    
+
+    return new Promise(function(resolve, reject) {
+
+        db.newImage(ext).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+
+    });
+}

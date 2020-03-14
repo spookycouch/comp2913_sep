@@ -323,8 +323,8 @@ exports.facilities_discover = function(id){
 
     return new Promise(function(resolve, reject) {
 
-        db.getFacility(id).then(function(result){
-            resolve(result);
+        db.getFacility(id).then(function(results){
+            resolve(results);
 
         }).catch(function(err){
 

@@ -92,7 +92,8 @@ router.post('/facilities/discover', csrf, function(req, res) {
         user.facilities_discover(id).then(function (results) {
             res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
             {
-                results: results,
+                facility: results[0],
+                images: results[1],
                 title: webname + "| Facilities",
                 session: req.session,
                 csrfToken: req.csrfToken()
@@ -170,81 +171,68 @@ router.get('/user/login', csrf, function(req, res) {
 });
 
 router.get('/activities', csrf, function(req, res) {
-    async function genFromDB() { 
-        var no_items = 7;
-        var page_no = 1;
+    var no_items = 7;
+    var page_no = 1;
 
-        user.upcomingActivities(no_items, page_no).then(function (results) {
-            res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
-            {
-                no_items: no_items,
-                page_no: page_no,
-                no_pages: Math.ceil(results[0][0].count/no_items),
-                total: results[0][0].count,
-                results: results[1],
-                session: req.session,
-                csrfToken: req.csrfToken()
-            });
-
-        }).catch(function(err){
-           
-            console.log(err);
+    user.upcomingActivities(no_items, page_no).then(function (results) {
+        res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
+        {
+            no_items: no_items,
+            page_no: page_no,
+            no_pages: Math.ceil(results[0][0].count/no_items),
+            total: results[0][0].count,
+            results: results[1],
+            session: req.session,
+            csrfToken: req.csrfToken()
         });
-    }
 
-    genFromDB();
+    }).catch(function(err){
+        
+        console.log(err);
+    });
+
 });
 
 
 /*
  * Function:    Test new activity
 */
-router.get('/new_activity', function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<form method="POST" action="/api/upload" enctype="multipart/form-data">');
-    res.write('<input type="file" name="image"><br>');
-    res.write('<input type="submit">');
-    res.write('</form>');
-    res.write('<br>');
-    res.write('<form method="POST" action="/api/new_activity">');
-    res.write('<input name="discount" type="text"><br>');
-    res.write('<input name="cost" type="text"><br>');
-    res.write('<input name="start_time" type="text"><br>');
-    res.write('<input name="duration" type="text"><br>');
-    res.write('<input name="id_sport" type="text"><br>');
-    res.write('<input type="submit">');
-    res.write('</form>');
-    return res.end();
+router.get('/activities/new', csrf, function (req, res) {
+    return res.render(path.join(__dirname + '/../views/pages/activities_new.ejs'));
 })
+
+/*
+ * Function:    Test new facility
+*/
+router.get('/facilities/new', csrf, function (req, res) {
+    return res.render(path.join(__dirname + '/../views/pages/facilities_new.ejs'));
+})
+
 
 /*
  *  Function:   Facilities Page Router
 */
 router.post('/activities', csrf, function(req, res) {
 
-    async function genFromDB() { 
-        var no_items = parseInt(req.body.no_items);
-        var page_no = parseInt(req.body.page_no);
+    var no_items = parseInt(req.body.no_items);
+    var page_no = parseInt(req.body.page_no);
 
-        user.upcomingActivities(no_items, page_no).then(function (results) {
-            res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
-            {
-                no_items: no_items,
-                page_no: page_no,
-                no_pages: Math.ceil(results[0][0].count/no_items),
-                total: results[0][0].count,
-                results: results[1],
-                session: req.session,
-                csrfToken: req.csrfToken()
-            });
-
-        }).catch(function(err){
-           
-            console.log(err);
+    user.upcomingActivities(no_items, page_no).then(function (results) {
+        res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
+        {
+            no_items: no_items,
+            page_no: page_no,
+            no_pages: Math.ceil(results[0][0].count/no_items),
+            total: results[0][0].count,
+            results: results[1],
+            session: req.session,
+            csrfToken: req.csrfToken()
         });
-    }
 
-    genFromDB();
+    }).catch(function(err){
+        
+        console.log(err);
+    });
 });
 
 

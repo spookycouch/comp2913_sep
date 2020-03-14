@@ -127,33 +127,56 @@ router.post('/register', jsonEncoded, function(req, res) {
 });
 
 
-/*
- *  Function:   Upload file API Endpoint
-*/
-router.post('/upload', jsonEncoded, function(req, res) {
+router.post('/upload_facility', jsonEncoded, function(req, res) {
 
-    // Upload the file bby
+    // Validation
     var bboy = new busboy({ headers : req.headers });
     
+    // Fields - push to json
+    bboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+        console.log(val);
+    });
+
+    // Files - upload images and append image id to list
     bboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-        output_path = __dirname + '/../src/uploads/' + filename;
-    
-        // break if invalid filetype
+        var ext = mimetype.split('/')[1];
+
+        // validate img type
         if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
             return res.end('invalid filetype!');
-        
-        file.pipe(fs.createWriteStream(output_path));
-        return res.end('ok');
+
+        // create db entry then save image to src/uploads/ using returned id
+        employee.newImage(ext).then(function(results){
+            var id = results[1][0].id;
+            var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
+            file.pipe(fs.createWriteStream(output_path));
+
+        }).catch(function(err){
+
+            return res.end('file upload error');
+        });
     });
-    
-    return req.pipe(bboy);
+
+    bboy.on('finish', function() {
+        console.log('done');
+        res.end('done');
+    });
+
+    try {
+        return req.pipe(bboy);
+    } catch(err) {
+
+        res.setHeader('Content-Type', 'application/json');
+        res.end(
+            JSON.stringify(err)
+        );
+    }
 });
 
 
 /*
  *  Function:   New activity API Endpoint
 */
-
 router.post('/new_activity', jsonEncoded, function(req, res) {
 
     try { 
@@ -198,7 +221,6 @@ router.post('/new_activity', jsonEncoded, function(req, res) {
         );
     }
 });
-
 
 
 module.exports = router;
