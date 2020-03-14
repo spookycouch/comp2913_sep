@@ -474,8 +474,6 @@ exports.getUserBookings = function(id) {
                 // Error
                 if (err) return reject(err);
 
-                console.log(results);
-
                 // Result
                 resolve(results);
             });

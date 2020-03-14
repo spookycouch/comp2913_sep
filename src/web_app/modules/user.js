@@ -180,6 +180,18 @@ exports.getMemberships = function(id){
 
         db.getUserMemberships(id).then(function(memberships){
 
+            // Formatting date
+            for(i = 0; i < memberships.length; i++){
+
+                // Formatting
+                var mysql_date = memberships[i].start_date;
+
+                let date = mysql_date.getTime();
+                date = moment(date).format('DD/MM/YYYY hh:mm');
+                
+                memberships[i].start_date = date;
+            }
+
             resolve(memberships);
 
         }).catch(function(err){

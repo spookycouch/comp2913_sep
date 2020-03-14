@@ -15,6 +15,7 @@ var routes = require('./routes/index');
 var user = require('./routes/userRoutes.js');
 var api = require('./routes/api.js');
 var ajax = require('./routes/ajax.js');
+var del = require('./routes/delete.js');
 
 // Descriptive
 const webname = ' The Edgy ';
@@ -28,10 +29,11 @@ app.use(express.json()); //Used to parse JSON POST
 app.use(cookieParser());
 
 // Routes
-app.use('/',routes);
-app.use('/user',user);
-app.use('/api',api);
-app.use('/ajax',ajax);
+app.use('/', routes);
+app.use('/user', user);
+app.use('/api', api);
+app.use('/ajax', ajax);
+app.use('/delete', del);
 
 // Run the app
 app.listen(port, hostname, function() {

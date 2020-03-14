@@ -238,13 +238,19 @@ router.get('/account/details', function(req, res) {
  *  Function:   Account Memberships Page Router
 */
 router.get('/account/memberships', function(req, res) {
+    
     if (req.session.userId == undefined)
         res.redirect('/home');
 
     else {
+
+        // Get memberships
         user.getMemberships(req.session.userId).then(function(memberships) {
+
+            // Get user details
             user.getDetails(req.session.userId).then(function(result) {
 
+                // Render
                 res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
                 {
                     title: webname + "| Account | Memberships",
@@ -252,7 +258,9 @@ router.get('/account/memberships', function(req, res) {
                     memberships: memberships,
                     user: result
                 });
+
             }).catch(function(err) {
+                
                 console.log(err);
                 res.redirect('/logout');
             });

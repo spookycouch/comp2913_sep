@@ -7,7 +7,55 @@
         <%- include('../../partials/account-side-bar') %>
 
         <div class="account__section account__memberships">
-            <h1>Your Memberships</h1>
+
+            <!-- Content Tabs -->
+            <div class="account__section account__overview short-margin full-width">
+            
+                <% if(locals.memberships){ %>
+                    <% for (var i = 0; i < memberships.length;  i++ ) { %>
+
+                        <div href="#" class="overview__option hvr-float">
+                            <div class="option__content option__content--center" style="background-color: #d6c631;text-align:left;padding:20px;max-height:300px;">
+                                
+                                <div class="content__title">
+                                    <h2>Membership #<%- memberships[i].id %></h2>
+                                    <h3><%- memberships[i].start_date %></h3>
+                                </div>
+        
+                                <div class="content__dsc">
+                                    
+                                    <b>Validity: </b> <%- memberships[i].validity %> days
+                                    <br>
+                                    
+                                    <b>Sport: </b> <%- memberships[i].name %>
+                                    <br>
+                                    
+                                    <p style="overflow-wrap: break-word;width:70%;">
+                                        <b>Description: </b> <%- memberships[i].description %>
+                                    </p>
+                                </div>
+        
+                                <div style="text-align:right;width:100%;">
+                                    <div class="content__explore hvr-sweep-to-right">
+                                        <a href="/delete/memberships/<%- memberships[i].id %>">
+                                            <h3>Cancel</h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    <% } %>
+
+                <% }else{ %>
+                    
+                    <div style="height:100%;">
+                        <h2 style="color:black;margin:auto;">No memberships found :(</h2>
+                    </div>
+                <% }%>
+
+            </div>
         </div>
     </div>
 </div>
