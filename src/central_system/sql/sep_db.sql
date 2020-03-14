@@ -29,6 +29,7 @@ CREATE TABLE `Facility` (
   `longitude` double NOT NULL,
   `id_timetable` int(11) NOT NULL,
   `pic` varchar(400) NOT NULL DEFAULT '',
+  `icon` varchar(400) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -240,8 +241,8 @@ INSERT INTO User(name, surname, email, password, phone, address_1, zipcode, city
 -- Creating a Facility with a timetable
 INSERT INTO Timetable(validity) VALUES (365);
 INSERT INTO Timetable(validity) VALUES (365);
-INSERT INTO Facility (name, latitude, longitude, id_timetable, pic) VALUES ('F.Pellegrini Swimming Pool', '53.804326', '-1.553167', 1, 'https://5rd1122q2fb2q9nsj36dtnqz-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/swimming-pool-100x400.jpg');
-INSERT INTO Facility (name, latitude, longitude, id_timetable, pic) VALUES ('M. Ali Box', '53.804326', '-1.553167', 2, 'https://cdn.squaremile.com/featured_image/5af42ccf55937.jpeg');
+INSERT INTO Facility (name, latitude, longitude, id_timetable, pic, icon) VALUES ('F.Pellegrini Swimming Pool', '53.804326', '-1.553167', 1, 'https://5rd1122q2fb2q9nsj36dtnqz-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/swimming-pool-100x400.jpg', 'gym-white.png');
+INSERT INTO Facility (name, latitude, longitude, id_timetable, pic, icon) VALUES ('M. Ali Box', '53.804326', '-1.553167', 2, 'https://cdn.squaremile.com/featured_image/5af42ccf55937.jpeg', 'gym-white.png');
 
 -- Creating a sport with an activity by a lecturer
 INSERT INTO Sport(name, description) VALUES ('Swimming', 'Free swimming, Sub Classes, Competitive Freestyle Swimming.');
