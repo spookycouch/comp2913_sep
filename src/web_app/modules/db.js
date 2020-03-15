@@ -462,11 +462,20 @@ exports.getUserBookings = function(id) {
             // Error 
             if (err) reject(err);
 
+
+            // Old query - for fixing or something idk
+            // query = SqlString.format(
+        
+            //     'SELECT Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.pic AS facilityPic, Facility.name as facilityName, Sport.name as sportName FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Activity_Timetable ON Activity.id = Activity_Timetable.id_activity INNER JOIN Facility ON Activity_Timetable.id_timetable = Facility.id_timetable INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC',
+            //         [id.id]
+            // );
+
             query = SqlString.format(
         
                 'SELECT Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.name as facilityName, Sport.name as sportName FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Activity_Timetable ON Activity.id = Activity_Timetable.id_activity INNER JOIN Facility ON Activity_Timetable.id_timetable = Facility.id_timetable INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC',
                     [id.id]
             );
+
 
             // Query
             conn.query(query, function (err, results, fields) {
