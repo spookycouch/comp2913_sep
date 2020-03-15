@@ -6,64 +6,123 @@
     <div class="account account--background">
         <%- include('../../partials/account-side-bar') %>
 
-        <div class="account__section account__details" style="color:black;">
+        <div class="account__section account__details">
+            <div class="details__content">
+                <form class="content__update-form" autocomplete="off">
+                    <div class="update-form__group update-form__group--col">
+                        <div class="update-form__group--row">
+                            <label class="update-form__label"><h3>Firstname</h3></label>
+                            <input class="update-form__input" type="text" name="name" placeholder="Name" value="<%- user.name %>" />
+                        </div>
 
-            <style>
+                        <div class="update-form__group--row">
+                            <label class="update-form__label"><h3>Surname</h3></label>
+                            <input class="update-form__input" type="text" name="surname" placeholder="Surname" value="<%- user.surname %>" />
+                        </div>                     
+                    </div>
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Email</h3></label>
+                        <input class="update-form__input" type="text" name="email" placeholder="E-mail" value="<%- user.email %>" />
+                    </div>
+    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Date of Birth</h3></label>
+                        <input class="update-form__input" type="date" name="birth" placeholder="Date of Birth" value="<%- user.birth %>" />
+                    </div>  
+    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Phone Number</h3></label>
+                        <input class="update-form__input" type="text" name="phone" placeholder="Phone" value="<%- user.phone %>" />
+                    </div>
 
-                input {
-                    width: 100%;
-                }
+                    <div class="update-form__group">
+                        <button class="update-form__btn hvr-sweep-to-right" type="submit" ><h3>Update</h3></button>
+                    </div>
+                </form>
 
-                input {
-                    margin-bottom: 20px;
-                }
+                <div class="content__form-title">
+                    <div class="form-title__title">
+                        <h2>Update Account Details</h2>
+                    </div>
 
-            </style>
-
-            <div class="details__form" style="width:70%;">
-
-                <div style="width:100%;text-align:center;margin-bottom:40px;">
-                    <h1>Account Details</h1>
+                    <div class="form-title__desc">
+                        Update details about yourself
+                    </div>
                 </div>
+            </div>
 
-                <form autocomplete="off">
-                    <label><h3>Firstname</h3></label>
-                    <input type="text" name="name" placeholder="Name" value="<%- user.name %>" />
-                    
-                    <label><h3>Surname</h3></label>
-                    <input type="text" name="surname" placeholder="Surname" value="<%- user.surname %>" />
+            <div class="details__content">
+                <form class="content__update-form">
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Address Line 1</h3></label>
+                        <input class="update-form__input" type="text" name="address_1" placeholder="Address Line 1" value="<%- user.address_1 %>" />
+                    </div>
     
-                    <label><h3>Email</h3></label>
-                    <input type="text" name="email" placeholder="E-mail" value="<%- user.email %>" />
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Address Line 2 <small>(optional)</small></h3></label>
+                        <input class="update-form__input" type="text" name="address_2" placeholder="Address Line 2" value="<%- user.address_2 %>" />
+                    </div>  
     
-                    <label><h3>Date of Birth</h3></label>
-                    <input type="date" name="birth" placeholder="Date of Birth" value="<%- user.birth %>" />
-    
-                    <label><h3>Phone Number</h3></label>
-                    <input type="text" name="phone" placeholder="Phone" value="<%- user.phone %>" />
-    
-                    <label><h3>Address Line 1</h3></label>
-                    <input  type="text" name="address_1" placeholder="Address Line 1" value="<%- user.address_1 %>" />
-    
-                    <label><h3>Address Line 2 <small>(optional)</small></h3></label>
-                    <input type="text" name="address_2" placeholder="Address Line 2" value="<%- user.address_2 %>" />
-    
-                    <label><h3>City</h3></label>
-                    <input type="text" name="city" placeholder="City" value="<%- user.city %>" />
-    
-                    <label><h3>Postal / Zip Code</h3></label>
-                    <input type="text" name="zipcode" placeholder="Zip Code" value="<%- user.zipcode %>" />
+                    <div class="update-form__group update-form__group--col">
+                        <div class="update-form__group--row">
+                            <label class="update-form__label"><h3>City</h3></label>
+                            <input class="update-form__input" type="text" name="city" placeholder="City" value="<%- user.city %>" />
+                        </div>
 
-                    <br><br>
-                    <div style="text-align:right;">
-                        <div class="content__explore hvr-sweep-to-right" style="background-color:#00A984;color:white;padding:10px;">
-                            <a href="#">
-                                <h2>Update</h2>
-                            </a>
+                        <div class="update-form__group--row">
+                            <label class="update-form__label"><h3>Postal / Zip Code</h3></label>
+                            <input class="update-form__input" type="text" name="zipcode" placeholder="Zip Code" value="<%- user.zipcode %>" />
                         </div>
                     </div>
 
+                    <div class="update-form__group">
+                        <button class="update-form__btn hvr-sweep-to-right" type="submit" ><h3>Update</h3></button>
+                    </div>
                 </form>
+
+                <div class="content__form-title">
+                    <div class="form-title__title">
+                        <h2>Update Account Address</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Update details about where you're from
+                    </div>
+                </div>
+            </div>
+
+            <div class="details__content">
+                <form class="content__update-form">
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Current Password</h3></label>
+                        <input class="update-form__input" name="password" type="current_password" placeholder="Current Password"/>
+                    </div>
+
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Password</h3></label>
+                        <input class="update-form__input" name="password" type="password" placeholder="Password"/>
+
+                    </div>
+
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Confirm Password</h3></label>
+                        <input class="update-form__input" name="confirm_password" type="password" placeholder="Confirm Password"/>
+                    </div>
+
+                    <div class="update-form__group">
+                        <button class="update-form__btn hvr-sweep-to-right" type="submit" ><h3>Update</h3></button>
+                    </div>
+                </form>
+
+                <div class="content__form-title">
+                    <div class="form-title__title">
+                        <h2>Update Password</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Update your current password
+                    </div>
+                </div>
             </div>
         </div>
     </div>
