@@ -254,7 +254,10 @@ router.post('/account/update/details', function(req, res) {
                 throw value.error.details;
 
             user.updateDetails(req.body).then(function(result) {
-                res.redirect('/user/account/details');
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: 'Details Updated Successfully',
+                    path: 'success'
+                }]);
     
             }).catch(function(err) {
                 console.log(err);
@@ -292,7 +295,10 @@ router.post('/account/update/address', function(req, res) {
 
 
             user.updateAddress(req.body).then(function(result) {
-                res.redirect('/user/account/details');
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: 'Address Updated Successfully',
+                    path: 'success'
+                }]);
     
             }).catch(function(err) {
                 error.updateErrorPage(req, res, webname, user, [{
@@ -323,7 +329,10 @@ router.post('/account/update/password', function(req, res) {
                 throw value.error.details;
 
             user.updatePassword(req.body).then(function(result) {
-                res.redirect('/user/account/details');
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: 'Password Updated Successfully',
+                    path: 'success'
+                }]);
     
             }).catch(function(err) {
                 console.log("is it getting to here?");

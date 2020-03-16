@@ -7,6 +7,20 @@
         <%- include('../../partials/account-side-bar') %>
 
         <div class="account__section account__details">
+            <div class="details__content details__content--success">
+                <h2>Your Details</h2>
+            </div>
+
+            <% if(locals.error){ %>
+                <% for (var i =0; i < error.length;  i++ ) { %>
+                    <% if(error[i].path == 'success'){ %>                                    
+                        <div class="details__content details__content--success">
+                            <h2 id="unsuccessful-error" class="content__success"><%- error[i].message %></h2>
+                        </div>
+                    <% } %>
+                <% } %>
+            <% }%>
+
             <div class="details__content">
                 <form class="content__update-form" action="/user/account/update/details" method="POST" autocomplete="off">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />

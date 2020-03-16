@@ -154,7 +154,16 @@
                 flex-wrap: wrap;
                 border-top: $border_thickness solid $black;
 
+                &--success {
+                    border: none;
+                    justify-content: center;
+                }
+
                 .content {
+                    &__success {
+                        color: $quatenary;
+                    }
+                    
                     &__form-title {
                         width: 40%;
                         color: $white;

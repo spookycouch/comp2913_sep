@@ -1694,6 +1694,17 @@ ul {
   border-top: 2px solid #413E4B;
 }
 
+.account__details .details__content--success {
+  border: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.account__details .details__content .content__success {
+  color: #00A984;
+}
+
 .account__details .details__content .content__form-title {
   width: 40%;
   color: white;
