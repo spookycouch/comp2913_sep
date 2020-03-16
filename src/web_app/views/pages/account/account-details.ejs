@@ -159,21 +159,47 @@
             </div>
 
             <div class="details__content">
-                <form class="content__update-form">
+                <form class="content__update-form" action="/user/account/update/password" method="POST" autocomplete="off">
+                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                    <input type="hidden" name="id" value="<%- user.id %>" />
+
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Current Password</h3></label>
-                        <input class="update-form__input" name="password" type="current_password" placeholder="Current Password"/>
+                        <input id="current_password" class="update-form__input" name="current_password" type="password" placeholder="Current Password"/>
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'current_password'){ %>
+                                    <p id="current_password-error" class="update-form__error"><%- error[i].message %></p>   
+                                <% } %>
+                            <% } %>
+                        <% } %>  
                     </div>
 
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Password</h3></label>
-                        <input class="update-form__input" name="password" type="password" placeholder="Password"/>
+                        <input id="password" class="update-form__input" name="password" type="password" placeholder="Password"/>
 
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'password'){ %>
+                                    <p id="password-error" class="update-form__error"><%- error[i].message %></p>   
+                                <% } %>
+                            <% } %>
+                        <% } %>  
                     </div>
 
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Confirm Password</h3></label>
-                        <input class="update-form__input" name="confirm_password" type="password" placeholder="Confirm Password"/>
+                        <input id="confirm_password" class="update-form__input" name="confirm_password" type="password" placeholder="Confirm Password"/>
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'confirm_password'){ %>
+                                    <p id="confirm_password-error" class="update-form__error"><%- error[i].message %></p>   
+                                <% } %>
+                            <% } %>
+                        <% } %>  
                     </div>
 
                     <div class="update-form__group">

@@ -232,8 +232,7 @@ exports.updateUserDetails = function(id, name, surname, email, phone) { //TODO: 
 }
 
 
-exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) { //TODO: include Profile picture when updating
-
+exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) { 
     var conn = mysql.createConnection({
         host: host,
         user: user,
@@ -262,7 +261,44 @@ exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) { 
 
                 else
                     resolve(true);
+            });
+        });
+    });
+}
 
+
+exports.updateUserPassword = function(id, password, current_password) { 
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'UPDATE User SET password = ? WHERE id = ? and password = ?',
+                    [password, id, current_password]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.changedRows > 0)
+                    resolve(true);
+
+                else
+                    reject("Password Incorrect.");
             });
         });
     });

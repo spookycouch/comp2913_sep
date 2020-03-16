@@ -258,29 +258,14 @@ router.post('/account/update/details', function(req, res) {
     
             }).catch(function(err) {
                 console.log(err);
-                throw [{
+                error.updateErrorPage(req, res, webname, user, [{
                     message: err,
                     path: 'unsuccessful'
-                }];
+                }]);
             })
 
         } catch(err) {
-            user.getDetails(req.session.userId).then(function(userObj) {
-
-                // Render data
-                res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
-                {
-                    title: webname + "| Account | Details",
-                    session: req.session,
-                    user: userObj,
-                    error: err,
-                    csrfToken: req.csrfToken()
-                });
-                
-            // Error -> logout
-            }).catch(function(err) {
-                res.redirect('/user/logout');
-            });
+            error.updateErrorPage(req, res, webname, user, err);
         }
     }
 })
@@ -310,34 +295,50 @@ router.post('/account/update/address', function(req, res) {
                 res.redirect('/user/account/details');
     
             }).catch(function(err) {
-                console.log(err);
-                throw [{
+                error.updateErrorPage(req, res, webname, user, [{
                     message: err,
                     path: 'unsuccessful'
-                }];
+                }]);
             });
 
         // If an error with the data
         } catch(err) {
-            user.getDetails(req.session.userId).then(function(userObj) {
-
-                // Render data
-                res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
-                {
-                    title: webname + "| Account | Details",
-                    session: req.session,
-                    user: userObj,
-                    error: err,
-                    csrfToken: req.csrfToken()
-                });
-                
-            // Error -> logout
-            }).catch(function(err) {
-                res.redirect('/user/logout');
-            });
+            error.updateErrorPage(req, res, webname, user, err);
         }
     }
-})/
+});
+
+router.post('/account/update/password', function(req, res) {
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+        try {
+            id = req.body.id; // Put ID in temporary var
+            delete req.body.id; // Delete ID from object so it is not validated
+            const value = validation.updatePasswordValidation(req.body);
+            req.body.id = id // Add ID back into object
+
+            if(value.error != undefined)
+                throw value.error.details;
+
+            user.updatePassword(req.body).then(function(result) {
+                res.redirect('/user/account/details');
+    
+            }).catch(function(err) {
+                console.log("is it getting to here?");
+    
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: err,
+                    path: 'current_password'
+                }]);
+            });
+
+        } catch(err) {
+            error.updateErrorPage(req, res, webname, user, err);
+        }
+    }
+});
 
 
 /*

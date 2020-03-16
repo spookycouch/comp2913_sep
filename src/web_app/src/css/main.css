@@ -1165,14 +1165,18 @@ ul {
 }
 
 .facilities__facility .facility__spacing .spacing__content .content__desc .desc__facility-info {
-  margin-top: 20px;
-  margin-bottom: 40px;
+  margin: 20px 0;
 }
 
 .facilities__facility .facility__spacing .spacing__content .content__desc .desc__facility-discover .discover__link {
   border: 2px solid white;
   padding: 5px 15px;
   display: inline-block;
+}
+
+.facilities__facility .facility__spacing .spacing__content .content__desc .desc__facility-price {
+  margin-bottom: 40px;
+  font-weight: bold;
 }
 
 .facilities__facility .facility__spacing .spacing__content .content__image {

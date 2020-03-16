@@ -201,6 +201,38 @@ const updateDetailsValidation = function(data) {
 }
 
 
+const updatePasswordValidation = function(data) {
+    const updatePasswordValidationSchema = joi.object({
+        current_password: joi.string()
+            .min(6)
+            .required()
+            .messages({
+                "string.empty": "Password is Required",
+                "string.min": "Password must be at least 6 characters long"
+            }),
+        password: joi.string()
+            .min(6)
+            .required()
+            .messages({
+                "string.empty": "Password is Required",
+                "string.min": "Password must be at least 6 characters long"
+            }),
+        confirm_password: joi.any()
+            .valid(joi.ref('password'))
+            .required()
+            .messages({
+                "string.empty": "Confirm Password is Required",
+                "any.only": "Must match Password"
+            }),
+        _csrf: joi.string()
+            .min(6)
+            .required()
+    });
+
+    return updatePasswordValidationSchema.validate(data, {abortEarly: false});
+}
+
+
 /*
  *  Function:   API Register Validation
  *  Input:      Request Body
@@ -331,3 +363,4 @@ module.exports.apiRegisterValidation = apiRegisterValidation;   // ApiRegister
 module.exports.apiNewActivityValidation = apiNewActivityValidation; // ApiNewActivity
 module.exports.updateDetailsValidation = updateDetailsValidation;
 module.exports.updateAddressValidation = registerValidation3;
+module.exports.updatePasswordValidation = updatePasswordValidation;

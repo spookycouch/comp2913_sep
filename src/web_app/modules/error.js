@@ -16,3 +16,22 @@ exports.loginErrorPage = function (req, res, webname, err){
         csrfToken: req.csrfToken()
     });
 }
+
+exports.updateErrorPage = function(req, res, webname, user, err) {
+    user.getDetails(req.session.userId).then(function(result) {
+
+        // Render data
+        res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
+        {
+            title: webname + "| Account | Details",
+            session: req.session,
+            user: result,
+            error: err,
+            csrfToken: req.csrfToken()
+        });
+        
+    // Error -> logout
+    }).catch(function(err) {
+        res.redirect('/user/logout');
+    });
+}
