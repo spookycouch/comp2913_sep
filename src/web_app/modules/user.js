@@ -45,37 +45,84 @@ exports.loginUser = function(email, password){
     });
 }
 
+
+// exports.updateDetails = function(req_body){
+
+//     let id = req_body.id;
+//     let name = req_body.name;
+//     let surname = req_body.surname;
+//     let email = req_body.email;
+//     let password = req_body.password;
+//     let phone = req_body.phone;
+//     let address_1 = req_body.address_1;
+//     let address_2 = req_body.address_2;
+//     let zipcode = req_body.zipcode;
+//     let city = req_body.city;
+//     let profile_pic = req_body.profile_pic;
+
+//     return new Promise(function(resolve, reject) {
+
+//         db.updateUserDetails(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic).then(function(result){
+
+//             resolve(result);
+
+//         }).catch(function(err){
+
+//             reject(err);
+//         });
+//     });
+// }
+
+
  /*
  *  Function:   Update User Details
- *  Input:      Id
+ *  Input:      Id, Name, Surname, Email, Phone from request body
  *  Output:     Error Message
 */
-exports.updateDetails = function(req_body){
-
+exports.updateDetails = function(req_body) {
     let id = req_body.id;
     let name = req_body.name;
     let surname = req_body.surname;
     let email = req_body.email;
-    let password = req_body.password;
     let phone = req_body.phone;
-    let address_1 = req_body.address_1;
-    let address_2 = req_body.address_2;
-    let zipcode = req_body.zipcode;
-    let city = req_body.city;
-    let profile_pic = req_body.profile_pic;
 
     return new Promise(function(resolve, reject) {
-
-        db.changeUserDetails(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic).then(function(result){
-
+        db.updateUserDetails(id, name, surname, email, phone).then(function(result){
             resolve(result);
-
         }).catch(function(err){
-
             reject(err);
         });
     });
 }
+
+
+ /*
+ *  Function:   Update User Details
+ *  Input:      Id, Address_1, Address_2, Zipcode, City from request body
+ *  Output:     Error Message
+*/
+exports.updateAddress = function(req_body) {
+    let id = req_body.id;
+    let address_1 = req_body.address_1;
+    let address_2 = req_body.address_2;
+    let zipcode = req_body.zipcode;
+    let city = req_body.city;
+
+    return new Promise(function(resolve, reject) {
+        db.updateUserAddress(id, address_1, address_2, zipcode, city).then(function(result){
+            resolve(result);
+        }).catch(function(err){
+            reject(err);
+        });
+    });
+}
+
+exports.updateDetailsPassword = function(req_body) {
+
+}
+
+
+
 
 /*
  *  Function:   Create New User 

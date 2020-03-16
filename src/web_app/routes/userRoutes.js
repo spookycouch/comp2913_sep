@@ -185,7 +185,8 @@ router.get('/account/bookings', function(req, res) {
                     title: webname + "| Account | Bookings",
                     session: req.session,
                     bookings: bookings,
-                    user: usr
+                    user: usr,
+                    csrfToken: req.csrfToken()
                 });
 
             // Error catching
@@ -222,7 +223,8 @@ router.get('/account/details', function(req, res) {
             {
                 title: webname + "| Account | Details",
                 session: req.session,
-                user: userObj
+                user: userObj,
+                csrfToken: req.csrfToken()
             });
             
         // Error -> logout
@@ -232,6 +234,110 @@ router.get('/account/details', function(req, res) {
         });
     }
 });
+
+
+/*
+ *  Function:   Login Details Update Details
+*/
+router.post('/account/update/details', function(req, res) {
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+        try {
+            id = req.body.id; // Put ID in temporary var
+            delete req.body.id; // Delete ID from object so it is not validated
+            const value = validation.updateDetailsValidation(req.body);
+            req.body.id = id // Add ID back into object
+
+            if(value.error != undefined)
+                throw value.error.details;
+
+            user.updateDetails(req.body).then(function(result) {
+                res.redirect('/user/account/details');
+    
+            }).catch(function(err) {
+                console.log(err);
+                throw [{
+                    message: err,
+                    path: 'unsuccessful'
+                }];
+            })
+
+        } catch(err) {
+            user.getDetails(req.session.userId).then(function(userObj) {
+
+                // Render data
+                res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
+                {
+                    title: webname + "| Account | Details",
+                    session: req.session,
+                    user: userObj,
+                    error: err,
+                    csrfToken: req.csrfToken()
+                });
+                
+            // Error -> logout
+            }).catch(function(err) {
+                res.redirect('/user/logout');
+            });
+        }
+    }
+})
+
+
+/*
+ *  Function:   Login Details Update Address
+*/
+router.post('/account/update/address', function(req, res) {
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+
+        // Validate the data
+        try {
+            id = req.body.id; // Put ID in temporary var
+            delete req.body.id; // Delete ID from object so it is not validated
+            const value = validation.updateAddressValidation(req.body);
+            req.body.id = id // Add ID back into object
+
+            if(value.error != undefined)
+                throw value.error.details;
+
+
+            user.updateAddress(req.body).then(function(result) {
+                res.redirect('/user/account/details');
+    
+            }).catch(function(err) {
+                console.log(err);
+                throw [{
+                    message: err,
+                    path: 'unsuccessful'
+                }];
+            });
+
+        // If an error with the data
+        } catch(err) {
+            user.getDetails(req.session.userId).then(function(userObj) {
+
+                // Render data
+                res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
+                {
+                    title: webname + "| Account | Details",
+                    session: req.session,
+                    user: userObj,
+                    error: err,
+                    csrfToken: req.csrfToken()
+                });
+                
+            // Error -> logout
+            }).catch(function(err) {
+                res.redirect('/user/logout');
+            });
+        }
+    }
+})/
 
 
 /*
@@ -256,7 +362,8 @@ router.get('/account/memberships', function(req, res) {
                     title: webname + "| Account | Memberships",
                     session: req.session,
                     memberships: memberships,
-                    user: result
+                    user: result,
+                    csrfToken: req.csrfToken()
                 });
 
             }).catch(function(err) {
@@ -291,7 +398,8 @@ router.get('/account/payment', function(req, res) {
             {
                 title: webname + "| Account | Payment",
                 session: req.session,
-                user: result
+                user: result,
+                csrfToken: req.csrfToken()
             });
 
         }).catch(function(err) {

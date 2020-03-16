@@ -1752,6 +1752,14 @@ ul {
   cursor: pointer;
 }
 
+.account__details .details__content .content__update-form .update-form__error {
+  color: red;
+}
+
+.account__details .details__content .content__update-form .update-form__error--d-none {
+  display: none;
+}
+
 @media only screen and (min-width: 950px) {
   .account__side-bar {
     margin-left: 0 !important;

@@ -215,6 +215,14 @@
                                 background-color: $white;
                                 cursor: pointer;
                             }
+
+                            &__error {
+                                color: $red;
+
+                                &--d-none {
+                                    display: none;
+                                }
+                            }
                         }
                     }
                 }
