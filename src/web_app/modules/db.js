@@ -473,6 +473,47 @@ exports.cancelMembership = function(userId, membershipId) {
 }
 
 /*
+ *  Function:   Delete Card by id 
+ *  Input:      User {id}, Card {id}
+ *  Output:     Boolean Result / Error Message
+*/
+exports.deleteUserCard = function(userId, cardId) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'DELETE FROM Card_User WHERE id_user = ? AND id_card = ?;',
+                    [userId.id, cardId]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(true);
+
+            });
+        });
+    });
+}
+
+/*
  *  Function:   Query payments by user id (passed from session)
  *  Input:      User {id}
  *  Output:     Payments / Error Message
@@ -728,6 +769,11 @@ exports.getFacility = function(id) {
     });
 }
 
+/*
+ *  Function:   Update Usr Img
+ *  Input:      String
+ *  Output:     Result / Error Message
+*/
 exports.newImage = function(ext) {
 
     var conn = mysql.createConnection({
@@ -761,5 +807,96 @@ exports.newImage = function(ext) {
             
             });
         });
+    });
+}
+
+/*
+ *  Function:   Query User Payment Cards by id once logged in
+ *  Input:      User Id
+ *  Output:     User Object / Error Message
+*/
+exports.getUserCards = function(user_id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT Card.id, Card.number, Card.expire_date, Card.type FROM Card_User INNER JOIN Card ON Card.id = Card_User.id_card WHERE Card_User.id_user = ?',
+                    [user_id.id]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(results);
+
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Create New Card
+ *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
+ *  Output:     Bool / Error Message
+*/
+exports.createUserCard = function(userId, number, expire_date, cvv) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        /* 
+
+            TODO:   Check number validity
+                    Check expire date validity
+                    Insert into Card and Card User (get new id from Card)
+
+        // Connection
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                
+                'INSERT INTO User(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, TIMESTAMP(?))',
+                 [name, surname, email, password, phone, address_1, address_2, zipcode, city, birth]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(true);
+            });
+        });
+
+        */
     });
 }

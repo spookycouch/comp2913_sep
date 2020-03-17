@@ -37,5 +37,24 @@ router.get('/memberships/:id*', function(req, res, next) {
     }
 });
 
+/*
+ *  Function:   Delete Card by id
+*/
+router.get('/cards/:id*', function(req, res, next) {
+    
+    if(req.session.userId != undefined){
+
+        user.deleteCard(req.session.userId, req.params['id']).then(function(){
+
+            // Success, redirect
+            res.redirect('/user/account/payment');
+
+        // Error page
+        }).catch(function(err){
+
+            console.log(err);
+        });
+    }
+});
 
 module.exports = router;

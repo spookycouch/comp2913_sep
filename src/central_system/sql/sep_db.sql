@@ -147,7 +147,7 @@ CREATE TABLE `Membership` (
 CREATE TABLE `Card_User` (
   `id_card` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  FOREIGN KEY(`id_card`) REFERENCES Card(`id`),
+  FOREIGN KEY(`id_card`) REFERENCES Card(`id`) ON DELETE CASCADE,
   FOREIGN KEY(`id_user`) REFERENCES User(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -308,7 +308,9 @@ INSERT INTO Membership(validity, id_user, id_sport) VALUES (14, 1, 2);
 
 -- Payment simulation
 INSERT INTO Card (number, cvv, expire_date, type) VALUES ('12345678901234567890', '123', '01/02', 'VISA');
+INSERT INTO Card (number, cvv, expire_date, type) VALUES ('09876543210987654321', '321', '02/01', 'MasterCard');
 INSERT INTO Card_User(id_card, id_user) VALUES (1, 1);
+INSERT INTO Card_User(id_card, id_user) VALUES (2, 1);
 
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (2, '2020-01-01');

@@ -265,6 +265,26 @@ exports.cancelMembership = function(userId, membershipId){
 }
 
 /*
+ *  Function:   Cancel User's Credit Card
+ *  Input:      User {id}, Membership {id}
+ *  Output:     Boolean Result / Error Message
+*/
+exports.deleteCard = function(userId, cardId){
+
+    return new Promise(function(resolve, reject) {
+
+        db.deleteUserCard(userId, cardId).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
  *  Function:   Get User Bookings
  *  Input:      User {id}
  *  Output:     Bookings / Error Message
@@ -368,6 +388,33 @@ exports.facilities_discover = function(id){
 
         db.getFacility(id).then(function(results){
             resolve(results);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+ *  Function:   Get User Cards
+ *  Input:      User Id
+ *  Output:     Error Message
+*/
+exports.getCards = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getUserCards(id).then(function(cards){
+            
+            // Preprocess cards for security reasons
+            for(x = 0; x < cards.length; x++){
+                
+                cards[x].number = cards[x].number.replace(cards[x].number.substring(0,15), "****************");
+                cards[x].expire_date = cards[x].expire_date.replace(cards[x].expire_date.substring(0,2), "**");
+            }
+
+            resolve(cards);
 
         }).catch(function(err){
 

@@ -398,15 +398,28 @@ router.get('/account/payment', function(req, res) {
         res.redirect('/home');
 
     else {
+        
+        // User details
         user.getDetails(req.session.userId).then(function(result) {
-            res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
-            {
-                title: webname + "| Account | Payment",
-                session: req.session,
-                user: result,
-                csrfToken: req.csrfToken()
-            });
 
+            // Cards
+            user.getCards(req.session.userId).then(function(cards){
+
+                // Render
+                res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
+                {
+                    title: webname + "| Account | Payment",
+                    session: req.session,
+                    user: result,
+                    cards: cards,
+                    csrfToken: req.csrfToken()
+                });
+
+            }).catch(function(err){
+
+                console.log(err);
+            });
+            
         }).catch(function(err) {
             res.redirect('/logout');
         });
