@@ -2,6 +2,7 @@
 
 
 @import "account-overview";
+@import "account-details";
 
 .account {
     display: flex;
@@ -19,7 +20,7 @@
         cursor: pointer;
         color: $white;
         display: none;
-
+        z-index: 6;
 
         .side-open {
             &__bar {
@@ -56,6 +57,7 @@
         padding-bottom: 60px;
         margin-left: 0;
         transition: .25s;
+        z-index: 6;
 
 
         &--open {
@@ -140,104 +142,6 @@
         justify-content: center;
         flex-wrap: wrap;
         margin: 60px 0px;
-    }
-
-
-    &__details {
-        color: $black;
-
-        .details{
-            &__content {
-                width: 90%;
-                margin-bottom: 40px;
-                display: flex;
-                flex-wrap: wrap;
-                border-top: $border_thickness solid $black;
-
-                &--success {
-                    border: none;
-                    justify-content: center;
-                }
-
-                .content {
-                    &__success {
-                        color: $quatenary;
-                    }
-                    
-                    &__form-title {
-                        width: 40%;
-                        color: $white;
-
-                        .form-title {
-                            &__title {
-                                background-color: $tertiary;
-                                padding: 10px;
-                                clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
-                            }
-
-                            &__desc {
-                                color: $black;
-                                padding: 10px;
-                                margin-top: 10px;
-                            }
-                        }
-                    }
-
-                    &__update-form {
-                        width: 60%;
-                        text-align: center;
-
-                        .update-form {
-                            &__group {
-                                margin: 15px 20%;
-
-                                &--col {
-                                    display: flex;
-                                    justify-content: center;
-                                }
-        
-                                &--row {
-                                    &:first-child {
-                                        padding-right: 5px;
-                                    }
-        
-                                    &:last-child {
-                                        padding-left: 5px;
-                                    }
-                                }
-                            }
-
-                            &__label {
-                                display: block;
-                                padding: 5px;
-                            }
-
-                            &__input {
-                                border: $border_thickness solid $black;
-                                padding: $padding_border_block;
-                                width: 100%;
-                            }
-
-                            &__btn {
-                                border: $border_thickness solid $black;
-                                padding: $padding_border_block;
-                                background-color: $white;
-                                cursor: pointer;
-                            }
-
-                            &__error {
-                                color: $red;
-
-                                &--d-none {
-                                    display: none;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
     }
 }
 

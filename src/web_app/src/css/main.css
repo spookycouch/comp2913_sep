@@ -1527,6 +1527,134 @@ ul {
   }
 }
 
+.account__details {
+  color: #413E4B !important;
+}
+
+.account__details .details__content {
+  width: 90%;
+  margin-bottom: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-top: 2px solid #413E4B;
+}
+
+.account__details .details__content--success {
+  border: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.account__details .details__content .content__success {
+  color: #00A984;
+}
+
+.account__details .details__content .content__form-title {
+  width: 40%;
+  min-width: 200px;
+  color: white;
+}
+
+.account__details .details__content .content__form-title--top {
+  display: none;
+}
+
+.account__details .details__content .content__form-title .form-title__title {
+  background-color: #eedc37;
+  padding: 10px;
+  -webkit-clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
+          clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
+}
+
+.account__details .details__content .content__form-title .form-title__desc {
+  color: #413E4B;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.account__details .details__content .content__update-form {
+  width: 60%;
+  min-width: 300px;
+  text-align: center;
+}
+
+.account__details .details__content .content__update-form .update-form__group {
+  margin: 15px 20%;
+}
+
+.account__details .details__content .content__update-form .update-form__group--col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.account__details .details__content .content__update-form .update-form__group--row:first-child {
+  padding-right: 5px;
+}
+
+.account__details .details__content .content__update-form .update-form__group--row:last-child {
+  padding-left: 5px;
+}
+
+.account__details .details__content .content__update-form .update-form__label {
+  display: block;
+  padding: 5px;
+}
+
+.account__details .details__content .content__update-form .update-form__input {
+  border: 2px solid #413E4B;
+  padding: 5px 15px;
+  width: 100%;
+}
+
+.account__details .details__content .content__update-form .update-form__btn {
+  border: 2px solid #413E4B;
+  padding: 5px 15px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.account__details .details__content .content__update-form .update-form__error {
+  color: red;
+}
+
+.account__details .details__content .content__update-form .update-form__error--d-none {
+  display: none;
+}
+
+@media only screen and (max-width: 950px) {
+  .account__details .details__content {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .account__details .details__content .content__form-title {
+    width: 100%;
+  }
+  .account__details .details__content .content__form-title--side {
+    display: none;
+  }
+  .account__details .details__content .content__form-title--top {
+    display: block;
+  }
+  .account__details .details__content .content__update-form {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .account__details .details__content {
+    width: 100%;
+  }
+  .account__details .details__content .content__update-form .update-form__group {
+    margin: 10px 10%;
+  }
+}
+
 .account {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1546,6 +1674,7 @@ ul {
   cursor: pointer;
   color: white;
   display: none;
+  z-index: 6;
 }
 
 .account__side-open .side-open__bar {
@@ -1580,6 +1709,7 @@ ul {
   margin-left: 0;
   -webkit-transition: .25s;
   transition: .25s;
+  z-index: 6;
 }
 
 .account__side-bar--open {
@@ -1677,102 +1807,6 @@ ul {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   margin: 60px 0px;
-}
-
-.account__details {
-  color: #413E4B;
-}
-
-.account__details .details__content {
-  width: 90%;
-  margin-bottom: 40px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  border-top: 2px solid #413E4B;
-}
-
-.account__details .details__content--success {
-  border: none;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.account__details .details__content .content__success {
-  color: #00A984;
-}
-
-.account__details .details__content .content__form-title {
-  width: 40%;
-  color: white;
-}
-
-.account__details .details__content .content__form-title .form-title__title {
-  background-color: #eedc37;
-  padding: 10px;
-  -webkit-clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
-          clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
-}
-
-.account__details .details__content .content__form-title .form-title__desc {
-  color: #413E4B;
-  padding: 10px;
-  margin-top: 10px;
-}
-
-.account__details .details__content .content__update-form {
-  width: 60%;
-  text-align: center;
-}
-
-.account__details .details__content .content__update-form .update-form__group {
-  margin: 15px 20%;
-}
-
-.account__details .details__content .content__update-form .update-form__group--col {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.account__details .details__content .content__update-form .update-form__group--row:first-child {
-  padding-right: 5px;
-}
-
-.account__details .details__content .content__update-form .update-form__group--row:last-child {
-  padding-left: 5px;
-}
-
-.account__details .details__content .content__update-form .update-form__label {
-  display: block;
-  padding: 5px;
-}
-
-.account__details .details__content .content__update-form .update-form__input {
-  border: 2px solid #413E4B;
-  padding: 5px 15px;
-  width: 100%;
-}
-
-.account__details .details__content .content__update-form .update-form__btn {
-  border: 2px solid #413E4B;
-  padding: 5px 15px;
-  background-color: white;
-  cursor: pointer;
-}
-
-.account__details .details__content .content__update-form .update-form__error {
-  color: red;
-}
-
-.account__details .details__content .content__update-form .update-form__error--d-none {
-  display: none;
 }
 
 @media only screen and (min-width: 950px) {

@@ -260,7 +260,6 @@ router.post('/account/update/details', function(req, res) {
                 }]);
     
             }).catch(function(err) {
-                console.log(err);
                 error.updateErrorPage(req, res, webname, user, [{
                     message: err,
                     path: 'unsuccessful'
@@ -334,9 +333,7 @@ router.post('/account/update/password', function(req, res) {
                     path: 'success'
                 }]);
     
-            }).catch(function(err) {
-                console.log("is it getting to here?");
-    
+            }).catch(function(err) {    
                 error.updateErrorPage(req, res, webname, user, [{
                     message: err,
                     path: 'current_password'
@@ -377,8 +374,6 @@ router.get('/account/memberships', function(req, res) {
                 });
 
             }).catch(function(err) {
-                
-                console.log(err);
                 res.redirect('/logout');
             });
 

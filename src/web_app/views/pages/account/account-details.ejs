@@ -22,6 +22,16 @@
             <% }%>
 
             <div class="details__content">
+                <div class="content__form-title content__form-title--top">
+                    <div class="form-title__title">
+                        <h2>Update Account Details</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Update details about yourself
+                    </div>
+                </div>
+
                 <form class="content__update-form" action="/user/account/update/details" method="POST" autocomplete="off">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
                     <input type="hidden" name="id" value="<%- user.id %>" />
@@ -84,7 +94,7 @@
                     </div>
                 </form>
 
-                <div class="content__form-title">
+                <div class="content__form-title content__form-title--side">
                     <div class="form-title__title">
                         <h2>Update Account Details</h2>
                     </div>
@@ -96,6 +106,16 @@
             </div>
 
             <div class="details__content">
+                <div class="content__form-title content__form-title--top">
+                    <div class="form-title__title">
+                        <h2>Update Account Address</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Update details about where you're from
+                    </div>
+                </div>
+
                 <form class="content__update-form" action="/user/account/update/address" method="POST" autocomplete="off">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
                     <input type="hidden" name="id" value="<%- user.id %>" />
@@ -161,7 +181,7 @@
                     </div>
                 </form>
 
-                <div class="content__form-title">
+                <div class="content__form-title content__form-title--side">
                     <div class="form-title__title">
                         <h2>Update Account Address</h2>
                     </div>
@@ -173,6 +193,16 @@
             </div>
 
             <div class="details__content">
+                <div class="content__form-title content__form-title--top">
+                    <div class="form-title__title">
+                        <h2>Update Password</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Update your current password
+                    </div>
+                </div>
+
                 <form class="content__update-form" action="/user/account/update/password" method="POST" autocomplete="off">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
                     <input type="hidden" name="id" value="<%- user.id %>" />
@@ -221,7 +251,7 @@
                     </div>
                 </form>
 
-                <div class="content__form-title">
+                <div class="content__form-title content__form-title--side">
                     <div class="form-title__title">
                         <h2>Update Password</h2>
                     </div>
