@@ -37,6 +37,7 @@ CREATE TABLE `Image` (
 CREATE TABLE `Facility` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
+  `price` double NOT NULL,
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `id_timetable` int(11) NOT NULL,
@@ -158,6 +159,8 @@ CREATE TABLE `Card_User` (
 
 CREATE TABLE `Activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(1000) NOT NULL,
+  `description` varchar(5000) NOT NULL,
   `discount` double NOT NULL DEFAULT 0,
   `cost` double NOT NULL,
   `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -266,8 +269,8 @@ INSERT INTO User(name, surname, email, password, phone, address_1, zipcode, city
 -- Creating a Facility with a timetable
 INSERT INTO Timetable(validity) VALUES (365);
 INSERT INTO Timetable(validity) VALUES (365);
-INSERT INTO Facility (name, latitude, longitude, id_timetable, icon) VALUES ('F.Pellegrini Swimming Pool', '53.804326', '-1.553167', 1,  'gym-white.png');
-INSERT INTO Facility (name, latitude, longitude, id_timetable, icon) VALUES ('M. Ali Box', '53.804326', '-1.553167', 2, 'gym-white.png');
+INSERT INTO Facility (name, latitude, longitude, id_timetable, icon) VALUES ('F.Pellegrini Swimming Pool', 1000, '53.804326', '-1.553167', 1,  'gym-white.png');
+INSERT INTO Facility (name, latitude, longitude, id_timetable, icon) VALUES ('M. Ali Box', '53.804326', 800, '-1.553167', 2, 'gym-white.png');
 
 -- Create image references
 INSERT INTO Image(ext) VALUES('jpg');
@@ -285,11 +288,11 @@ INSERT INTO FacilityImage(id_image, id_facility) VALUES (4,2);
 INSERT INTO Sport(name, description) VALUES ('Swimming', 'Free swimming, Sub Classes, Competitive Freestyle Swimming.');
 INSERT INTO Sport(name, description) VALUES ('Kick Box', 'Lightweight, agility-based martial arts discipline.');
 INSERT INTO Lecturer(full_name, email, phone) VALUES ('John Fish', 'iswimalot@gmail.com', '+44 1234567890');
-INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 1, '2019-01-02');
-INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 2, '2019-01-03');
-INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 1, '2019-01-04');
-INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 2, '2019-01-05');
-INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES (15, 60, 1, '2019-01-06');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, '2019-01-02');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 2, '2019-01-03');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, '2019-01-04');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 2, '2019-01-05');
+INSERT INTO Activity (cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, '2019-01-06');
 INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
 
 -- Linking the activity to the facility timetable
