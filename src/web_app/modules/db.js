@@ -354,7 +354,7 @@ exports.createUser = function(name, surname, email, password, phone, address_1, 
  *  Input:      Discount, Cost, Start Time, Duration, Sport ID
  *  Output:     Bool / Error Message
 */
-exports.createActivity = function(discount, cost, start_time, duration, id_sport) {
+exports.createActivity = function(name, description, discount, cost, start_time, duration, id_sport) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -374,8 +374,8 @@ exports.createActivity = function(discount, cost, start_time, duration, id_sport
 
             query = SqlString.format(
                 
-                'INSERT INTO Activity (discount, cost, start_time, duration, id_sport) VALUES(?, ?, ?, ?, ?)',
-                 [discount, cost, start_time, duration, id_sport]
+                'INSERT INTO Activity (name, description, discount, cost, start_time, duration, id_sport) VALUES(?, ?, ?, ?, ?, ?, ?)',
+                 [name, description, discount, cost, start_time, duration, id_sport]
             );
 
             // Query

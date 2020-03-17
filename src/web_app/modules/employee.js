@@ -10,6 +10,8 @@ var moment = require('moment');
 exports.newActivity = function(req_body){
 
     // Parameters
+    let name = req_body.name;
+    let description = req_body.description;
     let discount = req_body.discount;
     let cost = req_body.cost;
     let start_time = req_body.start_time;
@@ -19,7 +21,7 @@ exports.newActivity = function(req_body){
 
     return new Promise(function(resolve, reject) {
 
-        db.createActivity(discount, cost, start_time, duration, id_sport).then(function(result){
+        db.createActivity(name, description, discount, cost, start_time, duration, id_sport).then(function(result){
 
             resolve(result);
 
