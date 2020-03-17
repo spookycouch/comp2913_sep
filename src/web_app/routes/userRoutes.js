@@ -185,7 +185,8 @@ router.get('/account/bookings', function(req, res) {
                     title: webname + "| Account | Bookings",
                     session: req.session,
                     bookings: bookings,
-                    user: usr
+                    user: usr,
+                    csrfToken: req.csrfToken()
                 });
 
             // Error catching
@@ -222,7 +223,8 @@ router.get('/account/details', function(req, res) {
             {
                 title: webname + "| Account | Details",
                 session: req.session,
-                user: userObj
+                user: userObj,
+                csrfToken: req.csrfToken()
             });
             
         // Error -> logout
@@ -230,6 +232,117 @@ router.get('/account/details', function(req, res) {
             
             res.redirect('/user/logout');
         });
+    }
+});
+
+
+/*
+ *  Function:   Login Details Update Details
+*/
+router.post('/account/update/details', function(req, res) {
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+        try {
+            id = req.body.id; // Put ID in temporary var
+            delete req.body.id; // Delete ID from object so it is not validated
+            const value = validation.updateDetailsValidation(req.body);
+            req.body.id = id // Add ID back into object
+
+            if(value.error != undefined)
+                throw value.error.details;
+
+            user.updateDetails(req.body).then(function(result) {
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: 'Details Updated Successfully',
+                    path: 'success'
+                }]);
+    
+            }).catch(function(err) {
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: err,
+                    path: 'unsuccessful'
+                }]);
+            })
+
+        } catch(err) {
+            error.updateErrorPage(req, res, webname, user, err);
+        }
+    }
+})
+
+
+/*
+ *  Function:   Login Details Update Address
+*/
+router.post('/account/update/address', function(req, res) {
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+
+        // Validate the data
+        try {
+            id = req.body.id; // Put ID in temporary var
+            delete req.body.id; // Delete ID from object so it is not validated
+            const value = validation.updateAddressValidation(req.body);
+            req.body.id = id // Add ID back into object
+
+            if(value.error != undefined)
+                throw value.error.details;
+
+
+            user.updateAddress(req.body).then(function(result) {
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: 'Address Updated Successfully',
+                    path: 'success'
+                }]);
+    
+            }).catch(function(err) {
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: err,
+                    path: 'unsuccessful'
+                }]);
+            });
+
+        // If an error with the data
+        } catch(err) {
+            error.updateErrorPage(req, res, webname, user, err);
+        }
+    }
+});
+
+router.post('/account/update/password', function(req, res) {
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+        try {
+            id = req.body.id; // Put ID in temporary var
+            delete req.body.id; // Delete ID from object so it is not validated
+            const value = validation.updatePasswordValidation(req.body);
+            req.body.id = id // Add ID back into object
+
+            if(value.error != undefined)
+                throw value.error.details;
+
+            user.updatePassword(req.body).then(function(result) {
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: 'Password Updated Successfully',
+                    path: 'success'
+                }]);
+    
+            }).catch(function(err) {    
+                error.updateErrorPage(req, res, webname, user, [{
+                    message: err,
+                    path: 'current_password'
+                }]);
+            });
+
+        } catch(err) {
+            error.updateErrorPage(req, res, webname, user, err);
+        }
     }
 });
 
@@ -256,12 +369,11 @@ router.get('/account/memberships', function(req, res) {
                     title: webname + "| Account | Memberships",
                     session: req.session,
                     memberships: memberships,
-                    user: result
+                    user: result,
+                    csrfToken: req.csrfToken()
                 });
 
             }).catch(function(err) {
-                
-                console.log(err);
                 res.redirect('/logout');
             });
 
@@ -291,7 +403,8 @@ router.get('/account/payment', function(req, res) {
             {
                 title: webname + "| Account | Payment",
                 session: req.session,
-                user: result
+                user: result,
+                csrfToken: req.csrfToken()
             });
 
         }).catch(function(err) {

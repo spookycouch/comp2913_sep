@@ -130,7 +130,7 @@ const registerValidation2 = function(data) {
 
 
 /*
- *  Function:   Register form (subform 3) Validation
+ *  Function:   Register form (subform 3) Validation (ALSO USED FOR UPDATE VALIDATION)
  *  Input:      Request Body
  *  Output:     Null/Error Object
 */
@@ -159,6 +159,77 @@ const registerValidation3 = function(data) {
     });
 
     return registerValidationSchema3.validate(data, {abortEarly: false});
+}
+
+
+const updateDetailsValidation = function(data) {
+    const updateDetailsValidationSchema = joi.object({
+        name: joi.string()
+            .min(3)
+            .required()
+            .messages({
+                "string.empty": "Firstname is required",
+                "string.min": "Firstname must be at least 3 characters long"
+            }),
+        surname: joi.string()
+            .min(3)
+            .required()
+            .messages({
+                "string.empty": "Surname is required",
+                "string.min": "Surname must be at least 3 characters"
+            }),
+        email: joi.string()
+            .min(6)
+            .required()
+            .email()
+            .messages({
+                "string.empty": "Email is Required",
+                "string.min": "Email must be at least 6 characters long",
+                "string.email": "Invalid Email Address"
+            }),
+        phone: joi.number()
+            .required()
+            .messages({
+                "number.base": "Phone Number Invalid"
+            }),
+        _csrf: joi.string()
+            .min(6)
+            .required()
+    });
+
+    return updateDetailsValidationSchema.validate(data, {abortEarly: false});
+}
+
+
+const updatePasswordValidation = function(data) {
+    const updatePasswordValidationSchema = joi.object({
+        current_password: joi.string()
+            .min(6)
+            .required()
+            .messages({
+                "string.empty": "Password is Required",
+                "string.min": "Password must be at least 6 characters long"
+            }),
+        password: joi.string()
+            .min(6)
+            .required()
+            .messages({
+                "string.empty": "Password is Required",
+                "string.min": "Password must be at least 6 characters long"
+            }),
+        confirm_password: joi.any()
+            .valid(joi.ref('password'))
+            .required()
+            .messages({
+                "string.empty": "Confirm Password is Required",
+                "any.only": "Must match Password"
+            }),
+        _csrf: joi.string()
+            .min(6)
+            .required()
+    });
+
+    return updatePasswordValidationSchema.validate(data, {abortEarly: false});
 }
 
 
@@ -290,3 +361,6 @@ module.exports.loginValidation = loginValidation;               // Login
 module.exports.apiLoginValidation = apiLoginValidation;         // ApiLogin
 module.exports.apiRegisterValidation = apiRegisterValidation;   // ApiRegister
 module.exports.apiNewActivityValidation = apiNewActivityValidation; // ApiNewActivity
+module.exports.updateDetailsValidation = updateDetailsValidation;
+module.exports.updateAddressValidation = registerValidation3;
+module.exports.updatePasswordValidation = updatePasswordValidation;

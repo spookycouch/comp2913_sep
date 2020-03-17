@@ -40,8 +40,7 @@
 
                                 .desc {
                                     &__facility-info {
-                                        margin-top: 20px;
-                                        margin-bottom: 40px;
+                                        margin: 20px 0;
                                     }
 
                                     &__facility-discover {
@@ -52,6 +51,11 @@
                                                 display: inline-block;
                                             }
                                         }
+                                    }
+
+                                    &__facility-price {
+                                        margin-bottom: 40px;
+                                        font-weight: bold;
                                     }
                                 }
                             }

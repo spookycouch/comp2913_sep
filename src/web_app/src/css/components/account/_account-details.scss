@@ -1,0 +1,158 @@
+.account {
+    &__details {
+        color: $black !important;
+
+        .details{
+            &__content {
+                width: 90%;
+                margin-bottom: 40px;
+                display: flex;
+                // flex-wrap: wrap;
+                border-top: $border_thickness solid $black;
+
+                &--success {
+                    border: none;
+                    justify-content: center;
+                }
+
+                .content {
+                    &__success {
+                        color: $quatenary;
+                    }
+
+                    &__form-title {
+                        width: 40%;
+                        min-width: 200px;
+                        color: $white;
+
+                        &--top {
+                            display: none;
+                        }
+
+                        .form-title {
+                            &__title {
+                                background-color: $tertiary;
+                                padding: 10px;
+                                clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
+                            }
+
+                            &__desc {
+                                color: $black;
+                                padding: 10px;
+                                margin-top: 10px;
+                            }
+                        }
+                    }
+
+                    &__update-form {
+                        width: 60%;
+                        min-width: 300px;
+                        text-align: center;
+
+                        .update-form {
+                            &__group {
+                                margin: 15px 20%;
+
+                                &--col {
+                                    display: flex;
+                                    justify-content: center;
+                                }
+        
+                                &--row {
+                                    &:first-child {
+                                        padding-right: 5px;
+                                    }
+        
+                                    &:last-child {
+                                        padding-left: 5px;
+                                    }
+                                }
+                            }
+
+                            &__label {
+                                display: block;
+                                padding: 5px;
+                            }
+
+                            &__input {
+                                border: $border_thickness solid $black;
+                                padding: $padding_border_block;
+                                width: 100%;
+                            }
+
+                            &__btn {
+                                border: $border_thickness solid $black;
+                                padding: $padding_border_block;
+                                background-color: $white;
+                                cursor: pointer;
+                            }
+
+                            &__error {
+                                color: $red;
+
+                                &--d-none {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: $max_width_primary) {
+    .account {
+        &__details {
+            .details {
+                &__content {
+                    flex-wrap: wrap;
+
+                    .content {
+                        &__form-title {
+                            width: 100%;
+
+                            &--side {
+                                display: none;
+                            }
+
+                            &--top {
+                                display: block;
+                            }
+                        }
+
+                        &__update-form {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_tertiary) {
+    .account {
+        &__details {
+            .details {
+                &__content {
+                    width: 100%;
+
+                    .content {
+                        &__update-form {
+                            .update-form {
+                                &__group {
+                                    margin: 10px 10%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

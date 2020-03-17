@@ -168,7 +168,7 @@ exports.getUserDetails = function(id) {
 
             query = SqlString.format(
         
-                'SELECT id, name, surname, email, birth, phone, address_1, address_2 city, zipcode, profile_pic FROM User WHERE id = ?',
+                'SELECT id, name, surname, email, birth, phone, address_1, address_2, city, zipcode, profile_pic FROM User WHERE id = ?',
                     [id.id]
             );
 
@@ -195,7 +195,7 @@ exports.getUserDetails = function(id) {
  *  Input:      Id, Name, Surname, Email, Password, Phone, Address 1, Address 2, Zipcode, City, Profile Pic
  *  Output:     User Object / Error Message
 */
-exports.updateUserDetails = function(id, name, surname, email, password, phone, address_1, address_2, zipcode, city, profile_pic) {
+exports.updateUserDetails = function(id, name, surname, email, phone) { //TODO: include Profile picture when updating
 
     var conn = mysql.createConnection({
         host: host,
@@ -213,9 +213,8 @@ exports.updateUserDetails = function(id, name, surname, email, password, phone, 
             if (err) reject(err);
 
             query = SqlString.format(
-        
-                'UPDATE User SET name = ?, surname = ?, email = ?, phone = ?, address_1 = ?, address_2 = ?, zipcode = ?, city = ?, profile_pic = ? WHERE id = ?',
-                    [name, surname, email, phone, address_1, address_2, zipcode, city, profile_pic, id]
+                'UPDATE User SET name = ?, surname = ?, email = ?, phone = ? WHERE id = ?',
+                    [name, surname, email, phone, id]
             );
 
             // Query
@@ -231,6 +230,80 @@ exports.updateUserDetails = function(id, name, surname, email, password, phone, 
         });
     });
 }
+
+
+exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) { 
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'UPDATE User SET address_1 = ?, address_2 = ?, zipcode = ?, city = ? WHERE id = ?',
+                    [address_1, address_2, zipcode, city, id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                else
+                    resolve(true);
+            });
+        });
+    });
+}
+
+
+exports.updateUserPassword = function(id, password, current_password) { 
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'UPDATE User SET password = ? WHERE id = ? and password = ?',
+                    [password, id, current_password]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.changedRows > 0)
+                    resolve(true);
+
+                else
+                    reject("Password Incorrect.");
+            });
+        });
+    });
+}
+
 
 
 /*

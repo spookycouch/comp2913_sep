@@ -8,6 +8,20 @@ $(document).ready(function() {
     var accountToggle = false;
     var pageCount = 0;
 
+
+    if ($('.update-form__error')[0]) {
+        errors = ['name', 'surname', 'email', 'phone', 
+                    'address_1', 'address_2', 'city', 'zipcode', 
+                    'current_password', 'password', 'confirm_password'];
+
+        $.each(errors, function(key, value) {
+            if ($('#' + value + '-error')[0]) {
+                $('#' + value).addClass('wobble-horizontal');
+            }
+        });
+    }
+
+
     /*
     *  Slick configuration (for carousel)
     */
