@@ -187,31 +187,6 @@ router.get('/activities', csrf, function(req, res) {
 
 
 /*
- * Function:    Test new activity
-*/
-router.get('/activities/new', csrf, function (req, res) {   
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
-        res.redirect('/home');
-
-    return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
-        title: webname + "| Activities | New"
-    });
-})
-
-/*
- * Function:    Test new facility
-*/
-router.get('/facilities/new', csrf, function (req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // if not an admin
-        res.redirect('/home');
-
-    return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
-        title: webname + "| Facilities | New"
-    });
-})
-
-
-/*
  *  Function:   Facilities Page Router
 */
 router.post('/activities', csrf, function(req, res) {

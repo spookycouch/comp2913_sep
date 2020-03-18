@@ -293,3 +293,5 @@ INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity,
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 3, 1);
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 4, 1);
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 5, 1);
+
+

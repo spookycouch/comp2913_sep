@@ -39,6 +39,8 @@ const registerValidation = function(data){
             .messages({
                 "any.only": "Must match Password"
             }),
+        type: joi.number()
+            .required(),
         _csrf: joi.string()
             .min(6)
             .required()
@@ -93,6 +95,8 @@ const registerValidation1 = function(data) {
                 "string.empty": "Confirm Password is Required",
                 "any.only": "Must match Password"
             }),
+        type: joi.number()
+            .required(),
         _csrf: joi.string()
             .min(6)
             .required()

@@ -96,6 +96,7 @@
                 <div id="slide-1">
                     <form id="form-1" class="half__login-form" method="POST">
                         <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                        <input type="hidden" name="type" value="1" />
 
                         <div class="login-form__group login-form__group--col">
                             <div class="login-form__group--row">
@@ -118,7 +119,6 @@
                         </div>
                         
                         <div class="login-form__group">
-                    
                             <label class="login-form__label"><h3>Password</h3></label>
                             <input id="password" class="login-form__input" name="password" type="password" placeholder="Password"/>
                             <p id="password-error" class="login-form__error login-form__error--d-none"></p>

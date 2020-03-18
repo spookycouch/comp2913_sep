@@ -144,6 +144,8 @@ exports.registerUser = function(req_body){
     let email = req_body.email;
     let password = req_body.password;
     let confirm_password = req_body.confirm_password;
+    let userType = req_body.type;
+
 
     // Md5 encryption
     password = md5(password);
@@ -153,7 +155,7 @@ exports.registerUser = function(req_body){
 
     return new Promise(function(resolve, reject) {
 
-        db.createUser(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth).then(function(result){
+        db.createUser(name, surname, email, password, userType, phone, address_1, address_2, zipcode, city, birth).then(function(result){
 
             resolve(result);
 

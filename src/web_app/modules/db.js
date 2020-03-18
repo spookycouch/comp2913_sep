@@ -311,7 +311,7 @@ exports.updateUserPassword = function(id, password, current_password) {
  *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
  *  Output:     Bool / Error Message
 */
-exports.createUser = function(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth) {
+exports.createUser = function(name, surname, email, password, userType, phone, address_1, address_2, zipcode, city, birth, type) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -331,8 +331,8 @@ exports.createUser = function(name, surname, email, password, phone, address_1, 
 
             query = SqlString.format(
                 
-                'INSERT INTO User(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, TIMESTAMP(?))',
-                 [name, surname, email, password, phone, address_1, address_2, zipcode, city, birth]
+                'INSERT INTO User(name, surname, email, password, type, phone, address_1, address_2, zipcode, city, birth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TIMESTAMP(?))',
+                 [name, surname, email, password, userType, phone, address_1, address_2, zipcode, city, birth]
             );
 
             // Query

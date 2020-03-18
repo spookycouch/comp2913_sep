@@ -16,6 +16,7 @@ var user = require('./routes/userRoutes.js');
 var api = require('./routes/api.js');
 var ajax = require('./routes/ajax.js');
 var del = require('./routes/delete.js');
+var manager = require('./routes/managerRoutes.js');
 
 // Descriptive
 const webname = ' The Edgy ';
@@ -34,6 +35,7 @@ app.use('/user', user);
 app.use('/api', api);
 app.use('/ajax', ajax);
 app.use('/delete', del);
+app.use('/manager', manager);
 
 // Run the app
 app.listen(port, hostname, function() {

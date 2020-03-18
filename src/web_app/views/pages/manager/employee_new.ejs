@@ -1,0 +1,46 @@
+<%- include('../../partials/head') %>
+
+<h1>Register a new employee hereerere</h1>
+
+<form action="" method="POST" autocomplete="off">
+    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+    <input type="hidden" name="type" value="2" />
+
+    <label><h3>Firstname</h3></label>
+    <input name="name" type="text" placeholder="Name" />
+
+    <label><h3>Surname</h3></label>
+    <input name="surname" type="text" placeholder="Surname" />
+
+    <label><h3>Email</h3></label>
+    <input name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
+
+    <label><h3>Password</h3></label>
+    <input name="password" type="password" placeholder="Password"/>
+
+    <label><h3>Confirm Password</h3></label>
+    <input name="confirm_password" type="password" placeholder="Confirm Password"/>
+
+    <label class="login-form__label"><h3>Date of Birth</h3></label>
+    <input id="birth" class="login-form__input" name="birth" type="date" placeholder="Date of Birth"/>
+
+    <label><h3>Phone Number</h3></label>
+    <input name="phone" type="text" placeholder="Phone" />
+
+    <label><h3>Address Line 1</h3></label>
+    <input name="address_1" type="text" placeholder="Address Line 1"/>
+
+    <label><h3>Address Line 2 <small>(optional)</small></h3></label>
+    <input name="address_2" type="text" placeholder="Address Line 2"/>
+
+    <label><h3>City</h3></label>
+    <input name="city" type="text" placeholder="City"/>
+
+    <label><h3>Postal / Zip Code</h3></label>
+    <input name="zipcode" type="text" placeholder="Zip Code"/>
+
+    <button type="submit"><h3>Register</h3></button>
+
+</form>
+
+<%- include('../../partials/foot') %>
