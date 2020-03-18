@@ -17,7 +17,7 @@
                     <div class="spacing__content">
                         <div class="content__desc">
                             <div class="desc__facility-name">
-                                <h2><%=results[i].name%></h2>
+                                <h2><%- results[i].name %></h2>
                             </div>
 
                             <div class="desc__facility-info">
@@ -25,7 +25,7 @@
                             </div>
 
                             <div class="desc__facility-price">
-                                <h3>£00.00 per session</h3> <!-- Joe Put pricing here -->
+                                <h3>£<%- results[i].price %> p/h</h3> <!-- Joe Put pricing here -->
                             </div>
 
                             <div class="desc__facility-discover">

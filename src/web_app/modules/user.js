@@ -175,11 +175,11 @@ exports.setUserSession = function(req, email){
 
     return new Promise(function(resolve, reject) {
 
-        db.getUserId(email).then(function(id){
+        db.getUserIdType(email).then(function(user){
 
             // Sets session variable
-            req.session.userId = id;
-            req.session.userType = 'user';
+            req.session.userId = user.id;
+            req.session.userType = user.type;
 
             resolve(true);
 

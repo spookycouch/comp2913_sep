@@ -103,7 +103,7 @@ exports.queryUser = function(email, password) {
  *  Input:      Email
  *  Output:     Id / Error Message
 */
-exports.getUserId = function(email) {
+exports.getUserIdType = function(email) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -122,7 +122,7 @@ exports.getUserId = function(email) {
 
             query = SqlString.format(
         
-                'SELECT id FROM User WHERE email = ?',
+                'SELECT id, type FROM User WHERE email = ?',
                     [email]
             );
 
@@ -169,7 +169,7 @@ exports.getUserDetails = function(id) {
             query = SqlString.format(
         
                 'SELECT id, name, surname, email, birth, phone, address_1, address_2, city, zipcode, profile_pic FROM User WHERE id = ?',
-                    [id.id]
+                    [id]
             );
 
             // Query

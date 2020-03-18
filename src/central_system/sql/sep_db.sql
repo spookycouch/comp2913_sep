@@ -239,6 +239,12 @@ CREATE TABLE `Payment` (
 -- Creating user (psw: 123456)
 INSERT INTO User(name, surname, email, password, phone, address_1, zipcode, city) VALUES ('John', 'Doe', 'test@mail.com', 'e10adc3949ba59abbe56e057f20f883e', '+44 1234567890', 'Weetwood Lane', 'LS166IL', 'Leeds');
 
+-- Creating employee (psw: test123)
+INSERT INTO User(name, surname, email, type, password, phone, address_1, zipcode, city) VALUES ('Mr', 'Employee', 'employee@mail.com', 2, 'cc03e747a6afbbcbf8be7668acfebee5', '+44 1234567890', 'Weetwood Lane', 'LS166IL', 'Leeds');
+
+-- Creating manager (psw: test123)
+INSERT INTO User(name, surname, email, type, password, phone, address_1, zipcode, city) VALUES ('Mr', 'Admin', 'admin@mail.com', 3, 'cc03e747a6afbbcbf8be7668acfebee5', '+44 1234567890', 'Weetwood Lane', 'LS166IL', 'Leeds');
+
 -- Creating a Facility
 INSERT INTO Facility (name, price, latitude, longitude, icon) VALUES ('F.Pellegrini Swimming Pool', 1000, '53.804326', '-1.553167',  'gym-white.png');
 INSERT INTO Facility (name, price, latitude, longitude, icon) VALUES ('M. Ali Box', '53.804326', 800, '-1.553167', 'gym-white.png');

@@ -94,7 +94,11 @@ router.post('/login', function(req, res) {
             user.setUserSession(req, email).then(function(result){
 
                 // Success!
-                res.redirect('/user/account');
+                if (req.session.userType > 2) { // If they're a manager redirect to manager overview
+                    res.redirect('/user/manager');
+                } else {
+                    res.redirect('/user/account');
+                }
 
             // Error
             }).catch(function(err){
@@ -127,11 +131,13 @@ router.post('/login', function(req, res) {
 */
 router.get('/account', function(req, res) {
     
-    if(req.session.userId == undefined)
+    if (req.session.userId == undefined)
         res.redirect('/home');
+
+    if (req.session.userType > 2)
+        res.redirect('/user/manager');
     
     else {
-
         user.getDetails(req.session.userId).then(function(result) {
             res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
             {
@@ -140,7 +146,7 @@ router.get('/account', function(req, res) {
                 user: result
             });
         }).catch(function(err) {
-            res.redirect('/logout');
+            res.redirect('/user/logout');
         });
 
         
@@ -199,6 +205,15 @@ router.get('/account/bookings', function(req, res) {
             res.redirect('/user/logout');
         });
     }
+});
+
+
+
+router.get('/manager', function(req, res) { // TODO: put manager routes in a new router file, e.g instead of this being /user/manager it will instead be /manager/overview
+    res.render(path.join(__dirname + '/../views/pages/manager/account_manager.ejs'), {
+        title: webname + "| Manager | Overview",
+        session: req.session
+    });
 });
 
 
