@@ -40,7 +40,6 @@ CREATE TABLE `Facility` (
   `price` double NOT NULL,
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
-  `id_timetable` int(11) NOT NULL,
   `icon` varchar(400) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -89,19 +88,6 @@ CREATE TABLE `Sport` (
 -- --------------------------------------------------------
 
 --
--- Definition of the table `Timetable`
---
-
-CREATE TABLE `Timetable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `validity` int(11) NOT NULL,
-  `creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Definition of the table `User`
 --
 
@@ -116,7 +102,8 @@ CREATE TABLE `User` (
   `address_1` varchar(500) NOT NULL,
   `address_2` varchar(500) DEFAULT '',
   `zipcode` varchar(8) NOT NULL,  
-  `city` varchar(200) NOT NULL,
+  `city` varchar(200) NOT NULL,  
+  `type` int(11) NOT NULL DEFAULT 1,
   `birth` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -166,8 +153,10 @@ CREATE TABLE `Activity` (
   `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `duration` int(11) NOT NULL,
   `id_sport` int(11) NOT NULL,
+  `id_facility` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY(`id_sport`) REFERENCES Sport(`id`)
+  FOREIGN KEY(`id_sport`) REFERENCES Sport(`id`),
+  FOREIGN KEY(`id_facility`) REFERENCES Facility(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -227,22 +216,6 @@ CREATE TABLE `Activity_Session` (
 -- --------------------------------------------------------
 
 --
--- Definition of the table `Activity_Timetable`
---
-
-CREATE TABLE `Activity_Timetable` (
-  `id_activity` int(11) NOT NULL,
-  `id_timetable` int(11) NOT NULL,
-  FOREIGN KEY(`id_activity`) REFERENCES Activity(`id`),
-  FOREIGN KEY(`id_timetable`) REFERENCES Timetable(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
-
--- --------------------------------------------------------
-
---
 -- Definition of the table `Payment`
 --
 
@@ -266,11 +239,9 @@ CREATE TABLE `Payment` (
 -- Creating user (psw: 123456)
 INSERT INTO User(name, surname, email, password, phone, address_1, zipcode, city) VALUES ('John', 'Doe', 'test@mail.com', 'e10adc3949ba59abbe56e057f20f883e', '+44 1234567890', 'Weetwood Lane', 'LS166IL', 'Leeds');
 
--- Creating a Facility with a timetable
-INSERT INTO Timetable(validity) VALUES (365);
-INSERT INTO Timetable(validity) VALUES (365);
-INSERT INTO Facility (name, price, latitude, longitude, id_timetable, icon) VALUES ('F.Pellegrini Swimming Pool', 1000, '53.804326', '-1.553167', 1,  'gym-white.png');
-INSERT INTO Facility (name, price, latitude, longitude, id_timetable, icon) VALUES ('M. Ali Box', '53.804326', 800, '-1.553167', 2, 'gym-white.png');
+-- Creating a Facility
+INSERT INTO Facility (name, price, latitude, longitude, icon) VALUES ('F.Pellegrini Swimming Pool', 1000, '53.804326', '-1.553167',  'gym-white.png');
+INSERT INTO Facility (name, price, latitude, longitude, icon) VALUES ('M. Ali Box', '53.804326', 800, '-1.553167', 'gym-white.png');
 
 -- Create image references
 INSERT INTO Image(ext) VALUES('jpg');
@@ -288,19 +259,12 @@ INSERT INTO FacilityImage(id_image, id_facility) VALUES (4,2);
 INSERT INTO Sport(name, description) VALUES ('Swimming', 'Free swimming, Sub Classes, Competitive Freestyle Swimming.');
 INSERT INTO Sport(name, description) VALUES ('Kick Box', 'Lightweight, agility-based martial arts discipline.');
 INSERT INTO Lecturer(full_name, email, phone) VALUES ('John Fish', 'iswimalot@gmail.com', '+44 1234567890');
-INSERT INTO Activity (name, description, cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, '2021-01-02');
-INSERT INTO Activity (name, description, cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 2, '2021-01-03');
-INSERT INTO Activity (name, description, cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, '2021-01-04');
-INSERT INTO Activity (name, description, cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 2, '2021-01-05');
-INSERT INTO Activity (name, description, cost, duration, id_sport, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, '2021-01-06');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2021-01-02');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 2, 1, '2021-01-03');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2021-01-04');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 2, 1, '2021-01-05');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2021-01-06');
 INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
-
--- Linking the activity to the facility timetable
-INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (1, 1);
-INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (2, 2);
-INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (3, 1);
-INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (4, 2);
-INSERT INTO Activity_Timetable (id_activity, id_timetable) VALUES (5, 1);
 
 -- Creating a membership
 INSERT INTO Membership(validity, id_user, id_sport) VALUES (31, 1, 1);
