@@ -158,7 +158,6 @@ router.get('/logout', function(req, res) {
 
     // -> Homepage
     res.redirect('/');
-    console.log("successfully logged out");
 });
 
 /*
@@ -192,12 +191,12 @@ router.get('/account/bookings', function(req, res) {
             // Error catching
             }).catch(function(err){
 
-                console.log(err);
+                res.redirect('/user/logout');
             });
                 
         }).catch(function(err) {
             
-            console.log(err);
+            res.redirect('/user/logout');
         });
     }
 });
@@ -313,6 +312,9 @@ router.post('/account/update/address', function(req, res) {
     }
 });
 
+/*
+ *  Function:   Update Account Password
+*/
 router.post('/account/update/password', function(req, res) {
     if (req.session.userId == undefined)
         res.redirect('/home');
@@ -377,12 +379,8 @@ router.get('/account/memberships', function(req, res) {
                 res.redirect('/logout');
             });
 
-            // Preprocess here
-            
-
         }).catch(function(err) {
 
-            console.log(err);
             res.redirect('/logout');
         });
         
@@ -416,14 +414,63 @@ router.get('/account/payment', function(req, res) {
                 });
 
             }).catch(function(err){
-
-                console.log(err);
+                res.redirect('/user/logout');
             });
             
         }).catch(function(err) {
             res.redirect('/logout');
         });
         
+    }
+});
+
+/*
+ *  Function:   Update Account Password
+*/
+router.post('/account/add/card', function(req, res) {
+    
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+
+        try {
+
+            // Validation
+            const value = validation.newCardValidation(req.body);
+
+            if(value.error != undefined)
+                throw value.error.details;
+
+            // Query
+            user.addCard(req.session.userId, req.body).then(function(result) {
+                
+                // Success
+                res.redirect("/user/account/payment");
+
+            }).catch(function(err) {    
+                
+                /*
+                    PLS Frontend complete this
+
+                error.cardPaymentErrorPage(req, res, webname, user, [{
+                    message: err,
+                    path: 'current_password'
+                }]);
+                */
+            });
+
+        } catch(err) {
+            
+            /*
+                    PLS Frontend complete this
+
+                error.cardPaymentErrorPage(req, res, webname, user, [{
+                    message: err,
+                    path: 'current_password'
+                }]);
+                */
+        }
     }
 });
 

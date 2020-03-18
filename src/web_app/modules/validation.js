@@ -353,14 +353,58 @@ const apiNewActivityValidation = function(data){
     return registerValidationSchema.validate(data, {abortEarly: false});
 }
 
-module.exports.registerValidation = registerValidation;         // Registration (whole form)
-module.exports.registerValidation1 = registerValidation1;       // Registration (subform 1)
-module.exports.registerValidation2 = registerValidation2;       // Registration (subform 2)
-module.exports.registerValidation3 = registerValidation3;       // Registration (subform 3)
-module.exports.loginValidation = loginValidation;               // Login
-module.exports.apiLoginValidation = apiLoginValidation;         // ApiLogin
-module.exports.apiRegisterValidation = apiRegisterValidation;   // ApiRegister
-module.exports.apiNewActivityValidation = apiNewActivityValidation; // ApiNewActivity
-module.exports.updateDetailsValidation = updateDetailsValidation;
-module.exports.updateAddressValidation = registerValidation3;
-module.exports.updatePasswordValidation = updatePasswordValidation;
+/*
+ *  Function:   Login Validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
+const newCardValidation = function(data){
+
+    const newCardSchema = joi.object({
+        card_number: joi.string()
+            .length(20)
+            .required()
+            .messages({
+                "string.empty": "Card Number is Required",
+                "string.length": "Card Number must be 20 characters long",
+            }),
+        expire_date: joi.string()
+            .length(5)
+            .required()
+            .messages({
+                "string.empty": "Expire Date is Required",
+                "string.length": "Invalid Expire Date"
+            }),
+        cvv: joi.string()
+            .length(3)
+            .required()
+            .messages({
+                "string.empty": "CVV is Required",
+                "string.length": "CVV must be 3 characters long"
+            }),
+        type: joi.string()
+            .required()
+            .messages({
+                "string.empty": "Card type is Required",
+            }),
+        _csrf: joi.string()
+            .min(6)
+            .required()
+    });
+    
+    return newCardSchema.validate(data);
+}
+
+module.exports.registerValidation = registerValidation;                 // Registration (whole form)
+module.exports.registerValidation1 = registerValidation1;               // Registration (subform 1)
+module.exports.registerValidation2 = registerValidation2;               // Registration (subform 2)
+module.exports.registerValidation3 = registerValidation3;               // Registration (subform 3)
+module.exports.loginValidation = loginValidation;                       // Login
+module.exports.apiLoginValidation = apiLoginValidation;                 // ApiLogin
+module.exports.apiRegisterValidation = apiRegisterValidation;           // ApiRegister
+module.exports.apiNewActivityValidation = apiNewActivityValidation;     // ApiNewActivity
+module.exports.updateDetailsValidation = updateDetailsValidation;       // Update User Details
+module.exports.updateAddressValidation = registerValidation3;           // Update address
+module.exports.updatePasswordValidation = updatePasswordValidation;     // Update password
+module.exports.newCardValidation = newCardValidation;                   // Add new card
+

@@ -422,3 +422,23 @@ exports.getCards = function(id){
         });
     });
 }
+
+/*
+ *  Function:   Add new User Card
+ *  Input:      User Id, Request Body
+ *  Output:     Error Message
+*/
+exports.addCard = function(userId, req_body){
+
+    return new Promise(function(resolve, reject) {
+
+        db.createUserCard(userId, req_body).then(function(result){
+            
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}

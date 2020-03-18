@@ -857,7 +857,7 @@ exports.getUserCards = function(user_id) {
  *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
  *  Output:     Bool / Error Message
 */
-exports.createUserCard = function(userId, number, expire_date, cvv) {
+exports.createUserCard = function(userId, req_body) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -869,12 +869,6 @@ exports.createUserCard = function(userId, number, expire_date, cvv) {
     // Synching request
     return new Promise(function(resolve, reject) {
 
-        /* 
-
-            TODO:   Check number validity
-                    Check expire date validity
-                    Insert into Card and Card User (get new id from Card)
-
         // Connection
         conn.connect(function(err) {
             
@@ -883,20 +877,33 @@ exports.createUserCard = function(userId, number, expire_date, cvv) {
 
             query = SqlString.format(
                 
-                'INSERT INTO User(name, surname, email, password, phone, address_1, address_2, zipcode, city, birth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, TIMESTAMP(?))',
-                 [name, surname, email, password, phone, address_1, address_2, zipcode, city, birth]
+                'INSERT INTO Card(number, expire_date, type, cvv) VALUES(?, ?, ?, ?);',
+                 [req_body.card_number, req_body.expire_date, req_body.type, req_body.cvv]
             );
 
             // Query
-            conn.query(query, function (err, results, fields) {
+            conn.query(query, function (err, result, fields) {
                 
                 // Error
                 if (err) return reject(err);
 
-                resolve(true);
+                // Success -> Link card to User
+                query = SqlString.format(
+                
+                    'INSERT INTO Card_User(id_user, id_card) VALUES(?, ?);',
+                     [userId.id, result.insertId]
+                );
+
+                // Query
+                conn.query(query, function (err, result, fields) {
+                    
+                    // Error
+                    if (err) return reject(err);
+
+                    // Success
+                    resolve(true);
+                });
             });
         });
-
-        */
     });
 }
