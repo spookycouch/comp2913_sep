@@ -669,7 +669,7 @@ exports.getUpcomingActivities = function(no_items, page_no) {
 
             query = SqlString.format(
         
-                'SELECT COUNT(*) AS count FROM Activity WHERE start_time > CURRENT_TIMESTAMP();SELECT Activity.id, discount, cost, start_time, duration, id_sport, name, description FROM Sport INNER JOIN (SELECT * FROM Activity WHERE start_time > CURRENT_TIMESTAMP() ORDER BY start_time ASC LIMIT ? OFFSET ?) AS Activity ON Sport.id = Activity.id_sport;',
+                'SELECT COUNT(*) AS count FROM Activity WHERE start_time > CURRENT_TIMESTAMP();SELECT Activity.id, discount, cost, start_time, duration, id_sport, Sport.name, Sport.description FROM Sport INNER JOIN (SELECT * FROM Activity WHERE start_time > CURRENT_TIMESTAMP() ORDER BY start_time ASC LIMIT ? OFFSET ?) AS Activity ON Sport.id = Activity.id_sport;',
                     [no_items, no_items * (page_no - 1)]
             );
             
