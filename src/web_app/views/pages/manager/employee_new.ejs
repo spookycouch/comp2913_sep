@@ -1,46 +1,139 @@
 <%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
 
 <h1>Register a new employee hereerere</h1>
+
+
+<!-- TODO: add shake animation on incorrect input -->
 
 <form action="" method="POST" autocomplete="off">
     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
     <input type="hidden" name="type" value="2" />
 
     <label><h3>Firstname</h3></label>
-    <input name="name" type="text" placeholder="Name" />
+    <input name="name" type="text" placeholder="Name" value="<%- form.name %>" />
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'name'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>Surname</h3></label>
-    <input name="surname" type="text" placeholder="Surname" />
+    <input name="surname" type="text" placeholder="Surname" value="<%- form.surname %>"/>
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'surname'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>Email</h3></label>
-    <input name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
+    <input name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%- form.email %>"/>
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'email'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>Password</h3></label>
     <input name="password" type="password" placeholder="Password"/>
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'password'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>Confirm Password</h3></label>
     <input name="confirm_password" type="password" placeholder="Confirm Password"/>
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'confirm_password'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label class="login-form__label"><h3>Date of Birth</h3></label>
-    <input id="birth" class="login-form__input" name="birth" type="date" placeholder="Date of Birth"/>
+    <input name="birth" type="date" placeholder="Date of Birth" value="<%- form.birth %>"/>
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'birth'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>Phone Number</h3></label>
-    <input name="phone" type="text" placeholder="Phone" />
+    <input name="phone" type="text" placeholder="Phone" value="<%- form.phone %>" />
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'phone'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>Address Line 1</h3></label>
-    <input name="address_1" type="text" placeholder="Address Line 1"/>
+    <input name="address_1" type="text" placeholder="Address Line 1" value="<%- form.address_1 %>" />
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'address_1'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>Address Line 2 <small>(optional)</small></h3></label>
-    <input name="address_2" type="text" placeholder="Address Line 2"/>
+    <input name="address_2" type="text" placeholder="Address Line 2" value="<%- form.address_2 %>" />
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'address_2'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>City</h3></label>
-    <input name="city" type="text" placeholder="City"/>
+    <input name="city" type="text" placeholder="City" value="<%- form.city %>" />
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'city'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <label><h3>Postal / Zip Code</h3></label>
-    <input name="zipcode" type="text" placeholder="Zip Code"/>
+    <input name="zipcode" type="text" placeholder="Zip Code" value="<%- form.zipcode %>" />
+    <% if(locals.error){ %>
+        <% for (var i =0; i < error.length;  i++ ) { %>
+            <% if(error[i].path == 'zipcode'){ %>
+                <p><%- error[i].message %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+
 
     <button type="submit"><h3>Register</h3></button>
-
 </form>
 
+<%- include('../../partials/footer') %>
 <%- include('../../partials/foot') %>

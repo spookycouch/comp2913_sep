@@ -5,7 +5,7 @@ const webname = ' The Edgy ';
 /*
  *  Function:   Renders login page with errors
 */
-exports.loginErrorPage = function (req, res, webname, err){
+exports.loginErrorPage = function(req, res, webname, err){
 
     // Render with error
     res.render(path.join(__dirname + '/../views/pages/login.ejs'),
@@ -14,6 +14,17 @@ exports.loginErrorPage = function (req, res, webname, err){
         error: err,
         form: req.body,
         csrfToken: req.csrfToken()
+    });
+}
+
+exports.registerEmployeeErrorPage = function(req, res, webname, err) {
+
+    res.render(path.join(__dirname + '/../views/pages/manager/employee_new.ejs'), {
+        title: webname + "| Register | Employee",
+        session: req.session,
+        csrfToken: req.csrfToken(),
+        error: err,
+        form: req.body
     });
 }
 

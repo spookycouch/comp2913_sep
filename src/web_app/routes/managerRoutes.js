@@ -7,6 +7,7 @@ var user = require('../modules/user');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var error = require('../modules/error');
 
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
@@ -25,25 +26,42 @@ router.get('/register/employee', function(req, res) {
     res.render(path.join(__dirname + '/../views/pages/manager/employee_new.ejs'), {
         title: webname + "| Register | Employee",
         session: req.session,
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
+        form: req.body
     });
 });
 
 
 router.post('/register/employee', function(req, res) {
 
-    user.registerUser(req.body).then(function(result) {
+    try {
+        const value = validation.registerValidation(req.body);   
 
-        res.render(path.join(__dirname + '/../views/pages/manager/employee_new.ejs'), {
-            title: webname + "| Register | Employee",
-            session: req.session,
-            csrfToken: req.csrfToken()
-        });
+        // Error
+        if(value.error != undefined)
+            throw value.error.details;
 
-    }).catch(function(err) {
-        console.log(err);
-        res.redirect('/manager/overview');
-    }) 
+
+
+        user.registerUser(req.body).then(function(result) {
+
+            res.render(path.join(__dirname + '/../views/pages/manager/employee_new.ejs'), {
+                title: webname + "| Register | Employee",
+                session: req.session,
+                csrfToken: req.csrfToken()
+            });
+    
+        }).catch(function(err) {
+            error.registerEmployeeErrorPage(req, res, webname, [{
+                message: err,
+                path: 'unsuccessful'
+            }])
+        });   
+    } catch(err) {
+        error.registerEmployeeErrorPage(req, res, webname, err);
+    }
+
+    
 
     
 });
@@ -63,12 +81,14 @@ router.get('/overview', function(req, res) {
 /*
  * Function:    Test new activity
 */
-router.get('/activities/new', csrf, function (req, res) {   
+router.get('/activities/new', function (req, res) {   
     if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
         res.redirect('/home');
 
     return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
-        title: webname + "| Activities | New"
+        title: webname + "| Activities | New",
+        session: req.session,
+        csrfToken: req.csrfToken(),
     });
 })
 
@@ -76,12 +96,14 @@ router.get('/activities/new', csrf, function (req, res) {
 /*
  * Function:    Test new facility
 */
-router.get('/facilities/new', csrf, function (req, res) {
+router.get('/facilities/new', function (req, res) {
     if(req.session.userId == undefined || req.session.userType < 3) // if not an admin
         res.redirect('/home');
 
     return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
-        title: webname + "| Facilities | New"
+        title: webname + "| Facilities | New",
+        session: req.session,
+        csrfToken: req.csrfToken(),
     });
 })
 

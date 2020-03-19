@@ -10,33 +10,66 @@ const registerValidation = function(data){
     const registerValidationSchema = joi.object({
         name: joi.string()
             .min(3)
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Firstname is required",
+                "string.min": "Firstname must be at least 3 characters long"
+            }),
         surname: joi.string()
             .min(3)
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Surname is required",
+                "string.min": "Surname must be at least 3 characters"
+            }),
         email: joi.string()
             .min(6)
             .required()
-            .email(),
+            .email()
+            .messages({
+                "string.empty": "Email is Required",
+                "string.min": "Email must be at least 6 characters long",
+                "string.email": "Invalid Email Address"
+            }),
         birth: joi.string()
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Date of Birth is Required"
+            }),
         phone: joi.number()
-            .required(),
+            .required()
+            .messages({
+                "number.base": "Phone Number Invalid"
+            }),
         address_1: joi.string()
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Address Line 1 is Required"
+            }),
         address_2: joi.string()
             .allow(''),
         zipcode: joi.string()
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "Postal / Zip Code is Required"
+            }),
         city: joi.string()
-            .required(),
+            .required()
+            .messages({
+                "string.empty": "City is Required"
+            }),
         password: joi.string()
             .min(6)
-            .required(), 
+            .required()
+            .messages({
+                "string.empty": "Password is Required",
+                "string.min": "Password must be at least 6 characters long"
+            }),
         confirm_password: joi.any()
             .valid(joi.ref('password'))
             .required()
             .messages({
+                "string.empty": "Confirm Password is Required",
                 "any.only": "Must match Password"
             }),
         type: joi.number()

@@ -63,7 +63,6 @@ router.post('/register', function(req, res) {
 
     // Error
     } catch(err) {
-
         error.loginErrorPage(req, res, webname, err);
     }
 });
