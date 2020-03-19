@@ -2,9 +2,23 @@
 
 
 <form method="POST" action="/api/upload_facility" enctype="multipart/form-data">
-    <input type="file" name="image"><br>
+    <input type="file" name="image" multiple><br>
 
+    <label>Name</label>
     <input type="text" name="name"><br>
+    
+    <label>price</label>
+    <input type="text" name="price"><br>
+
+    <label>latitude</label>
+    <input type="text" name="latitude"><br>
+
+    <label>longitude</label>
+    <input type="text" name="longitude"><br>
+
+    <label>icon</label>
+    <input type="text" name="icon"><br>
+
     <input type="submit">
 </form>
 

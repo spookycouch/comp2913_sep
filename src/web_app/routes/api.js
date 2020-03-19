@@ -131,10 +131,13 @@ router.post('/upload_facility', jsonEncoded, function(req, res) {
 
     // Validation
     var bboy = new busboy({ headers : req.headers });
+    var img_id_list = [];
+    var req_body = {};
     
     // Fields - push to json
     bboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
         console.log(val);
+        req_body[fieldname] = val;
     });
 
     // Files - upload images and append image id to list
@@ -151,6 +154,8 @@ router.post('/upload_facility', jsonEncoded, function(req, res) {
             var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
             file.pipe(fs.createWriteStream(output_path));
 
+            img_id_list.push(id);
+
         }).catch(function(err){
 
             return res.end('file upload error');
@@ -158,6 +163,13 @@ router.post('/upload_facility', jsonEncoded, function(req, res) {
     });
 
     bboy.on('finish', function() {
+        employee.newFacility(req_body).then(function (results) {
+            var facility_id = results[1][0].id;
+
+            for (var i = 0; i < img_id_list.length; ++i) {
+                employee.newFacilityImage(facility_id, img_id_list[i]).then(function (results){});
+            }
+        });
         console.log('done');
         res.end('done');
     });
@@ -177,42 +189,62 @@ router.post('/upload_facility', jsonEncoded, function(req, res) {
 /*
  *  Function:   New activity API Endpoint
 */
-router.post('/new_activity', jsonEncoded, function(req, res) {
+router.post('/upload_activity', jsonEncoded, function(req, res) {
 
-    try { 
-        // Validation
-        console.log('got here');
-        console.log(req.body)
-        
-        const value = validation.apiNewActivityValidation(req.body);
-        
-        if(value.error != undefined) {
-            throw value.error.details;
-        }
+    // Validation
+    var bboy = new busboy({ headers : req.headers });
+    var img_id_list = [];
+    var req_body = {};
+    
+    // Fields - push to json
+    bboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+        console.log(val);
+        req_body[fieldname] = val;
+    });
 
-        // Query
-        employee.newActivity(req.body).then(function(result){            
+    // Files - upload images and append image id to list
+    bboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        var ext = mimetype.split('/')[1];
 
-            /*
-            // Session creation
-            const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET);
-            res.header('auth-token',token).send(token);
-            */
+        // validate img type
+        if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
+            return res.end('invalid filetype!');
 
-            res.setHeader('Content-Type', 'application/json');
-            res.end(
-                JSON.stringify(result)
-           );
+        // create db entry then save image to src/uploads/ using returned id
+        employee.newImage(ext).then(function(results){
+            var id = results[1][0].id;
+            var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
+            file.pipe(fs.createWriteStream(output_path));
 
-        // Error
-        }). catch(function(err){
+            img_id_list.push(id);
 
-            res.setHeader('Content-Type', 'application/json');
-            res.end(
-                JSON.stringify(err)
-            );
+        }).catch(function(err){
+
+            return res.end('file upload error');
         });
+    });
 
+    bboy.on('finish', function() {
+        employee.newActivity(req_body).then(function (results) {
+            console.log('broken here!');
+            console.log(results);
+
+            var activity_id = results[1][0].id;
+
+            console.log('broken here?');
+
+            for (var i = 0; i < img_id_list.length; ++i) {
+                employee.newActivityImage(activity_id, img_id_list[i]).then(function (results){});
+            }
+            console.log('or here?');
+
+        });
+        console.log('done');
+        res.end('done');
+    });
+
+    try {
+        return req.pipe(bboy);
     } catch(err) {
 
         res.setHeader('Content-Type', 'application/json');

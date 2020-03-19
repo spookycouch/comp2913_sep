@@ -354,13 +354,14 @@ exports.createUser = function(name, surname, email, password, userType, phone, a
  *  Input:      Discount, Cost, Start Time, Duration, Sport ID
  *  Output:     Bool / Error Message
 */
-exports.createActivity = function(name, description, discount, cost, start_time, duration, id_sport) {
+exports.createActivity = function(name, description, discount, cost, start_time, duration, id_sport, id_facility) {
 
     var conn = mysql.createConnection({
         host: host,
         user: user,
         password: psw,
-        database: db
+        database: db,
+        multipleStatements: true
     });
 
     // Synching request
@@ -374,17 +375,139 @@ exports.createActivity = function(name, description, discount, cost, start_time,
 
             query = SqlString.format(
                 
-                'INSERT INTO Activity (name, description, discount, cost, start_time, duration, id_sport) VALUES(?, ?, ?, ?, ?, ?, ?)',
-                 [name, description, discount, cost, start_time, duration, id_sport]
+                'INSERT INTO Activity (name, description, discount, cost, start_time, duration, id_sport, id_facility) VALUES(?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
+                 [name, description, discount, cost, start_time, duration, id_sport, id_facility]
             );
 
             // Query
-            conn.query(query, function (err, results, fields) {
+            conn.query(query, [1,2], function (err, results, fields) {
                 
                 // Error
                 if (err) return reject(err);
 
-                resolve(true);
+                resolve(results);
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Create New User
+ *  Input:      Discount, Cost, Start Time, Duration, Sport ID
+ *  Output:     Bool / Error Message
+*/
+exports.newActivityImage = function(activity_id, image_id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO ActivityImage(id_image, id_activity) VALUES(?, ?);',
+                    [image_id, activity_id]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
+
+/*
+ *  Function:   Create New User
+ *  Input:      Discount, Cost, Start Time, Duration, Sport ID
+ *  Output:     Bool / Error Message
+*/
+exports.createFacility = function(name, price, latitude, longitude, icon) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO Facility(name, price, latitude, longitude, icon) VALUES(?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
+                    [name, price, latitude, longitude, icon]
+            );
+            
+            // Query
+            conn.query(query, [1,2], function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Create New User
+ *  Input:      Discount, Cost, Start Time, Duration, Sport ID
+ *  Output:     Bool / Error Message
+*/
+exports.newFacilityImage = function(facility_id, image_id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO FacilityImage(id_image, id_facility) VALUES(?, ?);',
+                    [image_id, facility_id]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
             });
         });
     });
@@ -669,7 +792,7 @@ exports.getUpcomingActivities = function(no_items, page_no) {
 
             query = SqlString.format(
         
-                'SELECT COUNT(*) AS count FROM Activity WHERE start_time > CURRENT_TIMESTAMP();SELECT Activity.id, discount, cost, start_time, duration, id_sport, Sport.name, Sport.description FROM Sport INNER JOIN (SELECT * FROM Activity WHERE start_time > CURRENT_TIMESTAMP() ORDER BY start_time ASC LIMIT ? OFFSET ?) AS Activity ON Sport.id = Activity.id_sport;',
+                'SELECT COUNT(*) AS count FROM Activity WHERE start_time > CURRENT_TIMESTAMP();SELECT Activity.id, id_image, ext, Activity.name, Activity.description, discount, cost, start_time, duration, Sport.id AS id_sport, Sport.name AS name_sport, Sport.description AS description_sport, id_facility FROM Sport INNER JOIN (SELECT * FROM Activity LEFT JOIN (SELECT id_activity, id_image, ext FROM ActivityImage INNER JOIN Image on id_image = id LIMIT 1) AS Image ON id = id_activity) AS Activity ON id_sport = Sport.id ORDER BY start_time ASC LIMIT ? OFFSET ?;',
                     [no_items, no_items * (page_no - 1)]
             );
             

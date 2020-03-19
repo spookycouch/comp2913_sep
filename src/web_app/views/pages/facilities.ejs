@@ -46,6 +46,23 @@
 
             
         </div>
+
+        <%if (locals.no_pages && locals.no_items) {%>
+        <!-- page numbers -->
+        <p>number of pages: <%=no_pages%></p>
+        
+        <div> 
+        <% for (var i = 1; i <= no_pages; ++i) { %>
+            <form method="POST" action="/facilities">
+                <input type="submit", value="<%=i%>">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                <input type="hidden", name="page_no", value="<%=i%>">
+                <input type="hidden", name="no_items", value="<%=no_items%>">
+            </form>
+        <% } %>
+        </div>
+        <% } %>
+
     </div>
 </div>
 

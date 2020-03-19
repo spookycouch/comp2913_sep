@@ -11,6 +11,18 @@
         <div style="border:1px solid black">
             <h3><%=results[i].id%>: <%=results[i].name%></h3>
             <p><%=results[i].description%></p>
+            <br>
+
+
+            <%if (results[i].id_image != null) {%>
+            <div>
+                <img src="/uploads/<%=results[i].id_image%>.<%=results[i].ext%>"/>
+            </div>
+            <% } %>   
+            
+            <p>sport: <%=results[i].name_sport%></p>
+            <p>sport description: <%=results[i].description_sport%></p>
+            <br>
             <p>start time: <%=results[i].start_time%></p>
             <p>cost: <%=results[i].cost%></p>
             <p>discount: <%=results[i].discount%></p>

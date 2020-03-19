@@ -159,6 +159,20 @@ CREATE TABLE `Activity` (
   FOREIGN KEY(`id_facility`) REFERENCES Facility(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Definition of the table `ActivityImage`
+--
+
+CREATE TABLE `ActivityImage` (
+  `id_image` int(11) NOT NULL,
+  `id_activity` int(11) NOT NULL,
+  PRIMARY KEY (`id_image`, `id_activity`),
+  FOREIGN KEY(`id_image`) REFERENCES Image(`id`),
+  FOREIGN KEY(`id_activity`) REFERENCES Activity(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 

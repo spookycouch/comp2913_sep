@@ -1,11 +1,7 @@
 <%- include('../../partials/head') %>
 
-<form method="POST" action="/api/upload" enctype="multipart/form-data">
-    <input type="file" name="image"><br>
-    <input type="submit">
-</form>
-<br>
-<form method="POST" action="/api/new_activity">
+<form method="POST" action="/api/upload_activity" enctype="multipart/form-data">
+    <input type="file" name="image" multiple><br>
 
     <label>Name</label>
     <input name="name" type="text"><br>
@@ -27,6 +23,9 @@
 
     <label>id sport??</label>
     <input name="id_sport" type="text"><br>
+
+    <label>id facility</label>
+    <input name="id_facility" type="text"><br>
 
     <input type="submit">
 </form>

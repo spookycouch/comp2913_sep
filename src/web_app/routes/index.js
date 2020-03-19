@@ -55,7 +55,7 @@ router.get('/memberships', csrf, function(req, res) {
 */
 router.get('/facilities', csrf, function(req, res) {
 
-    var no_items = 7;
+    var no_items = 6;
     var page_no = 1;
 
     user.facilities(no_items, page_no).then(function (results) {
