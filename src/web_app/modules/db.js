@@ -709,7 +709,7 @@ exports.getUserBookings = function(id) {
 
             query = SqlString.format(
         
-                'SELECT Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.name as facilityName, Sport.name as sportName FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Facility ON Activity.id_facility = Facility.id INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC',
+                'SELECT BookedActivity.id, Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.name as facilityName, Sport.name as sportName FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Facility ON Activity.id_facility = Facility.id INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC',
                     [id]
             );
 

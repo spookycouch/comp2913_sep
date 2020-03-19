@@ -1,6 +1,8 @@
 var db = require('./db.js');
 var md5 = require('md5');
 var moment = require('moment');
+var QRCode = require('qrcode')
+
 
 /*
  *  Function:   Check email registration
@@ -295,20 +297,24 @@ exports.getBookings = function(id){
 
     return new Promise(function(resolve, reject) {
 
-        db.getUserBookings(id).then(function(result){
+        db.getUserBookings(id).then(async function(result){
 
-            // Formatting date
-            for(i = 0; i < result.length; i++){
+            // Formatting date and set QR code
+            for(var i = 0; i < result.length; i++){
 
-                // Formatting
+                // Formatting date
                 var mysql_date = result[i].start_time;
 
                 let date = mysql_date.getTime();
                 date = moment(date).format('DD/MM/YYYY hh:mm');
                 
                 result[i].start_time = date;
+                
+                // Set QR code
+                await QRCode.toDataURL(result[i].id.toString()).then(function(url,err) {
+                    result[i].qr = url;
+                });
             }
-
             // Render
             resolve(result);
 
