@@ -233,10 +233,14 @@ exports.getMemberships = function(id){
                 // Formatting
                 var mysql_date = memberships[i].start_date;
 
+                var now = moment();
+
                 let date = mysql_date.getTime();
-                date = moment(date).format('DD/MM/YYYY hh:mm');
+                dateStr = moment(date).format('DD/MM/YYYY hh:mm');
                 
-                memberships[i].start_date = date;
+                // Validity check
+                memberships[i].start_date = dateStr;
+                memberships[i].expired = (moment(date).add(memberships[i].validity, 'days').diff(now, 'days') < 0);
             }
 
             resolve(memberships);

@@ -21,6 +21,7 @@ exports.loginErrorPage = function (req, res, webname, err){
  *  Function:  Update user details
 */
 exports.updateErrorPage = function(req, res, webname, user, err) {
+    
     user.getDetails(req.session.userId).then(function(result) {
 
         // Render data
@@ -33,9 +34,10 @@ exports.updateErrorPage = function(req, res, webname, user, err) {
             csrfToken: req.csrfToken()
         });
         
-    // Error -> logout
+    // Error
     }).catch(function(err) {
-        res.redirect('/user/logout');
+        
+        module.exports.defaultError(req, res, webname, err);
     });
 }
 
@@ -62,11 +64,27 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
 
         }).catch(function(err){
 
-            console.log(err);
+            module.exports.defaultError(req, res, webname, err);
         });
         
-    // Error -> logout
+    // Error
     }).catch(function(err) {
-        res.redirect('/user/logout');
+        
+        module.exports.defaultError(req, res, webname, err);
+    });
+}
+
+/*
+ *  Function:   Default redirect to error page with description
+*/
+exports.defaultError = function (req, res, webname, err){
+
+    // Render with error
+    res.render(path.join(__dirname + '/../views/pages/error.ejs'),
+    {
+        title: webname + "| Account | Payment",
+        session: req.session,
+        error: err,
+        csrfToken: req.csrfToken()
     });
 }

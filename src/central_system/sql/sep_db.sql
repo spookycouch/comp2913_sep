@@ -230,6 +230,21 @@ CREATE TABLE `Activity_Session` (
 -- --------------------------------------------------------
 
 --
+-- Definition of the table `Activity_Session`
+--
+
+CREATE TABLE `Log_User` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(`id`),
+  FOREIGN KEY(`id_user`) REFERENCES User(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Definition of the table `Payment`
 --
 
@@ -288,7 +303,7 @@ INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
 
 -- Creating a membership
 INSERT INTO Membership(validity, id_user, id_sport) VALUES (31, 1, 1);
-INSERT INTO Membership(validity, id_user, id_sport) VALUES (14, 1, 2);
+INSERT INTO Membership(validity, id_user, id_sport) VALUES (-14, 1, 2);
 
 -- Payment simulation
 INSERT INTO Card (number, cvv, expire_date, type) VALUES ('12345678901234567890', '123', '01/02', 'VISA');
@@ -307,5 +322,3 @@ INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity,
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 3, 1);
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 4, 1);
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 5, 1);
-
-

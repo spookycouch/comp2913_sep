@@ -17,15 +17,23 @@
                     <% for (var i = 0; i < memberships.length;  i++ ) { %>
 
                         <div href="#" class="overview__option hvr-float">
-                            <div class="option__content option__content--center" style="background-color: #d6c631;text-align:left;padding:20px;max-height:300px;">
-                                
+                            
+                            <% if(!memberships[i].expired) { %>
+                                <div class="option__content option__content--center" style="background-color: #d6c631;text-align:left;padding:20px;max-height:400;">
+                            <% } else { %>
+                                <div class="option__content option__content--center" style="background-color: red;text-align:left;padding:20px;max-height:400;">
+                            <% } %>
+
                                 <div class="content__title">
                                     <h2>Membership #<%- memberships[i].id %></h2>
-                                    <h3><%- memberships[i].start_date %></h3>
+                                    <% if(memberships[i].expired) { %><h3>EXPIRED</h3><% } %>
                                 </div>
         
                                 <div class="content__dsc">
                                     
+                                    <b>Start date:</b> <%- memberships[i].start_date %>
+                                    <br>
+
                                     <b>Validity: </b> <%- memberships[i].validity %> days
                                     <br>
                                     
