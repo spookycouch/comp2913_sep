@@ -87,12 +87,21 @@ exports.queryUser = function(email, password) {
                 if (err) return reject(err);
 
                 // Result
-                if (results.length > 0)
-                    resolve(results[0]);
+                if (results.length > 0){
 
+                    // Loggin user activity
+                    module.exports.logUserLogin(results[0].id).then(function(result){
+
+                        // Success
+                        resolve(results[0]);
+
+                    }).catch(function(err){
+
+                        reject(err);
+                    });
+                }
                 else
                     reject("Email or Password Incorrect.");
-
             });
         });
     });
@@ -336,12 +345,20 @@ exports.createUser = function(name, surname, email, password, userType, phone, a
             );
 
             // Query
-            conn.query(query, function (err, results, fields) {
+            conn.query(query, function (err, result, fields) {
                 
                 // Error
                 if (err) return reject(err);
 
-                resolve(true);
+                // Log user registration
+                module.exports.logUserRegistration(result.insertId).then(function(result){
+
+                    resolve(true);
+
+                }).catch(function(err){
+
+                    reject(err);
+                });
             });
         });
     });
@@ -538,7 +555,7 @@ exports.getUserMemberships = function(id) {
             query = SqlString.format(
         
                 'SELECT * FROM Membership INNER JOIN Sport ON Membership.id_sport = Sport.id WHERE id_user = ?',
-                    [id.id]
+                    [id]
             );
 
             // Query
@@ -579,7 +596,7 @@ exports.cancelMembership = function(userId, membershipId) {
             query = SqlString.format(
         
                 'DELETE FROM Membership WHERE id = ? AND id_user = ?',
-                    [membershipId, userId.id]
+                    [membershipId, userId]
             );
 
             // Query
@@ -620,7 +637,7 @@ exports.deleteUserCard = function(userId, cardId) {
             query = SqlString.format(
         
                 'DELETE FROM Card_User WHERE id_user = ? AND id_card = ?;',
-                    [userId.id, cardId]
+                    [userId, cardId]
             );
 
             // Query
@@ -641,7 +658,7 @@ exports.deleteUserCard = function(userId, cardId) {
  *  Input:      User {id}
  *  Output:     Payments / Error Message
 */
-exports.getUserPayments = function(id) {
+exports.getUserPayments = function(userId) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -661,7 +678,7 @@ exports.getUserPayments = function(id) {
             query = SqlString.format(
         
                 'SELECT * FROM Payment WHERE id_user = ?',
-                    [id.id]
+                    [userId.id]
             );
 
             // Query
@@ -958,7 +975,7 @@ exports.getUserCards = function(user_id) {
             query = SqlString.format(
         
                 'SELECT Card.id, Card.number, Card.expire_date, Card.type FROM Card_User INNER JOIN Card ON Card.id = Card_User.id_card WHERE Card_User.id_user = ?',
-                    [user_id.id]
+                    [user_id]
             );
             
             // Query
@@ -1025,6 +1042,212 @@ exports.createUserCard = function(userId, req_body) {
                     // Success
                     resolve(true);
                 });
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Log user registration
+ *  Input:      User Id, Logging Type: registration (1)
+ *  Output:     Bool / Error Message
+*/
+exports.logUserRegistration = function(user_id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO Log_User(id_user, type) VALUES(?, ?);',
+                    [user_id, 1]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Log user login
+ *  Input:      User Id, Logging Type: login (2)
+ *  Output:     Bool / Error Message
+*/
+exports.logUserLogin = function(user_id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO Log_User(id_user, type) VALUES(?, ?);',
+                    [user_id, 2]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query User Login Activity
+ *  Output:     User Object / Error Message
+*/
+exports.getUserLoginActivity = function() {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT id_user, time FROM Log_User WHERE type = ?',
+                [2]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(results);
+
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query User Login Activity
+ *  Output:     User Object / Error Message
+*/
+exports.getUserRegistrationActivity = function() {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT id_user, time FROM Log_User WHERE type = ?',
+                [1]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(results);
+
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Query Activities per Facility
+ *  Input:      Facility {id}
+ *  Output:     User Object / Error Message
+*/
+exports.getFacilityActivities = function(facilityId) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT * FROM Activity WHERE id_facility = ? AND start_time >= NOW()',
+                [facilityId]
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(results);
+
             });
         });
     });

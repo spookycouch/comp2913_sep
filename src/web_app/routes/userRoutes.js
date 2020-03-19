@@ -138,18 +138,21 @@ router.get('/account', function(req, res) {
         res.redirect('/manager/overview');
     
     else {
+
+        // Get user details
         user.getDetails(req.session.userId).then(function(result) {
+            
             res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
             {
                 title: webname + "| Account",
                 session: req.session,
                 user: result
             });
-        }).catch(function(err) {
-            res.redirect('/user/logout');
-        });
 
-        
+        }).catch(function(err) {
+
+            error.loginErrorPage(req, res, webname);
+        });
     }
 });
 
@@ -195,13 +198,13 @@ router.get('/account/bookings', function(req, res) {
 
             // Error catching
             }).catch(function(err){
-                console.log(err);
-                res.redirect('/user/logout');
+                
+                error.defaultError(req, res, webname, err);
             });
                 
         }).catch(function(err) {
-            console.log(err);
-            res.redirect('/user/logout');
+            
+            error.defaultError(req, res, webname, err);
         });
     }
 });
@@ -235,7 +238,7 @@ router.get('/account/details', function(req, res) {
         // Error -> logout
         }).catch(function(err) {
             
-            res.redirect('/user/logout');
+            error.defaultError(req, res, webname, err);
         });
     }
 });
@@ -282,6 +285,7 @@ router.post('/account/update/details', function(req, res) {
  *  Function:   Login Details Update Address
 */
 router.post('/account/update/address', function(req, res) {
+    
     if (req.session.userId == undefined)
         res.redirect('/home');
 
@@ -382,12 +386,13 @@ router.get('/account/memberships', function(req, res) {
                 });
 
             }).catch(function(err) {
-                res.redirect('/logout');
+                
+                error.defaultError(req, res, webname, err);
             });
 
         }).catch(function(err) {
 
-            res.redirect('/logout');
+            error.defaultError(req, res, webname, err);
         });
         
     }
@@ -420,11 +425,13 @@ router.get('/account/payment', function(req, res) {
                 });
 
             }).catch(function(err){
-                res.redirect('/user/logout');
+                
+                error.defaultError(req, res, webname, err);
             });
             
         }).catch(function(err) {
-            res.redirect('/logout');
+            
+            error.defaultError(req, res, webname, err);
         });
         
     }
