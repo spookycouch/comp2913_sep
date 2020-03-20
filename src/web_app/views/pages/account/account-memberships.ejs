@@ -7,18 +7,20 @@
         <%- include('../../partials/account-side-bar') %>
 
         <div class="account__section account__overview">
+
             <div class="section__title">
                 <h2>Your memberships</h2>
             </div>
 
             <% if(locals.memberships){ %>
                 <% for (var i = 0; i < memberships.length;  i++ ) { %>
-                    <a href="##" class="overview__option hvr-float">
+                    <div class="overview__option hvr-float">
                         <% if(!memberships[i].expired) { %>
                             <div class="option__content option__content--center option__content--yellow">
                         <% } else { %>
                             <div class="option__content option__content--center option__content--danger">
                         <% } %>
+
 
                             <div class="content__title content__title--margin-bottom">
                                 <h2>Membership #<%- memberships[i].id %></h2>
@@ -73,11 +75,13 @@
                                     <div class="content__explore content__explore--right hvr-sweep-to-right hvr-sweep-to-right--white">
                                 <% } %>
                                 
-                                    <h3>Cancel Membership</h3>
+                                    <a href="/delete/memberships/<%- memberships[i].id %>">
+                                        <h3>Cancel Membership</h3>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 <% } %>
                 <% if(memberships.length < 1) { %>
                     <p style="color: black;">No Memberships Found</p>
@@ -85,6 +89,43 @@
             <% } else { %>
                 <p style="color: black;">No Memberships Found</p>
             <% } %>
+
+            
+            <!-- Content Tabs
+            <div class="account__section account__overview short-margin full-width">
+            
+                <% if(locals.memberships){ %>
+                    <% for (var i = 0; i < memberships.length;  i++ ) { %>
+
+                        <div href="#" class="overview__option hvr-float">
+                            
+                            <% if(!memberships[i].expired) { %>
+                                <div class="option__content option__content--center" style="background-color: #d6c631;text-align:left;padding:20px;max-height:400;">
+                            <% } else { %>
+                                <div class="option__content option__content--center" style="background-color: red;text-align:left;padding:20px;max-height:400;">
+                            <% } %>
+        
+                                <div style="text-align:right;width:100%;">
+                                    <div class="content__explore hvr-sweep-to-right">
+                                        <a href="/delete/memberships/<%- memberships[i].id %>">
+                                            <h3>Cancel</h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    <% } %>
+
+                <% }else{ %>
+                    
+                    <div style="height:100%;">
+                        <h2 style="color:black;margin:auto;">No memberships found :(</h2>
+                    </div>
+                <% }%>
+
+            </div> -->
         </div>
     </div>
 </div>
