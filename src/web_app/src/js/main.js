@@ -369,3 +369,48 @@ function showScrollToggle() {
 		button.fadeOut();
 	}	
 }
+
+/*
+*    Scroll function
+*/
+
+function update_timetable() {
+    // idk how to get the db object
+    // SO TEST DATA
+    var results = [{id: 1, name_activity: 'party', name_sport: 'socialpeeps', start_time: '2020-03-20 10:00:00', weekday: '4'},
+                    {id: 1, name_activity: 'party', name_sport: 'socialpeeps', start_time: '2020-03-20 10:00:00', weekday: '6'}]
+
+    
+    var links = []
+    // default
+    for (var i = 0; i < 7; ++i) {
+        links.push('');
+    }
+
+    // set anchor at weekday for each result
+    for (var i = 0; i < results.length; ++i) {
+        var anchor = '';
+     anchor += '<a>';
+     anchor += results[i].name_activity;
+     anchor += ':';
+     anchor += results[i].name_sport;
+     anchor += '</a>';
+
+        if (links[results[i].weekday] == '')
+            links[results[i].weekday] += anchor;
+        else
+            links[results[i].weekday] += '<br>' + anchor;
+    }
+
+    for (var i = 0; i < 7; ++i) {
+        var entry = $('#timetable_facility_data_' + i);
+            
+        if (links[i] == '')
+            entry.html('No activities');
+        else
+            entry.html(links[i]);
+    }
+}
+
+$('#timetable_facility').ready(update_timetable);
+$('#date_select_facility').on('change', update_timetable);
