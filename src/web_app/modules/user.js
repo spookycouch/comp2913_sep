@@ -410,6 +410,25 @@ exports.facilities_discover = function(id){
 }
 
 /*
+ *  Function:   Timetable for facilities, week of given date
+ *  Input:      Facility id, date
+ *  Output:     Error Message
+*/
+exports.facilities_timetable = function(facilityId, date){
+    
+    return new Promise(function(resolve, reject) {
+
+        db.getFacilityTimetable(facilityId, date).then(function (results) {
+            resolve(results);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
  *  Function:   Get User Cards
  *  Input:      User Id
  *  Output:     Error Message
