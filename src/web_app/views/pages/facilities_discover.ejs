@@ -25,10 +25,84 @@
 
         <% } %>
         <% } %>
-    
+
+        <label>Show activities for the week of: </label>
+        <input id="date_select" type="date">
+        <table id="timetable">
+            <tr>
+                <th id="timetable_header_0">Monday</th>
+                <th id="timetable_header_1">Tuesday</th>
+                <th id="timetable_header_2">Wednesday</th>
+                <th id="timetable_header_3">Thursday</th>
+                <th id="timetable_header_4">Friday</th>
+                <th id="timetable_header_5">Saturday</th>
+                <th id="timetable_header_6">Sunday</th>
+            </tr>
+            <tr>
+                <td id="timetable_data_0">&nbsp<a></a></td>
+                <td id="timetable_data_1">&nbsp<a></a></td>
+                <td id="timetable_data_2">&nbsp<a></a></td>
+                <td id="timetable_data_3">&nbsp<a></a></td>
+                <td id="timetable_data_4">&nbsp<a></a></td>
+                <td id="timetable_data_5">&nbsp<a></a></td>
+                <td id="timetable_data_6">&nbsp<a></a></td>
+            </tr>
+        </table>
+
     </div>
 </div>
 
 
 <%- include('../partials/footer') %>
 <%- include('../partials/foot') %>
+
+
+<style>
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 1em;
+        width:10em;
+    }
+</style>
+
+<script>
+    function update_timetable() {
+        // idk how to get the db object
+        // SO TEST DATA
+        var results = [{id: 1, name_activity: 'party', name_sport: 'socialpeeps', start_time: '2020-03-20 10:00:00', weekday: '4'},
+                       {id: 1, name_activity: 'party', name_sport: 'socialpeeps', start_time: '2020-03-20 10:00:00', weekday: '6'}]
+
+        // default
+        for (var i = 0; i < 7; ++i) {
+            entry = document.getElementById('timetable_data_' + i);
+            entry.innerHTML = 'No Activities';
+        }
+
+        // set string at weekday for each result
+        for (var i = 0; i < results.length; ++i) {
+            var entry = document.getElementById('timetable_data_' + results[i].weekday);
+            
+            if (entry.innerHTML = 'No Activities')
+                entry.innerHTML = '';
+            
+            entry.innerHTML += '<a>';
+            entry.innerHTML += results[i].name_activity;
+            entry.innerHTML += ':';
+            entry.innerHTML += results[i].name_sport;
+            entry.innerHTML += '</a>';
+        }
+    }
+
+    // populate on load
+    update_timetable();
+
+    // populate on date field change
+    var date_field = document.getElementById('date_select');
+    date_field.onchange = function() {
+        console.log(this.value);
+        update_timetable();
+    }
+</script>
