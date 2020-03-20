@@ -17,15 +17,21 @@ exports.loginErrorPage = function(req, res, webname, err){
     });
 }
 
-exports.registerEmployeeErrorPage = function(req, res, webname, err) {
+exports.registerEmployeeErrorPage = function(req, res, webname, user, err) {
 
-    res.render(path.join(__dirname + '/../views/pages/manager/employee_new.ejs'), {
-        title: webname + "| Register | Employee",
-        session: req.session,
-        csrfToken: req.csrfToken(),
-        error: err,
-        form: req.body
-    });
+    user.getDetails(req.session.userId).then(function(result){
+        res.render(path.join(__dirname + '/../views/pages/manager/employee_new.ejs'), {
+            title: webname + "| Register | Employee",
+            session: req.session,
+            csrfToken: req.csrfToken(),
+            error: err,
+            form: req.body,
+            user: result
+        });
+    }).catch(function(err) {
+        module.exports.defaultError(req, res, webname, err);
+    })
+    
 }
 
 /*

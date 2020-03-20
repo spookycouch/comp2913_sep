@@ -1792,6 +1792,10 @@ ul {
   z-index: 6;
 }
 
+.account__side-bar--admin {
+  background-color: #413E4B;
+}
+
 .account__side-bar--open {
   margin-left: 0 !important;
 }
