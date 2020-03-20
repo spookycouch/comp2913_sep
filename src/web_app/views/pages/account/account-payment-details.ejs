@@ -46,107 +46,40 @@
 
 
 <div class="container">
-
-    <!------ Modal -------->
-    <div id="myModal" class="modal">
-
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            
-            <form class="content__update-form" action="/user/account/add/card" method="POST" autocomplete="off">
-                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
-
-                <div class="update-form__group">
-                    <label class="update-form__label"><h3>Card Number</h3></label>
-                    <input id="card_number" class="update-form__input" type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX XXXX"/>
-
-                
-                    <!--
-                    <% if(locals.error){ %>
-                        <% for (var i =0; i < error.length;  i++ ) { %>
-                            <% if(error[i].path == 'address_1'){ %>                                    
-                                <p id="address_1-error" class="update-form__error"><%- error[i].message %></p>
-                            <% } %>
-                        <% } %>
-                    <% }%>
-                    -->
-
-                </div>
-
-                <div class="update-form__group">
-                    <label class="update-form__label"><h3>Expire Date </h3></label>
-                    <input id="expire_date" class="update-form__input" type="text" name="expire_date" placeholder="XX/XX"/>
-
-                    <!--
-                    <% if(locals.error){ %>
-                        <% for (var i =0; i < error.length;  i++ ) { %>
-                            <% if(error[i].path == 'address_2'){ %>   
-                                <p id="address_2-error" class="update-form__error"><%- error[i].message %></p>
-                            <% } %>
-                        <% } %>
-                    <% } %>
-                    -->
-
-                </div>  
-
-                <div class="update-form__group update-form__group--col">
-                    <div class="update-form__group--row">
-                        <label class="update-form__label"><h3>CVV</h3></label>
-                        <input id="cvv" class="update-form__input" type="text" name="cvv" placeholder="XXX"/>
-                        
-                        <!--
-                        <% if(locals.error){ %>
-                            <% for (var i =0; i < error.length;  i++ ) { %>
-                                <% if(error[i].path == 'city'){ %>
-                                    <p id="city-error" class="update-form__error"><%- error[i].message %></p>   
-                                <% } %>
-                            <% } %>
-                        <% } %>
-                        -->
-                    </div>
-
-                </div>
-
-                <div class="update-form__group update-form__group--col">
-                    <div class="update-form__group--row">
-                        <label class="update-form__label"><h3>Type</h3></label>
-                        <input id="type" class="update-form__input" type="text" name="type" placeholder="VISA/Mastercard..."/>
-                        
-                        <!--
-                        <% if(locals.error){ %>
-                            <% for (var i =0; i < error.length;  i++ ) { %>
-                                <% if(error[i].path == 'city'){ %>
-                                    <p id="city-error" class="update-form__error"><%- error[i].message %></p>   
-                                <% } %>
-                            <% } %>
-                        <% } %>
-                        -->
-                    </div>
-
-                </div>
-
-                <div class="update-form__group">
-                    <button class="update-form__btn hvr-sweep-to-right" type="submit" ><h3>Add</h3></button>
-                </div>
-            </form>
-
-        </div>
-
-    </div>
-
     <!------ Content ------>
     <div class="account account--background">
         <%- include('../../partials/account-side-bar') %>
-
-        <div class="account__section account__memberships" style="color:black;">
-
-            <h1>Your Payment Details</h1>
-
-            <div style="text-align:right;margin-top:100px;">
-                <button id="add-payment" class="update-form__btn hvr-sweep-to-right" style="background:none;border:3px solid #303030;"><h3>Add Payment Method</h3></button>
+        <div class="account__section account__overview">
+            <div class="section__title">
+                <h2>Your Payment Details</h2>
             </div>
 
-            <!-- Content Tabs -->
+            <% if(locals.cards){ %>
+                <% for (var i = 0; i < cards.length;  i++ ) { %>
+                    <a href="#" class="overview__option hvr-float">
+                        <div class="option__content option__content--center option__content--yellow">
+                            <div class="content__title">
+                                <h2><%- cards[i].type %> Credit Card</h2>
+                                <h3><%- cards[i].number %></h3>
+                            </div>
+
+                            <div class="content__dsc">                       
+                                <b>Expire date: </b> <%- cards[i].expire_date %>
+                                <br>
+                                
+                                <b>Type: </b> <%- cards[i].type %>
+                                <br>
+                            </div>
+
+                            <div class="content__explore content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white">
+                                <h3>Remove</h3>
+                            </div>
+                        </div>
+                    </a>
+                <% } %>
+            <% } %>
+
+            <!-- Content Tabs
             <div class="account__section account__overview short-margin full-width">
 
                 <% if(locals.cards){ %>
@@ -190,7 +123,87 @@
                     </div>
                 <% }%>
 
-            </div>
+            </div> -->
+        </div>
+    </div>
+
+
+
+
+    <!------ Modal -------->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            
+            <form class="content__update-form" action="/user/account/add/card" method="POST" autocomplete="off">
+                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+
+                <div class="update-form__group">
+                    <label class="update-form__label"><h3>Card Number</h3></label>
+                    <input id="card_number" class="update-form__input" type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX XXXX"/>      
+                    <!--
+                    <% if(locals.error){ %>
+                        <% for (var i =0; i < error.length;  i++ ) { %>
+                            <% if(error[i].path == 'address_1'){ %>                                    
+                                <p id="address_1-error" class="update-form__error"><%- error[i].message %></p>
+                            <% } %>
+                        <% } %>
+                    <% }%>
+                    -->
+                </div>
+
+                <div class="update-form__group">
+                    <label class="update-form__label"><h3>Expire Date </h3></label>
+                    <input id="expire_date" class="update-form__input" type="text" name="expire_date" placeholder="XX/XX"/>
+
+                    <!--
+                    <% if(locals.error){ %>
+                        <% for (var i =0; i < error.length;  i++ ) { %>
+                            <% if(error[i].path == 'address_2'){ %>   
+                                <p id="address_2-error" class="update-form__error"><%- error[i].message %></p>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                    -->
+                </div>  
+
+                <div class="update-form__group update-form__group--col">
+                    <div class="update-form__group--row">
+                        <label class="update-form__label"><h3>CVV</h3></label>
+                        <input id="cvv" class="update-form__input" type="text" name="cvv" placeholder="XXX"/>
+                        
+                        <!--
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'city'){ %>
+                                    <p id="city-error" class="update-form__error"><%- error[i].message %></p>   
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                        -->
+                    </div>
+                </div>
+
+                <div class="update-form__group update-form__group--col">
+                    <div class="update-form__group--row">
+                        <label class="update-form__label"><h3>Type</h3></label>
+                        <input id="type" class="update-form__input" type="text" name="type" placeholder="VISA/Mastercard..."/>
+                        
+                        <!--
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'city'){ %>
+                                    <p id="city-error" class="update-form__error"><%- error[i].message %></p>   
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                        -->
+                    </div>
+                </div>
+                <div class="update-form__group">
+                    <button class="update-form__btn hvr-sweep-to-right" type="submit" ><h3>Add</h3></button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

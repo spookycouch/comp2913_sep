@@ -2,24 +2,25 @@
 <%- include('../../partials/header') %>
 
 <%if(locals.bookings){%>
-<%var i = 0;%>
+    <% if(bookings.length > 1) { %>
+    <%var i = 0;%>
 
-    <div id="booking_modal">
-    <div id="booking_modal_bg" class="close"></div>
-    <div id="booking_modal_display">
-        <a id="booking_modal_close" class="close">X</a>
-        <h2><%- bookings[i].sportName %></h2>
-        <h3><%- bookings[i].start_time %></h3>
-        <b>Duration: </b> <%- bookings[i].duration %>'
-        <br>
-        <b>Status: </b> <% if(bookings[i].bookingStatus){ %> confirmed <% } else { %> pending <% } %>
-        <br>
-        <br>
-        <p>Your QR receipt:</p>
-        <img src="<%=bookings[0].qr%>"/>
+        <div id="booking_modal">
+        <div id="booking_modal_bg" class="close"></div>
+        <div id="booking_modal_display">
+            <a id="booking_modal_close" class="close">X</a>
+            <h2><%- bookings[i].sportName %></h2>
+            <h3><%- bookings[i].start_time %></h3>
+            <b>Duration: </b> <%- bookings[i].duration %>'
+            <br>
+            <b>Status: </b> <% if(bookings[i].bookingStatus){ %> confirmed <% } else { %> pending <% } %>
+            <br>
+            <br>
+            <p>Your QR receipt:</p>
+            <img src="<%=bookings[0].qr%>"/>
+        </div>
     </div>
-</div>
-
+    <% } %>
 <% } %>
 
 
@@ -31,49 +32,63 @@
     <div class="account account--background">
         <%- include('../../partials/account-side-bar') %>
 
-        <div class="account__section account__bookings" style="color:black;">
+        <div class="account__section account__overview">
 
-            <h1>Your bookings</h1>
+            <div class="section__title">
+                <h2>Your Bookings</h2>
+            </div>
 
-            <!-- Content Tabs -->
-            <div class="account__section account__overview short-margin full-width">
 
-                <% if(locals.bookings){ %>
-                    <% for (var i = 0; i < bookings.length;  i++ ) { %>
+            <% if(locals.bookings){ %>
+                <% for (var i = 0; i < bookings.length;  i++ ) { %>
+                    <a href="##" class="overview__option hvr-float details">
+                        <div class="option__content option__content--center option__content--yellow">
+                            <div class="content__title content__title--margin-bottom">
+                                <h2><%- bookings[i].sportName %></h2>
+                            </div>
 
-                        <div href="#" class="overview__option hvr-float">
-                            <div class="option__content option__content--center" style="background-color: #d6c631;">
-                                <div class="content__image">
-                                    <img src="<%- bookings[i].facilityPic %>"/>
+                            <div class="content__dsc content__dsc--flex">
+                                <div class="content__field">
+                                    <div class="field__field">
+                                        <img src="/img/icons/clock.png" />
+                                        <h3>Time:</h3>
+                                        <%- bookings[i].start_time %>
+                                    </div>
+                                   
+                                    <div class="field__field">
+                                        <img src="/img/icons/timer.png" />
+                                        <h3>Duration:</h3>
+                                        <%- bookings[i].duration %> Minutes
+                                    </div>
+          
+                                    <div class="field__field">
+                                        <% if(bookings[i].bookingStatus){ %> 
+                                            <img src="/img/icons/confirm.png" />
+                                            <h3>Status:</h3>
+                                            <span class="field__success">confirmed</span>
+                                        <% } else { %> 
+                                            <img src="/img/icons/close.png" />
+                                            <h3>Status:</h3>
+                                            <span class="field__danger">pending</span>
+                                        <% } %>
+                                    </div>  
                                 </div>
-        
-                                <div class="content__title">
-                                    <h2><%- bookings[i].sportName %></h2>
-                                    <h3><%- bookings[i].start_time %></h3>
-                                </div>
-        
-                                <div class="content__dsc">
-                                    <b>Duration: </b> <%- bookings[i].duration %>'
-                                    <br>
-                                    <b>Status: </b> <% if(bookings[i].bookingStatus){ %> confirmed <% } else { %> pending <% } %>
-                                </div>
-        
-                                <div class="content__explore hvr-sweep-to-right details">
+                            </div>
+
+                            <div class="content__inline">
+                                <div class="content__explore content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white">
                                     <h3>Details</h3>
                                 </div>
                             </div>
                         </div>
-
-                    <% } %>
-
-                <% }else{ %>
-                    
-                    <div style="height:100%;">
-                        <h2 style="color:black;margin:auto;">No bookings found :(</h2>
-                    </div>
-                <% }%>
-
-            </div>
+                    </a>
+                <% } %>
+                <% if(bookings.length < 1) { %>
+                    <p style="color: black;">No Bookings Found</p>
+                <% } %>
+            <% } else { %>
+                <p style="color: black;">No Bookings Found</p>
+            <% } %>
         </div>
     </div>
 </div>

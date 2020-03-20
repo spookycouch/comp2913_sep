@@ -142,6 +142,20 @@
         justify-content: center;
         flex-wrap: wrap;
         margin: 60px 0px;
+        height: 0%;
+
+        &--no-margin {
+            margin: 0;
+        }
+
+        .section {
+            &__title {
+                width: 100%;
+                color: $black !important;
+                text-align: center;
+                margin-bottom: 40px;
+            }
+        }
     }
 }
 

@@ -6,66 +6,85 @@
     <div class="account account--background">
         <%- include('../../partials/account-side-bar') %>
 
-        <div class="account__section account__memberships" style="color:black;">
+        <div class="account__section account__overview">
+            <div class="section__title">
+                <h2>Your memberships</h2>
+            </div>
 
-            <h1>Your memberships</h1>
-            
-            <!-- Content Tabs -->
-            <div class="account__section account__overview short-margin full-width">
-            
-                <% if(locals.memberships){ %>
-                    <% for (var i = 0; i < memberships.length;  i++ ) { %>
+            <% if(locals.memberships){ %>
+                <% for (var i = 0; i < memberships.length;  i++ ) { %>
+                    <a href="##" class="overview__option hvr-float">
+                        <% if(!memberships[i].expired) { %>
+                            <div class="option__content option__content--center option__content--yellow">
+                        <% } else { %>
+                            <div class="option__content option__content--center option__content--danger">
+                        <% } %>
 
-                        <div href="#" class="overview__option hvr-float">
+                            <div class="content__title content__title--margin-bottom">
+                                <h2>Membership #<%- memberships[i].id %></h2>
+                                <% if(memberships[i].expired) { %><h3>EXPIRED</h3><% } %>
+                            </div>
+
+
+                            <div class="content__dsc content__dsc--margin-bottom">
+                                <%- memberships[i].description %>
+                            </div>
                             
-                            <% if(!memberships[i].expired) { %>
-                                <div class="option__content option__content--center" style="background-color: #d6c631;text-align:left;padding:20px;max-height:400;">
-                            <% } else { %>
-                                <div class="option__content option__content--center" style="background-color: red;text-align:left;padding:20px;max-height:400;">
-                            <% } %>
+                            <div class="content__dsc content__dsc--flex">
+                                <div class="content__field">
+                                    <div class="field__field">
+                                        <% if(!memberships[i].expired) { %>
+                                            <img src="/img/account/calendar-black.png" />
+                                        <% } else { %>
+                                            <img src="/img/account/calendar.png" />
+                                        <% } %>
+                                        <h3>Start Date:</h3>
+                                        <%- memberships[i].start_date %>
+                                    </div>
+                                   
+                                    <div class="field__field">
+                                        <% if(!memberships[i].expired) { %>
+                                            <img src="/img/icons/confirm.png" />
+                                        <% } else { %>
+                                            <img src="/img/icons/close-white.png" />
+                                        <% } %>
+                                        <h3>Validity:</h3>
+                                        <%- memberships[i].validity %> days
+                                    </div>
 
-                                <div class="content__title">
-                                    <h2>Membership #<%- memberships[i].id %></h2>
-                                    <% if(memberships[i].expired) { %><h3>EXPIRED</h3><% } %>
-                                </div>
-        
-                                <div class="content__dsc">
-                                    
-                                    <b>Start date:</b> <%- memberships[i].start_date %>
-                                    <br>
-
-                                    <b>Validity: </b> <%- memberships[i].validity %> days
-                                    <br>
-                                    
-                                    <b>Sport: </b> <%- memberships[i].name %>
-                                    <br>
-                                    
-                                    <p style="overflow-wrap: break-word;width:70%;">
-                                        <b>Description: </b> <%- memberships[i].description %>
-                                    </p>
-                                </div>
-        
-                                <div style="text-align:right;width:100%;">
-                                    <div class="content__explore hvr-sweep-to-right">
-                                        <a href="/delete/memberships/<%- memberships[i].id %>">
-                                            <h3>Cancel</h3>
-                                        </a>
+                                    <div class="field__field">
+                                        <% if(!memberships[i].expired) { %>
+                                            <img src="/img/icons/gym.png" />
+                                        <% } else { %>
+                                            <img src="/img/icons/gym-white.png" />
+                                        <% } %>
+                                        <h3>Sport:</h3>
+                                        <%- memberships[i].name %>
                                     </div>
                                 </div>
+                            </div>
 
+                            
+
+                            <div class="content__inline">
+                                <% if(!memberships[i].expired) { %>
+                                    <div class="content__explore content__explore--right content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white">
+                                <% } else { %>
+                                    <div class="content__explore content__explore--right hvr-sweep-to-right hvr-sweep-to-right--white">
+                                <% } %>
+                                
+                                    <h3>Cancel Membership</h3>
+                                </div>
                             </div>
                         </div>
-
-                    <% } %>
-
-                <% }else{ %>
-                    
-                    <div style="height:100%;">
-                        <h2 style="color:black;margin:auto;">No memberships found :(</h2>
-                    </div>
-                <% }%>
-
-            </div>
+                    </a>
+                <% } %>
+                <% if(memberships.length < 1) { %>
+                    <p style="color: black;">No Memberships Found</p>
+                <% } %>
+            <% } else { %>
+                <p style="color: black;">No Memberships Found</p>
+            <% } %>
         </div>
     </div>
 </div>
