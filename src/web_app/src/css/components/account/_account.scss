@@ -148,12 +148,60 @@
             margin: 0;
         }
 
+        &--full-width {
+            width: 100%;
+        }
+
         .section {
             &__title {
                 width: 100%;
                 color: $black !important;
                 text-align: center;
                 margin-bottom: 40px;
+            }
+        }
+    }
+
+    &__payment-history {
+        display: flex;
+        align-items: center;
+
+        .payment-history {
+            &__option {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+            }
+
+            &__option-form {
+                color: $black;
+                text-align: center;
+
+                .option-form {
+                    &__label {
+                        display: inline-block;
+                        padding: $padding_border_block;
+                    }
+
+                    &__select {
+                        border: $border_thickness solid $black;
+                        background-color: $white;
+                        padding: $padding_border_block;
+                        font-weight: bold;
+                        color: $black;
+                        font-size: $header_3;
+                        cursor: pointer;
+                    }
+                }
+            }
+            
+            &__button {
+                border: $border_thickness solid $black;
+                padding: $padding_border_block;
+                // margin-top: 20px;
+                color: $black;
+                background-color: $white;
+                cursor: pointer;
             }
         }
     }

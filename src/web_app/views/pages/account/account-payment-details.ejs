@@ -49,86 +49,122 @@
     <!------ Content ------>
     <div class="account account--background">
         <%- include('../../partials/account-side-bar') %>
-        <div class="account__section account__overview">
-            <div class="section__title">
-                <h2>Your Payment Details</h2>
-            </div>
+        <div class="account__section account__section--no-margin">
+            <div class="account__section account__section--full-width account__overview">
+                <div class="section__title">
+                    <h2>Your Payment Details</h2>
+                </div>
 
-            <% if(locals.cards){ %>
-                <% for (var i = 0; i < cards.length;  i++ ) { %>
-                    <a href="#" class="overview__option hvr-float">
-                        <div class="option__content option__content--center option__content--yellow">
-                            <div class="content__title">
-                                <h2><%- cards[i].type %> Credit Card</h2>
-                                <h3><%- cards[i].number %></h3>
-                            </div>
+                <!-- <div style="text-align:right;margin-top:100px;">
+                    <button id="add-payment" class="update-form__btn hvr-sweep-to-right" style="background:none;border:3px solid #303030;"><h3>Add Payment Method</h3></button>
+                </div> -->
 
-                            <div class="content__dsc">                       
-                                <b>Expire date: </b> <%- cards[i].expire_date %>
-                                <br>
-                                
-                                <b>Type: </b> <%- cards[i].type %>
-                                <br>
-                            </div>
-
-                            <div class="content__explore content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white">
-                                <h3>Remove</h3>
-                            </div>
-                        </div>
-                    </a>
-                <% } %>
-            <% } %>
-
-            <!-- Content Tabs
-            <div class="account__section account__overview short-margin full-width">
 
                 <% if(locals.cards){ %>
                     <% for (var i = 0; i < cards.length;  i++ ) { %>
-
-                        <div href="#" class="overview__option hvr-float">
-                            <div class="option__content option__content--center" style="background-color: #d6c631;text-align:left;padding:20px;max-height:300px;">
-                                
-                                <div class="content__title">
+                        <div class="overview__option hvr-float">
+                            <div class="option__content option__content--center option__content--yellow">
+                                <div class="content__title content__title--margin-bottom">
                                     <h2><%- cards[i].type %> Credit Card</h2>
                                     <h3><%- cards[i].number %></h3>
                                 </div>
-        
-                                <div class="content__dsc">
-                                    
-                                    <b>Expire date: </b> <%- cards[i].expire_date %>
-                                    <br>
-                                    
-                                    <b>Type: </b> <%- cards[i].type %>
-                                    <br>
-                                    
+
+                                <div class="content__dsc content__dsc--flex">       
+                                    <div class="content__field">
+                                        <div class="field__field">
+                                            <img src="/img/account/calendar-black.png" />
+                                            <h3>Expire Date:</h3>
+                                            <%- cards[i].expire_date %>
+                                        </div>
+
+                                        <div class="field__field">
+                                            <img src="/img/icons/pay.png" />
+                                            <h3>Type:</h3>
+                                            <%- cards[i].type %>
+                                        </div>
+                                    </div>      
                                 </div>
-        
-                                <div style="text-align:right;width:100%;">
-                                    <div class="content__explore hvr-sweep-to-right">
+
+                                <div class="content__inline content__inline--right">
+                                    <div class="content__explore content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white">
                                         <a href="/delete/cards/<%- cards[i].id %>">
                                             <h3>Remove</h3>
                                         </a>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
                     <% } %>
+                    <% if(cards.length < 1) { %>
+                        <p style="color: black;">No Memberships Found</p>
+                    <% } %> 
+                <% } else { %>
+                    <p style="color: black;">No Memberships Found</p>
+                <% } %>
+            </div>
 
-                <% }else{ %>
-                    
-                    <div style="height:100%;">
-                        <h2 style="color:black;margin:auto;">No memberships found :(</h2>
+            <div class="account__section account__section--full-width account__section--no-margin account__payment-history">
+                
+                <% if(locals.cards.length > 0){ %>
+                    <div class="payment-history__option">
+                        <form class=" payment-history__option-form">
+                            <div class="option-form__group">
+                                <label class="option-form__label"><h3>View Payment History:</h3></label>
+                                <select class="option-form__select" name="card-history">
+                                    <% for (var i = 0; i < cards.length;  i++ ) { %>
+                                        <option value="<%- i %>"><%- cards[i].number %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </form>
                     </div>
-                <% }%>
+                <% } %>
 
-            </div> -->
+                <div class="payment-history__option">
+                    <button id="add-payment" class="payment-history__button hvr-sweep-to-right">
+                        <h3>Add Payment Method</h3>
+                    </button>
+                </div>
+                
+            </div>
+
+
+            <div class="account__section account__section--full-width account__details">
+                <div class="section__title">
+                    <h2>Your Payment History</h2>
+                </div>
+
+                <div class="details__content">
+                    <div class="content__form-title content__form-title--top">
+                        <div class="form-title__title">
+                            <h2>Transaction 1</h2>
+                        </div>
+        
+                        <div class="form-title__desc">
+                            Brought some loo roll to fight the pandemic
+                        </div>
+                    </div>
+
+                    <div class="content__update-form">
+                        nfkfsf
+                    </div>
+        
+                    <div class="content__form-title content__form-title--side">
+                        <div class="form-title__title">
+                            <h2>Transaction 1</h2>
+                        </div>
+        
+                        <div class="form-title__desc">
+                            Brought some loo roll to fight the pandemic
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
         </div>
     </div>
 
-
-
+    
 
     <!------ Modal -------->
     <div id="myModal" class="modal">
