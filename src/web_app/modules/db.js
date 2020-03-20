@@ -695,44 +695,6 @@ exports.getUserPayments = function(userId) {
 }
 
 
-exports.getUserBooking = function(bookingId) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
-
-    // Synching request
-    return new Promise(function(resolve, reject) {
-        conn.connect(function(err) {
-            
-            // Error 
-            if (err) reject(err);
-
-            query = SqlString.format(
-                'SELECT BookedActivity.id, Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.name as facilityName, Sport.name as sportName FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Facility ON Activity.id_facility = Facility.id INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE BookedActivity.id = ? ORDER BY Activity.start_time ASC',
-                    [bookingId]
-            );
-
-            conn.query(query, function (err, results, fields) {
-                
-                // Error
-                if (err) return reject(err);
-
-                // Result
-                if (results.length > 0)
-                    resolve(results[0]);
-
-                else
-                    reject("Booking not found.");
-            });
-
-        });
-    });
-}
-
-
 /*
  *  Function:   Query payments by user id (passed from session)
  *  Input:      User {id}

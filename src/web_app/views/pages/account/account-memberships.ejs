@@ -1,6 +1,31 @@
 <%- include('../../partials/head') %>
 <%- include('../../partials/header') %>
 
+<div class="modal modal--delete">
+    <div class="modal__container">
+        <div class="modal__header modal__header--danger">
+            <h2>Cancel Membership?</h2>
+            <div class="header__close modal--close">
+                <img src="/img/icons/close-white.png" />
+            </div>
+        </div>
+
+        <div class="modal__content">
+            Are You sure You want to Proceed?
+        </div>
+
+        <div class="modal__close">
+            <a href="###" id="delete-membership" class="close__close hvr-sweep-to-right modal--close">
+                <h3>Cancel Membership</h3>
+            </a>
+            
+            <div class="close__close hvr-sweep-to-right modal--close">
+                <h3>Close</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="container">
     <div class="account account--background">
@@ -69,12 +94,11 @@
 
                             <div class="content__inline">
                                 <% if(!memberships[i].expired) { %>
-                                    <div class="content__explore content__explore--right content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white">
+                                    <div id="<%- memberships[i].id %>" class="content__explore content__explore--right content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white content__explore--delete-membership modal--open-delete">
                                 <% } else { %>
-                                    <div class="content__explore content__explore--right hvr-sweep-to-right hvr-sweep-to-right--white">
+                                    <div id="<%- memberships[i].id %>" class="content__explore content__explore--right hvr-sweep-to-right hvr-sweep-to-right--white content__explore--delete-membership modal--open-delete">
                                 <% } %>
-                                
-                                    <a href="/delete/memberships/<%- memberships[i].id %>">
+                                    <a href="####">
                                         <h3>Cancel Membership</h3>
                                     </a>
                                 </div>

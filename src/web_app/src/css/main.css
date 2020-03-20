@@ -1922,6 +1922,7 @@ ul {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  padding: 5px;
 }
 
 .account__payment-history .payment-history__option-form {
@@ -1968,6 +1969,12 @@ ul {
     margin-left: -300px;
   }
   .account__section {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .account__payment-history .payment-history__option {
     width: 100%;
   }
 }
@@ -3434,6 +3441,192 @@ h3 {
   width: auto !important;
   height: auto !important;
   padding: 5px 13px !important;
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: none;
+  color: #413E4B;
+}
+
+.modal__container {
+  width: 50%;
+  min-width: 500px;
+  background-color: white;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.modal__header {
+  background-color: #eedc37;
+  width: 100%;
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.modal__header--danger {
+  background-color: #ff3333;
+  color: white;
+}
+
+.modal__header .header__close {
+  cursor: pointer;
+}
+
+.modal__header .header__close img {
+  width: 35px;
+}
+
+.modal__form .form__group {
+  margin: 15px 20%;
+}
+
+.modal__form .form__group--col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.modal__form .form__group--row:first-child {
+  padding-right: 5px;
+}
+
+.modal__form .form__group--row:last-child {
+  padding-left: 5px;
+}
+
+.modal__form .form__label {
+  display: block;
+  padding: 5px;
+}
+
+.modal__form .form__input {
+  border: 2px solid #413E4B;
+  padding: 5px 15px;
+  width: 100%;
+}
+
+.modal__content {
+  width: 100%;
+  padding: 20px;
+}
+
+.modal__content--split {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.modal__content .content__half {
+  width: 50%;
+}
+
+.modal__content .content__half--form {
+  width: 90%;
+  text-align: center;
+}
+
+.modal__content .content__half--center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.modal__content .content__half .half__qr {
+  width: 150px;
+}
+
+.modal__content .content__field {
+  max-width: 300px;
+  width: 100%;
+  text-align: left;
+}
+
+.modal__content .content__field .field__field {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 0;
+}
+
+.modal__content .content__field h3 {
+  display: inline-block;
+  padding-right: 10px;
+}
+
+.modal__content .content__field img {
+  width: 35px;
+  display: inline-block;
+  padding-right: 10px;
+}
+
+.modal__close {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+}
+
+.modal__close .close__close {
+  cursor: pointer;
+  border: 2px solid #413E4B;
+  padding: 5px 15px;
+  display: inline-block;
+  background-color: white;
+  margin: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+  .modal__container {
+    width: 80%;
+    min-width: 300px;
+  }
+  .modal__form .form__group {
+    margin: 15px 10%;
+  }
+  .modal__content .content__half {
+    width: 100%;
+  }
+  .modal__content .content__half--form {
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width: 400px) {

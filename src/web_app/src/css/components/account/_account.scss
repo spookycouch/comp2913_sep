@@ -171,6 +171,7 @@
                 width: 50%;
                 display: flex;
                 justify-content: center;
+                padding: 5px;
             }
 
             &__option-form {
@@ -234,7 +235,15 @@
 }
 
 @media only screen and (max-width: $max_width_secondary) {
-
+    .account {
+        &__payment-history {
+            .payment-history {
+                &__option {
+                    width: 100%;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: $max_width_tertiary) {

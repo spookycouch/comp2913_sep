@@ -1,48 +1,82 @@
 <%- include('../../partials/head') %>
 <%- include('../../partials/header') %>
 
-<style>
 
-    /* The Modal (background) */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
+<div class="modal modal--delete">
+    <div class="modal__container">
+        <div class="modal__header modal__header--danger">
+            <h2>Remove Card?</h2>
+            <div class="header__close modal--close">
+                <img src="/img/icons/close-white.png" />
+            </div>
+        </div>
 
-    /* Modal Content/Box */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%; /* Could be more or less, depending on screen size */
-    }
+        <div class="modal__content">
+            Are You sure You want to Proceed?
+        </div>
 
-    /* The Close Button */
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        <div class="modal__close">
+            <a href="###" id="delete-payment" class="close__close hvr-sweep-to-right modal--close">
+                <h3>Remove Card</h3>
+            </a>
+            
+            <div class="close__close hvr-sweep-to-right modal--close">
+                <h3>Close</h3>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-</style>
+<div class="modal modal--modal">
+    <div class="modal__container">
+        <div class="modal__header">
+            <h2>Add Payment Method</h2>
+            <div class="header__close modal--close">
+                <img src="/img/icons/close.png" />
+            </div>
+        </div>
+        
+        <form class="modal__form" action="/user/account/add/card" method="POST" autocomplete="off">
+            <div class="modal__content modal__content--split">
+                <div class="content__half--form">
+                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+
+                    <div class="form__group">
+                        <label class="form__label"><h3>Card Number</h3></label>
+                        <input id="card_number" class="form__input" type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX XXXX"/>      
+                    </div>
+
+                    <div class="form__group form__group--col">
+                        <div class="form__group--row">
+                            <label class="form__label"><h3>Expire Date </h3></label>
+                            <input id="expire_date" class="form__input" type="text" name="expire_date" placeholder="XX/XX"/>
+                        </div>
+
+                        <div class="form__group--row">
+                            <label class="form__label"><h3>CVV</h3></label>
+                            <input id="cvv" class="form__input" type="text" name="cvv" placeholder="XXX"/>
+                        </div>
+                        
+                    </div>  
+
+                    <div class="form__group">
+                        <label class="form__label"><h3>Type</h3></label>
+                        <input id="type" class="form__input" type="text" name="type" placeholder="VISA/Mastercard..."/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal__close">
+                <button class="close__close hvr-sweep-to-right" type="submit" ><h3>Add Card</h3></button>
+
+                <div class="close__close hvr-sweep-to-right modal--close">
+                    <h3>Close</h3>
+                </div>                
+            </div>
+        </form>
+    </div>  
+</div>
 
 
 <div class="container">
@@ -54,11 +88,6 @@
                 <div class="section__title">
                     <h2>Your Payment Details</h2>
                 </div>
-
-                <!-- <div style="text-align:right;margin-top:100px;">
-                    <button id="add-payment" class="update-form__btn hvr-sweep-to-right" style="background:none;border:3px solid #303030;"><h3>Add Payment Method</h3></button>
-                </div> -->
-
 
                 <% if(locals.cards){ %>
                     <% for (var i = 0; i < cards.length;  i++ ) { %>
@@ -86,9 +115,9 @@
                                 </div>
 
                                 <div class="content__inline content__inline--right">
-                                    <div class="content__explore content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white">
-                                        <a href="/delete/cards/<%- cards[i].id %>">
-                                            <h3>Remove</h3>
+                                    <div id="<%- cards[i].id %>" class="content__explore content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white content__explore--delete-payment modal--open-delete">
+                                        <a href="###">
+                                            <h3>Remove Card</h3>
                                         </a>
                                     </div>
                                 </div>
@@ -121,11 +150,10 @@
                 <% } %>
 
                 <div class="payment-history__option">
-                    <button id="add-payment" class="payment-history__button hvr-sweep-to-right">
+                    <button class="payment-history__button hvr-sweep-to-right modal--open">
                         <h3>Add Payment Method</h3>
                     </button>
-                </div>
-                
+                </div>  
             </div>
 
 
@@ -163,118 +191,8 @@
             </div>
         </div>
     </div>
-
-    
-
-    <!------ Modal -------->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            
-            <form class="content__update-form" action="/user/account/add/card" method="POST" autocomplete="off">
-                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
-
-                <div class="update-form__group">
-                    <label class="update-form__label"><h3>Card Number</h3></label>
-                    <input id="card_number" class="update-form__input" type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX XXXX"/>      
-                    <!--
-                    <% if(locals.error){ %>
-                        <% for (var i =0; i < error.length;  i++ ) { %>
-                            <% if(error[i].path == 'address_1'){ %>                                    
-                                <p id="address_1-error" class="update-form__error"><%- error[i].message %></p>
-                            <% } %>
-                        <% } %>
-                    <% }%>
-                    -->
-                </div>
-
-                <div class="update-form__group">
-                    <label class="update-form__label"><h3>Expire Date </h3></label>
-                    <input id="expire_date" class="update-form__input" type="text" name="expire_date" placeholder="XX/XX"/>
-
-                    <!--
-                    <% if(locals.error){ %>
-                        <% for (var i =0; i < error.length;  i++ ) { %>
-                            <% if(error[i].path == 'address_2'){ %>   
-                                <p id="address_2-error" class="update-form__error"><%- error[i].message %></p>
-                            <% } %>
-                        <% } %>
-                    <% } %>
-                    -->
-                </div>  
-
-                <div class="update-form__group update-form__group--col">
-                    <div class="update-form__group--row">
-                        <label class="update-form__label"><h3>CVV</h3></label>
-                        <input id="cvv" class="update-form__input" type="text" name="cvv" placeholder="XXX"/>
-                        
-                        <!--
-                        <% if(locals.error){ %>
-                            <% for (var i =0; i < error.length;  i++ ) { %>
-                                <% if(error[i].path == 'city'){ %>
-                                    <p id="city-error" class="update-form__error"><%- error[i].message %></p>   
-                                <% } %>
-                            <% } %>
-                        <% } %>
-                        -->
-                    </div>
-                </div>
-
-                <div class="update-form__group update-form__group--col">
-                    <div class="update-form__group--row">
-                        <label class="update-form__label"><h3>Type</h3></label>
-                        <input id="type" class="update-form__input" type="text" name="type" placeholder="VISA/Mastercard..."/>
-                        
-                        <!--
-                        <% if(locals.error){ %>
-                            <% for (var i =0; i < error.length;  i++ ) { %>
-                                <% if(error[i].path == 'city'){ %>
-                                    <p id="city-error" class="update-form__error"><%- error[i].message %></p>   
-                                <% } %>
-                            <% } %>
-                        <% } %>
-                        -->
-                    </div>
-                </div>
-                <div class="update-form__group">
-                    <button class="update-form__btn hvr-sweep-to-right" type="submit" ><h3>Add</h3></button>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
 
-
-<!------ Modal -------->
-<script>
-
-    // Get the modal
-    var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("add-payment");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function() {
-    modal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-    modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-    }
-
-</script>
 
 <%- include('../../partials/footer') %>
 <%- include('../../partials/foot') %>

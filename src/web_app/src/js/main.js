@@ -116,33 +116,45 @@ $(document).ready(function() {
     );
 
 
-    $('.overview__option--qr-modal').on('click', function(e) {
-        console.log("do some ajax shit to get da data");
-
-        $.ajax({
-            url: '/ajax/account/get-bookings',
-            type: 'POST',
-            data: {'id': this.id},
-            datatype: 'json',
-            success: function(data) {
-                data = JSON.parse(data);
-                
-                $('#sportName').text(data.sportName);
-                $('#start_time').text(data.start_time);
-                $('#duration').text(data.duration + " Minutes");
-                $('#qr').attr('src', data.qr);
-
-                if (data.status) {
-                    $('#status').text("Confirmed")
-                } else {
-                    $('#status').text("Pending");
-                }
-            },
-            error: function(error) {
-                alert(error);
-            }
-        });
+    $('.modal--open').on('click', function(e) {
+        $('.modal--modal').css('display', 'flex');
     });
+
+    $('.modal--open-delete').on('click', function(e) {
+        $('.modal--delete').css('display', 'flex');
+    });
+
+    $('.modal--close').on('click', function(e) {
+        $('.modal').fadeOut();
+    });
+
+    $('.modal').on('click', function(e) {
+        var target = $('.modal');
+
+        if (e.target.className.split(" ")[0] == 'modal') {
+            target.fadeOut();
+        }
+    });
+
+
+    $('.content__explore--delete-membership').on('click', function(e) {
+        $('#delete-membership').attr('href', '/delete/memberships/' + this.id);
+    });
+
+    $('.content__explore--delete-payment').on('click', function(e) {
+        $('#delete-payment').attr('href', '/delete/cards/' + this.id);
+    });
+
+
+    $('.overview__option--qr-modal').on('click', function(e) {
+        $('#sportName').text($(this).find('.sportName-value').text());
+        $('#start_time').text($(this).find('.start_time-value').text());
+        $('#duration').text($(this).find('.duration-value').text());
+        $('#status').text($(this).find('.status-value').text());
+        $('#qr').attr('src', this.id);
+    });
+
+
 
 
     /*
