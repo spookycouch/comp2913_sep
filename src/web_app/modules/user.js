@@ -292,6 +292,37 @@ exports.deleteCard = function(userId, cardId){
     });
 }
 
+
+/*
+ *  Function:   Get a single booking by its ID
+ *  Input:      Booking {id}
+ *  Output:     Booking / Error Message
+*/
+exports.getBooking = function(bookingId) {
+    return new Promise(function(resolve, reject) {
+        db.getUserBooking(bookingId).then(async function(result) {
+
+            // Formatting date
+            var mysql_date = result.start_time;
+
+            let date = mysql_date.getTime();
+            date = moment(date).format('DD/MM/YYYY hh:mm');
+            
+            result.start_time = date;
+            
+            // Set QR code
+            await QRCode.toDataURL(result.id.toString()).then(function(url,err) {
+                result.qr = url;
+            });
+
+            resolve(result);
+
+        }).catch(function(err) {
+            reject(err);
+        });
+    });
+}
+
 /*
  *  Function:   Get User Bookings
  *  Input:      User {id}

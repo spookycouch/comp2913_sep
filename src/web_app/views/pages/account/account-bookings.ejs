@@ -1,27 +1,23 @@
 <%- include('../../partials/head') %>
 <%- include('../../partials/header') %>
 
-<%if(locals.bookings){%>
-    <% if(bookings.length > 1) { %>
-    <%var i = 0;%>
 
-        <div id="booking_modal">
-        <div id="booking_modal_bg" class="close"></div>
-        <div id="booking_modal_display">
-            <a id="booking_modal_close" class="close">X</a>
-            <h2><%- bookings[i].sportName %></h2>
-            <h3><%- bookings[i].start_time %></h3>
-            <b>Duration: </b> <%- bookings[i].duration %>'
-            <br>
-            <b>Status: </b> <% if(bookings[i].bookingStatus){ %> confirmed <% } else { %> pending <% } %>
-            <br>
-            <br>
-            <p>Your QR receipt:</p>
-            <img src="<%=bookings[0].qr%>"/>
-        </div>
-    </div>
-    <% } %>
-<% } %>
+<div id="booking_modal">
+<div id="booking_modal_bg" class="close"></div>
+<div id="booking_modal_display">
+    <a id="booking_modal_close" class="close">X</a>
+    <h2 id="sportName"></h2>
+    <h3 id="start_time"></h3>
+    <b>Duration: </b> <p id="duration"></p>
+    <br>
+    <b>Status: </b> <p id="status"></p>
+    <br>
+    <br>
+    <p>Your QR receipt:</p>
+    <img id="qr"/>
+</div>
+</div>
+
 
 
 
@@ -41,7 +37,7 @@
 
             <% if(locals.bookings){ %>
                 <% for (var i = 0; i < bookings.length;  i++ ) { %>
-                    <a href="##" class="overview__option hvr-float details">
+                    <a href="##" class="overview__option overview__option--qr-modal hvr-float details" id="<%- bookings[i].id %>">
                         <div class="option__content option__content--center option__content--yellow">
                             <div class="content__title content__title--margin-bottom">
                                 <h2><%- bookings[i].sportName %></h2>

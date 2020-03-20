@@ -116,7 +116,25 @@ router.post('/register/response-3', function(req, res) {
             error: err
         }));
     }
+});
 
+
+router.post('/account/get-bookings', function(req, res) {
+
+    user.getBooking(req.body.id).then(function(booking){
+        res.end(JSON.stringify({
+            start_time: booking.start_time,
+            duration: booking.duration,
+            sportName: booking.sportName,
+            status: booking.bookingStatus,
+            qr: booking.qr
+        }));
+
+    }).catch(function(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    })
 });
 
 

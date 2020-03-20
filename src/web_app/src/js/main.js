@@ -116,6 +116,35 @@ $(document).ready(function() {
     );
 
 
+    $('.overview__option--qr-modal').on('click', function(e) {
+        console.log("do some ajax shit to get da data");
+
+        $.ajax({
+            url: '/ajax/account/get-bookings',
+            type: 'POST',
+            data: {'id': this.id},
+            datatype: 'json',
+            success: function(data) {
+                data = JSON.parse(data);
+                
+                $('#sportName').text(data.sportName);
+                $('#start_time').text(data.start_time);
+                $('#duration').text(data.duration + " Minutes");
+                $('#qr').attr('src', data.qr);
+
+                if (data.status) {
+                    $('#status').text("Confirmed")
+                } else {
+                    $('#status').text("Pending");
+                }
+            },
+            error: function(error) {
+                alert(error);
+            }
+        });
+    });
+
+
     /*
     *  Function:   Register form (subform 1) Submit AJAX Request 
     *  Input:      Request Body
