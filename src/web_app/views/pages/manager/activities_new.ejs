@@ -1,38 +1,52 @@
 <%- include('../../partials/head') %>
 <%- include('../../partials/header') %>
 
-<form method="POST" action="/api/upload_activity" enctype="multipart/form-data">
-    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+<div class="container">
+    <div class="account account--background">
+        <%- include('../../partials/manager-side-bar') %>
+
+        <div class="account__section account__details">
+
+            <div class="section__title">
+                <h2>Add a new Activity</h2>
+            </div>
+            
+            <form method="POST" action="/api/upload_activity" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
 
-    <input type="file" name="image" multiple><br>
+                <input type="file" name="image" multiple><br>
 
-    <label>Name</label>
-    <input name="name" type="text"><br>
+                <label>Name</label>
+                <input name="name" type="text"><br>
 
-    <label>Description</label>
-    <input name="description" type="text"><br>
+                <label>Description</label>
+                <input name="description" type="text"><br>
 
-    <label>Discount</label>
-    <input name="discount" type="text"><br>
+                <label>Discount</label>
+                <input name="discount" type="text"><br>
 
-    <label>Cost</label>
-    <input name="cost" type="text"><br>
+                <label>Cost</label>
+                <input name="cost" type="text"><br>
 
-    <label>Start Time</label>
-    <input name="start_time" type="text"><br>
+                <label>Start Time</label>
+                <input name="start_time" type="text"><br>
 
-    <label>Duration</label>
-    <input name="duration" type="text"><br>
+                <label>Duration</label>
+                <input name="duration" type="text"><br>
 
-    <label>id sport??</label>
-    <input name="id_sport" type="text"><br>
+                <label>id sport??</label>
+                <input name="id_sport" type="text"><br>
 
-    <label>id facility</label>
-    <input name="id_facility" type="text"><br>
+                <label>id facility</label>
+                <input name="id_facility" type="text"><br>
 
-    <input type="submit">
-</form>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <%- include('../../partials/footer') %>
 <%- include('../../partials/foot') %>

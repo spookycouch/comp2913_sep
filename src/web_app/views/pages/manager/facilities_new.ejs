@@ -2,28 +2,41 @@
 <%- include('../../partials/header') %>
 
 
-<form method="POST" action="/api/upload_facility" enctype="multipart/form-data">
-    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+<div class="container">
+    <div class="account account--background">
+        <%- include('../../partials/manager-side-bar') %>
 
-    <input type="file" name="image" multiple><br>
+        <div class="account__section account__details">
 
-    <label>Name</label>
-    <input type="text" name="name"><br>
-    
-    <label>price</label>
-    <input type="text" name="price"><br>
+            <div class="section__title">
+                <h2>Add a new Facility</h2>
+            </div>
 
-    <label>latitude</label>
-    <input type="text" name="latitude"><br>
-
-    <label>longitude</label>
-    <input type="text" name="longitude"><br>
-
-    <label>icon</label>
-    <input type="text" name="icon"><br>
-
-    <input type="submit">
-</form>
+            <form method="POST" action="/api/upload_facility" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+            
+                <input type="file" name="image" multiple><br>
+            
+                <label>Name</label>
+                <input type="text" name="name"><br>
+                
+                <label>price</label>
+                <input type="text" name="price"><br>
+            
+                <label>latitude</label>
+                <input type="text" name="latitude"><br>
+            
+                <label>longitude</label>
+                <input type="text" name="longitude"><br>
+            
+                <label>icon</label>
+                <input type="text" name="icon"><br>
+            
+                <input type="submit">
+            </form>            
+        </div>
+    </div>
+</div>
 
 <%- include('../../partials/footer') %>
 <%- include('../../partials/foot') %>

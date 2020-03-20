@@ -59,6 +59,10 @@
         transition: .25s;
         z-index: 6;
 
+        &--admin {
+            background-color: $black;
+        }
+
 
         &--open {
             margin-left: 0 !important;

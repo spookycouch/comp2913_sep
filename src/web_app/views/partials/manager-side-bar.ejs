@@ -1,4 +1,4 @@
-<div class="account__side-bar">
+<div class="account__side-bar account__side-bar--admin">
     <div class="side-bar__profile-image">
         <img src="/img/icons/user.png" /> <!-- ACCOUNT PROFILE PICTURE HERE (optional) -->
     </div>
@@ -11,46 +11,45 @@
         <h2><%- user.name %> <%- user.surname%></h2>
         <small class="header__email"><%- user.email %></small>
 
-        <% if(locals.session.userType == 2) { %>
-            <h2>Employee</h2>
+        <% if(locals.session.userType == 3) { %>
+            <h2>Admin</h2>
         <% } %>
     </div>
-
 
     <div class="side-bar__nav">
         <ul class="nav__items">
             <li class="nav__item hvr-inset">
-                <a class="item__link" href="/user/account">
+                <a class="item__link" href="/manager/overview">
                     <img src="/img/account/star.png" />
                     <h3>Overview</h3>
                 </a>
             </li>
 
             <li class="nav__item hvr-inset">
-                <a class="item__link" href="/user/account/details">
+                <a class="item__link" href="/manager/statistics">
                     <img src="/img/account/account.png" />
-                    <h3>My Details</h3>
+                    <h3>View Usage Statistics</h3>
                 </a>
             </li>
 
             <li class="nav__item hvr-inset">
-                <a class="item__link" href="/user/account/memberships">
+                <a class="item__link" href="/manager/register/employee">
                     <img src="/img/account/membership.png" />
-                    <h3>My Memberships</h3>
+                    <h3>Add a new Employee</h3>
                 </a>
             </li>
 
             <li class="nav__item hvr-inset">
-                <a class="item__link" href="/user/account/bookings">
+                <a class="item__link" href="/manager/activities/new">
                     <img src="/img/account/calendar.png" />
-                    <h3>My Bookings</h3>
+                    <h3>Add a new Activity</h3>
                 </a>
             </li>
 
             <li class="nav__item hvr-inset">
-                <a class="item__link" href="/user/account/payment">
+                <a class="item__link" href="/manager/facilities/new">
                     <img src="/img/account/discount.png" />
-                    <h3>My Payment Details</h3>
+                    <h3>Add a new Facility</h3>
                 </a>
             </li>
 
