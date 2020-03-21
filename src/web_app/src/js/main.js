@@ -374,43 +374,94 @@ function showScrollToggle() {
 *    Scroll function
 */
 
-function update_timetable() {
-    // idk how to get the db object
-    // SO TEST DATA
-    var results = [{id: 1, name_activity: 'party', name_sport: 'socialpeeps', start_time: '2020-03-20 10:00:00', weekday: '4'},
-                    {id: 1, name_activity: 'party', name_sport: 'socialpeeps', start_time: '2020-03-20 10:00:00', weekday: '6'}]
 
-    
-    var links = []
-    // default
-    for (var i = 0; i < 7; ++i) {
-        links.push('');
-    }
 
-    // set anchor at weekday for each result
-    for (var i = 0; i < results.length; ++i) {
-        var anchor = '';
-     anchor += '<a>';
-     anchor += results[i].name_activity;
-     anchor += ':';
-     anchor += results[i].name_sport;
-     anchor += '</a>';
-
-        if (links[results[i].weekday] == '')
-            links[results[i].weekday] += anchor;
-        else
-            links[results[i].weekday] += '<br>' + anchor;
-    }
-
-    for (var i = 0; i < 7; ++i) {
-        var entry = $('#timetable_facility_data_' + i);
+$('.date_select_facility-week').on('change', function(e) {
+    $.ajax ({
+        url: '/ajax/facility/timetable',
+        type: 'POST',
+        data: {
+            'id': this.id,
+            'date': $(this).val()
+        },
+        datatype: 'json',
+        success: function(data) {
+            data = JSON.parse(data);
             
-        if (links[i] == '')
-            entry.html('No activities');
-        else
-            entry.html(links[i]);
-    }
-}
+            for (var i = 0; i < 7; i++) {
+                var result = false;
+                $.each(data.results, function(key, value) {
+                    if (value.weekday == i) {
+                        $('#timetable_facility_data_' + i).text(value.name_sport);
+                        result = true;
+                    }
+                });
 
-$('#timetable_facility').ready(update_timetable);
-$('#date_select_facility').on('change', update_timetable);
+                if (!result) {
+                    $('#timetable_facility_data_' + i).text("No Activity");
+                }
+            }
+        },  
+        error: function(error) {
+            alert(error);
+        }
+    });
+});
+
+$('.date_select_activity-week').on('change', function(e) {
+    $.ajax ({
+        url: '/ajax/activities/timetable',
+        type: 'POST',
+        data: {
+            'date': $(this).val()
+        },
+        datatype: 'json',
+        success: function(data) {
+            data = JSON.parse(data);
+            
+            var $newTable = $("<table id=\"timetable_activity\"></table>");
+            var facility = "";
+
+            $newTable.append(`<tr>
+                <th>Facility</th>
+                <th id="timetable_facility_header_0">Monday</th>
+                <th id="timetable_facility_header_1">Tuesday</th>
+                <th id="timetable_facility_header_2">Wednesday</th>
+                <th id="timetable_facility_header_3">Thursday</th>
+                <th id="timetable_facility_header_4">Friday</th>
+                <th id="timetable_facility_header_5">Saturday</th>
+                <th id="timetable_facility_header_6">Sunday</th>
+            </tr>`);
+
+            $.each(data.results, function(key, value) {
+                if (value.facility_name != facility) {
+                    row = "<tr><td>" + value.facility_name + "</td>";
+                    facility = value.facility_name;
+
+                    for (var i = 0; i < 7; i++) {
+                        var result = false;
+
+                        $.each(data.results, function(key, value) {
+                            if (value.weekday == i && value.facility_name == facility) {
+                                row += "<td>" + value.name_sport + "</td>";
+                                result = true;
+                            }
+                        });
+
+                        if (!result) {
+                            row += "<td>No Activities</td>"
+                        }
+                    }
+
+                    row += "</tr>";
+                    $newTable.append(row);
+                }
+            });
+
+            $('#timetable_activity').replaceWith($newTable);
+        },  
+        error: function(error) {
+            alert(error);
+        }
+    });
+});

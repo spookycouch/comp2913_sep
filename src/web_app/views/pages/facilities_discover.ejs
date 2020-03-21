@@ -6,28 +6,29 @@
     <div class="facilities">
 
         <%if (locals.facility && locals.images) {%>
-        <%if (facility.length > 0) { %>
-        
-        <div class="facilities__header">
-            <h2><%=facility[0].name%></h2>
-        </div>
-
-        <div class="facilities__container">
-
-            <div>
-                <%for (var i = 0; i < images.length; ++i) {%>
-                <img src="/uploads/<%=images[i].id%>.<%=images[i].ext%>"/>
-                <% } %>
-
-            </div>
+            <%if (facility.length > 0) { %>
             
-        </div>
+            <div class="facilities__header">
+                <h2><%=facility[0].name%></h2>
+            </div>
 
+            <div class="facilities__container">
+
+                <div>
+                    <%for (var i = 0; i < images.length; ++i) {%>
+                    <img src="/uploads/<%=images[i].id%>.<%=images[i].ext%>"/>
+                    <% } %>
+
+                </div>
+                
+            </div>
+
+            <% } %>
         <% } %>
-        <% } %>
+
 
         <label>Show activities for the week of: </label>
-        <input id="date_select_facility" type="date">
+        <input id="<%- facility[0].id %>" class="date_select_facility-week" type="date">
         <table id="timetable_facility">
             <tr>
                 <th id="timetable_facility_header_0">Monday</th>
@@ -39,13 +40,19 @@
                 <th id="timetable_facility_header_6">Sunday</th>
             </tr>
             <tr>
-                <td id="timetable_facility_data_0">&nbsp<a></a></td>
-                <td id="timetable_facility_data_1">&nbsp<a></a></td>
-                <td id="timetable_facility_data_2">&nbsp<a></a></td>
-                <td id="timetable_facility_data_3">&nbsp<a></a></td>
-                <td id="timetable_facility_data_4">&nbsp<a></a></td>
-                <td id="timetable_facility_data_5">&nbsp<a></a></td>
-                <td id="timetable_facility_data_6">&nbsp<a></a></td>
+                <% for(var i = 0; i < 7; i++) { %>
+                    <% var result = false %>
+                    <% for(var j = 0; j < timetable.length; j++) { %>
+                        <% if(timetable[j].weekday == i) { %>
+                            <td id="timetable_facility_data_<%- i %>"><%- timetable[j].name_sport %><a></a></td>
+                            <% result = true %>
+                        <% } %>
+                    <% } %>
+
+                    <% if(!result) { %>
+                        <td id="timetable_facility_data_<%- i %>">No Activities<a></a></td>
+                    <% } %>
+                <% } %>
             </tr>
         </table>
 

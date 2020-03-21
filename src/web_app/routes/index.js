@@ -111,18 +111,23 @@ router.post('/facilities', csrf, function(req, res) {
 */
 router.get('/facilities/discover', csrf, function(req, res) {
 
-    var id = parseInt(req.query.id);
-
-    user.facilities_discover(id).then(function (results) {
-        res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
-        {
-            facility: results[0],
-            images: results[1],
-            title: webname + "| Facilities",
-            session: req.session,
-            csrfToken: req.csrfToken()
+    var facilityId = parseInt(req.query.id);
+    var currentDate = new Date();
+   
+    user.facilities_discover(facilityId).then(function(results) {
+        user.facilities_timetable(facilityId, currentDate).then(function(timetable) {
+            res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
+            {
+                facility: results[0],
+                images: results[1],
+                title: webname + "| Facilities",
+                session: req.session,
+                csrfToken: req.csrfToken(),
+                timetable: timetable
+            });
+        }).catch(function(err) {
+            console.log(err);
         });
-
     }).catch(function(err){
         
         console.log(err);
@@ -165,21 +170,29 @@ router.get('/activities', csrf, function(req, res) {
     var no_items = 7;
     var page_no = 1;
 
-    user.upcomingActivities(no_items, page_no).then(function (results) {
-        res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
-        {
-            no_items: no_items,
-            page_no: page_no,
-            no_pages: Math.ceil(results[0][0].count/no_items),
-            total: results[0][0].count,
-            results: results[1],
-            title: webname + "| Activities",
-            session: req.session,
-            csrfToken: req.csrfToken()
-        });
+    var currentDate = new Date();
+
+    user.upcomingActivities(no_items, page_no).then(function(results) {
+        user.activitiesTimetable(currentDate).then(function(timetable) {
+            res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
+            {
+                no_items: no_items,
+                page_no: page_no,
+                no_pages: Math.ceil(results[0][0].count/no_items),
+                total: results[0][0].count,
+                results: results[1],
+                title: webname + "| Activities",
+                session: req.session,
+                csrfToken: req.csrfToken(),
+                timetable: timetable
+            });
+        }).catch(function(err) {
+            console.log(err);
+        }); 
+
+        
 
     }).catch(function(err){
-        
         console.log(err);
     });
 

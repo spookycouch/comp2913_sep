@@ -32,6 +32,8 @@ router.post('/register', function(req, res) {
         if(value.error != undefined)
             throw value.error.details;
 
+        console.log(req.body);
+
         // Query
         user.registerUser(req.body).then(function(result){
 

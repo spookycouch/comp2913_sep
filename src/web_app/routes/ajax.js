@@ -119,4 +119,38 @@ router.post('/register/response-3', function(req, res) {
 });
 
 
+router.post('/facility/timetable', function(req, res) {
+
+    date = new Date(req.body.date);
+
+    user.facilities_timetable(req.body.id, date).then(function(timetable) {
+        res.end(JSON.stringify({
+            results: timetable
+        }));
+        
+    }).catch(function(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+
+router.post('/activities/timetable', function(req, res) {
+
+    date = new Date(req.body.date);
+
+    user.activitiesTimetable(date).then(function(timetable) {
+        res.end(JSON.stringify({
+            results: timetable
+        }));
+        
+    }).catch(function(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+
 module.exports = router;

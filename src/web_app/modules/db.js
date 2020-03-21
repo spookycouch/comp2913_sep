@@ -1247,7 +1247,7 @@ exports.getFacilityActivities = function(facilityId) {
 }
 
 // one big query to get the timetable
-exports.getFacilityTimetable = function(facilityId, date) {
+exports.getFacilityTimetable = function(facilityId, weekStart, weekEnd) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -1266,8 +1266,8 @@ exports.getFacilityTimetable = function(facilityId, date) {
 
             query = SqlString.format(
         
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id WHERE id_facility = ? AND start_time >= DATE_SUB(?, INTERVAL WEEKDAY(?) DAY) AND start_time <= DATE_ADD(DATE_SUB(?, INTERVAL WEEKDAY(?) DAY), INTERVAL 7 DAY);',
-                [facilityId, date, date, date, date]
+                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id WHERE id_facility = ? AND start_time >= ? AND start_time <= ?;',
+                [facilityId, weekStart, weekEnd]
             );
         
             // Query
@@ -1282,6 +1282,41 @@ exports.getFacilityTimetable = function(facilityId, date) {
         });
     });
 }
+
+
+
+exports.getActivitiesTimetable = function(weekStart, weekEnd) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    return new Promise(function(resolve, reject) {
+        conn.connect(function(err) {
+
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE start_time >= ? AND start_time <= ?;',
+                [weekStart, weekEnd]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(results);
+
+            });
+        });
+    });
+}
+
 
 /*
  *  Function:   Generate Activity Booking
