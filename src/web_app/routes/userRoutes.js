@@ -402,11 +402,12 @@ router.get('/account/memberships', function(req, res) {
  *  Function:   Account Payment Page Router
 */
 router.get('/account/payment', function(req, res) {
+
     if (req.session.userId == undefined)
         res.redirect('/home');
 
     else {
-        
+
         // User details
         user.getDetails(req.session.userId).then(function(result) {
 
@@ -432,7 +433,6 @@ router.get('/account/payment', function(req, res) {
             
             error.defaultError(req, res, webname, err);
         });
-        
     }
 });
 

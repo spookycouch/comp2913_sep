@@ -717,17 +717,9 @@ exports.getUserBookings = function(id) {
             // Error 
             if (err) reject(err);
 
-
-            // Old query - for fixing or something idk
-            // query = SqlString.format(
-        
-            //     'SELECT Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.pic AS facilityPic, Facility.name as facilityName, Sport.name as sportName FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Activity_Timetable ON Activity.id = Activity_Timetable.id_activity INNER JOIN Facility ON Activity_Timetable.id_timetable = Facility.id_timetable INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC',
-            //         [id.id]
-            // );
-
             query = SqlString.format(
         
-                'SELECT BookedActivity.id, Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.name as facilityName, Sport.name as sportName FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment. id_booked_activity  INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Facility ON Activity.id_facility = Facility.id INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC',
+                'SELECT BookedActivity.id, Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.name as facilityName, Sport.name as sportName, Payment.purchase_date as purchaseDate FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Facility ON Activity.id_facility = Facility.id INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC;',
                     [id]
             );
 
@@ -1286,6 +1278,136 @@ exports.getFacilityTimetable = function(facilityId, date) {
 
                 resolve(results);
 
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Generate Activity Booking
+ *  Input:      Activity {id}
+ *  Output:     BookedActivity {id} / Error Message
+*/
+exports.generateActivityBooking = function(idActivity) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO BookedActivity(id_activity) VALUES(?);',
+                    [idActivity]
+            );
+            
+            // Query
+            conn.query(query, function (err, result, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(result.insertId);
+            
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Generate Payment
+ *  Input:      BookedActivity {id}, Activity {cost}, User {id}, Card {id}
+ *  Output:     Payment {id} / Error Message
+*/
+exports.generatePayment = function(bookedActivityId, cost, userId, cardId) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO Payment(id_booked_activity, amount, id_user, id_card) VALUES(?, ?, ?, ?);',
+                    [bookedActivityId, cost, userId, cardId]
+            );
+            
+            // Query
+            conn.query(query, function (err, result, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(result.insertId);
+            
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Get Activity Obj by Id
+ *  Input:      Activity {id}
+ *  Output:     Activity / Error Message
+*/
+exports.getActivityObj = function(id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT * FROM Activity WHERE id = ?',
+                [id]
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                if (results.length > 0)
+                    resolve(results[0]);
+
+                else
+                    reject('No activities found.');
+                    
             });
         });
     });

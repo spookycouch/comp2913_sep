@@ -17,6 +17,7 @@ var api = require('./routes/api.js');
 var ajax = require('./routes/ajax.js');
 var del = require('./routes/delete.js');
 var manager = require('./routes/managerRoutes.js');
+var error = require('./modules/error.js');
 
 // Descriptive
 const webname = ' The Edgy ';
@@ -36,6 +37,11 @@ app.use('/api', api);
 app.use('/ajax', ajax);
 app.use('/delete', del);
 app.use('/manager', manager);
+
+// Error 404
+app.get('*', function(req, res){
+    res.status(404).render(path.join(__dirname + '/views/pages/error-404.ejs'));
+});
 
 // Run the app
 app.listen(port, hostname, function() {

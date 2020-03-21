@@ -251,7 +251,7 @@ CREATE TABLE `Log_User` (
 CREATE TABLE `Payment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
   `amount` double NOT NULL,
   `id_card` int(11) NOT NULL,
   `id_booked_activity` int(11) NOT NULL,
