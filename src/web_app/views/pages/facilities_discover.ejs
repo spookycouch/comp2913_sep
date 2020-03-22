@@ -2,6 +2,62 @@
 <%- include('../partials/header') %>
 
 
+<div class="modal modal--modal">
+    <div class="modal__container">
+        <div class="modal__header">
+            <h2>Book Activity</h2>
+            <div class="header__close modal--close">
+                <img src="/img/icons/close.png" />
+            </div>
+        </div>
+
+        <div class="modal__content modal__content--split">
+            <div class="content__half content__half--center">
+                <div class="content__field">
+                    <div class="field__field">
+                        <img src="/img/icons/clock.png" />
+                        <h3>Time:</h3>
+                        <span id="start_time">thing</span>
+                    </div>
+                   
+                    <div class="field__field">
+                        <img src="/img/icons/timer.png" />
+                        <h3>Duration:</h3>
+                        <span id="duration">thing</span>
+                    </div>
+
+                    <div class="field__field">
+                        <img src="/img/icons/gym.png" />
+                        <h3>Activity:</h3>
+                        <span id="activity">thing</span>
+                    </div>
+
+                    <div class="field__field">
+                        <img src="/img/account/location-black.png" />
+                        <h3>Location:</h3>
+                        <span id="location">thing</span>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="content__half content__half--center">
+                <img class="half__qr" src="/img/icons/trophy.png" />
+            </div>
+        </div>
+
+        <div class="modal__close">
+            <a href="###" id="book-activity" class="close__close hvr-sweep-to-right modal--close">
+                <h3>Proceeed to Payment</h3>
+            </a>
+            
+            <div class="close__close hvr-sweep-to-right modal--close">
+                <h3>Close</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="container">
     <div class="facilities">
 
@@ -53,20 +109,20 @@
                 <tr class="table__header">
                     <th class="header__item header__item--time">Time</th>
                     <th class="header__item header__item--activity">Activity</th>
+                    <th class="header__item header__item--duration">Duration</th>
                     <th class="header__item header__item--location">Location</th>
                     <th class="header__item header__item--book"></th>
                 </tr>
 
                 <tr class="table__row">
                     <% for(var i = 0; i < timetable.length; i++) { %>
-                        <td class="row__item"><%- timetable[i].start_time %></td>
-                        <td class="row__item"><%- timetable[i].name_sport %></td>
-                        <td class="row__item"><%- timetable[i].facility_name %></td>
+                        <td class="row__item start_time-value" data_attr="<%- timetable[i].start_time %>""><%- timetable[i].start_time.substr(timetable[i].start_time.length - 8) %></td>
+                        <td class="row__item activity-value"><%- timetable[i].name_sport %></td>
+                        <td class="row__item duration-value"><%- timetable[i].duration %> Minutes</td>
+                        <td class="row__item location-value"><%- timetable[i].facility_name %></td>
                         <td class="row__item">
-                            <div class="item__book hvr-sweep-to-right">
-                                <a href="#">
-                                    <h3>Book</h3>
-                                </a>
+                            <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
+                                <h3>Book</h3>
                             </div>
                         </td>
                     <% } %>

@@ -252,12 +252,12 @@ h3 {
                             // clip-path: polygon(0 0, 100% 0%, 100% 100%, 15% 100%);
                         }
 
-                        &--time, &--book {
-                            width: 15%;
+                        &--time, &--book, &--duration {
+                            width: 13.333333333%;
                         }
 
                         &--activity {
-                            width: 50%;
+                            width: 40%;
                         }
 
                         &--location {
@@ -285,6 +285,7 @@ h3 {
                                 display: inline-block;
                                 padding: $padding_border_block;
                                 margin-right: 15px;
+                                cursor: pointer;
                             }
                         }
                     }

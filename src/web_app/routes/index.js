@@ -196,8 +196,6 @@ router.get('/activities', csrf, function(req, res) {
 
     user.upcomingActivities(no_items, page_no).then(function(results) {
         user.activitiesTimetable(currentDate).then(function(timetable) {
-            console.log(timetable);
-
             res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
             {
                 no_items: no_items,

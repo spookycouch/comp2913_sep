@@ -1265,7 +1265,7 @@ exports.getFacilityTimetable = function(facilityId, date) {
             if (err) reject(err);
 
             query = SqlString.format(
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE id_facility = ? AND DAY(start_time) = ? ORDER BY start_time;',
+                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE id_facility = ? AND DAY(start_time) = ? ORDER BY start_time;',
                 [facilityId, date]
             );
         
@@ -1298,7 +1298,7 @@ exports.getActivitiesTimetable = function(date) {
             if (err) reject(err);
 
             query = SqlString.format(
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE DAY(start_time) = ? ORDER BY start_time;;',
+                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE DAY(start_time) = ? ORDER BY start_time;;',
                 [date]
             );
 

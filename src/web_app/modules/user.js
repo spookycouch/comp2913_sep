@@ -417,13 +417,13 @@ exports.facilities_discover = function(id){
 exports.facilities_timetable = function(facilityId, date){
     return new Promise(function(resolve, reject) {
         db.getFacilityTimetable(facilityId, date.getDate()).then(function(result) {
-            // We want to convert the start time to format of just time (HH:MM:SS), ready for being rendered
             for (var i = 0; i < result.length; i++) {
-                result[i].start_time = (result[i].start_time).toTimeString().split(' ')[0];
+                let date = result[i].start_time.getTime();
+                date = moment(date).format('DD/MM/YYYY HH:mm:ss');
+                result[i].start_time = date;
             }
 
             resolve(result);
-
         }).catch(function(err){
 
             reject(err);
@@ -435,9 +435,10 @@ exports.facilities_timetable = function(facilityId, date){
 exports.activitiesTimetable = function(date) {
     return new Promise(function(resolve, reject) {
         db.getActivitiesTimetable(date.getDate()).then(function(result) {
-            // We want to convert the start time to format of just time (HH:MM:SS), ready for being rendered
             for (var i = 0; i < result.length; i++) {
-                result[i].start_time = (result[i].start_time).toTimeString().split(' ')[0];
+                let date = result[i].start_time.getTime();
+                date = moment(date).format('DD/MM/YYYY HH:mm:ss');
+                result[i].start_time = date;
             }
 
             resolve(result);
