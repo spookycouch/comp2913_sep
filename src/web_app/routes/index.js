@@ -113,7 +113,17 @@ router.get('/facilities/discover', csrf, function(req, res) {
 
     var facilityId = parseInt(req.query.id);
     var currentDate = new Date();
+
+    var week = new Array(); 
+    currentDate.setDate((currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() == 0 ? -6 : 1)));
+    for (var i = 0; i < 7; i++) {
+        week.push(new Date(currentDate).toDateString()); 
+        currentDate.setDate(currentDate.getDate() +1);
+    }
    
+    var currentDate = new Date();
+    var today = (currentDate.getDay() + (currentDate.getDay() == 0 ? 6 : -1));
+
     user.facilities_discover(facilityId).then(function(results) {
         user.facilities_timetable(facilityId, currentDate).then(function(timetable) {
             res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
@@ -123,6 +133,8 @@ router.get('/facilities/discover', csrf, function(req, res) {
                 title: webname + "| Facilities",
                 session: req.session,
                 csrfToken: req.csrfToken(),
+                week: week,
+                today: today,
                 timetable: timetable
             });
         }).catch(function(err) {
@@ -172,8 +184,20 @@ router.get('/activities', csrf, function(req, res) {
 
     var currentDate = new Date();
 
+    var week = new Array(); 
+    currentDate.setDate((currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() == 0 ? -6 : 1)));
+    for (var i = 0; i < 7; i++) {
+        week.push(new Date(currentDate).toDateString()); 
+        currentDate.setDate(currentDate.getDate() +1);
+    }
+   
+    var currentDate = new Date();
+    var today = (currentDate.getDay() + (currentDate.getDay() == 0 ? 6 : -1));
+
     user.upcomingActivities(no_items, page_no).then(function(results) {
         user.activitiesTimetable(currentDate).then(function(timetable) {
+            console.log(timetable);
+
             res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
             {
                 no_items: no_items,
@@ -184,6 +208,8 @@ router.get('/activities', csrf, function(req, res) {
                 title: webname + "| Activities",
                 session: req.session,
                 csrfToken: req.csrfToken(),
+                week: week,
+                today: today,
                 timetable: timetable
             });
         }).catch(function(err) {

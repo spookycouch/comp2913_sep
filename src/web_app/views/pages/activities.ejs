@@ -1,69 +1,56 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<style>
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        border: 1px solid black;
-        padding: 1em;
-        width:10em;
-    }
-</style>
-
 <% if(locals.total && locals.results){ %>
     <!-- some description -->
     <p>we have <%=total%> activities in total</p>
     <p>page number <%=page_no%></p>
 
-
     
     <label>Show activities for the week of: </label>
-    <input class="date_select_activity-week" type="date">
+    <input class="timetable__activity--week" type="date">
 
-    <table id="timetable_activity">
-        <tr>
-            <th>Facility</th>
-            <th id="timetable_facility_header_0">Monday</th>
-            <th id="timetable_facility_header_1">Tuesday</th>
-            <th id="timetable_facility_header_2">Wednesday</th>
-            <th id="timetable_facility_header_3">Thursday</th>
-            <th id="timetable_facility_header_4">Friday</th>
-            <th id="timetable_facility_header_5">Saturday</th>
-            <th id="timetable_facility_header_6">Sunday</th>
-        </tr>
-
-        <% var facility = "" %>
-        <% for(var j = 0; j < timetable.length; j++) {%>
-            <% if (timetable[j].facility_name != facility) { %>
-                <tr>
-                    <td><%- timetable[j].facility_name %></td>
-
-                    <% facility = timetable[j].facility_name %>       
-                    
-                    <% for(var i = 0; i < 7; i++) { %>
-                        <% var result = false %>
-                        <% for(var k = 0; k < timetable.length; k++) { %>
-                            <% if(timetable[k].weekday == i && timetable[k].facility_name == facility) { %>
-                                <td><%- timetable[k].name_sport %></td>
-                                <% result = true %>
-                            <% } %>
-                        <% } %>
-
-                        <% if(!result) { %>
-                            <td id="timetable_facility_data_<%- i %>">No Activities</td>
+    <div class="timetable">
+        <div class="timetable__container">
+            <table class="timetable__table timetable__table--border timetable__activity">
+                <tr class="table__header">
+                    <% for(var i = 0; i < week.length; i++) { %>
+                        <% if(i == today) { %>
+                            <th class="timetable__activity--day header__item header__item--selected"><%- week[i] %></th>
+                        <% } else { %>
+                            <th class="timetable__activity--day header__item hvr-inset"><%- week[i] %></th>
                         <% } %>
                     <% } %>
                 </tr>
-            <% } %>
-        <% } %>
+            </table>
 
-    </table>    
+            <table class="timetable__table timetable__activity--output">
+                <tr class="table__header">
+                    <th class="header__item header__item--time">Time</th>
+                    <th class="header__item header__item--activity">Activity</th>
+                    <th class="header__item header__item--location">Location</th>
+                    <th class="header__item header__item--book"></th>
+                </tr>
+
+                <tr class="table__row">
+                    <% for(var i = 0; i < timetable.length; i++) { %>
+                        <td class="row__item"><%- timetable[i].start_time %></td>
+                        <td class="row__item"><%- timetable[i].name_sport %></td>
+                        <td class="row__item"><%- timetable[i].facility_name %></td>
+                        <td class="row__item">
+                            <div class="item__book hvr-sweep-to-right">
+                                <a href="#">
+                                    <h3>Book</h3>
+                                </a>
+                            </div>
+                        </td>
+                    <% } %>
+                </tr>
+            </table>
+        </div>
+    </div>
 
     
-
-
     <!-- activity tabs -->
     <% for (var i =0; i < results.length;  i++ ) { %>
         <div style="border:1px solid black">

@@ -218,6 +218,85 @@ h3 {
     }
 }
 
+
+
+.timetable {
+    display: flex;
+    justify-content: center;
+    color: $black;
+
+    &__container {
+        width: 80%;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+
+        &--border {
+            border: $border_thickness solid $black;
+        }
+
+        .table {
+            &__header {
+                width: 100%;
+
+                .header {
+                    &__item {
+                        padding: 20px 10px;
+                        width: 14.2857142857%;
+                        cursor: pointer;
+
+                        &--selected {
+                            background-color: $tertiary;
+                            // clip-path: polygon(0 0, 100% 0%, 100% 100%, 15% 100%);
+                        }
+
+                        &--time, &--book {
+                            width: 15%;
+                        }
+
+                        &--activity {
+                            width: 50%;
+                        }
+
+                        &--location {
+                            width: 20%;
+                        }
+                    }
+                }
+            }
+
+            &__row {
+                text-align: center;
+                border-top: 1px solid #EFEFEF;
+
+                &:last-child {
+                    border-bottom: 1px solid #EFEFEF;
+                }
+
+                .row {
+                    &__item {
+                        padding: 40px 10px;
+
+                        .item {
+                            &__book {
+                                border: $border_thickness solid $black;
+                                display: inline-block;
+                                padding: $padding_border_block;
+                                margin-right: 15px;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}
+
+
+
 @media only screen and (max-width: $max_width_secondary) {
     .modal {
         &__container {

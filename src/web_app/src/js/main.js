@@ -352,6 +352,11 @@ $(window).scroll(function() {
 });
 
 
+/*
+*  Function:   Show Scroll toggle on scroll down
+*  Input:      window location
+*  Output:     Show / Hide scroll toggle
+*/ 
 function showScrollToggle() {
     var self = $(this),
 		height = 250,
@@ -370,98 +375,125 @@ function showScrollToggle() {
 	}	
 }
 
-/*
-*    Scroll function
-*/
 
 
 
-$('.date_select_facility-week').on('change', function(e) {
+$(document).on('click', '.timetable__activity--day', function(e) {
+    var selectedDate = $(this).text();
+
+    updateActivityTimetable(selectedDate);
+});
+
+$('.timetable__activity--week').on('change', function(e) {
+    var selectedDate = $(this).val();
+
+    updateActivityTimetable(selectedDate);
+});
+
+
+$(document).on('click', '.timetable__facility--day', function(e) {
+    var selectedDate = $(this).text();
+
+    updateFacilityTimetable(selectedDate);
+});
+
+
+$('.timetable__facility--week').on('change', function(e) {
+    var selectedDate = $(this).val();
+
+    updateFacilityTimetable(selectedDate); 
+});
+
+function updateActivityTimetable(selectedDate) {
+    $.ajax({
+        url: '/ajax/activities/timetable',
+        type: 'POST',
+        data: {
+            'date': selectedDate
+        },
+        datatype: 'json',
+        success: function(data) {
+            data = JSON.parse(data);
+            replaceHeader('timetable__activity', selectedDate, data);
+            replaceOutput('timetable__activity', data);
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
+
+function updateFacilityTimetable(selectedDate) {
     $.ajax ({
         url: '/ajax/facility/timetable',
         type: 'POST',
         data: {
-            'id': this.id,
-            'date': $(this).val()
+            'id': $('.timetable__id').attr('id'),
+            'date': selectedDate
         },
         datatype: 'json',
         success: function(data) {
             data = JSON.parse(data);
-            
-            for (var i = 0; i < 7; i++) {
-                var result = false;
-                $.each(data.results, function(key, value) {
-                    if (value.weekday == i) {
-                        $('#timetable_facility_data_' + i).text(value.name_sport);
-                        result = true;
-                    }
-                });
-
-                if (!result) {
-                    $('#timetable_facility_data_' + i).text("No Activity");
-                }
-            }
+            replaceHeader('timetable__facility', selectedDate, data);
+            replaceOutput('timetable__facility', data);
         },  
         error: function(error) {
             alert(error);
         }
     });
-});
+}
 
-$('.date_select_activity-week').on('change', function(e) {
-    $.ajax ({
-        url: '/ajax/activities/timetable',
-        type: 'POST',
-        data: {
-            'date': $(this).val()
-        },
-        datatype: 'json',
-        success: function(data) {
-            data = JSON.parse(data);
-            
-            var $newTable = $("<table id=\"timetable_activity\"></table>");
-            var facility = "";
 
-            $newTable.append(`<tr>
-                <th>Facility</th>
-                <th id="timetable_facility_header_0">Monday</th>
-                <th id="timetable_facility_header_1">Tuesday</th>
-                <th id="timetable_facility_header_2">Wednesday</th>
-                <th id="timetable_facility_header_3">Thursday</th>
-                <th id="timetable_facility_header_4">Friday</th>
-                <th id="timetable_facility_header_5">Saturday</th>
-                <th id="timetable_facility_header_6">Sunday</th>
-            </tr>`);
+function replaceHeader(className, selectedDate, data) {
+    currentDate = new Date(selectedDate);
 
-            $.each(data.results, function(key, value) {
-                if (value.facility_name != facility) {
-                    row = "<tr><td>" + value.facility_name + "</td>";
-                    facility = value.facility_name;
+    var week = new Array(); 
+    currentDate.setDate((currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() == 0 ? -6 : 1)));
+    for (var i = 0; i < 7; i++) {
+        week.push(new Date(currentDate).toDateString()); 
+        currentDate.setDate(currentDate.getDate() +1);
+    }
 
-                    for (var i = 0; i < 7; i++) {
-                        var result = false;
+    currentDate = new Date(selectedDate);
+    var today = (currentDate.getDay() + (currentDate.getDay() == 0 ? 6 : -1));
 
-                        $.each(data.results, function(key, value) {
-                            if (value.weekday == i && value.facility_name == facility) {
-                                row += "<td>" + value.name_sport + "</td>";
-                                result = true;
-                            }
-                        });
+    var $newTable = $("<table class=\"timetable__table timetable__table--border " + className + "\"></table>");
 
-                        if (!result) {
-                            row += "<td>No Activities</td>"
-                        }
-                    }
-
-                    row += "</tr>";
-                    $newTable.append(row);
-                }
-            });
-
-            $('#timetable_activity').replaceWith($newTable);
-        },  
-        error: function(error) {
-            alert(error);
+    var row = "<tr class=\"table__header\">";
+    for (var i = 0; i < week.length; i++) {
+        if (i == today) {
+            row += "<th class=\"" + className + "--day header__item header__item--selected\">" + week[i] + "</th>";
+        } else {
+            row += "<th class=\"" + className + "--day header__item hvr-inset\">" + week[i] + "</th>";
         }
+    }
+    row += "</tr>"
+
+    $newTable.append(row);
+
+    $('.' + className).replaceWith($newTable);
+}
+
+
+
+function replaceOutput(className, data) {
+    var $newTable = $("<table class=\"timetable__table " + className + "--output\"></table>");
+    $newTable.append(`
+        <tr class="table__header">
+        <th class="header__item header__item--time">Time</th>
+        <th class="header__item header__item--activity">Activity</th>
+        <th class="header__item header__item--location">Location</th>
+        <th class="header__item header__item--book"></th>
+        </tr>
+    `);
+
+    $.each(data.results, function(key, value) {
+        row = "<tr class=\"table__row\"><td class=\"row__item\">" + value.start_time + "</td>";
+        row += "<td class=\"row__item\">" + value.name_sport + "</td>";
+        row += "<td class=\"row__item\">" + value.facility_name + "</td>";
+        row += "<td class=\"row__item\"><div class=\"item__book hvr-sweep-to-right\"><a href=\"#\"><h3>Book</h3></a></div></td></tr>";
+        $newTable.append(row);
     });
-});
+
+    $('.' + className + '--output').replaceWith($newTable);
+}

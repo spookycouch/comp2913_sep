@@ -1247,7 +1247,7 @@ exports.getFacilityActivities = function(facilityId) {
 }
 
 // one big query to get the timetable
-exports.getFacilityTimetable = function(facilityId, weekStart, weekEnd) {
+exports.getFacilityTimetable = function(facilityId, date) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -1265,9 +1265,8 @@ exports.getFacilityTimetable = function(facilityId, weekStart, weekEnd) {
             if (err) reject(err);
 
             query = SqlString.format(
-        
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id WHERE id_facility = ? AND start_time >= ? AND start_time <= ?;',
-                [facilityId, weekStart, weekEnd]
+                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE id_facility = ? AND DAY(start_time) = ? ORDER BY start_time;',
+                [facilityId, date]
             );
         
             // Query
@@ -1285,7 +1284,7 @@ exports.getFacilityTimetable = function(facilityId, weekStart, weekEnd) {
 
 
 
-exports.getActivitiesTimetable = function(weekStart, weekEnd) {
+exports.getActivitiesTimetable = function(date) {
     var conn = mysql.createConnection({
         host: host,
         user: user,
@@ -1299,9 +1298,8 @@ exports.getActivitiesTimetable = function(weekStart, weekEnd) {
             if (err) reject(err);
 
             query = SqlString.format(
-        
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE start_time >= ? AND start_time <= ?;',
-                [weekStart, weekEnd]
+                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE DAY(start_time) = ? ORDER BY start_time;;',
+                [date]
             );
 
             // Query

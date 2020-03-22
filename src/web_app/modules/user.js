@@ -415,19 +415,13 @@ exports.facilities_discover = function(id){
  *  Output:     Error Message
 */
 exports.facilities_timetable = function(facilityId, date){
-    
     return new Promise(function(resolve, reject) {
-        var firstWeek = date.getDate() - date.getDay() + 1; // First day is the day of the month - the day of the week
-        var lastWeek = firstWeek + 6; // last day is the first day + 6
+        db.getFacilityTimetable(facilityId, date.getDate()).then(function(result) {
+            // We want to convert the start time to format of just time (HH:MM:SS), ready for being rendered
+            for (var i = 0; i < result.length; i++) {
+                result[i].start_time = (result[i].start_time).toTimeString().split(' ')[0];
+            }
 
-        var firstDay = new Date(date.setDate(firstWeek)); // first day of the week
-        var lastDay = new Date(date.setDate(lastWeek)); // last day of the week
-        // then we can calculate the dates in that week
-
-        firstDay = moment(firstDay).format('YYYY-MM-DD');
-        lastDay = moment(lastDay).format('YYYY-MM-DD');
-
-        db.getFacilityTimetable(facilityId, firstDay, lastDay).then(function(result) {
             resolve(result);
 
         }).catch(function(err){
@@ -440,17 +434,11 @@ exports.facilities_timetable = function(facilityId, date){
 
 exports.activitiesTimetable = function(date) {
     return new Promise(function(resolve, reject) {
-        var firstWeek = date.getDate() - date.getDay() + 1; // First day is the day of the month - the day of the week
-        var lastWeek = firstWeek + 6; // last day is the first day + 6
-
-        var firstDay = new Date(date.setDate(firstWeek)); // first day of the week
-        var lastDay = new Date(date.setDate(lastWeek)); // last day of the week
-        // then we can calculate the dates in that week
-
-        firstDay = moment(firstDay).format('YYYY-MM-DD');
-        lastDay = moment(lastDay).format('YYYY-MM-DD');
-
-        db.getActivitiesTimetable(firstDay, lastDay).then(function(result) {
+        db.getActivitiesTimetable(date.getDate()).then(function(result) {
+            // We want to convert the start time to format of just time (HH:MM:SS), ready for being rendered
+            for (var i = 0; i < result.length; i++) {
+                result[i].start_time = (result[i].start_time).toTimeString().split(' ')[0];
+            }
 
             resolve(result);
         }).catch(function(err) {

@@ -28,49 +28,54 @@
 
 
         <label>Show activities for the week of: </label>
-        <input id="<%- facility[0].id %>" class="date_select_facility-week" type="date">
-        <table id="timetable_facility">
-            <tr>
-                <th id="timetable_facility_header_0">Monday</th>
-                <th id="timetable_facility_header_1">Tuesday</th>
-                <th id="timetable_facility_header_2">Wednesday</th>
-                <th id="timetable_facility_header_3">Thursday</th>
-                <th id="timetable_facility_header_4">Friday</th>
-                <th id="timetable_facility_header_5">Saturday</th>
-                <th id="timetable_facility_header_6">Sunday</th>
-            </tr>
-            <tr>
-                <% for(var i = 0; i < 7; i++) { %>
-                    <% var result = false %>
-                    <% for(var j = 0; j < timetable.length; j++) { %>
-                        <% if(timetable[j].weekday == i) { %>
-                            <td id="timetable_facility_data_<%- i %>"><%- timetable[j].name_sport %><a></a></td>
-                            <% result = true %>
+        <span class="timetable__id" id="<%- facility[0].id %>"></span>
+
+        <input class="timetable__facility--week" type="date">
+    </div>
+
+
+
+    <div class="timetable">
+        <div class="timetable__container">
+            <table class="timetable__table timetable__table--border timetable__facility">
+                <tr class="table__header">
+                    <% for(var i = 0; i < week.length; i++) { %>
+                        <% if(i == today) { %>
+                            <th class="timetable__facility--day header__item header__item--selected"><%- week[i] %></th>
+                        <% } else { %>
+                            <th class="timetable__facility--day header__item hvr-inset"><%- week[i] %></th>
                         <% } %>
                     <% } %>
+                </tr>
+            </table>
 
-                    <% if(!result) { %>
-                        <td id="timetable_facility_data_<%- i %>">No Activities<a></a></td>
+            <table class="timetable__table timetable__facility--output">
+                <tr class="table__header">
+                    <th class="header__item header__item--time">Time</th>
+                    <th class="header__item header__item--activity">Activity</th>
+                    <th class="header__item header__item--location">Location</th>
+                    <th class="header__item header__item--book"></th>
+                </tr>
+
+                <tr class="table__row">
+                    <% for(var i = 0; i < timetable.length; i++) { %>
+                        <td class="row__item"><%- timetable[i].start_time %></td>
+                        <td class="row__item"><%- timetable[i].name_sport %></td>
+                        <td class="row__item"><%- timetable[i].facility_name %></td>
+                        <td class="row__item">
+                            <div class="item__book hvr-sweep-to-right">
+                                <a href="#">
+                                    <h3>Book</h3>
+                                </a>
+                            </div>
+                        </td>
                     <% } %>
-                <% } %>
-            </tr>
-        </table>
-
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 
 
 <%- include('../partials/footer') %>
 <%- include('../partials/foot') %>
-
-
-<style>
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        border: 1px solid black;
-        padding: 1em;
-        width:10em;
-    }
-</style>

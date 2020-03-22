@@ -3617,6 +3617,75 @@ h3 {
   margin: 5px;
 }
 
+.timetable {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: #413E4B;
+}
+
+.timetable__container {
+  width: 80%;
+}
+
+.timetable__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.timetable__table--border {
+  border: 2px solid #413E4B;
+}
+
+.timetable__table .table__header {
+  width: 100%;
+}
+
+.timetable__table .table__header .header__item {
+  padding: 20px 10px;
+  width: 14.2857142857%;
+  cursor: pointer;
+}
+
+.timetable__table .table__header .header__item--selected {
+  background-color: #eedc37;
+}
+
+.timetable__table .table__header .header__item--time, .timetable__table .table__header .header__item--book {
+  width: 15%;
+}
+
+.timetable__table .table__header .header__item--activity {
+  width: 50%;
+}
+
+.timetable__table .table__header .header__item--location {
+  width: 20%;
+}
+
+.timetable__table .table__row {
+  text-align: center;
+  border-top: 1px solid #EFEFEF;
+}
+
+.timetable__table .table__row:last-child {
+  border-bottom: 1px solid #EFEFEF;
+}
+
+.timetable__table .table__row .row__item {
+  padding: 40px 10px;
+}
+
+.timetable__table .table__row .row__item .item__book {
+  border: 2px solid #413E4B;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-right: 15px;
+}
+
 @media only screen and (max-width: 600px) {
   .modal__container {
     width: 80%;
