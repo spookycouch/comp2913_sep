@@ -76,11 +76,26 @@ router.post('/register/employee', function(req, res) {
 
 
 router.get('/statistics', function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/manager/statistics.ejs'), {
-        title: webname + "| Statistics",
-        session: req.session,
-        csrfToken: req.csrfToken()
-    });
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/user/logout');
+
+    else {
+        user.getDetails(req.session.userId).then(function(result) {
+            res.render(path.join(__dirname + '/../views/pages/manager/statistics.ejs'), {
+                title: webname + "| Statistics",
+                session: req.session,
+                csrfToken: req.csrfToken(),
+                user: result
+            });
+
+        }).catch(function(err) {
+            console.log(err);
+            res.redirect('/user/logout');  
+        });
+    }
+
+
+    
 });
 
 

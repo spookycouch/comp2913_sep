@@ -58,12 +58,7 @@
 </div>
 
 
-<% if(locals.total && locals.results){ %>
-    <!-- some description -->
-    <p>we have <%=total%> activities in total</p>
-    <p>page number <%=page_no%></p>
-
-    
+<div class="container">
     <label>Show activities for the week of: </label>
     <input class="timetable__activity--week" type="date">
 
@@ -108,6 +103,15 @@
             </table>
         </div>
     </div>
+</div>
+
+
+
+
+<% if(locals.total && locals.results){ %>
+    <!-- some description -->
+    <p>we have <%=total%> activities in total</p>
+    <p>page number <%=page_no%></p>
 
     
     <!-- activity tabs -->
