@@ -12,28 +12,70 @@
                 <h2>Add a new Facility</h2>
             </div>
 
-            <form method="POST" action="/api/upload_facility" enctype="multipart/form-data">
-                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
-            
-                <input type="file" name="image" multiple><br>
-            
-                <label>Name</label>
-                <input type="text" name="name"><br>
+            <div class="details__content">
+                <div class="content__form-title content__form-title--top">
+                    <div class="form-title__title">
+                        <h2>New Facility</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Ensure their details are correct as these will be used for them to log in
+                    </div>
+                </div>
+
+                <form class="content__update-form" method="POST" action="/api/upload_facility" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                                
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Name</h3></label>
+                        <input class="update-form__input" type="text" name="name" placeholder="Name" />
+                    </div>
+                    
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Price</h3></label>
+                        <input class="update-form__input" type="text" name="price" placeholder="Price" />
+                    </div>
+
+
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Description</h3></label>
+                        <textarea class="update-form__input" name="description" placeholder="Description"></textarea>
+                    </div>
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>latitude</h3></label>
+                        <input class="update-form__input" type="text" name="latitude" />
+                    </div>
+                    
+
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>longitude</h3></label>
+                        <input class="update-form__input" type="text" name="longitude" />
+                    </div>
                 
-                <label>price</label>
-                <input type="text" name="price"><br>
-            
-                <label>latitude</label>
-                <input type="text" name="latitude"><br>
-            
-                <label>longitude</label>
-                <input type="text" name="longitude"><br>
-            
-                <label>icon</label>
-                <input type="text" name="icon"><br>
-            
-                <input type="submit">
-            </form>            
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>icon</h3></label>
+                        <input class="update-form__input" type="text" name="icon" />
+                    </div>
+                    
+                    <input type="file" name="image" multiple />
+
+                    <div class="update-form__group">
+                        <button class="update-form__btn hvr-sweep-to-right" type="submit"><h3>Add</h3></button>
+                    </div>
+                </form>
+
+                <div class="content__form-title content__form-title--side">
+                    <div class="form-title__title">
+                        <h2>New Facility</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Ensure their details are correct as these will be used for them to log in
+                    </div>
+                </div>
+            </div>            
         </div>
     </div>
 </div>

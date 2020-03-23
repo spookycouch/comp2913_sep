@@ -123,9 +123,9 @@
 
 
             <%if (results[i].id_image != null) {%>
-            <div>
-                <img src="/uploads/<%=results[i].id_image%>.<%=results[i].ext%>"/>
-            </div>
+                <div>
+                    <img src="/uploads/<%=results[i].id_image%>.<%=results[i].ext%>"/>
+                </div>
             <% } %>   
             
             <p>sport: <%=results[i].name_sport%></p>
@@ -157,6 +157,9 @@
         </form>
     <% } %>
     </div>
+
+<% } else { %>
+    No Activities to display :(
 
 <% } %>
 

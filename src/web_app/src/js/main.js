@@ -9,8 +9,11 @@ $(document).ready(function() {
     var pageCount = 0;
 
 
+
+
+
     if ($('.update-form__error')[0]) {
-        errors = ['name', 'surname', 'email', 'phone', 
+        errors = ['name', 'surname', 'email', 'phone', 'birth',
                     'address_1', 'address_2', 'city', 'zipcode', 
                     'current_password', 'password', 'confirm_password'];
 
