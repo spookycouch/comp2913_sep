@@ -10,39 +10,83 @@
             <div class="section__title">
                 <h2>Add a new Activity</h2>
             </div>
-            
-            <form method="POST" action="/api/upload_activity" enctype="multipart/form-data">
-                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
 
-                <input type="file" name="image" multiple><br>
+            <div class="details__content">
+                <div class="content__form-title content__form-title--top">
+                    <div class="form-title__title">
+                        <h2>New Activity</h2>
+                    </div>
 
-                <label>Name</label>
-                <input name="name" type="text"><br>
+                    <div class="form-title__desc">
+                        Ensure their details are correct as these will be used for them to log in
+                    </div>
+                </div>
 
-                <label>Description</label>
-                <input name="description" type="text"><br>
 
-                <label>Discount</label>
-                <input name="discount" type="text"><br>
+                <form class="content__update-form" method="POST" action="/api/upload_activity" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Name</h3></label>
+                        <input class="update-form__input" name="name" type="text" placeholder="Name">
+                    </div>
+    
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Description</h3></label>
+                        <input class="update-form__input" name="description" type="text" placeholder="Description">
+                    </div>
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Discount</h3></label>
+                        <input class="update-form__input" name="discount" type="text" placeholder="Discount">
+                    </div>
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Cost</h3></label>
+                        <input class="update-form__input" name="cost" type="text" placeholder="Cost">
+                    </div>
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Start Time</h3></label>
+                        <input class="update-form__input" name="start_time" type="text" placeholder="Start Time">
+                    </div>
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Duration</h3></label>
+                        <input class="update-form__input" name="duration" type="text" placeholder="Duration">
+                    </div>
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>id sport??</h3></label>
+                        <input class="update-form__input" name="id_sport" type="text">
+                    </div>
+                    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>id facility</h3></label>
+                        <input class="update-form__input" name="id_facility" type="text">
+                    </div>
+                    
 
-                <label>Cost</label>
-                <input name="cost" type="text"><br>
+                    <input type="file" name="image" multiple>
+    
+                    <div class="update-form__group">
+                        <button class="update-form__btn hvr-sweep-to-right" type="submit"><h3>Add</h3></button>
+                    </div>
+                </form>
 
-                <label>Start Time</label>
-                <input name="start_time" type="text"><br>
 
-                <label>Duration</label>
-                <input name="duration" type="text"><br>
+                <div class="content__form-title content__form-title--side">
+                    <div class="form-title__title">
+                        <h2>New Activity</h2>
+                    </div>
 
-                <label>id sport??</label>
-                <input name="id_sport" type="text"><br>
-
-                <label>id facility</label>
-                <input name="id_facility" type="text"><br>
-
-                <input type="submit">
-            </form>
+                    <div class="form-title__desc">
+                        Ensure their details are correct as these will be used for them to log in
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
