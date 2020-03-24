@@ -20,6 +20,44 @@
                         color: $quatenary;
                     }
 
+                    &__list {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 60%;
+                        min-width: 300px;
+                        padding: 20px;
+
+                        .list {
+                            &__field {
+                                max-width: 300px;
+                                width: 100%;
+                                text-align: left;
+
+                                .field {
+                                    &__field {
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 5px 0;
+
+                                        img {
+                                            width: $icon_small_width;
+                                            display: inline-block;
+                                            padding-right: 10px;
+                                        }
+
+                                        h3 {
+                                            display: inline-block;
+                                            padding-right: 10px;
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     &__form-title {
                         width: 40%;
                         min-width: 200px;
@@ -27,6 +65,12 @@
 
                         &--top {
                             display: none;
+                        }
+
+                        &--spacing {
+                            justify-content: space-between;
+                            display: flex;
+                            flex-direction: column;
                         }
 
                         .form-title {
@@ -40,6 +84,16 @@
                                 color: $black;
                                 padding: 10px;
                                 margin-top: 10px;
+                            }
+
+                            &__book {
+                                color: $black;
+                                border: $border_thickness solid $black;
+                                display: inline-block;
+                                padding: $padding_border_block;
+                                cursor: pointer;
+                                margin-top: 10px;
+                            
                             }
                         }
                     }

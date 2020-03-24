@@ -114,8 +114,8 @@
                     <th class="header__item header__item--book"></th>
                 </tr>
 
-                <tr class="table__row">
-                    <% for(var i = 0; i < timetable.length; i++) { %>
+                <% for(var i = 0; i < timetable.length; i++) { %>
+                    <tr class="table__row">
                         <td class="row__item start_time-value" data_attr="<%- timetable[i].start_time %>""><%- timetable[i].start_time.substr(timetable[i].start_time.length - 8) %></td>
                         <td class="row__item activity-value"><%- timetable[i].name_sport %></td>
                         <td class="row__item duration-value"><%- timetable[i].duration %> Minutes</td>
@@ -125,11 +125,12 @@
                                 <h3>Book</h3>
                             </div>
                         </td>
-                    <% } %>
-                </tr>
+                    </tr>
+                <% } %>
             </table>
         </div>
     </div>
+    
 </div>
 
 

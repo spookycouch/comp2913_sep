@@ -361,6 +361,14 @@ exports.upcomingActivities = function(no_items, page_no){
     return new Promise(function(resolve, reject) {
 
         db.getUpcomingActivities(no_items, page_no).then(function(result){
+          
+            for (var i = 0; i < result[1].length; i++) {
+                let date = result[1][i].start_time.getTime();
+                date = moment(date).format('DD/MM/YYYY HH:mm:ss');
+                result[1][i].start_time = date;
+            }
+
+
             resolve(result);
 
         }).catch(function(err){

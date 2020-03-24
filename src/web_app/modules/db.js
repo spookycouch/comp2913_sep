@@ -801,7 +801,7 @@ exports.getUpcomingActivities = function(no_items, page_no) {
 
             query = SqlString.format(
         
-                'SELECT COUNT(*) AS count FROM Activity WHERE start_time > CURRENT_TIMESTAMP();SELECT Activity.id, id_image, ext, Activity.name, Activity.description, discount, cost, start_time, duration, Sport.id AS id_sport, Sport.name AS name_sport, Sport.description AS description_sport, id_facility FROM Sport INNER JOIN (SELECT * FROM Activity LEFT JOIN (SELECT id_activity, id_image, ext FROM ActivityImage INNER JOIN Image on id_image = id LIMIT 1) AS Image ON id = id_activity) AS Activity ON id_sport = Sport.id ORDER BY start_time ASC LIMIT ? OFFSET ?;',
+                'SELECT COUNT(*) AS count FROM Activity WHERE start_time > CURRENT_TIMESTAMP();SELECT Activity.id, id_image, ext, Activity.name, Activity.description, discount, cost, start_time, duration, Sport.id AS id_sport, Sport.name AS name_sport, Sport.description AS description_sport, Facility.name AS facility_name, id_facility FROM Sport INNER JOIN (SELECT * FROM Activity LEFT JOIN (SELECT id_activity, id_image, ext FROM ActivityImage INNER JOIN Image on id_image = id LIMIT 1) AS Image ON id = id_activity) AS Activity ON id_sport = Sport.id INNER JOIN Facility on id_facility ORDER BY start_time ASC LIMIT ? OFFSET ?;',
                     [no_items, no_items * (page_no - 1)]
             );
             
@@ -809,6 +809,7 @@ exports.getUpcomingActivities = function(no_items, page_no) {
             conn.query(query, [1,2], function (err, results, fields) {
                 // Error
                 if (err) return reject(err);
+
 
                 // Result
                 resolve(results);

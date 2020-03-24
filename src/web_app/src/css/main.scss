@@ -229,6 +229,29 @@ h3 {
         width: 80%;
     }
 
+    &__date-picker {
+        text-align: center;
+        padding: 20px;
+        color: $black;
+
+        h3 {
+            display: inline-block;
+            padding: $padding_border_block;
+        }
+
+        .date-picker {
+            &__select {
+                border: $border_thickness solid $black;
+                background-color: white;
+                padding: $padding_border_block;
+                font-weight: bold;
+                color: $black;
+                font-size: 18px;
+                cursor: pointer;
+            }
+        }
+    }
+
     &__table {
         width: 100%;
         border-collapse: collapse;

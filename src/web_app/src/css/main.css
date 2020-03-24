@@ -1631,6 +1631,48 @@ ul {
   color: #00A984;
 }
 
+.account__details .details__content .content__list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 60%;
+  min-width: 300px;
+  padding: 20px;
+}
+
+.account__details .details__content .content__list .list__field {
+  max-width: 300px;
+  width: 100%;
+  text-align: left;
+}
+
+.account__details .details__content .content__list .list__field .field__field {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 0;
+}
+
+.account__details .details__content .content__list .list__field .field__field img {
+  width: 35px;
+  display: inline-block;
+  padding-right: 10px;
+}
+
+.account__details .details__content .content__list .list__field .field__field h3 {
+  display: inline-block;
+  padding-right: 10px;
+}
+
 .account__details .details__content .content__form-title {
   width: 40%;
   min-width: 200px;
@@ -1639,6 +1681,19 @@ ul {
 
 .account__details .details__content .content__form-title--top {
   display: none;
+}
+
+.account__details .details__content .content__form-title--spacing {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .account__details .details__content .content__form-title .form-title__title {
@@ -1651,6 +1706,15 @@ ul {
 .account__details .details__content .content__form-title .form-title__desc {
   color: #413E4B;
   padding: 10px;
+  margin-top: 10px;
+}
+
+.account__details .details__content .content__form-title .form-title__book {
+  color: #413E4B;
+  border: 2px solid #413E4B;
+  display: inline-block;
+  padding: 5px 15px;
+  cursor: pointer;
   margin-top: 10px;
 }
 
@@ -1769,6 +1833,12 @@ ul {
   display: flex;
   opacity: .9;
   overflow: hidden;
+}
+
+.account--center {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .account--background {
@@ -3657,6 +3727,27 @@ h3 {
 
 .timetable__container {
   width: 80%;
+}
+
+.timetable__date-picker {
+  text-align: center;
+  padding: 20px;
+  color: #413E4B;
+}
+
+.timetable__date-picker h3 {
+  display: inline-block;
+  padding: 5px 15px;
+}
+
+.timetable__date-picker .date-picker__select {
+  border: 2px solid #413E4B;
+  background-color: white;
+  padding: 5px 15px;
+  font-weight: bold;
+  color: #413E4B;
+  font-size: 18px;
+  cursor: pointer;
 }
 
 .timetable__table {

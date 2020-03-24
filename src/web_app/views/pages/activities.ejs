@@ -59,13 +59,24 @@
 
 
 <div class="container">
-    <label>Show activities for the week of: </label>
-    <input class="timetable__activity--week" type="date">
 
-    <input type="hidden" value="<%- week[today] %>" />
+    <!-- <div class="activities">
+        <div class="activities__header">
+            <h2>Book an Activity</h2>
+        </div>
+    </div> -->
 
+    
     <div class="timetable">
         <div class="timetable__container">
+
+            <div class="timetable__date-picker">
+                <h3>Show activities for the week of: </h3>
+                <input class="date-picker__select timetable__activity--week" type="date">
+
+                <input type="hidden" value="<%- week[today] %>" />
+            </div>
+
             <table class="timetable__table timetable__table--border timetable__activity">
                 <tr class="table__header">
                     <% for(var i = 0; i < week.length; i++) { %>
@@ -87,8 +98,8 @@
                     <th class="header__item header__item--book"></th>
                 </tr>
 
-                <tr class="table__row">
-                    <% for(var i = 0; i < timetable.length; i++) { %>
+                <% for(var i = 0; i < timetable.length; i++) { %>
+                    <tr class="table__row">
                         <td class="row__item start_time-value" data_attr="<%- timetable[i].start_time %>"><%- timetable[i].start_time.substr(timetable[i].start_time.length - 8) %></td>
                         <td class="row__item activity-value"><%- timetable[i].name_sport %></td>
                         <td class="row__item duration-value"><%- timetable[i].duration %> Minutes</td>
@@ -98,23 +109,102 @@
                                 <h3>Book</h3>
                             </div>
                         </td>
-                    <% } %>
-                </tr>
+                    </tr>
+                <% } %>
             </table>
+        </div>
+    </div>
+
+
+    <div class="account account--center">
+        <div class="account__section account__details">
+            <div class="section__title">
+                <h2>All Upcomming Activities</h2>
+            </div>
+
+            <% if(locals.total && locals.results){ %>
+                <% for (var i = 0; i < results.length;  i++ ) { %>
+
+                    <div class="details__content">
+                        <div class="content__form-title content__form-title--top">
+                            <div class="form-title__title">
+                                <h2><%- results[i].name %></h2>
+                            </div>
+
+                            <div class="form-title__desc">
+                                <%- results[i].description %>
+                            </div>
+                        </div>
+
+                        <div class="content__list">
+                            <div class="list__field">
+                                <div class="field__field">
+                                    <img src="/img/icons/clock.png" />
+                                    <h3>Time:</h3>
+                                    <span class="start_time-value" data_attr="<%- results[i].start_time %>"><%- results[i].start_time %></span>
+                                </div>
+                            
+                                <div class="field__field">
+                                    <img src="/img/icons/timer.png" />
+                                    <h3>Duration:</h3>
+                                    <span class="duration-value"><%- results[i].duration %> Minutes </span>
+                                </div>
+            
+                                <div class="field__field">
+                                    <img src="/img/icons/gym.png" />
+                                    <h3>Activity:</h3>
+                                    <span class="activity-value"><%- results[i].name_sport %></span>
+                                </div>
+            
+                                <div class="field__field">
+                                    <img src="/img/account/location-black.png" />
+                                    <h3>Location:</h3>
+                                    <span class="location-value"><%- results[i].facility_name %></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content__form-title content__form-title--side">
+                            <div class="form-title__title">
+                                <h2><%- results[i].name %></h2>
+                            </div>
+
+                            <div class="form-title__desc">
+                                <%- results[i].description %>
+                            </div>
+
+                            <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
+                                <h3>Book</h3>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+
+                <p>number of pages: <%=no_pages%></p>
+
+                <% for (var i = 1; i <= no_pages; ++i) { %>
+                    <form method="POST" action="/activities">
+                        <input type="submit", value="<%=i%>">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                        <input type="hidden", name="page_no", value="<%=i%>">
+                        <input type="hidden", name="no_items", value="<%=no_items%>">
+                    </form>
+                <% } %>
+            <% } %>
         </div>
     </div>
 </div>
 
 
-
+<!-- 
 
 <% if(locals.total && locals.results){ %>
-    <!-- some description -->
+    <!-- some description 
     <p>we have <%=total%> activities in total</p>
     <p>page number <%=page_no%></p>
 
     
-    <!-- activity tabs -->
+    <!-- activity tabs
     <% for (var i =0; i < results.length;  i++ ) { %>
         <div style="border:1px solid black">
             <h3><%=results[i].id%>: <%=results[i].name%></h3>
@@ -144,7 +234,7 @@
         </div>
     <% } %>
 
-    <!-- page numbers -->
+    <!-- page numbers 
     <p>number of pages: <%=no_pages%></p>
     
     <div> 
@@ -161,7 +251,7 @@
 <% } else { %>
     No Activities to display :(
 
-<% } %>
+<% } %> -->
 
 <%- include('../partials/footer') %>
 <%- include('../partials/foot') %>
