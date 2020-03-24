@@ -39,7 +39,7 @@
                     </div>
                     
                     <div class="update-form__group">
-                        <label class="update-form__label"><h3>Discount</h3></label>
+                        <label class="update-form__label"><h3>Discount????</h3></label>
                         <input class="update-form__input" name="discount" type="text" placeholder="Discount">
                     </div>
                     
@@ -64,12 +64,20 @@
                     </div>
                     
                     <div class="update-form__group">
-                        <label class="update-form__label"><h3>id facility</h3></label>
-                        <input class="update-form__input" name="id_facility" type="text">
+                        <label class="update-form__label"><h3>Facility</h3></label>
+                        <!-- <input class="update-form__input" name="id_facility" type="text"> -->
+
+                        <select class="update-form__select" name="id_facility">
+                            <% for (var i = 0; i < facilities.length;  i++ ) { %>
+                                <option value="<%- facilities[i].id %>"><%- facilities[i].name %></option>
+                            <% } %>
+                        </select>
                     </div>
                     
-
-                    <input type="file" name="image" multiple>
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Image(s)</h3></label>
+                        <input type="file" name="image" multiple>
+                    </div>
     
                     <div class="update-form__group">
                         <button class="update-form__btn hvr-sweep-to-right" type="submit"><h3>Add</h3></button>

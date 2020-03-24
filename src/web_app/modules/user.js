@@ -390,6 +390,20 @@ exports.facilities = function(no_items, page_no){
     });
 }
 
+
+exports.allFacilities = function() {
+    
+    return new Promise(function(resolve, reject) {
+        db.getAllFacilities().then(function(result) {
+            resolve(result);
+
+        }).catch(function(err) {
+            reject(err);
+        });
+    });
+}
+
+
 /*
  *  Function:   Upcoming activities
  *  Input:      No Items, Page No

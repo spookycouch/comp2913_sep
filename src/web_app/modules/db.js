@@ -819,6 +819,38 @@ exports.getUpcomingActivities = function(no_items, page_no) {
 }
 
 
+
+exports.getAllFacilities = function() {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'SELECT * FROM Facility ORDER BY id ASC',
+            );
+
+            conn.query(query, function (err, results, fields) {  
+                // Error
+                if (err) return reject(err);
+
+                resolve(results);
+            });
+        });
+    });
+}
+
+
+
 /*
  *  Function:   Query User by id once logged in
  *  Input:      Id

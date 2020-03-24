@@ -1692,6 +1692,17 @@ ul {
   width: 100%;
 }
 
+.account__details .details__content .content__update-form .update-form__select {
+  border: 2px solid #413E4B;
+  background-color: white;
+  padding: 5px 15px;
+  font-weight: bold;
+  color: #413E4B;
+  font-size: 18px;
+  width: 100%;
+  cursor: pointer;
+}
+
 .account__details .details__content .content__update-form .update-form__btn {
   border: 2px solid #413E4B;
   padding: 5px 15px;

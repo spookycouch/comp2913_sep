@@ -80,6 +80,17 @@
                                 width: 100%;
                             }
 
+                            &__select {
+                                border: $border_thickness solid $black;
+                                background-color: $white;
+                                padding: $padding_border_block;
+                                font-weight: bold;
+                                color: $black;
+                                font-size: $header_3;
+                                width: 100%;
+                                cursor: pointer;
+                            }
+
                             &__btn {
                                 border: $border_thickness solid $black;
                                 padding: $padding_border_block;

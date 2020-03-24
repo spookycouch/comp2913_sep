@@ -134,12 +134,22 @@ router.get('/activities/new', function (req, res) {
 
     else {
         user.getDetails(req.session.userId).then(function(result) {
-            return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
-                title: webname + "| Activities | New",
-                session: req.session,
-                csrfToken: req.csrfToken(),
-                user: result
+
+            user.allFacilities().then(function(facilities) {
+
+                return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
+                    title: webname + "| Activities | New",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: result,
+                    facilities: facilities
+                });
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/user/logout');
             });
+
+            
         }).catch(function(err) {
             console.log(err);
             res.redirect('/user/logout');
