@@ -168,7 +168,6 @@ router.get('/facilities/new', function (req, res) {
         res.redirect('/home');
 
     else {
-
         icons = ['basketball', 'gym', 'running', 'sport', 'swim', 'tennis'];
 
         user.getDetails(req.session.userId).then(function(result) {
@@ -184,6 +183,36 @@ router.get('/facilities/new', function (req, res) {
             console.log(err);
             res.redirect('/user/logout');
         });    
+    }
+});
+
+
+// DIEGO PLZ IMPLEMENT
+router.post('/facilities/new', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType < 3) // if not an admin
+        res.redirect('/home');
+
+    else {
+        icons = ['basketball', 'gym', 'running', 'sport', 'swim', 'tennis'];
+
+        console.log(req.headers)
+
+
+        try {
+            const value = validation.newFacilityValidation(req.body);   
+
+            // Error
+            if(value.error != undefined)
+                throw value.error.details;
+
+            error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                message: "Facility Created successfully",
+                path: 'successful'
+            }]);
+
+        } catch (err) {
+            error.newFacilityErrorPage(req, res, webname, user, icons, err);
+        }
     }
 })
 

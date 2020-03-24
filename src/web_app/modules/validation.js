@@ -269,6 +269,39 @@ const updatePasswordValidation = function(data) {
     return updatePasswordValidationSchema.validate(data, {abortEarly: false});
 }
 
+const newFacilityValidation = function(data) {
+    const newFacilityValidationSchema = joi.object({
+        name: joi.string()
+            .min(3)
+            .required()
+            .messages({
+                "string.empty": "Name is required",
+                "string.min": "Name must be at least 3 characters long"
+            }), 
+        price: joi.number()
+            .required()
+            .messages({
+                "number.base": "Price Invalid"
+            }),
+        description: joi.string()
+            .required()
+            .messages({
+                "string.empty": "Description is required"
+            }),
+        latitude: joi.number()
+            .required(),
+        longitude: joi.number()
+            .required(),
+        icon: joi.string()
+            .required(),
+        _csrf: joi.string()
+            .min(6)
+            .required()
+    });
+
+    return newFacilityValidationSchema.validate(data, {abortEarly: false});
+}
+
 
 /*
  *  Function:   API Register Validation
@@ -437,6 +470,7 @@ module.exports.registerValidation1 = registerValidation1;               // Regis
 module.exports.registerValidation2 = registerValidation2;               // Registration (subform 2)
 module.exports.registerValidation3 = registerValidation3;               // Registration (subform 3)
 module.exports.loginValidation = loginValidation;                       // Login
+module.exports.newFacilityValidation = newFacilityValidation;           // Facility creation 
 module.exports.apiLoginValidation = apiLoginValidation;                 // ApiLogin
 module.exports.apiRegisterValidation = apiRegisterValidation;           // ApiRegister
 module.exports.apiNewActivityValidation = apiNewActivityValidation;     // ApiNewActivity

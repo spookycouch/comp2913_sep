@@ -30,8 +30,23 @@ exports.registerEmployeeErrorPage = function(req, res, webname, user, err) {
         });
     }).catch(function(err) {
         module.exports.defaultError(req, res, webname, err);
-    })
-    
+    })   
+}
+
+
+exports.newFacilityErrorPage = function(req, res, webname, user, icons, err) {
+    user.getDetails(req.session.userId).then(function(result) {
+        return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
+            title: webname + "| Facilities | New",
+            session: req.session,
+            csrfToken: req.csrfToken(),
+            user: result,
+            icons: icons
+        });
+
+    }).catch(function(err) {
+        module.exports.defaultError(req, res, webname, err);
+    }); 
 }
 
 /*

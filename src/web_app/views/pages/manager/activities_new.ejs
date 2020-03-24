@@ -23,67 +23,70 @@
                     </div>
                 </div>
 
+                <% if(facilities.length > 0) { %>
+                    <form class="content__update-form" method="POST" action="/api/upload_activity" enctype="multipart/form-data">
+                        <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Name</h3></label>
+                            <input class="update-form__input" name="name" type="text" placeholder="Name">
+                        </div>
+        
+                        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Description</h3></label>
+                            <input class="update-form__input" name="description" type="text" placeholder="Description">
+                        </div>
+                        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Discount????</h3></label>
+                            <input class="update-form__input" name="discount" type="text" placeholder="Discount">
+                        </div>
+                        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Cost</h3></label>
+                            <input class="update-form__input" name="cost" type="text" placeholder="Cost">
+                        </div>
+                        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Start Time</h3></label>
+                            <input class="update-form__input" name="start_time" type="text" placeholder="Start Time">
+                        </div>
+                        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Duration</h3></label>
+                            <input class="update-form__input" name="duration" type="text" placeholder="Duration">
+                        </div>
+                        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>id sport??</h3></label>
+                            <input class="update-form__input" name="id_sport" type="text">
+                        </div>
+                        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Facility</h3></label>
+                            <!-- <input class="update-form__input" name="id_facility" type="text"> -->
 
-                <form class="content__update-form" method="POST" action="/api/upload_activity" enctype="multipart/form-data">
-                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
-    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Name</h3></label>
-                        <input class="update-form__input" name="name" type="text" placeholder="Name">
-                    </div>
-    
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Description</h3></label>
-                        <input class="update-form__input" name="description" type="text" placeholder="Description">
-                    </div>
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Discount????</h3></label>
-                        <input class="update-form__input" name="discount" type="text" placeholder="Discount">
-                    </div>
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Cost</h3></label>
-                        <input class="update-form__input" name="cost" type="text" placeholder="Cost">
-                    </div>
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Start Time</h3></label>
-                        <input class="update-form__input" name="start_time" type="text" placeholder="Start Time">
-                    </div>
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Duration</h3></label>
-                        <input class="update-form__input" name="duration" type="text" placeholder="Duration">
-                    </div>
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>id sport??</h3></label>
-                        <input class="update-form__input" name="id_sport" type="text">
-                    </div>
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Facility</h3></label>
-                        <!-- <input class="update-form__input" name="id_facility" type="text"> -->
+                            <select class="update-form__select" name="id_facility">
+                                <% for (var i = 0; i < facilities.length;  i++ ) { %>
+                                    <option value="<%- facilities[i].id %>"><%- facilities[i].name %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Image(s)</h3></label>
+                            <input type="file" name="image" multiple>
+                        </div>
+        
+                        <div class="update-form__group">
+                            <button class="update-form__btn hvr-sweep-to-right" type="submit"><h3>Add</h3></button>
+                        </div>
+                    </form>
 
-                        <select class="update-form__select" name="id_facility">
-                            <% for (var i = 0; i < facilities.length;  i++ ) { %>
-                                <option value="<%- facilities[i].id %>"><%- facilities[i].name %></option>
-                            <% } %>
-                        </select>
-                    </div>
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Image(s)</h3></label>
-                        <input type="file" name="image" multiple>
-                    </div>
-    
-                    <div class="update-form__group">
-                        <button class="update-form__btn hvr-sweep-to-right" type="submit"><h3>Add</h3></button>
-                    </div>
-                </form>
-
+                <% } else { %>
+                    There are currently no facilities to add activities to!
+                <% } %>
 
                 <div class="content__form-title content__form-title--side">
                     <div class="form-title__title">
