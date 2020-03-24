@@ -1707,6 +1707,23 @@ ul {
   display: none;
 }
 
+.account__details .details__content .content__update-form .update-form__icon {
+  width: 50px;
+  margin: 5px;
+  padding: 5px;
+  border: 2px solid transparent;
+  border-radius: 40px;
+  display: inline-block;
+  -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.account__details .details__content .content__update-form .update-form__icon--selected {
+  background-color: #eedc37;
+  border-color: #413E4B;
+}
+
 @media only screen and (max-width: 950px) {
   .account__details .details__content {
     -ms-flex-wrap: wrap;

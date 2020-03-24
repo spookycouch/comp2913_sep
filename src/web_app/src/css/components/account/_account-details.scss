@@ -94,6 +94,23 @@
                                     display: none;
                                 }
                             }
+
+                            &__icon {
+                                width: $icon_medium_width;
+                                margin: 5px;
+                                padding: 5px;
+                                border: $border_thickness solid transparent;
+                                border-radius: 40px;
+                                display: inline-block;
+                                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+                                cursor: pointer;
+                                // background-color: $tertiary;
+
+                                &--selected {
+                                    background-color: $tertiary;
+                                    border-color: $black;
+                                }
+                            }
                         }
                     }
                 }

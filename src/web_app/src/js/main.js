@@ -9,9 +9,6 @@ $(document).ready(function() {
     var pageCount = 0;
 
 
-
-
-
     if ($('.update-form__error')[0]) {
         errors = ['name', 'surname', 'email', 'phone', 'birth',
                     'address_1', 'address_2', 'city', 'zipcode', 
@@ -23,6 +20,16 @@ $(document).ready(function() {
             }
         });
     }
+
+    // Default selected icon
+    $('.update-form__icon--basketball').addClass('update-form__icon--selected');
+
+    // Change icon on selection
+    $('.update-form__icon').on('click', function(e) {
+        $('#icon').val($(this).attr('data_attr') + "-white");
+        $('.update-form__icon').removeClass('update-form__icon--selected');
+        $(this).addClass('update-form__icon--selected');
+    })
 
 
     /*

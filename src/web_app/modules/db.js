@@ -454,7 +454,7 @@ exports.newActivityImage = function(activity_id, image_id) {
  *  Input:      Discount, Cost, Start Time, Duration, Sport ID
  *  Output:     Bool / Error Message
 */
-exports.createFacility = function(name, price, latitude, longitude, icon) {
+exports.createFacility = function(name, description, price, latitude, longitude, icon) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -473,8 +473,8 @@ exports.createFacility = function(name, price, latitude, longitude, icon) {
 
             query = SqlString.format(
         
-                'INSERT INTO Facility(name, price, latitude, longitude, icon) VALUES(?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
-                    [name, price, latitude, longitude, icon]
+                'INSERT INTO Facility(name, description, price, latitude, longitude, icon) VALUES(?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
+                    [name, description, price, latitude, longitude, icon]
             );
             
             // Query

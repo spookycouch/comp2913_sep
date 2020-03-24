@@ -56,10 +56,18 @@
                 
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>icon</h3></label>
-                        <input class="update-form__input" type="text" name="icon" />
+                        <!-- <input class="update-form__input" type="text" name="icon" /> -->
+                        <input id="icon" type="hidden" name="icon" value="basketball" />
+
+                        <% for(var i = 0; i < icons.length; i++) { %>
+                            <img class="update-form__icon update-form__icon--<%- icons[i] %>" src="/img/facilities/<%- icons[i] %>.png" data_attr="<%- icons[i] %>" />
+                        <% } %>
                     </div>
                     
-                    <input type="file" name="image" multiple />
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Image(s)</h3></label>
+                        <input type="file" name="image" multiple />
+                    </div>
 
                     <div class="update-form__group">
                         <button class="update-form__btn hvr-sweep-to-right" type="submit"><h3>Add</h3></button>

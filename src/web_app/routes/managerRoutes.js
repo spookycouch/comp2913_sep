@@ -159,12 +159,15 @@ router.get('/facilities/new', function (req, res) {
 
     else {
 
+        icons = ['basketball', 'gym', 'running', 'sport', 'swim', 'tennis'];
+
         user.getDetails(req.session.userId).then(function(result) {
             return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
                 title: webname + "| Facilities | New",
                 session: req.session,
                 csrfToken: req.csrfToken(),
-                user: result
+                user: result,
+                icons: icons
             });
 
         }).catch(function(err) {

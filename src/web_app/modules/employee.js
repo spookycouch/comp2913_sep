@@ -43,6 +43,7 @@ exports.newFacility = function(req_body){
 
     // Parameters
     let name = req_body.name;
+    let description = req_body.description;
     let price = req_body.price;
     let latitude = req_body.latitude;
     let longitude = req_body.longitude;
@@ -50,7 +51,7 @@ exports.newFacility = function(req_body){
 
     return new Promise(function(resolve, reject) {
 
-        db.createFacility(name, price, latitude, longitude, icon).then(function(result){
+        db.createFacility(name, description, price, latitude, longitude, icon).then(function(result){
 
             resolve(result);
 
