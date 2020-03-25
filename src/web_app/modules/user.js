@@ -1,7 +1,7 @@
 var db = require('./db.js');
 var md5 = require('md5');
 var moment = require('moment');
-var QRCode = require('qrcode')
+var QRCode = require('qrcode');
 
 
 /*

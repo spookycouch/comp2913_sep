@@ -7,6 +7,8 @@ var user = require('../modules/user');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const validation = require('../modules/validation');
+const report = require('../modules/report');
+const facility = require('../modules/facility');
 
 var urlEncoded = bodyParser.urlencoded({ extended: true });
 var jsonEncoded = bodyParser.json();
@@ -118,7 +120,9 @@ router.post('/register/response-3', function(req, res) {
     }
 });
 
-
+/*
+ *  Function:   Facilities Timetable
+*/
 router.post('/facility/timetable', function(req, res) {
     date = new Date(req.body.date);
 
@@ -128,6 +132,7 @@ router.post('/facility/timetable', function(req, res) {
         }));
         
     }).catch(function(err) {
+
         res.end(JSON.stringify({
             error: err
         }));
@@ -135,7 +140,9 @@ router.post('/facility/timetable', function(req, res) {
 });
 
 
-
+/*
+ *  Function:   Activities Timetable
+*/
 router.post('/activities/timetable', function(req, res) {
     date = new Date(req.body.date);
 
@@ -145,11 +152,158 @@ router.post('/activities/timetable', function(req, res) {
         }));
         
     }).catch(function(err) {
+
         res.end(JSON.stringify({
             error: err
         }));
     });
 });
 
+/*
+ *  Function:   Activity Weekly Usage
+*/
+router.get('/report/overall/activity/:id*', function(req, res) {
+    
+    id = req.params['id'];
+
+    report.getOverallActivityUsage(id).then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            results: results
+        }));
+
+    // Error
+    }).catch(function(err){
+
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+/*
+ *  Function:   Activity Weekly Usage
+*/
+router.post('/report/weekly/activity/', function(req, res) {
+    
+    // Data
+    let id = req.body.id;
+    let start = req.body.start;
+    let end = req.body.end;
+
+    // Query
+    report.getWeeklyActivityUsage(id, start, end).then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            results: results
+        }));
+
+    // Error
+    }).catch(function(err){
+        
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+
+/*
+ *  Function:   Get all activities
+*/
+router.get('/data/activity/all', function(req, res) {
+    
+    id = req.params['id'];
+
+    facility.getAllActivities().then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            activities: results
+        }));
+
+    // Error
+    }).catch(function(err){
+
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+/*
+ *  Function:   Get all facilities
+*/
+router.get('/data/facility/all', function(req, res) {
+    
+    id = req.params['id'];
+
+    facility.getAllFacilities().then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            facilities: results
+        }));
+
+    // Error
+    }).catch(function(err){
+        
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+/*
+ *  Function:   Activity Weekly Usage
+*/
+router.get('/report/overall/facility/:id*', function(req, res) {
+    
+    id = req.params['id'];
+
+    report.getOverallFacilityUsage(id).then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            results: results
+        }));
+
+    // Error
+    }).catch(function(err){
+
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+/*
+ *  Function:   Activity Weekly Usage
+*/
+router.post('/report/weekly/facility/', function(req, res) {
+    
+    // Data
+    let id = req.body.id;
+    let start = req.body.start;
+    let end = req.body.end;
+
+    // Query
+    report.getWeeklyFacilityUsage(id, start, end).then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            results: results
+        }));
+
+    // Error
+    }).catch(function(err){
+        
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
 
 module.exports = router;

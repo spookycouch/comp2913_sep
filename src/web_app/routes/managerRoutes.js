@@ -8,6 +8,7 @@ const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var error = require('../modules/error');
+var report = require('../modules/report');
 
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
@@ -21,7 +22,9 @@ var csrf = csurf({ cookie: true });
 const webname = ' The Edgy ';
 
 
-
+/*
+ *  Function:   Register Employee
+*/
 router.get('/register/employee', function(req, res) {
     if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
         res.redirect('/user/logout');
@@ -44,6 +47,9 @@ router.get('/register/employee', function(req, res) {
 });
 
 
+/*
+ *  Function:   Register POST
+*/
 router.post('/register/employee', function(req, res) {
     if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
         res.redirect('/user/logout');
@@ -74,28 +80,40 @@ router.post('/register/employee', function(req, res) {
     }
 });
 
-
+/*
+ *  Function:   Statistics page
+*/
 router.get('/statistics', function(req, res) {
+    
     if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
         res.redirect('/user/logout');
 
     else {
-        user.getDetails(req.session.userId).then(function(result) {
+
+        var queries = [
+            user.getDetails(req.session.userId)
+        ];
+
+        // Look at this ninja way to solve all the asynch queries
+        Promise.all(queries).then(results => { 
+        
+            // Render results
+            var user = results[0];
+
             res.render(path.join(__dirname + '/../views/pages/manager/statistics.ejs'), {
                 title: webname + "| Statistics",
                 session: req.session,
                 csrfToken: req.csrfToken(),
-                user: result
+                user: user
             });
 
-        }).catch(function(err) {
-            console.log(err);
-            res.redirect('/user/logout');  
+        // Catch errors
+        }).catch(function(error){
+
+            console.log(error);
+            //res.redirect('/user/logout');  
         });
-    }
-
-
-    
+    } 
 });
 
 
@@ -118,10 +136,7 @@ router.get('/overview', function(req, res) {
             console.log(err);
             res.redirect('/user/logout'); 
         });
-    }
-        
-
-    
+    }    
 });
 
 
@@ -155,8 +170,6 @@ router.get('/activities/new', function (req, res) {
             res.redirect('/user/logout');
         });
     }
-
-    
 })
 
 
@@ -187,7 +200,10 @@ router.get('/facilities/new', function (req, res) {
 });
 
 
-// DIEGO PLZ IMPLEMENT
+/*
+ *  TODO!
+ *  Function:   New Facility
+*/
 router.post('/facilities/new', function(req, res) {
     if(req.session.userId == undefined || req.session.userType < 3) // if not an admin
         res.redirect('/home');

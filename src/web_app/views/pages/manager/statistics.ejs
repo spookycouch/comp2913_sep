@@ -1,18 +1,81 @@
 <%- include('../../partials/head') %>
 <%- include('../../partials/header') %>
 
+<link rel = "stylesheet" type = "text/css" href = "/css/Chart.min.css" />
+
 <div class="container">
     <div class="account account--background">
         <%- include('../../partials/manager-side-bar') %>
 
         <div class="account__section account__overview">
-            <div class="section__title">
-                <h2>Usage Statistics</h2>
-            </div>
 
+            <div style="width:100%; padding:100px;">
+                
+                <!-- Activity Usage Overall -->
+                <div class="section__title" style="text-align:center;">
+
+                    <h3>Overall Activity Usage</h3>
+                    <b>Activity: </b>
+                    
+                    <select id="activity-select-1" class="a-select" disabled></select>
+
+                    <img id="loader-1" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
+                </div>
+                <canvas id="single-activity-usage" width="400" height="200"></canvas>
+
+                <!-- Activity Weekly Overall -->
+                <div class="section__title" style="text-align:center;margin-top:100px;">
+
+                    <h3>Weekly Activity Usage</h3>
+                    
+                    <b>Activity: </b>
+                    <select id="activity-select-2" class="a-select" disabled></select>
+
+                    <b>Week: </b>
+                    <input id="activity-week-start" value="01/01/2020"></input>
+                    <input id="activity-week-end" value="20/04/2020"></input>
+
+                    <img id="loader-2" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
+                </div>
+                <canvas id="weekly-activity-usage" width="400" height="200"></canvas>
+
+                <!-- Facility Usage Overall -->
+                <div class="section__title" style="text-align:center;">
+
+                    <h3>Overall Facility Usage</h3>
+                    <b>Facility: </b>
+                    
+                    <select id="facility-select-1" class="a-select-2" disabled></select>
+
+                    <img id="loader-3" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
+                </div>
+                <canvas id="single-facility-usage" width="400" height="200"></canvas>
+
+                <!-- Facility Weekly Overall -->
+                <div class="section__title" style="text-align:center;margin-top:100px;">
+
+                    <h3>Weekly Facility Usage</h3>
+                    
+                    <b>Facility: </b>
+                    <select id="facility-select-2" class="a-select-2" disabled></select>
+
+                    <b>Week: </b>
+                    <input id="facility-week-start" value="01/01/2020"></input>
+                    <input id="facility-week-end" value="20/04/2020"></input>
+
+                    <img id="loader-4" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
+                </div>
+                <canvas id="weekly-facility-usage" width="400" height="200"></canvas>
+            
+
+            </div>
         </div>
     </div>  
 </div>
 
 <%- include('../../partials/footer') %>
 <%- include('../../partials/foot') %>
+
+<script src="/js/statistics/Chart.min.js"></script>
+<script src="/js/statistics/ChartFunctions.js"></script>
+<script src="/js/statistics/main.js"></script>
