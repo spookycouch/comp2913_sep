@@ -332,10 +332,8 @@ INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity,
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 2, 1);
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 2, 1);
 
-
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 3, 1);
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 4, 1);
-
 
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 1, 2, 1);
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 1, 2, 1);
@@ -344,5 +342,8 @@ INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity,
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 4, 1);
 INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 5, 1);
 
-SELECT COUNT(Payment.id_user), Payment.purchase_date FROM Facility INNER JOIN Activity ON Activity.id_facility = Facility.id INNER JOIN BookedActivity ON BookedActivity.id_activity = Activity.id INNER JOIN Payment ON Payment.id_booked_activity = BookedActivity.id WHERE Facility.id = 1 GROUP BY Payment.purchase_date; -- GROUP BY Payment.id_user ORDER BY Payment.purchase_date --
-SELECT COUNT(Payment.id_user) AS users, SUM(Payment.amount) AS income, Payment.purchase_date FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON Activity.id = BookedActivity.id_activity WHERE Activity.id = 1 GROUP BY Payment.purchase_date ORDER BY Payment.purchase_date;
+INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
+INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
+INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
+INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
+INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);

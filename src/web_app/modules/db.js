@@ -1159,7 +1159,7 @@ exports.logUserLogin = function(user_id) {
  *  Function:   Query User Login Activity
  *  Output:     User Object / Error Message
 */
-exports.getUserLoginActivity = function() {
+exports.getUserLoginActivity = function(start, end) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -1179,8 +1179,8 @@ exports.getUserLoginActivity = function() {
 
             query = SqlString.format(
         
-                'SELECT id_user, time FROM Log_User WHERE type = ?',
-                [2]
+                'SELECT COUNT(id_user) AS users, DAY(time) AS day, MONTH(time) AS month, YEAR(time) AS year FROM Log_User WHERE type = 2 AND time >= DATE(?) AND time <= DATE(?) GROUP BY YEAR(time), MONTH(time), DAY(time) ORDER BY YEAR(time), MONTH(time), DAY(time);',
+                [start, end]
             );
             
             // Query
@@ -1781,6 +1781,141 @@ exports.getWeeklyFacilityUsage = function(id, start, end) {
             query = SqlString.format(
         
                 'SELECT COUNT(Payment.id_user) AS users, SUM(Payment.amount) AS income, Payment.purchase_date FROM Facility INNER JOIN Activity ON Activity.id_facility = Facility.id INNER JOIN BookedActivity ON BookedActivity.id_activity = Activity.id INNER JOIN Payment ON Payment.id_booked_activity = BookedActivity.id WHERE Facility.id = ? AND Activity.start_time >= DATE(?) AND Activity.start_time <= DATE(?) GROUP BY Payment.purchase_date ORDER BY Payment.purchase_date',
+                [id, start, end]
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                if (results.length > 0)
+                    resolve(results);
+
+                else
+                    reject('No activities found.');     
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Get All Sport ids and name
+ *  Output:     Sport {id, name} [] / Error Message
+*/
+exports.getAllSports = function() {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT id, name FROM Sport',
+                []
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                if (results.length > 0)
+                    resolve(results);
+
+                else
+                    reject('No bookings found per activity.');       
+            });
+        });
+    });
+}
+
+
+/*
+ *  Function:   Get Overall Usage per Sport
+ *  Input:      Sport {id}
+ *  Output:     Bookings / Error Message
+*/
+exports.getOverallSportUsage = function(id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT COUNT(Payment.id_user) AS users, SUM(Payment.amount) AS income, Payment.purchase_date FROM Sport INNER JOIN Activity ON Activity.id_sport = Sport.id INNER JOIN BookedActivity ON BookedActivity.id_activity = Activity.id INNER JOIN Payment ON Payment.id_booked_activity = BookedActivity.id WHERE Sport.id = ? GROUP BY Payment.purchase_date ORDER BY Payment.purchase_date',
+                [id]
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                if (results.length > 0)
+                    resolve(results);
+
+                else
+                    reject('No bookings found per facility.');     
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Get Weekly Usage per Sport
+ *  Input:      Sport {id}, StartDate, EndDate
+ *  Output:     Bookings / Error Message
+*/
+exports.getWeeklySportUsage = function(id, start, end) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT COUNT(Payment.id_user) AS users, SUM(Payment.amount) AS income, Payment.purchase_date FROM Sport INNER JOIN Activity ON Activity.id_sport = Sport.id INNER JOIN BookedActivity ON BookedActivity.id_activity = Activity.id INNER JOIN Payment ON Payment.id_booked_activity = BookedActivity.id WHERE Sport.id = ? AND Activity.start_time >= DATE(?) AND Activity.start_time <= DATE(?) GROUP BY Payment.purchase_date ORDER BY Payment.purchase_date',
                 [id, start, end]
             );
         

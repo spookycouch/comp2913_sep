@@ -10,18 +10,35 @@
         <div class="account__section account__overview">
 
             <div style="width:100%; padding:100px;">
+
+                <!-- Activity Weekly Overall -->
+                <div class="section__title" style="text-align:center;margin-top:100px;">
+
+                    <h3>General Weekly Usage</h3>
+                    
+                    <b>Week: </b>
+                    <input id="login-week-start" value="01/01/2020"></input>
+                    <input id="login-week-end" value="01/04/2020"></input>
+
+                    <img id="loader-7" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
+                </div>
+                <canvas id="weekly-login-usage" width="400" height="200"></canvas>
                 
-                <!-- Activity Usage Overall -->
-                <div class="section__title" style="text-align:center;">
+                <hr>
+
+                 <!-- Activity Usage Overall -->
+                 <div class="section__title" style="text-align:center;margin-top:100px;">
 
                     <h3>Overall Activity Usage</h3>
                     <b>Activity: </b>
                     
-                    <select id="activity-select-1" class="a-select" disabled></select>
+                    <select id="sport-select-1" class="a-select-3" disabled></select>
 
-                    <img id="loader-1" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
+                    <img id="loader-5" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
                 </div>
-                <canvas id="single-activity-usage" width="400" height="200"></canvas>
+                <canvas id="single-sport-usage" width="400" height="200"></canvas>
+                
+                <hr>
 
                 <!-- Activity Weekly Overall -->
                 <div class="section__title" style="text-align:center;margin-top:100px;">
@@ -29,6 +46,37 @@
                     <h3>Weekly Activity Usage</h3>
                     
                     <b>Activity: </b>
+                    <select id="sport-select-2" class="a-select-3" disabled></select>
+
+                    <b>Week: </b>
+                    <input id="sport-week-start" value="01/01/2020"></input>
+                    <input id="sport-week-end" value="20/04/2020"></input>
+
+                    <img id="loader-6" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
+                </div>
+                <canvas id="weekly-sport-usage" width="400" height="200"></canvas>
+
+                <hr>
+                
+                <!-- Session Usage Overall -->
+                <div class="section__title" style="text-align:center;margin-top:100px;">
+
+                    <h3>Overall Session Usage</h3>
+                    <b>Session: </b>
+                    
+                    <select id="activity-select-1" class="a-select" disabled></select>
+
+                    <img id="loader-1" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
+                </div>
+                <canvas id="single-activity-usage" width="400" height="200"></canvas>
+                <hr>
+
+                <!-- Session Weekly Overall -->
+                <div class="section__title" style="text-align:center;margin-top:100px;">
+
+                    <h3>Weekly Session Usage</h3>
+                    
+                    <b>Session: </b>
                     <select id="activity-select-2" class="a-select" disabled></select>
 
                     <b>Week: </b>
@@ -39,8 +87,10 @@
                 </div>
                 <canvas id="weekly-activity-usage" width="400" height="200"></canvas>
 
+                <hr>
+
                 <!-- Facility Usage Overall -->
-                <div class="section__title" style="text-align:center;">
+                <div class="section__title" style="text-align:center;margin-top:100px;">
 
                     <h3>Overall Facility Usage</h3>
                     <b>Facility: </b>
@@ -50,6 +100,8 @@
                     <img id="loader-3" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
                 </div>
                 <canvas id="single-facility-usage" width="400" height="200"></canvas>
+
+                <hr>
 
                 <!-- Facility Weekly Overall -->
                 <div class="section__title" style="text-align:center;margin-top:100px;">
@@ -66,6 +118,8 @@
                     <img id="loader-4" src="/img/elements/loader.gif" style="margin:auto" width="200px"/>
                 </div>
                 <canvas id="weekly-facility-usage" width="400" height="200"></canvas>
+
+                <hr>
             
 
             </div>

@@ -5,11 +5,15 @@ var moment = require('moment');
  *  Function:   Login Activity
  *  Output:     Error Message
 */
-exports.getLoginActivity = function(){
+exports.getLoginActivity = function(start, end){
 
     return new Promise(function(resolve, reject) {
 
-        db.getUserLoginActivity().then(function(results){
+        // Preprocess date (boring!)
+        start = moment(start, 'DD-MM-YYYY').format('YYYY-MM-DD HH:mm:ss');
+        end = moment(end, 'DD-MM-YYYY').format('YYYY-MM-DD HH:mm:ss');
+
+        db.getUserLoginActivity(start, end).then(function(results){
 
             resolve(results);
 
@@ -115,6 +119,49 @@ exports.getWeeklyFacilityUsage = function(id, start, end){
 
         // Query
         db.getWeeklyFacilityUsage(id, start, end).then(function(results){
+
+            resolve(results);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+ *  Function:   Get Overall Sport Usage
+ *  Output:     Error Message
+*/
+exports.getOverallSportUsage = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getOverallSportUsage(id).then(function(results){
+
+            resolve(results);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+/*
+ *  Function:   Get Weekly Sport Usage
+ *  Output:     Error Message
+*/
+exports.getWeeklySportUsage = function(id, start, end){
+
+    return new Promise(function(resolve, reject) {
+
+        // Preprocess date (boring!)
+        start = moment(start, 'DD-MM-YYYY').format('YYYY-MM-DD HH:mm:ss');
+        end = moment(end, 'DD-MM-YYYY').format('YYYY-MM-DD HH:mm:ss');
+
+        // Query
+        db.getWeeklySportUsage(id, start, end).then(function(results){
 
             resolve(results);
 

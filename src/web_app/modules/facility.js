@@ -68,3 +68,22 @@ exports.getAllFacilities = function(id){
         });
     });
 }
+
+/*
+ *  Function:   Get All Sports
+ *  Output:     Error Message
+*/
+exports.getAllSports = function(id){
+
+    return new Promise(function(resolve, reject) {
+
+        db.getAllSports().then(function(results){
+
+            resolve(results);
+
+        }).catch(function(err){
+            
+            reject(err);
+        });
+    });
+}

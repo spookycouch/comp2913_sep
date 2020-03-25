@@ -57,6 +57,42 @@ $.getJSON('/ajax/data/facility/all/', function(result) {
 });
 
 /*
+ *  Function:   Get all sports id to populate dropdown
+*/
+$.getJSON('/ajax/data/sport/all/', function(result) { 
+    
+    // Error check
+    if(result.error == undefined){
+
+        let sports = result.sports;
+
+        // Populate select
+        sports.forEach(function(sport){
+
+            $('.a-select-3')
+                .append('<option value="' + sport.id + '">' + sport.name + '</option>')
+        });
+
+        // Render first by default
+        renderSport(sports[0].id);
+        renderWeeklySport(sports[0].id);
+
+        // Enable and trigger
+        $('.a-select-3').prop('disabled', false);
+        $('#loader-5').fadeOut();
+        $('#loader-6').fadeOut();
+    }
+});
+
+/*
+ *  Function:   Load login activity
+*/
+
+renderWeeklyLoginUsage();
+$('#loader-7').fadeOut();
+
+
+/*
  *  Function:   Handle overall select change
 */
 $('#activity-select-1').on('change', function() {
@@ -90,4 +126,22 @@ $('#facility-select-2').on('change', function() {
     
     var id = this.value;
     renderWeeklyFacility(id);
+});
+
+/*
+ *  Function:   Handle overall select change
+*/
+$('#sport-select-1').on('change', function() {
+    
+    var id = this.value;
+    renderSport(id);
+});
+
+/*
+ *  Function:   Handle weekly select change
+*/
+$('#sport-select-2').on('change', function() {
+    
+    var id = this.value;
+    renderWeeklySport(id);
 });

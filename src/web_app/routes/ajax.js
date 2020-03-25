@@ -257,6 +257,29 @@ router.get('/data/facility/all', function(req, res) {
 });
 
 /*
+ *  Function:   Get all sports
+*/
+router.get('/data/sport/all', function(req, res) {
+    
+    id = req.params['id'];
+
+    facility.getAllSports().then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            sports: results
+        }));
+
+    // Error
+    }).catch(function(err){
+        
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+/*
  *  Function:   Activity Weekly Usage
 */
 router.get('/report/overall/facility/:id*', function(req, res) {
@@ -306,4 +329,83 @@ router.post('/report/weekly/facility/', function(req, res) {
     });
 });
 
+/*
+ *  Function:   Sport Weekly Usage
+*/
+router.get('/report/overall/sport/:id*', function(req, res) {
+    
+    id = req.params['id'];
+
+    report.getOverallSportUsage(id).then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            results: results
+        }));
+
+    // Error
+    }).catch(function(err){
+
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+/*
+ *  Function:   Activity Weekly Usage
+*/
+router.post('/report/weekly/sport/', function(req, res) {
+    
+    // Data
+    let id = req.body.id;
+    let start = req.body.start;
+    let end = req.body.end;
+
+    // Query
+    report.getWeeklySportUsage(id, start, end).then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            results: results
+        }));
+
+    // Error
+    }).catch(function(err){
+        
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+/*
+ *  Function:   Login Weekly Usage
+*/
+router.post('/report/usage/weekly/', function(req, res) {
+
+    // Data
+    let start = req.body.start;
+    let end = req.body.end;
+
+    report.getLoginActivity(start, end).then(function(results){
+
+        // Render
+        res.end(JSON.stringify({
+            results: results
+        }));
+
+    // Error
+    }).catch(function(err){
+
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+
+/*
+ *  Function:   Export module functions
+*/
 module.exports = router;
