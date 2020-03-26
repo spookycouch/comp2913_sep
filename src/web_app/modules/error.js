@@ -35,6 +35,8 @@ exports.registerEmployeeErrorPage = function(req, res, webname, user, err) {
 
 
 exports.newFacilityErrorPage = function(req, res, webname, user, icons, err) {
+    // console.log(err);
+
     user.getDetails(req.session.userId).then(function(result) {
         return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
             title: webname + "| Facilities | New",

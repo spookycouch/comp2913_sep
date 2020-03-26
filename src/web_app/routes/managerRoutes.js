@@ -10,6 +10,10 @@ var bodyParser = require('body-parser');
 var error = require('../modules/error');
 var report = require('../modules/report');
 var facility = require('../modules/facility');
+var busboy = require('busboy');
+// let multer = require('multer');
+var fs = require('fs');
+
 
 
 // Router settings
@@ -18,7 +22,7 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(csurf({ cookie: true }));
 
-var csrf = csurf({ cookie: true });
+
 
 // Website header
 const webname = ' The Edgy ';
@@ -207,7 +211,7 @@ router.get('/facilities/new', function (req, res) {
 
 
 /*
- *  TODO!
+ *  TODO! SOMEONE FIX FFS THIS HAS BEEN LEFT FOR 4 DAYS NOW :(
  *  Function:   New Facility
 */
 router.post('/facilities/new', function(req, res) {
@@ -217,15 +221,68 @@ router.post('/facilities/new', function(req, res) {
     else {
         icons = ['basketball', 'gym', 'running', 'sport', 'swim', 'tennis'];
 
-        console.log(req.headers)
-
-
         try {
-            const value = validation.newFacilityValidation(req.body);   
+            
+            // Validation
+            var bboy = new busboy({ headers : req.headers });
+            var img_id_list = [];
+            var req_body = {};
+
+            // Fields - push to json
+            bboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+                console.log(val);
+                req_body[fieldname] = val;
+            });
+
+            // req_body['_csrf'] = req.query._csrf;
+
+            console.log(req_body);
+
+            const value = validation.newFacilityValidation(req_body);   
 
             // Error
             if(value.error != undefined)
                 throw value.error.details;
+
+
+            // Files - upload images and append image id to list
+            bboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+                var ext = mimetype.split('/')[1];
+
+                // validate img type
+                if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
+                    throw [{
+                        message: 'Invalid Filetype',
+                        path: 'image'
+                    }];
+
+                // create db entry then save image to src/uploads/ using returned id
+                employee.newImage(ext).then(function(results){
+                    var id = results[1][0].id;
+                    var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
+                    file.pipe(fs.createWriteStream(output_path));
+
+                    img_id_list.push(id);
+
+                }).catch(function(err){
+
+                    error.newFacilityErrorPage(req, res, webname, user, icons, err);
+                });
+            });
+
+            bboy.on('finish', function() {
+                employee.newFacility(req_body).then(function (results) {
+                    var facility_id = results[1][0].id;
+        
+                    for (var i = 0; i < img_id_list.length; ++i) {
+                        employee.newFacilityImage(facility_id, img_id_list[i]).then(function (results){});
+                    }
+                });
+                console.log('done');
+                res.end('done');
+            });
+
+
 
             error.newFacilityErrorPage(req, res, webname, user, icons, [{
                 message: "Facility Created successfully",

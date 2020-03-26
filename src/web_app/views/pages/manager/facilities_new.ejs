@@ -23,9 +23,8 @@
                     </div>
                 </div>
 
-                <form class="content__update-form" method="POST" action="" autocomplete="off" enctype="multipart/form-data">
+                <form class="content__update-form" action="?_csrf=<%- csrfToken %>" method="POST" autocomplete="off" enctype="multipart/form-data">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
-                    
                                 
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Name</h3></label>
