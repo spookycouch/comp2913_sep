@@ -271,7 +271,7 @@ router.post('/account/update/details', function(req, res) {
             }).catch(function(err) {
                 error.updateErrorPage(req, res, webname, user, [{
                     message: err,
-                    path: 'unsuccessful'
+                    path: 'unsuccessful-details'
                 }]);
             })
 
@@ -312,7 +312,7 @@ router.post('/account/update/address', function(req, res) {
             }).catch(function(err) {
                 error.updateErrorPage(req, res, webname, user, [{
                     message: err,
-                    path: 'unsuccessful'
+                    path: 'unsuccessful-address'
                 }]);
             });
 

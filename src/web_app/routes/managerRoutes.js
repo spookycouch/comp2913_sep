@@ -91,11 +91,7 @@ router.post('/register/employee', function(req, res) {
 
             // Catch error when checking if email is already registered (if something wrong with this query)
             }).catch(function(err) {
-                console.log(err); // for debugging
-                error.registerEmployeeErrorPage(req, res, webname, user, [{
-                    message: err,
-                    path:  'unsuccessful'
-                }]);
+                error.registerEmployeeErrorPage(req, res, webname, user, err);
             });
 
         // Catch all other errors thrown
