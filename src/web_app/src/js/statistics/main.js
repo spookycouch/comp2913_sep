@@ -31,6 +31,7 @@ $.getJSON('/ajax/data/activity/all/', function(result) {
  *  Function:   Get all facilities id to populate dropdown
 */
 $.getJSON('/ajax/data/facility/all/', function(result) { 
+
     
     // Error check
     if(result.error == undefined){
@@ -41,12 +42,12 @@ $.getJSON('/ajax/data/facility/all/', function(result) {
         facilities.forEach(function(facility){
 
             $('.a-select-2')
-                .append('<option value="' + facility + '">' + facility + '</option>')
+                .append('<option value="' + facility.id + '">' + facility.name + '</option>')
         });
 
         // Render first by default
-        renderFacility(facilities[0]);
-        renderWeeklyFacility(facilities[0]);
+        renderFacility(facilities[0].id);
+        renderWeeklyFacility(facilities[0].id);
 
         // Enable and trigger
         $('.a-select-2').prop('disabled', false);

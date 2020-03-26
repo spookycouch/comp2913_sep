@@ -59,8 +59,14 @@
                         </div>
                         
                         <div class="update-form__group">
-                            <label class="update-form__label"><h3>id sport??</h3></label>
-                            <input class="update-form__input" name="id_sport" type="text">
+                            <label class="update-form__label"><h3>Sport</h3></label>
+                            <!-- <input class="update-form__input" name="id_sport" type="text"> -->
+
+                            <select class="update-form__select" name="id_sport">
+                                <% for (var i = 0; i < sports.length; i++) { %>
+                                    <option value="<%- sports[i].id %>"><%- sports[i].name %></option>
+                                <% } %>
+                            </select>
                         </div>
                         
                         <div class="update-form__group">

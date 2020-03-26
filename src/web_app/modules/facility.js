@@ -23,7 +23,7 @@ exports.getFacilityActivities = function(id){
  *  Function:   Get All Activities
  *  Output:     Error Message
 */
-exports.getAllActivities = function(id){
+exports.getAllActivities = function(){
 
     return new Promise(function(resolve, reject) {
 
@@ -48,19 +48,21 @@ exports.getAllActivities = function(id){
  *  Function:   Get All Facilities
  *  Output:     Error Message
 */
-exports.getAllFacilities = function(id){
+exports.getAllFacilities = function(){
 
     return new Promise(function(resolve, reject) {
 
         db.getAllFacilities().then(function(results){
 
-            let arr = [];
-            results.forEach(function(element){
+            console.log(results);
 
-                arr.push(element.id);
-            });
+            // let arr = [];
+            // results.forEach(function(element){
 
-            resolve(arr);
+            //     arr.push(element.id);
+            // });
+
+            resolve(results);
 
         }).catch(function(err){
             
@@ -73,7 +75,7 @@ exports.getAllFacilities = function(id){
  *  Function:   Get All Sports
  *  Output:     Error Message
 */
-exports.getAllSports = function(id){
+exports.getAllSports = function(){
 
     return new Promise(function(resolve, reject) {
 

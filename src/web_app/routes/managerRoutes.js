@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var error = require('../modules/error');
 var report = require('../modules/report');
+var facility = require('../modules/facility');
+
 
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
@@ -149,16 +151,20 @@ router.get('/activities/new', function (req, res) {
 
     else {
         user.getDetails(req.session.userId).then(function(result) {
-
-            user.allFacilities().then(function(facilities) {
-
-                return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
-                    title: webname + "| Activities | New",
-                    session: req.session,
-                    csrfToken: req.csrfToken(),
-                    user: result,
-                    facilities: facilities
-                });
+            facility.getAllFacilities().then(function(facilities) {
+                facility.getAllSports().then(function(sports) {
+                    return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
+                        title: webname + "| Activities | New",
+                        session: req.session,
+                        csrfToken: req.csrfToken(),
+                        user: result,
+                        facilities: facilities,
+                        sports: sports
+                    });
+                }).catch(function(err) {
+                    console.log(err);
+                    res.redirect('/user/logout');
+                })
             }).catch(function(err) {
                 console.log(err);
                 res.redirect('/user/logout');
