@@ -17,6 +17,10 @@ exports.loginErrorPage = function(req, res, webname, err){
     });
 }
 
+
+/*
+ *  Function:   Render employee registration page with errors
+*/
 exports.registerEmployeeErrorPage = function(req, res, webname, user, err) {
 
     user.getDetails(req.session.userId).then(function(result){
@@ -34,8 +38,10 @@ exports.registerEmployeeErrorPage = function(req, res, webname, user, err) {
 }
 
 
+/*
+ *  Function:   Renders new facility creation page with errors
+*/
 exports.newFacilityErrorPage = function(req, res, webname, user, icons, err) {
-    // console.log(err);
 
     user.getDetails(req.session.userId).then(function(result) {
         return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
@@ -43,7 +49,8 @@ exports.newFacilityErrorPage = function(req, res, webname, user, icons, err) {
             session: req.session,
             csrfToken: req.csrfToken(),
             user: result,
-            icons: icons
+            icons: icons,
+            error: err
         });
 
     }).catch(function(err) {
@@ -51,8 +58,38 @@ exports.newFacilityErrorPage = function(req, res, webname, user, icons, err) {
     }); 
 }
 
+
 /*
- *  Function:  Update user details
+ *  Function:   Render new activity creation page with errors
+*/
+exports.newActivityErrorPage = function(req, res, webname, user, facility, err) {
+    user.getDetails(req.session.userId).then(function(result) {
+        facility.getAllFacilities().then(function(facilities) {
+            facility.getAllSports().then(function(sports) {
+                return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
+                    title: webname + "| Activities | New",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: result,
+                    facilities: facilities,
+                    sports: sports,
+                    error: err
+                });
+            }).catch(function(err) {
+                module.exports.defaultError(req, res, webname, err);
+            });
+
+        }).catch(function(err) {
+            module.exports.defaultError(req, res, webname, err);
+        });
+    }).catch(function(err) {
+        module.exports.defaultError(req, res, webname, err);
+    })
+}
+
+
+/*
+ *  Function:   Render update login details page with errors
 */
 exports.updateErrorPage = function(req, res, webname, user, err) {
     
@@ -75,8 +112,10 @@ exports.updateErrorPage = function(req, res, webname, user, err) {
     });
 }
 
+
 /*
- *  Function:  Update user details
+// TODO: IMPLEMENT ERRORS WITHIN THE MODAL - FOR SAM
+ *  Function:  Render Create card payment option with errors 
 */
 exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
     
@@ -107,6 +146,7 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
         module.exports.defaultError(req, res, webname, err);
     });
 }
+
 
 /*
  *  Function:   Default redirect to error page with description

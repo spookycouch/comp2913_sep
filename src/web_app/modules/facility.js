@@ -54,14 +54,6 @@ exports.getAllFacilities = function(){
 
         db.getAllFacilities().then(function(results){
 
-            console.log(results);
-
-            // let arr = [];
-            // results.forEach(function(element){
-
-            //     arr.push(element.id);
-            // });
-
             resolve(results);
 
         }).catch(function(err){

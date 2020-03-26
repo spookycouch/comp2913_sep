@@ -14,6 +14,16 @@
                 <h2>Add a new Employee</h2>
             </div>
 
+            <% if(locals.error){ %>
+                <% for (var i = 0; i < error.length;  i++ ) { %>
+                    <% if(error[i].path == 'success'){ %>                                    
+                        <div class="details__content details__content--success">
+                            <h2 id="unsuccessful-error" class="content__success"><%- error[i].message %></h2>
+                        </div>
+                    <% } %>
+                <% } %>
+            <% }%>
+
 
             <div class="details__content">
                 <div class="content__form-title content__form-title--top">

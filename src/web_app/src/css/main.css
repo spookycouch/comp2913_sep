@@ -1737,6 +1737,10 @@ ul {
           justify-content: center;
 }
 
+.account__details .details__content .content__update-form .update-form__group--row {
+  width: 50%;
+}
+
 .account__details .details__content .content__update-form .update-form__group--row:first-child {
   padding-right: 5px;
 }

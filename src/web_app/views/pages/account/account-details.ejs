@@ -12,7 +12,7 @@
             </div>
 
             <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
+                <% for (var i = 0; i < error.length;  i++ ) { %>
                     <% if(error[i].path == 'success'){ %>                                    
                         <div class="details__content details__content--success">
                             <h2 id="unsuccessful-error" class="content__success"><%- error[i].message %></h2>

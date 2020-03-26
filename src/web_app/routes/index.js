@@ -179,7 +179,7 @@ router.get('/user/login', csrf, function(req, res) {
 });
 
 router.get('/activities', csrf, function(req, res) {
-    var no_items = 3; //per page?
+    var no_items = 10; //per page?
     var page_no = 1;
 
     var currentDate = new Date();

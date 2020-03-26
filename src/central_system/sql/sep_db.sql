@@ -39,8 +39,6 @@ CREATE TABLE `Facility` (
   `name` varchar(200) NOT NULL,
   `description` varchar(5000) NOT NULL,
   `price` double NOT NULL,
-  `latitude` double NOT NULL,
-  `longitude` double NOT NULL,
   `icon` varchar(400) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -149,7 +147,7 @@ CREATE TABLE `Activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(1000) NOT NULL,
   `description` varchar(5000) NOT NULL,
-  `discount` double NOT NULL DEFAULT 0,
+  `discount` double DEFAULT 0,
   `cost` double NOT NULL,
   `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `duration` int(11) NOT NULL,
@@ -276,8 +274,8 @@ INSERT INTO User(name, surname, email, type, password, phone, address_1, zipcode
 INSERT INTO User(name, surname, email, type, password, phone, address_1, zipcode, city) VALUES ('Mr', 'Admin', 'admin@mail.com', 3, 'cc03e747a6afbbcbf8be7668acfebee5', '+44 1234567890', 'Weetwood Lane', 'LS166IL', 'Leeds');
 
 -- Creating a Facility
-INSERT INTO Facility (name, description, price, latitude, longitude, icon) VALUES ('F.Pellegrini Swimming Pool', 'The swimming pool is very nice you might like 8====D', 1000, '53.804326', '-1.553167',  'swim-white');
-INSERT INTO Facility (name, description, price, latitude, longitude, icon) VALUES ('M. Ali Box', 'Where the kick boxing happens innit blud', '53.804326', 800, '-1.553167', 'gym-white');
+INSERT INTO Facility (name, description, price, icon) VALUES ('F.Pellegrini Swimming Pool', 'The swimming pool is very nice you might like 8====D', 1000,  'swim-white');
+INSERT INTO Facility (name, description, price, icon) VALUES ('M. Ali Box', 'Where the kick boxing happens innit blud', '53.804326', 'gym-white');
 
 -- Create image references
 INSERT INTO Image(ext) VALUES('jpg');
