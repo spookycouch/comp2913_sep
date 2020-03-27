@@ -119,8 +119,32 @@
     <div class="account account--center">
         <div class="account__section account__details">
             <div class="section__title">
-                <h2>All Upcomming Activities</h2>
+                <h2>All Upcoming Activities</h2>
             </div>
+
+            <!-- horrible, i know -->
+            <!-- these are all the filters for search -->
+            <form method="GET" action="/activities">
+                <h3>Filters</h3>
+                <label>Sport</label>
+                <input type="text", name="sport" value="<%=filters.sport%>">
+                <label>Facility</label>
+                <input type="text", name="facility" value="<%=filters.facility%>">
+                <label>Start Date</label>
+                <input type="date" name="start_date", value="<%=filters.start_date%>">
+                <label>End Date</label>
+                <input type="date" name="end_date", value="<%=filters.end_date%>">
+                <input type="hidden", name="page_no", value="1">
+                <label>Items per page</label>
+                <select name="no_items">
+                    <option value="5" <%if (no_items ==  5){%> selected <%}%> >  5</option>
+                    <option value="7" <%if (no_items ==  7){%> selected <%}%> >  7</option>
+                    <option value="10" <%if (no_items == 10){%> selected <%}%> > 10</option>
+                    <option value="20" <%if (no_items == 20){%> selected <%}%> > 20</option>
+                    <option value="50" <%if (no_items == 50){%> selected <%}%> > 50</option>
+                </select>
+                <input type="submit", value="GO">
+            </form>
 
             <% if(locals.total && locals.results){ %>
                 <% for (var i = 0; i < results.length;  i++ ) { %>
@@ -180,12 +204,14 @@
                     </div>
                 <% } %>
 
+                
                 <p>number of pages: <%=no_pages%></p>
 
                 <% for (var i = 1; i <= no_pages; ++i) { %>
-                    <form method="POST" action="/activities">
+                    <form method="GET" action="/activities">
                         <input type="submit", value="<%=i%>">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                        <input type="hidden", name="sport", value="<%=filters.sport%>">
+                        <input type="hidden", name="facility", value="<%=filters.facility%>">
                         <input type="hidden", name="page_no", value="<%=i%>">
                         <input type="hidden", name="no_items", value="<%=no_items%>">
                     </form>
@@ -193,65 +219,7 @@
             <% } %>
         </div>
     </div>
-</div>
-
-
-<!-- 
-
-<% if(locals.total && locals.results){ %>
-    <!-- some description 
-    <p>we have <%=total%> activities in total</p>
-    <p>page number <%=page_no%></p>
-
-    
-    <!-- activity tabs
-    <% for (var i =0; i < results.length;  i++ ) { %>
-        <div style="border:1px solid black">
-            <h3><%=results[i].id%>: <%=results[i].name%></h3>
-            <p><%=results[i].description%></p>
-            <br>
-
-
-            <%if (results[i].id_image != null) {%>
-                <div>
-                    <img src="/uploads/<%=results[i].id_image%>.<%=results[i].ext%>"/>
-                </div>
-            <% } %>   
-            
-            <p>sport: <%=results[i].name_sport%></p>
-            <p>sport description: <%=results[i].description_sport%></p>
-            <br>
-            <p>start time: <%=results[i].start_time%></p>
-            <p>cost: <%=results[i].cost%></p>
-            <p>discount: <%=results[i].discount%></p>
-            <p>duration: <%=results[i].duration%></p>
-            <p>sport id: <%=results[i].id_sport%></p>
-            <form method="POST" action="/booking">
-                <input type="submit", value="Book now">
-                <input type="hidden" name="activity_id" value="<%=results[i].id%>">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            </form>
-        </div>
-    <% } %>
-
-    <!-- page numbers 
-    <p>number of pages: <%=no_pages%></p>
-    
-    <div> 
-    <% for (var i = 1; i <= no_pages; ++i) { %>
-        <form method="POST" action="/activities">
-            <input type="submit", value="<%=i%>">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            <input type="hidden", name="page_no", value="<%=i%>">
-            <input type="hidden", name="no_items", value="<%=no_items%>">
-        </form>
-    <% } %>
-    </div>
-
-<% } else { %>
-    No Activities to display :(
-
-<% } %> -->
+</div>  
 
 <%- include('../partials/footer') %>
 <%- include('../partials/foot') %>

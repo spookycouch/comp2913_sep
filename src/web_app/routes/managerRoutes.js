@@ -296,5 +296,39 @@ router.post('/facilities/new', function(req, res) {
 })
 
 
+/*
+ * Function:    new cash payment
+*/
+router.get('/payments/cash', function (req, res) {   
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/home');
+
+    else {
+        user.getDetails(req.session.userId).then(function(result) {
+
+            user.allFacilities().then(function(facilities) {
+
+                return res.render(path.join(__dirname + '/../views/pages/manager/new_payment_cash.ejs'), {
+                    title: webname + "| Payments | Cash",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: result,
+                    facilities: facilities
+                });
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/user/logout');
+            });
+
+            
+        }).catch(function(err) {
+            console.log(err);
+            res.redirect('/user/logout');
+        });
+    }
+})
+
+
+
 
 module.exports = router;

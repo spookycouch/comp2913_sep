@@ -356,11 +356,11 @@ exports.cancelBooking = function(id){
  *  Input:      No Items, Page No
  *  Output:     Error Message
 */
-exports.upcomingActivities = function(no_items, page_no){
+exports.upcomingActivities = function(no_items, page_no, filters){
 
     return new Promise(function(resolve, reject) {
 
-        db.getUpcomingActivities(no_items, page_no).then(function(result){
+        db.getUpcomingActivities(no_items, page_no, filters).then(function(result){
           
             for (var i = 0; i < result[1].length; i++) {
                 let date = result[1][i].start_time.getTime();

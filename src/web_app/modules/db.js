@@ -782,7 +782,7 @@ exports.cancelBooking = function(id) {
  *  Input:      Id
  *  Output:     User Object / Error Message
 */
-exports.getUpcomingActivities = function(no_items, page_no) {
+exports.getUpcomingActivities = function(no_items, page_no, filters) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -791,6 +791,27 @@ exports.getUpcomingActivities = function(no_items, page_no) {
         database: db,
         multipleStatements: true
     });
+
+    var query_1 = 'SELECT COUNT(*) AS count FROM Activity INNER JOIN Sport ON id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE start_time >';
+    var query_2 = 'SELECT Activity.id, id_image, ext, Activity.name, Activity.description, discount, cost, start_time, duration, Sport.id AS id_sport, Sport.name AS name_sport, Sport.description AS description_sport, Facility.name AS facility_name, id_facility ' +
+                  'FROM Sport INNER JOIN (SELECT * FROM Activity LEFT JOIN (SELECT id_activity, id_image, ext FROM ActivityImage INNER JOIN Image on id_image = id LIMIT 1) AS Image ON id = id_activity) AS Activity ON id_sport = Sport.id INNER JOIN Facility ON Facility.id = id_facility HAVING start_time > ';
+
+    var query_filters = ''
+
+    // add filters to SQL queries
+    if (filters.start_date && filters.start_date != '')
+        query_filters = SqlString.format(query_filters + ' ? ', [filters.start_date]);
+    else
+        query_filters += 'CURRENT_TIMESTAMP()';
+    if (filters.end_date && filters.end_date != '')
+        query_filters = SqlString.format(query_filters + 'AND start_time <= ? ', [filters.end_date]);
+    if (filters.sport && filters.sport != '')
+        query_filters = SqlString.format(query_filters + 'AND Sport.name = ? ', [filters.sport]);
+    if (filters.facility && filters.facility != '')
+        query_filters = SqlString.format(query_filters + 'AND Facility.name = ? ', [filters.facility]);
+
+    query_1 += query_filters + ';';
+    query_2 += query_filters + 'ORDER BY start_time ASC LIMIT ? OFFSET ?;';
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -801,16 +822,13 @@ exports.getUpcomingActivities = function(no_items, page_no) {
 
             query = SqlString.format(
         
-                'SELECT COUNT(*) AS count FROM Activity WHERE start_time > CURRENT_TIMESTAMP();SELECT Activity.id, id_image, ext, Activity.name, Activity.description, discount, cost, start_time, duration, Sport.id AS id_sport, Sport.name AS name_sport, Sport.description AS description_sport, Facility.name AS facility_name, id_facility FROM Sport INNER JOIN (SELECT * FROM Activity LEFT JOIN (SELECT id_activity, id_image, ext FROM ActivityImage INNER JOIN Image on id_image = id LIMIT 1) AS Image ON id = id_activity) AS Activity ON id_sport = Sport.id INNER JOIN Facility on id_facility ORDER BY start_time ASC LIMIT ? OFFSET ?;',
-                    [no_items, no_items * (page_no - 1)]
+                query_1 + query_2, [no_items, no_items * (page_no - 1)]
             );
-            
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
                 // Error
                 if (err) return reject(err);
-
-
+                
                 // Result
                 resolve(results);
             

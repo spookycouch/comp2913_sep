@@ -178,11 +178,37 @@ router.get('/user/login', csrf, function(req, res) {
     }
 });
 
+/*
+ *  Function:   Activities page
+*/
 router.get('/activities', csrf, function(req, res) {
-    var no_items = 3; //per page?
-    var page_no = 1;
-
     var currentDate = new Date();
+
+    // default values
+    var no_items = 7;
+    var page_no = 1;
+    var filters = {};
+    filters['start_date'] = currentDate.getFullYear() + '-' +
+                            currentDate.getMonth() + '-' +
+                            currentDate.getDate() + ' ' +
+                            currentDate.getHours() + ':' +
+                            currentDate.getMinutes() + ':' +
+                            currentDate.getSeconds();
+    
+    // passed as parameters
+    if (req.query.no_items && req.query.page_no) {
+        no_items = parseInt(req.query.no_items);
+        page_no = parseInt(req.query.page_no);
+    }
+    if (req.query.sport)
+        filters['sport'] = req.query.sport;
+    if (req.query.facility)
+        filters['facility'] = req.query.facility;
+    if (req.query.start_date)
+        filters['start_date'] = req.query.start_date;
+    if (req.query.end_date)
+        filters['end_date'] = req.query.end_date;
+
 
     var week = new Array(); 
     currentDate.setDate((currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() == 0 ? -6 : 1)));
@@ -194,7 +220,7 @@ router.get('/activities', csrf, function(req, res) {
     var currentDate = new Date();
     var today = (currentDate.getDay() + (currentDate.getDay() == 0 ? 6 : -1));
 
-    user.upcomingActivities(no_items, page_no).then(function(results) {
+    user.upcomingActivities(no_items, page_no, filters).then(function(results) {
         user.activitiesTimetable(currentDate).then(function(timetable) {
             res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
             {
@@ -202,6 +228,7 @@ router.get('/activities', csrf, function(req, res) {
                 page_no: page_no,
                 no_pages: Math.ceil(results[0][0].count/no_items),
                 total: results[0][0].count,
+                filters: filters,
                 results: results[1],
                 title: webname + "| Activities",
                 session: req.session,
@@ -219,34 +246,5 @@ router.get('/activities', csrf, function(req, res) {
     });
 
 });
-
-
-/*
- *  Function:   Facilities Page Router
-*/
-router.post('/activities', csrf, function(req, res) {
-
-    var no_items = parseInt(req.body.no_items);
-    var page_no = parseInt(req.body.page_no);
-
-    user.upcomingActivities(no_items, page_no).then(function (results) {
-        res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
-        {
-            no_items: no_items,
-            page_no: page_no,
-            no_pages: Math.ceil(results[0][0].count/no_items),
-            total: results[0][0].count,
-            results: results[1],
-            title: webname + "| Activities",
-            session: req.session,
-            csrfToken: req.csrfToken()
-        });
-
-    }).catch(function(err){
-        
-        console.log(err);
-    });
-});
-
 
 module.exports = router;
