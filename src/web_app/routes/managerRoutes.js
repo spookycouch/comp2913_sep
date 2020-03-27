@@ -431,18 +431,11 @@ router.get('/payments/cash', function (req, res) {
     else {
         user.getDetails(req.session.userId).then(function(result) {
 
-            user.allFacilities().then(function(facilities) {
-
                 return res.render(path.join(__dirname + '/../views/pages/manager/new_payment_cash.ejs'), {
                     title: webname + "| Payments | Cash",
                     session: req.session,
                     csrfToken: req.csrfToken(),
                     user: result,
-                    facilities: facilities
-                });
-            }).catch(function(err) {
-                console.log(err);
-                res.redirect('/user/logout');
             });
 
             
@@ -453,6 +446,35 @@ router.get('/payments/cash', function (req, res) {
     }
 })
 
+
+/*
+ *  Function:   Cash Payment POST
+*/
+router.post('/payments/cash', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/user/logout');
+
+    else {  
+        try {
+            // const value = validation.registerValidation(req.body);   
+
+            // // Error
+            // if(value.error != undefined)
+            //     throw value.error.details;
+
+            employee.newCashPayment(req.body, req.session.userId).then (function (result){
+
+            // Catch error when checking if email is already registered (if something wrong with this query)
+            }).catch(function(err) {
+                error.registerEmployeeErrorPage(req, res, webname, user, err);
+            });
+
+        // Catch all other errors thrown
+        } catch(err) {
+            error.registerEmployeeErrorPage(req, res, webname, user, err);
+        }
+    }
+});
 
 
 

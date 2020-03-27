@@ -306,6 +306,7 @@ INSERT INTO Membership(validity, id_user, id_sport) VALUES (31, 1, 1);
 INSERT INTO Membership(validity, id_user, id_sport) VALUES (-14, 1, 2);
 
 -- Payment simulation
+INSERT INTO Card (number, cvv, expire_date, type) VALUES ('0000000000000000', '000', '00/00', '__CASH__');
 INSERT INTO Card (number, cvv, expire_date, type) VALUES ('12345678901234567890', '123', '01/02', 'VISA');
 INSERT INTO Card (number, cvv, expire_date, type) VALUES ('09876543210987654321', '321', '02/01', 'MasterCard');
 INSERT INTO Card_User(id_card, id_user) VALUES (1, 1);

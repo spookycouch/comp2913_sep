@@ -111,3 +111,28 @@ exports.newFacilityImage = function(facility_id, image_id){
 
     });
 }
+
+exports.newCashPayment = function(req_body, employee_id){
+
+    // Parameters
+    let activity_id = req_body.activity_id;
+    let amount = req_body.amount;
+    // let usr_email = req_body.usr_email;
+    let usr_email = employee_id
+
+    return new Promise(function(resolve, reject) {
+
+        db.createBooking(activity_id).then(function(result){
+
+            db.createPaymentCash(amount, result[1][0].id, usr_email).then(function(result) {
+
+                resolve(result);
+            });
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+
+    });
+}

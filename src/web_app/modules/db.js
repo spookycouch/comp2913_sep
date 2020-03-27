@@ -530,6 +530,79 @@ exports.newFacilityImage = function(facility_id, image_id) {
     });
 }
 
+
+exports.createBooking = function(activity_id) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO BookedActivity(id_activity) VALUES(?); SELECT LAST_INSERT_ID() AS id;',
+                    [activity_id]
+            );
+            
+            // Query
+            conn.query(query, [1,2], function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
+exports.createPaymentCash = function(amount, activity_id, usr_email) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO Payment(amount, id_card, id_booked_activity, id_user) SELECT ?, id, ?, ? FROM Card WHERE type = "__CASH__"; SELECT LAST_INSERT_ID() AS id;',
+                    [amount, activity_id, usr_email]
+            );
+            
+            // Query
+            conn.query(query, [1,2], function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
 /*
  *  Function:   Query Membershops by user id (passed from session)
  *  Input:      User {id}

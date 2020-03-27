@@ -1,0 +1,71 @@
+<%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
+<div class="container">
+    <div class="account account--background">
+        <%- include('../../partials/manager-side-bar') %>
+
+        <div class="account__section account__details">
+
+            <div class="section__title">
+                <h2>Cash payment</h2>
+            </div>
+
+
+            <div class="details__content">
+                <div class="content__form-title content__form-title--top">
+                    <div class="form-title__title">
+                        <h2>New Activity</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Ensure their details are correct as these will be used for them to log in
+                    </div>
+                </div>
+
+                <form class="content__update-form" method="POST" action="/manager/payments/cash" enctype="application/json">
+                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+    
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Activity ID</h3></label>
+                        <input class="update-form__input" name="activity_id" type="text" placeholder="0">
+                    </div>
+
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Amount Paid (£)</h3></label>
+                        <input class="update-form__input" name="amount" type="text" placeholder="00.00">
+                    </div>
+
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>User E-mail (optional)</h3></label>
+                        <input class="update-form__input" name="usr_email" type="text" placeholder="comp2913_sep@gmail.com">
+                    </div>
+
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>E-mail (optional: for electronic receipt)</h3></label>
+                        <input class="update-form__input" name="rcpt_email" type="text" placeholder="comp2913_sep@gmail.com">
+                    </div>
+
+                    <div class="update-form__group">
+                        <button class="update-form__btn hvr-sweep-to-right" type="submit"><h3>Confirm</h3></button>
+                    </div>
+                </form>
+
+
+                <div class="content__form-title content__form-title--side">
+                    <div class="form-title__title">
+                        <h2>Cash Payment</h2>
+                    </div>
+
+                    <div class="form-title__desc">
+                        Create a new booking and accept a cash payment.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('../../partials/footer') %>
+<%- include('../../partials/foot') %>
