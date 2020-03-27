@@ -3640,6 +3640,14 @@ h3 {
   width: 100%;
 }
 
+.modal__form .form__error {
+  color: red;
+}
+
+.modal__form .form__error--d-none {
+  display: none;
+}
+
 .modal__content {
   width: 100%;
   padding: 20px;

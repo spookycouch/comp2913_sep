@@ -426,6 +426,7 @@ router.get('/account/payment', function(req, res) {
                     session: req.session,
                     user: result,
                     cards: cards,
+                    form: req.body,
                     csrfToken: req.csrfToken()
                 });
 
@@ -459,34 +460,26 @@ router.post('/account/add/card', function(req, res) {
             if(value.error != undefined)
                 throw value.error.details;
 
+
+                
             // Query
             user.addCard(req.session.userId, req.body).then(function(result) {
                 
-                // Success
-                res.redirect("/user/account/payment");
+                error.cardPaymentErrorPage(req, res, webname, user, [{
+                    message: "Payment Method Added Successfully",
+                    path: "success"
+                }]);
 
             }).catch(function(err) {    
                 
-                /*
-                    PLS Frontend complete this
-
                 error.cardPaymentErrorPage(req, res, webname, user, [{
                     message: err,
-                    path: 'current_password'
-                }]);
-                */
+                    path: 'unsuccessful'
+                }])
             });
 
-        } catch(err) {
-            
-            /*
-                    PLS Frontend complete this
-
-                error.cardPaymentErrorPage(req, res, webname, user, [{
-                    message: err,
-                    path: 'current_password'
-                }]);
-                */
+        } catch(err) {            
+            error.cardPaymentErrorPage(req, res, webname, user, err);
         }
     }
 });

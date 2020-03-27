@@ -24,6 +24,18 @@ $(document).ready(function() {
     }
 
 
+    if ($('.modal--open-auto')[0]) {
+        errors = ['card_number', 'expire_date', 'cvv', 'type'];
+
+        $('.modal--modal').css('display', 'flex');
+
+        $.each(errors, function(key, value) {
+            if ($('#' + value + '-error')[0]) {
+                $('#' + value).addClass('wobble-horizontal');
+            }
+        });
+    }
+
 
     // Default selected icon
     $('.update-form__icon--basketball').addClass('update-form__icon--selected');

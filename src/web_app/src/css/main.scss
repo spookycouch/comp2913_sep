@@ -137,6 +137,14 @@ h3 {
                 padding: $padding_border_block;
                 width: 100%;
             }
+
+            &__error {
+                color: $red;
+
+                &--d-none {
+                    display: none;
+                }
+            }
         }
     }
 

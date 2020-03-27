@@ -544,7 +544,7 @@ const newCardValidation = function(data){
             .required()
     });
     
-    return newCardSchema.validate(data);
+    return newCardSchema.validate(data, {abortEarly: false});
 }
 
 module.exports.registerValidation = registerValidation;                 // Registration (whole form)

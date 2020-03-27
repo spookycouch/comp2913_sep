@@ -132,6 +132,7 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
                 user: result,
                 cards: cards,
                 error: err,
+                form: req.body,
                 csrfToken: req.csrfToken()
             });
 
