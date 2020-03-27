@@ -14,10 +14,15 @@ exports.newActivity = function(req_body){
     let description = req_body.description;
     let discount = req_body.discount;
     let cost = req_body.cost;
-    let start_time = req_body.start_time;
+    let date = req_body.date;
+    let time = req_body.time
+    let start_time = date + " " + time;
     let duration = req_body.duration;
     let id_sport = req_body.id_sport;
     let id_facility = req_body.id_facility;
+
+    if (discount == '') // If discount is empty, set to 0 (since field is integer)
+        discount = 0;
     
 
     return new Promise(function(resolve, reject) {
@@ -45,13 +50,11 @@ exports.newFacility = function(req_body){
     let name = req_body.name;
     let description = req_body.description;
     let price = req_body.price;
-    let latitude = req_body.latitude;
-    let longitude = req_body.longitude;
     let icon = req_body.icon;
 
     return new Promise(function(resolve, reject) {
 
-        db.createFacility(name, description, price, latitude, longitude, icon).then(function(result){
+        db.createFacility(name, description, price, icon).then(function(result){
 
             resolve(result);
 

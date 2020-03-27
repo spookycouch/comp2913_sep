@@ -12,7 +12,9 @@ $(document).ready(function() {
     if ($('.update-form__error')[0]) {
         errors = ['name', 'surname', 'email', 'phone', 'birth',
                     'address_1', 'address_2', 'city', 'zipcode', 
-                    'current_password', 'password', 'confirm_password'];
+                    'current_password', 'password', 'confirm_password', 
+                    'price', 'description', 'icon', 'image',
+                    'cost', 'date', 'time', 'discount', 'duration'];
 
         $.each(errors, function(key, value) {
             if ($('#' + value + '-error')[0]) {
@@ -20,6 +22,8 @@ $(document).ready(function() {
             }
         });
     }
+
+
 
     // Default selected icon
     $('.update-form__icon--basketball').addClass('update-form__icon--selected');

@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var error = require('../modules/error');
 var report = require('../modules/report');
 var facility = require('../modules/facility');
+var employee = require('../modules/employee');
 var busboy = require('busboy');
 // let multer = require('multer');
 var fs = require('fs');
@@ -68,18 +69,32 @@ router.post('/register/employee', function(req, res) {
             if(value.error != undefined)
                 throw value.error.details;
 
-            user.registerUser(req.body).then(function(result) {
-                error.registerEmployeeErrorPage(req, res, webname, user, [{
-                    message: "Employee Created successfully",
-                    path: 'successful'
-                }]);
-        
+            user.checkEmailRegistered(req.body.email).then(function(email) {
+                if (email == true) throw[{
+                    message: 'Email already registered',
+                    path: 'email'
+                }];
+
+                user.registerUser(req.body).then(function(result) {
+                    error.registerEmployeeErrorPage(req, res, webname, user, [{
+                        message: "Employee Created successfully",
+                        path: 'success'
+                    }]);
+            
+                // Catch error when registering new user to DB
+                }).catch(function(err) {
+                    error.registerEmployeeErrorPage(req, res, webname, user, [{
+                        message: err,
+                        path: 'unsuccessful'
+                    }]);
+                }); 
+
+            // Catch error when checking if email is already registered (if something wrong with this query)
             }).catch(function(err) {
-                error.registerEmployeeErrorPage(req, res, webname, user, [{
-                    message: err,
-                    path: 'unsuccessful'
-                }]);
-            });   
+                error.registerEmployeeErrorPage(req, res, webname, user, err);
+            });
+
+        // Catch all other errors thrown
         } catch(err) {
             error.registerEmployeeErrorPage(req, res, webname, user, err);
         }
@@ -180,8 +195,101 @@ router.get('/activities/new', function (req, res) {
             res.redirect('/user/logout');
         });
     }
-})
+});
 
+
+router.post('/activities/new', function (req, res) {  
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/home');
+
+    else {
+        try {
+            // Validation
+            var bboy = new busboy({ headers : req.headers });
+            var img_id_list = [];
+            var req_body = {};
+            
+            // Fields - push to json
+            bboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+                req_body[fieldname] = val;
+            });
+
+            // Files - upload images and append image id to list
+            bboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+                var ext = mimetype.split('/')[1];
+
+                // validate img type
+                if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
+                    return error.newActivityErrorPage(req, res, webname, user, facility, [{
+                        message: "Invalid File Type",
+                        path: "image"
+                    }]);
+
+                // create db entry then save image to src/uploads/ using returned id
+                employee.newImage(ext).then(function(results){
+                    var id = results[1][0].id;
+                    var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
+                    file.pipe(fs.createWriteStream(output_path));
+
+                    img_id_list.push(id);
+
+                // Catch error when uploading Image
+                }).catch(function(err){
+                    return error.newActivityErrorPage(req, res, webname, user, facility, [{
+                        message: err,
+                        path: 'unsuccessful'
+                    }]);
+                });
+            });
+
+
+            bboy.on('finish', function() {
+                const value = validation.newActivityValidation(req_body);   
+
+                // Error with validation of fields
+                if(value.error != undefined)
+                    return error.newActivityErrorPage(req, res, webname, user, facility, value.error.details);
+
+
+                employee.newActivity(req_body).then(function (results) {
+                    var activity_id = results[1][0].id;
+                
+                    for (var i = 0; i < img_id_list.length; ++i) {
+                        employee.newActivityImage(activity_id, img_id_list[i]).then(function (results){});
+                    }        
+                
+                // Catch error when adding new activity to DB    
+                }).catch(function(err) {
+                    return error.newActivityErrorPage(req, res, webname, user, facility, [{
+                        message: err,
+                        path: 'unsuccessful'
+                    }]);
+                });
+
+                // When the activity is created successfully
+                return error.newActivityErrorPage(req, res, webname, user, facility, [{
+                    message: "Activity Created successfully",
+                    path: 'success'
+                }]);
+            });
+
+            try {
+                return req.pipe(bboy);
+            } catch(err) {
+        
+                res.setHeader('Content-Type', 'application/json');
+                res.end(
+                    JSON.stringify(err)
+                );
+            }
+
+        // Catch all other errors thrown
+        } catch(err) {
+            console.log(err) // For debugging
+            error.newActivityErrorPage(req, res, webname, user, facility, err);
+        }
+    }
+});
 
 /*
  * Function:    Test new facility
@@ -230,19 +338,8 @@ router.post('/facilities/new', function(req, res) {
 
             // Fields - push to json
             bboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-                console.log(val);
                 req_body[fieldname] = val;
             });
-
-            // req_body['_csrf'] = req.query._csrf;
-
-            console.log(req_body);
-
-            const value = validation.newFacilityValidation(req_body);   
-
-            // Error
-            if(value.error != undefined)
-                throw value.error.details;
 
 
             // Files - upload images and append image id to list
@@ -250,11 +347,13 @@ router.post('/facilities/new', function(req, res) {
                 var ext = mimetype.split('/')[1];
 
                 // validate img type
-                if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
-                    throw [{
-                        message: 'Invalid Filetype',
-                        path: 'image'
-                    }];
+                if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg')) {
+                    return error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                        message: "Invalid File Type",
+                        path: "image"
+                    }]);
+
+                }
 
                 // create db entry then save image to src/uploads/ using returned id
                 employee.newImage(ext).then(function(results){
@@ -264,31 +363,57 @@ router.post('/facilities/new', function(req, res) {
 
                     img_id_list.push(id);
 
+                // Catch error when uploading new image to dir
                 }).catch(function(err){
-
-                    error.newFacilityErrorPage(req, res, webname, user, icons, err);
+                    return error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                        message: err,
+                        path: 'unsuccessful'
+                    }]);
                 });
-            });
+            })
 
             bboy.on('finish', function() {
+                const value = validation.newFacilityValidation(req_body);   
+
+                // Error
+                if(value.error != undefined)
+                    return error.newFacilityErrorPage(req, res, webname, user, icons, value.error.details);
+
+                
                 employee.newFacility(req_body).then(function (results) {
                     var facility_id = results[1][0].id;
         
                     for (var i = 0; i < img_id_list.length; ++i) {
-                        employee.newFacilityImage(facility_id, img_id_list[i]).then(function (results){});
+                        return employee.newFacilityImage(facility_id, img_id_list[i]).then(function (results){});
                     }
+
+                // Catch error when adding new facility to the DB 
+                }).catch(function(err) {
+                    return error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                        message: err,
+                        path: 'unsuccessful'
+                    }]);
+
                 });
-                console.log('done');
-                res.end('done');
+                
+                // When the facility is created successfully
+                error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                    message: "Facility Created successfully",
+                    path: 'success'
+                }]);
             });
 
+            try {
+                return req.pipe(bboy);
+            } catch(err) {
+        
+                res.setHeader('Content-Type', 'application/json');
+                res.end(
+                    JSON.stringify(err)
+                );
+            }
 
-
-            error.newFacilityErrorPage(req, res, webname, user, icons, [{
-                message: "Facility Created successfully",
-                path: 'successful'
-            }]);
-
+        // Catch all other errors thrown
         } catch (err) {
             error.newFacilityErrorPage(req, res, webname, user, icons, err);
         }

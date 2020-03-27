@@ -12,14 +12,15 @@
             </div>
 
             <% if(locals.error){ %>
-                <% for (var i =0; i < error.length;  i++ ) { %>
+                <% for (var i = 0; i < error.length;  i++ ) { %>
                     <% if(error[i].path == 'success'){ %>                                    
                         <div class="details__content details__content--success">
-                            <h2 id="unsuccessful-error" class="content__success"><%- error[i].message %></h2>
+                            <h2 class="content__success"><%- error[i].message %></h2>
                         </div>
                     <% } %>
                 <% } %>
             <% }%>
+
 
             <div class="details__content">
                 <div class="content__form-title content__form-title--top">
@@ -35,6 +36,14 @@
                 <form class="content__update-form" action="/user/account/update/details" method="POST" autocomplete="off">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
                     <input type="hidden" name="id" value="<%- user.id %>" />
+
+                    <% if(locals.error){ %>
+                        <% for (var i = 0; i < error.length;  i++ ) { %>
+                            <% if(error[i].path == 'unsuccessful-details'){ %>                                    
+                                <p class="update-form__error"><%- error[i].message %></p>
+                            <% } %>
+                        <% } %>
+                    <% }%>
 
                     <div class="update-form__group update-form__group--col">
                         <div class="update-form__group--row">
@@ -124,6 +133,14 @@
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Address Line 1</h3></label>
                         <input id="address_1" class="update-form__input" type="text" name="address_1" placeholder="Address Line 1" value="<%- user.address_1 %>" />
+
+                        <% if(locals.error){ %>
+                            <% for (var i = 0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'unsuccessful-address'){ %>                                    
+                                    <p class="update-form__error"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% }%>
 
                     
                         <% if(locals.error){ %>

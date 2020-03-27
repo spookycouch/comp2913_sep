@@ -12,6 +12,27 @@
                 <h2>Add a new Facility</h2>
             </div>
 
+            <% if(locals.error){ %>
+                <% for (var i = 0; i < error.length;  i++ ) { %>
+                    <% if(error[i].path == 'success'){ %>                                    
+                        <div class="details__content details__content--success">
+                            <h2  class="content__success"><%- error[i].message %></h2>
+                        </div>
+                    <% } %>
+                <% } %>
+            <% }%>
+
+
+            <% if(locals.error){ %>
+                <% for (var i = 0; i < error.length;  i++ ) { %>
+                    <% if(error[i].path == 'unsuccessful'){ %>                                    
+                        <div class="details__content details__content--danger">
+                            <h2 class="content__danger"><%- error[i].message %></h2>
+                        </div>
+                    <% } %>
+                <% } %>
+            <% }%>
+
             <div class="details__content">
                 <div class="content__form-title content__form-title--top">
                     <div class="form-title__title">
@@ -28,45 +49,74 @@
                                 
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Name</h3></label>
-                        <input class="update-form__input" type="text" name="name" placeholder="Name" />
+                        <input id="name" class="update-form__input" type="text" name="name" placeholder="Name" />
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'name'){ %>
+                                    <p id="name-error" class="update-form__error"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                    </div>
+
+                    <div class="update-form__group">
+                        <label class="update-form__label"><h3>Description</h3></label>
+                        <textarea id="description" class="update-form__input" name="description" placeholder="Description"></textarea>
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'description'){ %>
+                                    <p id="description-error" class="update-form__error"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% } %>
                     </div>
                     
                     
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Price</h3></label>
-                        <input class="update-form__input" type="text" name="price" placeholder="Price" />
-                    </div>
+                        <input id="price" class="update-form__input" type="text" name="price" placeholder="Price" />
 
-
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>Description</h3></label>
-                        <textarea class="update-form__input" name="description" placeholder="Description"></textarea>
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'price'){ %>
+                                    <p id="price-error" class="update-form__error"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% } %>
                     </div>
-                    
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>latitude</h3></label>
-                        <input class="update-form__input" type="text" name="latitude" />
-                    </div>
-                    
-
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>longitude</h3></label>
-                        <input class="update-form__input" type="text" name="longitude" />
-                    </div>
+                   
                 
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>icon</h3></label>
                         <!-- <input class="update-form__input" type="text" name="icon" /> -->
-                        <input id="icon" type="hidden" name="icon" value="basketball" />
+                        <input id="icon" type="hidden" name="icon" value="basketball-white" />
 
                         <% for(var i = 0; i < icons.length; i++) { %>
                             <img class="update-form__icon update-form__icon--<%- icons[i] %>" src="/img/facilities/<%- icons[i] %>.png" data_attr="<%- icons[i] %>" />
+                        <% } %>
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'icon'){ %>
+                                    <p id="icon-error" class="update-form__error"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
                         <% } %>
                     </div>
                     
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Image(s)</h3></label>
-                        <input type="file" name="image" multiple />
+                        <input id="image" type="file" name="image" multiple />
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'image'){ %>
+                                    <p id="image-error"class="update-form__error"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% } %>
                     </div>
 
                     <div class="update-form__group">

@@ -288,10 +288,6 @@ const newFacilityValidation = function(data) {
             .messages({
                 "string.empty": "Description is required"
             }),
-        latitude: joi.number()
-            .required(),
-        longitude: joi.number()
-            .required(),
         icon: joi.string()
             .required(),
         _csrf: joi.string()
@@ -300,6 +296,58 @@ const newFacilityValidation = function(data) {
     });
 
     return newFacilityValidationSchema.validate(data, {abortEarly: false});
+}
+
+
+const newActivityValidation = function(data) {
+    const newActivityValidationSchema = joi.object({
+        name: joi.string()
+            .min(3)
+            .required()
+            .messages({
+                "string.empty": "Name is required",
+                "string.min": "Name must be at least 3 characters long"
+            }),
+        description: joi.string()
+            .required()
+            .messages({
+                "string.empty": "Description is required"
+            }),
+        discount: joi.number()
+            .allow('')
+            .messages({
+                "number.base": "Discount Invalid"
+            }),
+        cost: joi.number()
+            .required()
+            .messages({
+                "number.base": "Price Invalid"
+            }),
+        date: joi.string()
+            .required()
+            .messages({
+                "string.empty": "Date is Required"
+            }),
+        time: joi.string()
+            .required()
+            .messages({
+                "string.empty": "Time is Required"
+            }),
+        duration: joi.number()
+            .required()
+            .messages({
+                "number.base": "Duration Invalid"
+            }),
+        id_sport: joi.number()
+            .required(),
+        id_facility: joi.number()
+            .required(),
+        _csrf: joi.string()
+            .min(6)
+            .required()
+    });
+
+    return newActivityValidationSchema.validate(data, {abortEarly: false});
 }
 
 
@@ -471,6 +519,7 @@ module.exports.registerValidation2 = registerValidation2;               // Regis
 module.exports.registerValidation3 = registerValidation3;               // Registration (subform 3)
 module.exports.loginValidation = loginValidation;                       // Login
 module.exports.newFacilityValidation = newFacilityValidation;           // Facility creation 
+module.exports.newActivityValidation = newActivityValidation;           // Activity creation
 module.exports.apiLoginValidation = apiLoginValidation;                 // ApiLogin
 module.exports.apiRegisterValidation = apiRegisterValidation;           // ApiRegister
 module.exports.apiNewActivityValidation = apiNewActivityValidation;     // ApiNewActivity

@@ -1620,7 +1620,7 @@ ul {
   border-top: 2px solid #413E4B;
 }
 
-.account__details .details__content--success {
+.account__details .details__content--success, .account__details .details__content--danger {
   border: none;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -1629,6 +1629,10 @@ ul {
 
 .account__details .details__content .content__success {
   color: #00A984;
+}
+
+.account__details .details__content .content__danger {
+  color: red;
 }
 
 .account__details .details__content .content__list {
@@ -1735,6 +1739,10 @@ ul {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.account__details .details__content .content__update-form .update-form__group--row {
+  width: 50%;
 }
 
 .account__details .details__content .content__update-form .update-form__group--row:first-child {
