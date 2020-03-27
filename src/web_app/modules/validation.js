@@ -351,6 +351,40 @@ const newActivityValidation = function(data) {
 }
 
 
+const cashPaymentValidation = function(data) {
+    const cashPaymentValidationSchema = joi.object({
+        amount: joi.number()
+            .required()
+            .messages({
+                "number.base": "Amount Invalid"
+            }),
+        usr_email: joi.string()
+            .min(6)
+            .email()
+            .allow('')
+            .messages({
+                "string.min": "Email must be at least 6 characters long",
+                "string.email": "Invalid Email Address"
+            }),
+        rcpt_email: joi.string()
+            .min(6)
+            .email()
+            .allow('')
+            .messages({
+                "string.min": "Email must be at least 6 characters long",
+                "string.email": "Invalid Email Address"
+            }),
+        activity_id: joi.number()
+            .required(),
+        _csrf: joi.string()
+            .min(6)
+            .required()
+    });
+
+    return cashPaymentValidationSchema.validate(data, {abortEarly: false});
+}
+
+
 /*
  *  Function:   API Register Validation
  *  Input:      Request Body
@@ -520,6 +554,7 @@ module.exports.registerValidation3 = registerValidation3;               // Regis
 module.exports.loginValidation = loginValidation;                       // Login
 module.exports.newFacilityValidation = newFacilityValidation;           // Facility creation 
 module.exports.newActivityValidation = newActivityValidation;           // Activity creation
+module.exports.cashPaymentValidation = cashPaymentValidation;           // Cash Payment 
 module.exports.apiLoginValidation = apiLoginValidation;                 // ApiLogin
 module.exports.apiRegisterValidation = apiRegisterValidation;           // ApiRegister
 module.exports.apiNewActivityValidation = apiNewActivityValidation;     // ApiNewActivity

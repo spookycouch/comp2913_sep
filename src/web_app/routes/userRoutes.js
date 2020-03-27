@@ -7,7 +7,10 @@ var user = require('../modules/user');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var facility = require('../modules/facility');
 var error = require('../modules/error');
+var employee = require('../modules/employee');
+
 
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
@@ -487,6 +490,79 @@ router.post('/account/add/card', function(req, res) {
         }
     }
 });
+
+
+
+/*
+ * Function:    new cash payment
+*/
+router.get('/account/payment/cash', function (req, res) {   
+    if(req.session.userId == undefined || req.session.userType != 2) // If not an employee
+        res.redirect('/home');
+
+    else {
+        user.getDetails(req.session.userId).then(function(result) {
+            facility.getAllActivities().then(function(activities) {
+                return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
+                    title: webname + "| Account | Payments | Cash",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: result,
+                    activities: activities
+                });
+            }).catch(function(err) {
+                console.log(err); // for debugging
+                res.redirect('/user/logout');
+            })
+        }).catch(function(err) {
+            console.log(err);
+            res.redirect('/user/logout');
+        });
+    }
+})
+
+
+/*
+ *  Function:   Cash Payment POST
+*/
+router.post('/account/payment/cash', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType != 2) // If not an employee
+        res.redirect('/user/logout');
+
+    else {  
+        try {
+            const value = validation.cashPaymentValidation(req.body);
+
+            // Error
+            if (value.error != undefined)
+                throw value.error.details;
+
+            employee.newCashPayment(req.body, req.session.userId).then (function (result){
+                error.cashPaymentError(req, res, webname, user, facility, [{
+                    message: "Cash Payment Booking created successfully",
+                    path: 'success'
+                }]);
+            
+            }).catch(function(err) {
+                error.cashPaymentError(req, res, webname, user, facility, [{
+                    message: err,
+                    path: 'unsuccessful'
+                }])
+            });
+
+        // Catch all other errors thrown
+        } catch(err) {
+            error.cashPaymentError(req, res, webname, user, facility, err)
+        }
+    }
+});
+
+
+
+
+
+
+
 
 
 module.exports = router;

@@ -1707,8 +1707,7 @@ exports.getAllActivities = function() {
 
             query = SqlString.format(
         
-                'SELECT id FROM Activity',
-                []
+                'SELECT * FROM Activity ORDER BY id ASC'
             );
         
             // Query

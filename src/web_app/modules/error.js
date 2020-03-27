@@ -148,6 +148,29 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
 }
 
 
+exports.cashPaymentError = function(req, res, webname, user, facility, err) {
+    user.getDetails(req.session.userId).then(function(result) {
+        facility.getAllActivities().then(function(activities) {
+            return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
+                title: webname + "| Account | Payments | Cash",
+                session: req.session,
+                csrfToken: req.csrfToken(),
+                user: result,
+                activities: activities,
+                error: err
+            });
+
+        }).catch(function(err) {
+
+            module.exports.defaultError(req, res, webname, err);
+        });
+    }).catch(function(err) {
+
+        module.exports.defaultError(req, res, webname, err);
+    });
+}
+
+
 /*
  *  Function:   Default redirect to error page with description
 */

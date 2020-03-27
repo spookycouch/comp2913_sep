@@ -12,12 +12,12 @@ $.getJSON('/ajax/data/activity/all/', function(result) {
         activities.forEach(function(activity){
 
             $('.a-select')
-                .append('<option value="' + activity + '">' + activity + '</option>')
+                .append('<option value="' + activity.id + '">' + activity.name + '</option>')
         });
 
         // Render first by default
-        renderActivity(activities[0]);
-        renderWeeklyActivity(activities[0]);
+        renderActivity(activities[0].id);
+        renderWeeklyActivity(activities[0].id);
 
         // Enable and trigger
         $('.a-select').prop('disabled', false);

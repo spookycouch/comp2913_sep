@@ -29,13 +29,13 @@ exports.getAllActivities = function(){
 
         db.getAllActivities().then(function(results){
 
-            let arr = [];
-            results.forEach(function(element){
+            // let arr = [];
+            // results.forEach(function(element){
 
-                arr.push(element.id);
-            });
+            //     arr.push(element.id);
+            // });
 
-            resolve(arr);
+            resolve(results);
 
         }).catch(function(err){
             
