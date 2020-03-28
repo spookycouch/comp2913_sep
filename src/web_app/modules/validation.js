@@ -514,7 +514,7 @@ const newCardValidation = function(data){
 
     const newCardSchema = joi.object({
         card_number: joi.string()
-            .length(20)
+            .length(19)
             .required()
             .messages({
                 "string.empty": "Card Number is Required",

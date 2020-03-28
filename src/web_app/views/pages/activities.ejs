@@ -60,165 +60,163 @@
 
 <div class="container">
 
-    <!-- <div class="activities">
-        <div class="activities__header">
+    <div class="page-title">
+        <div class="page-title__header">
             <h2>Book an Activity</h2>
         </div>
-    </div> -->
-
-    
-    <div class="timetable">
-        <div class="timetable__container">
-
-            <div class="timetable__date-picker">
-                <h3>Show activities for the week of: </h3>
-                <input class="date-picker__select timetable__activity--week" type="date">
-
-                <input type="hidden" value="<%- week[today] %>" />
-            </div>
-
-            <table class="timetable__table timetable__table--border timetable__activity">
-                <tr class="table__header">
-                    <% for(var i = 0; i < week.length; i++) { %>
-                        <% if(i == today) { %>
-                            <th class="timetable__activity--day header__item header__item--selected"><%- week[i] %></th>
-                        <% } else { %>
-                            <th class="timetable__activity--day header__item hvr-inset"><%- week[i] %></th>
-                        <% } %>
-                    <% } %>
-                </tr>
-            </table>
-
-            <table class="timetable__table timetable__activity--output">
-                <tr class="table__header">
-                    <th class="header__item header__item--time">Time</th>
-                    <th class="header__item header__item--activity">Activity</th>
-                    <th class="header__item header__item--duration">Duration</th>
-                    <th class="header__item header__item--location">Location</th>
-                    <th class="header__item header__item--book"></th>
-                </tr>
-
-                <% for(var i = 0; i < timetable.length; i++) { %>
-                    <tr class="table__row">
-                        <td class="row__item start_time-value" data_attr="<%- timetable[i].start_time %>"><%- timetable[i].start_time.substr(timetable[i].start_time.length - 8) %></td>
-                        <td class="row__item activity-value"><%- timetable[i].name_sport %></td>
-                        <td class="row__item duration-value"><%- timetable[i].duration %> Minutes</td>
-                        <td class="row__item location-value"><%- timetable[i].facility_name %></td>
-                        <td class="row__item">
-                            <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
-                                <h3>Book</h3>
-                            </div>
-                        </td>
-                    </tr>
-                <% } %>
-            </table>
-        </div>
     </div>
+        
+    <div class="activities">
 
-
-    <div class="account account--center">
-        <div class="account__section account__details">
-            <div class="section__title">
-                <h2>All Upcoming Activities</h2>
+        <div class="activities__selector">
+            <div class="selector__item selector__item--selected" target="upcoming-view">
+                <h3>All Upcoming Activities</h3>
             </div>
 
-            <!-- horrible, i know -->
-            <!-- these are all the filters for search -->
-            <form method="GET" action="/activities">
-                <h3>Filters</h3>
-                <label>Sport</label>
-                <input type="text", name="sport" value="<%=filters.sport%>">
-                <label>Facility</label>
-                <input type="text", name="facility" value="<%=filters.facility%>">
-                <label>Start Date</label>
-                <input type="date" name="start_date", value="<%=filters.start_date%>">
-                <label>End Date</label>
-                <input type="date" name="end_date", value="<%=filters.end_date%>">
-                <input type="hidden", name="page_no", value="1">
-                <label>Items per page</label>
-                <select name="no_items">
-                    <option value="5" <%if (no_items ==  5){%> selected <%}%> >  5</option>
-                    <option value="7" <%if (no_items ==  7){%> selected <%}%> >  7</option>
-                    <option value="10" <%if (no_items == 10){%> selected <%}%> > 10</option>
-                    <option value="20" <%if (no_items == 20){%> selected <%}%> > 20</option>
-                    <option value="50" <%if (no_items == 50){%> selected <%}%> > 50</option>
-                </select>
-                <input type="submit", value="GO">
-            </form>
+            <div class="selector__item" target="timetable-view">
+                <h3>Timetable View</h3>
+            </div>
+        </div>
 
-            <% if(locals.total && locals.results){ %>
-                <% for (var i = 0; i < results.length;  i++ ) { %>
-
-                    <div class="details__content">
-                        <div class="content__form-title content__form-title--top">
-                            <div class="form-title__title">
-                                <h2><%- results[i].name %></h2>
-                            </div>
-
-                            <div class="form-title__desc">
-                                <%- results[i].description %>
-                            </div>
-                        </div>
-
-                        <div class="content__list">
-                            <div class="list__field">
-                                <div class="field__field">
-                                    <img src="/img/icons/clock.png" />
-                                    <h3>Time:</h3>
-                                    <span class="start_time-value" data_attr="<%- results[i].start_time %>"><%- results[i].start_time %></span>
-                                </div>
-                            
-                                <div class="field__field">
-                                    <img src="/img/icons/timer.png" />
-                                    <h3>Duration:</h3>
-                                    <span class="duration-value"><%- results[i].duration %> Minutes </span>
-                                </div>
+        <div class="account" id="upcoming-view">
+            <%- include('../partials/filter-side-bar') %>
             
-                                <div class="field__field">
-                                    <img src="/img/icons/gym.png" />
-                                    <h3>Activity:</h3>
-                                    <span class="activity-value"><%- results[i].name_sport %></span>
+            <div class="account__section account__details">
+                <div class="section__title">
+                    <h2>All Upcoming Activities</h2>
+                </div>
+
+                <% if(locals.total && locals.results){ %>
+                    <% for (var i = 0; i < results.length;  i++ ) { %>
+
+                        <div class="details__content">
+                            <div class="content__form-title content__form-title--top">
+                                <div class="form-title__title">
+                                    <h2><%- results[i].name %></h2>
                                 </div>
-            
-                                <div class="field__field">
-                                    <img src="/img/account/location-black.png" />
-                                    <h3>Location:</h3>
-                                    <span class="location-value"><%- results[i].facility_name %></span>
+
+                                <div class="form-title__desc">
+                                    <%- results[i].description %>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="content__form-title content__form-title--side">
-                            <div class="form-title__title">
-                                <h2><%- results[i].name %></h2>
-                            </div>
-
-                            <div class="form-title__desc">
-                                <%- results[i].description %>
-                            </div>
-
-                            <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
-                                <h3>Book</h3>
-                            </div>
-                        </div>
-                    </div>
-                <% } %>
-
+                            <div class="content__list">
+                                <div class="list__field">
+                                    <div class="field__field">
+                                        <img src="/img/icons/clock.png" />
+                                        <h3>Time:</h3>
+                                        <span class="start_time-value" data_attr="<%- results[i].start_time %>"><%- results[i].start_time %></span>
+                                    </div>
+                                
+                                    <div class="field__field">
+                                        <img src="/img/icons/timer.png" />
+                                        <h3>Duration:</h3>
+                                        <span class="duration-value"><%- results[i].duration %> Minutes </span>
+                                    </div>
                 
-                <p>number of pages: <%=no_pages%></p>
+                                    <div class="field__field">
+                                        <img src="/img/icons/gym.png" />
+                                        <h3>Activity:</h3>
+                                        <span class="activity-value"><%- results[i].name_sport %></span>
+                                    </div>
+                
+                                    <div class="field__field">
+                                        <img src="/img/account/location-black.png" />
+                                        <h3>Location:</h3>
+                                        <span class="location-value"><%- results[i].facility_name %></span>
+                                    </div>
+                                </div>
+                            </div>
 
-                <% for (var i = 1; i <= no_pages; ++i) { %>
-                    <form method="GET" action="/activities">
-                        <input type="submit", value="<%=i%>">
-                        <input type="hidden", name="sport", value="<%=filters.sport%>">
-                        <input type="hidden", name="facility", value="<%=filters.facility%>">
-                        <input type="hidden", name="page_no", value="<%=i%>">
-                        <input type="hidden", name="no_items", value="<%=no_items%>">
-                    </form>
+                            <div class="content__form-title content__form-title--side">
+                                <div class="form-title__title">
+                                    <h2><%- results[i].name %></h2>
+                                </div>
+
+                                <div class="form-title__desc">
+                                    <%- results[i].description %>
+                                </div>
+
+                                <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
+                                    <h3>Book</h3>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+
+                    
+                    <p>number of pages: <%=no_pages%></p>
+
+                    <% for (var i = 1; i <= no_pages; ++i) { %>
+                        <form method="GET" action="/activities">
+                            <input type="submit", value="<%=i%>">
+                            <input type="hidden", name="sport", value="<%=filters.sport%>">
+                            <input type="hidden", name="facility", value="<%=filters.facility%>">
+                            <input type="hidden", name="page_no", value="<%=i%>">
+                            <input type="hidden", name="no_items", value="<%=no_items%>">
+                        </form>
+                    <% } %>
                 <% } %>
-            <% } %>
+            </div>
         </div>
-    </div>
+
+
+
+
+        <div class="timetable timetable--d-none" id="timetable-view">
+            <div class="timetable__container">
+
+                <div class="timetable__title">
+                    <h2>Timetable View</h2>
+                </div>
+
+                <div class="timetable__date-picker">
+                    <h3>Show activities for the week of: </h3>
+                    <input class="date-picker__select timetable__activity--week" type="date">
+
+                    <input type="hidden" value="<%- week[today] %>" />
+                </div>
+
+                <table class="timetable__table timetable__table--border timetable__activity">
+                    <tr class="table__header">
+                        <% for(var i = 0; i < week.length; i++) { %>
+                            <% if(i == today) { %>
+                                <th class="timetable__activity--day header__item header__item--selected"><%- week[i] %></th>
+                            <% } else { %>
+                                <th class="timetable__activity--day header__item hvr-inset"><%- week[i] %></th>
+                            <% } %>
+                        <% } %>
+                    </tr>
+                </table>
+
+                <table class="timetable__table timetable__activity--output">
+                    <tr class="table__header">
+                        <th class="header__item header__item--time">Time</th>
+                        <th class="header__item header__item--activity">Activity</th>
+                        <th class="header__item header__item--duration">Duration</th>
+                        <th class="header__item header__item--location">Location</th>
+                        <th class="header__item header__item--book"></th>
+                    </tr>
+
+                    <% for(var i = 0; i < timetable.length; i++) { %>
+                        <tr class="table__row">
+                            <td class="row__item start_time-value" data_attr="<%- timetable[i].start_time %>"><%- timetable[i].start_time.substr(timetable[i].start_time.length - 8) %></td>
+                            <td class="row__item activity-value"><%- timetable[i].name_sport %></td>
+                            <td class="row__item duration-value"><%- timetable[i].duration %> Minutes</td>
+                            <td class="row__item location-value"><%- timetable[i].facility_name %></td>
+                            <td class="row__item">
+                                <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
+                                    <h3>Book</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+        </div>
+
+
+    </div> 
 </div>  
 
 <%- include('../partials/footer') %>

@@ -1117,7 +1117,7 @@ exports.createUserCard = function(userId, req_body) {
                 query = SqlString.format(
                 
                     'INSERT INTO Card_User(id_user, id_card) VALUES(?, ?);',
-                     [userId.id, result.insertId]
+                     [userId, result.insertId]
                 );
 
                 // Query

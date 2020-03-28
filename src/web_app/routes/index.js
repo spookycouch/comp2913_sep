@@ -8,6 +8,8 @@ const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const session = require('client-sessions');
+var facility = require('../modules/facility');
+
 
 var csrf = csurf({ cookie: true });
 
@@ -222,27 +224,40 @@ router.get('/activities', csrf, function(req, res) {
 
     user.upcomingActivities(no_items, page_no, filters).then(function(results) {
         user.activitiesTimetable(currentDate).then(function(timetable) {
-            res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
-            {
-                no_items: no_items,
-                page_no: page_no,
-                no_pages: Math.ceil(results[0][0].count/no_items),
-                total: results[0][0].count,
-                filters: filters,
-                results: results[1],
-                title: webname + "| Activities",
-                session: req.session,
-                csrfToken: req.csrfToken(),
-                week: week,
-                today: today,
-                timetable: timetable
+            facility.getAllSports().then(function(sports) {
+                facility.getAllFacilities().then(function(facilities) {
+                    res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
+                    {
+                        no_items: no_items,
+                        page_no: page_no,
+                        no_pages: Math.ceil(results[0][0].count/no_items),
+                        total: results[0][0].count,
+                        filters: filters,
+                        results: results[1],
+                        title: webname + "| Activities",
+                        session: req.session,
+                        csrfToken: req.csrfToken(),
+                        week: week,
+                        today: today,
+                        timetable: timetable,
+                        sports: sports,
+                        facilities: facilities
+                    });
+                });
+                
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/home');
             });
+        
         }).catch(function(err) {
             console.log(err);
+            res.redirect('/home');
         }); 
 
     }).catch(function(err){
         console.log(err);
+        red.redirect('/home');
     });
 
 });

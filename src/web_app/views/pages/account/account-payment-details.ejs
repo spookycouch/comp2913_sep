@@ -42,6 +42,15 @@
                 <div class="content__half--form">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
+                    <% if(locals.error){ %>
+                        <% for (var i =0; i < error.length;  i++ ) { %>
+                            <% if(error[i].path == 'unsuccessful'){ %>   
+                                <p class="form__error modal--open-auto"><%- error[i].message %></p>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+
+
                     <div class="form__group">
                         <label class="form__label"><h3>Card Number</h3></label>
                         <input id="card_number" class="form__input" type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX XXXX" value="<%- form.card_number %>"/>   
@@ -85,7 +94,12 @@
 
                     <div class="form__group">
                         <label class="form__label"><h3>Type</h3></label>
-                        <input id="type" class="form__input" type="text" name="type" placeholder="VISA/Mastercard..." value="<%- form.type %>"/>
+                        <!-- <input id="type" class="form__input" type="text" name="type" placeholder="VISA/Mastercard..." value="<%- form.type %>"/> -->
+
+                        <select id="type" class="form__select" name="type" value="<%- form.type %>">
+                            <option value="VISA">VISA</option>
+                            <option value="Mastercard">Mastercard</option>
+                        </select>
 
                         <% if(locals.error){ %>
                             <% for (var i =0; i < error.length;  i++ ) { %>

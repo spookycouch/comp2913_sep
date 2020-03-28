@@ -9,6 +9,21 @@ $(document).ready(function() {
     var pageCount = 0;
 
 
+
+    $('.selector__item').on('click', function(e) {
+        $('.selector__item').removeClass('selector__item--selected'); // remove selected class for all items
+        $(this).addClass('selector__item--selected'); // add selected class to current selected item
+
+        $('.selector__item').each(function(key, value) {
+            var target = $(this).attr('target');
+            $('#' + target).css('display', 'none'); 
+        });
+
+        var target = $(this).attr('target');
+        $('#' + target).css('display', 'flex');
+    });
+
+
     if ($('.update-form__error')[0]) {
         errors = ['name', 'surname', 'email', 'phone', 'birth',
                     'address_1', 'address_2', 'city', 'zipcode', 

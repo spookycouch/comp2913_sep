@@ -451,27 +451,24 @@ router.post('/account/add/card', function(req, res) {
         res.redirect('/home');
 
     else {
-
         try {
-
             // Validation
             const value = validation.newCardValidation(req.body);
 
             if(value.error != undefined)
                 throw value.error.details;
 
-
-                
             // Query
             user.addCard(req.session.userId, req.body).then(function(result) {
-                
+                req.body = {} // Clear request body so data isnt showed on reload
+
                 error.cardPaymentErrorPage(req, res, webname, user, [{
                     message: "Payment Method Added Successfully",
                     path: "success"
                 }]);
 
             }).catch(function(err) {    
-                
+                console.log(err);
                 error.cardPaymentErrorPage(req, res, webname, user, [{
                     message: err,
                     path: 'unsuccessful'
