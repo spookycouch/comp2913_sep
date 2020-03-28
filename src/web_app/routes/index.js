@@ -243,6 +243,9 @@ router.get('/activities', csrf, function(req, res) {
                         sports: sports,
                         facilities: facilities
                     });
+                }).catch(function(err) {
+                    console.log(err);
+                    res.redirect('/home');
                 });
                 
             }).catch(function(err) {

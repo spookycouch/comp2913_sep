@@ -250,11 +250,11 @@ h3 {
     }
 }
 
-.activities {
+.breadcrumbs {
     // padding: $padding_main_section;
+    width: 100%;
 
     &__selector {
-        width: 100%;
         color: $black;
         border-bottom: $border_thickness solid $black;
 
@@ -412,6 +412,13 @@ h3 {
                     }
                 }
             }
+        }
+    }
+
+    .breadcrumbs {
+
+        &__selector {
+            text-align: right;
         }
     }
 }

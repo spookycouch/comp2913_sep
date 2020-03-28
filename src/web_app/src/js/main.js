@@ -1,65 +1,94 @@
 /*
+*    Scroll function
+*/
+$(window).scroll(function() {
+    showScrollToggle();
+
+    if ($(document).scrollTop() > 200){
+        $('.header-spacing').addClass('header-spacing--scroll');
+        $('.header').addClass('header--scroll');
+    } else{
+        $('.header-spacing').removeClass('header-spacing--scroll');
+        $('.header').removeClass('header--scroll');
+    }	
+});
+
+/*
 *       document load function (on ready)
 */
 $(document).ready(function() {
     // Variables 
-    var hamburgerPressed = false;
-    var registertoggle = false;
-    var accountToggle = false;
-    var pageCount = 0;
+    var hamburgerPressed = false; // Menu dropdown toggle
+    var registertoggle = false;   // login / registration page toggle (for switching pages)
+    var accountToggle = false;    // Account side-bar toggle
+    var pageCount = 0;            // Registration current page
 
 
-
+    /*
+    *  For switching between pages of the selector item class
+    */
     $('.selector__item').on('click', function(e) {
-        $('.selector__item').removeClass('selector__item--selected'); // remove selected class for all items
-        $(this).addClass('selector__item--selected'); // add selected class to current selected item
+        $('.selector__item').removeClass('selector__item--selected');   // remove selected class for all items
+        $(this).addClass('selector__item--selected');                   // add selected class to current selected item
 
         $('.selector__item').each(function(key, value) {
             var target = $(this).attr('target');
-            $('#' + target).css('display', 'none'); 
+            $('#' + target).css('display', 'none');                     // Set all targets to be hidden
         });
 
         var target = $(this).attr('target');
-        $('#' + target).css('display', 'flex');
+        $('#' + target).css('display', 'flex');                         // Only show the selected target
     });
 
 
-    if ($('.update-form__error')[0]) {
+    /*
+    *  Add shake affect to form inputs
+    */
+    if ($('.update-form__error')[0]) {                                      // Check that an error exists within the form
         errors = ['name', 'surname', 'email', 'phone', 'birth',
                     'address_1', 'address_2', 'city', 'zipcode', 
                     'current_password', 'password', 'confirm_password', 
                     'price', 'description', 'icon', 'image',
-                    'cost', 'date', 'time', 'discount', 'duration'];
+                    'cost', 'date', 'time', 'discount', 'duration',
+                    'activity_id', 'amount', 'usr_email', 'rcpt_email'];
 
         $.each(errors, function(key, value) {
-            if ($('#' + value + '-error')[0]) {
-                $('#' + value).addClass('wobble-horizontal');
+            if ($('#' + value + '-error')[0]) {                             // Find the error that exists
+                $('#' + value).addClass('wobble-horizontal');               // Add the shake effect 
             }
         });
     }
 
 
-    if ($('.modal--open-auto')[0]) {
+    /*
+    *  Automatically open the modal and apply shake affects on errors
+    */
+    if ($('.modal--open-auto')[0]) {                                        // Check if an error exists 
         errors = ['card_number', 'expire_date', 'cvv', 'type'];
 
-        $('.modal--modal').css('display', 'flex');
+        $('.modal--modal').css('display', 'flex');                          // Show the modal
 
-        $.each(errors, function(key, value) {
-            if ($('#' + value + '-error')[0]) {
-                $('#' + value).addClass('wobble-horizontal');
+        $.each(errors, function(key, value) {                               
+            if ($('#' + value + '-error')[0]) {                             // Find the error that exists
+                $('#' + value).addClass('wobble-horizontal');               // Add the shake effect
             }
         });
     }
 
 
-    // Default selected icon
+    /*
+    *  Set the default icon of the icon picker
+    */
     $('.update-form__icon--basketball').addClass('update-form__icon--selected');
 
-    // Change icon on selection
+
+    /*
+    *  Icon selection on facilities form; change Icon on selection
+    */
     $('.update-form__icon').on('click', function(e) {
-        $('#icon').val($(this).attr('data_attr') + "-white");
-        $('.update-form__icon').removeClass('update-form__icon--selected');
-        $(this).addClass('update-form__icon--selected');
+        $('#icon').val($(this).attr('data_attr') + "-white");               // Set the input to the selected icon's value
+        $('.update-form__icon').removeClass('update-form__icon--selected'); // Remove selected class for all icons (clear)
+        $(this).addClass('update-form__icon--selected');                    // Apply selected class to the selected icon
     })
 
 
@@ -68,7 +97,7 @@ $(document).ready(function() {
     */
     $(".reviews__carousel").slick({
         autoplay: true,
-        autoplaySpeed: 3000,
+        autoplaySpeed: 3000, // Speed of automatically sliding 
         dots: true,
         customPaging : function(slider, i) {
             var thumb = $(slider.$slides[i]).data();
@@ -81,13 +110,13 @@ $(document).ready(function() {
     *  hamburger dropdown menu open and close effects
     */
     $('.hamburger').on('click', function(e) {
-        e.preventDefault();
+        e.preventDefault();                                                 // Prevent from being submitted (and page reloading)
         hamburgerPressed = !hamburgerPressed;
 
         if (hamburgerPressed) {
             $('.hamburger').addClass('is-active');
 
-            $('.header__dropdown').css('display', 'block').animate({
+            $('.header__dropdown').css('display', 'block').animate({        // Show the header (open)
                 backgroundColor: 'rgba(0, 0, 0, .6)'
             })
             $('.dropdown__container').addClass('dropdown__container--open');
@@ -95,10 +124,10 @@ $(document).ready(function() {
         } else {
             $('.hamburger').removeClass('is-active').css('position', 'static');
 
-            $('.header__dropdown').animate({
+            $('.header__dropdown').animate({                                // Hide the header (close)
                 backgroundColor: 'rgba(0, 0, 0, 0)'
             }, function() {
-                $('.header__dropdown').css('display', 'none');
+                $('.header__dropdown').css('display', 'none');              // remove display property to hide
             });
             $('.dropdown__container').removeClass('dropdown__container--open');
         }
@@ -111,43 +140,48 @@ $(document).ready(function() {
     $('.half__form-transition-header, .half__bottom-link--transition').on('click', function(e) {
         registertoggle = !registertoggle
 
-        if (registertoggle) {
+        if (registertoggle) {                                   // Show the registration form / Hide login form
             $('.login__half--login').css('display', 'none');
             $('.login__half--register').css('display', 'flex');
             $('.form-transition-header__text').text("Login");
-        } else {
+        } else {                                                // Show the login form / Hide the registration form
             $('.login__half--login').css('display', 'flex');
             $('.login__half--register').css('display', 'none');
             $('.form-transition-header__text').text("Register");
         }
         
-        e.preventDefault();
-    })
+        e.preventDefault();                                     // Prevent form submission                  
+    })  
 
 
     /*
     *  Scroll up function
     */ 
     $('.scroll-to-top').on('click', function(e) {
-		$('html, body').animate({scrollTop: 0}, 500);
-		e.preventDefault();
+		$('html, body').animate({scrollTop: 0}, 500);   // Show the scroll-top button
+		e.preventDefault();                             // Prevent the button from being submitted 
     });    
 
 
+
+    /*
+    *  Open the side bar on the accounts pages 
+    */ 
     $('.account__side-open').on('click', function(e) {
         accountToggle = !accountToggle;
 
-        if (accountToggle) {
+        if (accountToggle) {                                                // Open
             $('.account__side-bar').addClass('account__side-bar--open');
             $('.label__expand').text("Collapse");
-        } else {
+        } else {                                                           // Closed
             $('.account__side-bar').removeClass('account__side-bar--open');
             $('.label__expand').text("Expand");
         }
     });
 
+
     /*
-    *  Remove animation after animation complete
+    *  Remove animation after animation complete (for shake animation)
     */  
     $('.login-form__input').on(
         "webkitAnimationEnd oanimationend msAnimationEnd animationend",
@@ -157,36 +191,71 @@ $(document).ready(function() {
     );
 
 
+    /*
+    *  Open all Modals (default class)
+    */ 
     $(document).on('click', '.modal--open', function(e) {
         $('.modal--modal').css('display', 'flex');
     });
 
+
+    /*
+    *  Open only delete modals (for confirmation)
+    */ 
     $('.modal--open-delete').on('click', function(e) {
         $('.modal--delete').css('display', 'flex');
     });
 
+
+    /*
+    *  Close all modals 
+    */ 
     $('.modal--close').on('click', function(e) {
         $('.modal').fadeOut();
     });
 
+
+    /*
+    *  If they click off the modal (anywhere outside it), close it
+    */ 
     $('.modal').on('click', function(e) {
         var target = $('.modal');
 
-        if (e.target.className.split(" ")[0] == 'modal') {
+        if (e.target.className.split(" ")[0] == 'modal') {  // Check its not the modal itselef
             target.fadeOut();
         }
     });
 
 
+    // #### Setting the URL of the delete modals so when pressed they redirect to the specific delete route ####
+    /*
+    *  URL of the delete-membership modal
+    */ 
     $('.content__explore--delete-membership').on('click', function(e) {
         $('#delete-membership').attr('href', '/delete/memberships/' + this.id);
     });
 
+
+    /*
+    *  URL of the delete-payment modal
+    */ 
     $('.content__explore--delete-payment').on('click', function(e) {
         $('#delete-payment').attr('href', '/delete/cards/' + this.id);
     });
 
+    $('.form-title__book--delete-facility').on('click', function(e) {
+        $('#delete-facility').attr('href', '/delete/facility/' + this.id);
+    });
 
+    $('.form-title__book--delete-activity').on('click', function(e) {
+        $('#delete-activity').attr('href', '/delete/activity/' + this.id);
+    });
+
+
+    // #### Setting the contents of the book modals, such that they show the bookings ####
+    /*
+    *  Set the content of the 'My Bookings' modal 
+    */ 
     $('.overview__option--qr-modal').on('click', function(e) {
         $('#sportName').text($(this).find('.sportName-value').text());
         $('#start_time').text($(this).find('.start_time-value').text());
@@ -196,6 +265,9 @@ $(document).ready(function() {
     });
 
 
+    /*
+    *  Set the content of the booking modal (for a new booking)
+    */ 
     $(document).on('click', '.item__book--book-modal', function(e) {
         $('#activity').text($(this).parent().parent().find('.activity-value').text());
         $('#start_time').text($(this).parent().parent().find('.start_time-value').attr('data_attr'));
@@ -214,7 +286,7 @@ $(document).ready(function() {
     */  
     $('#form-1').submit(function(e) {
         var errorIds = ['name-error', 'surname-error', 'email-error', 'password-error', 'confirm_password-error'];
-        $.each(errorIds, function(key, value) {
+        $.each(errorIds, function(key, value) { // Clear the errors each time the form is submitted
             $('#' + value).text("");
             $('#' + value).addClass('d-none')
         });
@@ -253,7 +325,7 @@ $(document).ready(function() {
     */ 
     $('#form-2').submit(function(e) {
         var errorIds = ['birth-error', 'phone-error'];
-        $.each(errorIds, function(key, value) {
+        $.each(errorIds, function(key, value) { // Clear the errors each time the form is submitted
             $('#' + value).text("");
             $('#' + value).addClass('d-none')
         });
@@ -292,7 +364,7 @@ $(document).ready(function() {
     */ 
     $('#form-3').submit(function(e) {
         var errorIds = ['address_1-error', 'address_1-error', 'city-error', 'zipcode-error'];
-        $.each(errorIds, function(key, value) {
+        $.each(errorIds, function(key, value) { // Clear the errors each time the form is submitted 
             $('#' + value).text("");
             $('#' + value).addClass('d-none')
         });
@@ -311,7 +383,7 @@ $(document).ready(function() {
                         $('#' + value.path).addClass('wobble-horizontal');
                     });
                 } else {
-                    combineForms();
+                    combineForms(); // Combine all forms data and submit
                 }
             },
             error: function(error) {
@@ -323,11 +395,20 @@ $(document).ready(function() {
     });
 
 
+    /*
+    *  Function:   Call to subform 3 to submit all forms 
+    */
     $('#form-4').submit(function(e) {
         $('#form-3').submit();
         e.preventDefault();
     });
 
+
+    /*
+    *  Function:   Return to the previous form
+    *  Input:      The current page count
+    *  Output:     The new page count 
+    */
     $('.login-form__btn--return').on('click', function(e) {
         pageCount--;
         changePage(pageCount, "back", 2);
@@ -368,14 +449,14 @@ function combineForms() {
 }
 
 
-
+/*
+    *  Function:   Change the current page of the form
+    *  Input:      int count:        the current page the form is on
+    *              string direction: 'prev' or 'next' for which page to go to
+    *              int size:         how many pages are in the form 
+    *  Output:     The new page count / the page the form is on
+    */
 function changePage(count, direction, size) {
-    // if (count == 0)
-    //     $('#btn-prev').addClass('d-none');
-
-    // percent = (count * 100) / size;
-    // $('.progress-bar').css("width", percent + '%');
-
     if (direction == "next") {
         $('#slide-' + count).addClass('half__slide--d-none');
         $('#slide-' + (count + 1)).removeClass('half__slide--d-none');
@@ -385,21 +466,6 @@ function changePage(count, direction, size) {
     }
 }
 
-
-/*
-*    Scroll function
-*/
-$(window).scroll(function() {
-    showScrollToggle();
-
-    if ($(document).scrollTop() > 200){
-        $('.header-spacing').addClass('header-spacing--scroll');
-        $('.header').addClass('header--scroll');
-    } else{
-        $('.header-spacing').removeClass('header-spacing--scroll');
-        $('.header').removeClass('header--scroll');
-    }	
-});
 
 
 /*

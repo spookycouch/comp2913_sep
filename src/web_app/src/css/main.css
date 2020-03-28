@@ -46,7 +46,7 @@
 }
 
 .hvr-sweep-to-right--white:hover, .hvr-sweep-to-right--white:focus, .hvr-sweep-to-right--white:active {
-  color: #413E4B;
+  color: #413E4B !important;
 }
 
 .hvr-sweep-to-right:hover:before, .hvr-sweep-to-right:focus:before, .hvr-sweep-to-right:active:before {
@@ -1669,6 +1669,8 @@ ul {
       -ms-flex-align: center;
           align-items: center;
   padding: 5px 0;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .account__details .details__content .content__list .list__field .field__field img {
@@ -1724,7 +1726,7 @@ ul {
   display: inline-block;
   padding: 5px 15px;
   cursor: pointer;
-  margin-top: 10px;
+  margin: 10px;
 }
 
 .account__details .details__content .content__update-form {
@@ -2024,6 +2026,10 @@ ul {
   cursor: pointer;
 }
 
+.account__section-container {
+  width: 80%;
+}
+
 .account__section {
   width: 80%;
   color: white;
@@ -2043,8 +2049,8 @@ ul {
   margin: 0;
 }
 
-.account__section--no-margin-bottom {
-  margin-bottom: 0;
+.account__section--d-none {
+  display: none;
 }
 
 .account__section--full-width {
@@ -2152,6 +2158,9 @@ ul {
   }
   .account__side-bar {
     margin-left: -300px;
+  }
+  .account__section-container {
+    width: 100%;
   }
   .account__section {
     width: 100%;
@@ -3828,19 +3837,22 @@ h3 {
   color: white;
 }
 
-.activities__selector {
+.breadcrumbs {
   width: 100%;
+}
+
+.breadcrumbs__selector {
   color: #413E4B;
   border-bottom: 2px solid #413E4B;
 }
 
-.activities__selector .selector__item {
+.breadcrumbs__selector .selector__item {
   display: inline-block;
   padding: 20px 10px;
   cursor: pointer;
 }
 
-.activities__selector .selector__item--selected {
+.breadcrumbs__selector .selector__item--selected {
   background-color: #eedc37;
 }
 
@@ -3961,6 +3973,9 @@ h3 {
   }
   .modal__content .content__half--form {
     width: 100%;
+  }
+  .breadcrumbs__selector {
+    text-align: right;
   }
 }
 

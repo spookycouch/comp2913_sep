@@ -43,6 +43,7 @@
                                         display: flex;
                                         align-items: center;
                                         padding: 5px 0;
+                                        flex-wrap: wrap;
 
                                         img {
                                             width: $icon_small_width;
@@ -96,7 +97,7 @@
                                 display: inline-block;
                                 padding: $padding_border_block;
                                 cursor: pointer;
-                                margin-top: 10px;
+                                margin: 10px;
                             
                             }
                         }

@@ -43,7 +43,7 @@
     }
 
     &--white:hover, &--white:focus, &--white:active {
-        color: $black;
+        color: $black !important;
     }
     
     &:hover:before, &:focus:before, &:active:before {

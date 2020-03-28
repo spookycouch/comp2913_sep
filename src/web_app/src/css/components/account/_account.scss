@@ -181,6 +181,10 @@
         }
     }
 
+    &__section-container {
+        width: 80%;
+    }
+
     &__section {
         width: 80%;
         color: $white;
@@ -194,9 +198,17 @@
             margin: 0;
         }
 
-        &--no-margin-bottom {
-            margin-bottom: 0;
+        &--d-none {
+            display: none;
         }
+
+        // &--no-margin-bottom {
+        //     margin-bottom: 0;
+        // }
+
+        // &--no-margin-top {
+        //     margin-top: 0;
+        // }
 
         &--full-width {
             width: 100%;
@@ -304,6 +316,10 @@
 
         &__side-bar {
             margin-left: -$account_side_bar_width;
+        }
+
+        &__section-container {
+            width: 100%;
         }
 
         &__section {

@@ -1,10 +1,9 @@
 /*
- *  Function:   Get all activities id to populate dropdown
+ *  Function:   Get all activities id to populate dropdown (session)
 */
 $.getJSON('/ajax/data/activity/all/', function(result) { 
-    
     // Error check
-    if(result.error == undefined){
+    if(result.error == undefined && result.activities.length > 0){
 
         let activities = result.activities;
 
@@ -24,6 +23,10 @@ $.getJSON('/ajax/data/activity/all/', function(result) {
         $('#loader-1').fadeOut();
         $('#loader-2').fadeOut();
 
+    } else {
+        // Do something if no activities
+        console.log("hkjkjlki");
+        $('.activity-result').css('display', 'none');
     }
 });
 
@@ -34,7 +37,7 @@ $.getJSON('/ajax/data/facility/all/', function(result) {
 
     
     // Error check
-    if(result.error == undefined){
+    if(result.error == undefined && result.facilities.length > 0){
 
         let facilities = result.facilities;
 
@@ -54,16 +57,21 @@ $.getJSON('/ajax/data/facility/all/', function(result) {
         $('#loader-3').fadeOut();
         $('#loader-4').fadeOut();
 
+    } else {
+        $('.facility-result').css('display', 'none');
+
     }
 });
 
 /*
- *  Function:   Get all sports id to populate dropdown
+ *  Function:   Get all sports id to populate dropdown (activities)
 */
 $.getJSON('/ajax/data/sport/all/', function(result) { 
     
+    console.log(result);
+
     // Error check
-    if(result.error == undefined){
+    if(result.error == undefined && result.sports.length > 0){
 
         let sports = result.sports;
 
@@ -82,6 +90,9 @@ $.getJSON('/ajax/data/sport/all/', function(result) {
         $('.a-select-3').prop('disabled', false);
         $('#loader-5').fadeOut();
         $('#loader-6').fadeOut();
+
+    } else {
+        $('.sport-result').css('display', 'none');
     }
 });
 
