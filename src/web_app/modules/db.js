@@ -995,6 +995,75 @@ exports.getFacility = function(id) {
     });
 }
 
+
+exports.deleteFacility = function(facilityId) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'DELETE FROM Facility WHERE id = ?',
+                    [facilityId]
+            ); 
+
+            conn.query(query, function(err, results, fields) {
+                if (err) return reject(err);
+            
+                resolve(true);
+                
+            });
+        });
+    });
+}
+
+
+
+exports.deleteActivity = function(activityId) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'DELETE FROM Activity WHERE id = ?',
+                    [activityId]
+            ); 
+
+            conn.query(query, function(err, results, fields) {
+                if (err) return reject(err);
+                
+            
+                resolve(true);
+                
+            });
+        });
+    });
+}
+
+
 /*
  *  Function:   Update Usr Img
  *  Input:      String
@@ -1117,7 +1186,7 @@ exports.createUserCard = function(userId, req_body) {
                 query = SqlString.format(
                 
                     'INSERT INTO Card_User(id_user, id_card) VALUES(?, ?);',
-                     [userId.id, result.insertId]
+                     [userId, result.insertId]
                 );
 
                 // Query
@@ -1707,7 +1776,7 @@ exports.getAllActivities = function() {
 
             query = SqlString.format(
         
-                'SELECT * FROM Activity ORDER BY id ASC'
+                'SELECT Activity.*, Sport.name AS name_sport, Facility.name AS facility_name FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id ORDER BY Activity.id ASC'
             );
         
             // Query
@@ -1716,11 +1785,14 @@ exports.getAllActivities = function() {
                 // Error
                 if (err) return reject(err);
 
-                if (results.length > 0)
-                    resolve(results);
+                resolve(results);
 
-                else
-                    reject('No bookings found per activity.');         
+
+                // if (results.length > 0)
+                //     resolve(results);
+
+                // else
+                //     reject('No bookings found per activity.');         
             });
         });
     });
@@ -1759,11 +1831,14 @@ exports.getAllFacilities = function() {
                 // Error
                 if (err) return reject(err);
 
-                if (results.length > 0)
-                    resolve(results);
+                resolve(results);
 
-                else
-                    reject('No bookings found per activity.');       
+
+                // if (results.length > 0)
+                //     resolve(results);
+
+                // else
+                //     reject('No bookings found per activity.');       
             });
         });
     });

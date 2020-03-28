@@ -575,8 +575,10 @@ function renderSport(id){
             // Render
             let reports = result.results;
             overallSportChart(reports);
-        } else 
+        } else {
+            // TODO: RENDER THAT THERE IS NO DATA TO SHOW INSTEAD OF ERROR
             alert("Error retrieving weekly data for activity.")
+        }
     }); 
 }
 
@@ -609,8 +611,10 @@ function renderWeeklySport(id){
                 let reports = result.results;
                 weeklySportChart(reports);
             
-            } else            
+            } else {    
+                // TODO: RENDER THAT THERE IS NO DATA TO SHOW INSTEAD OF ERROR
                 alert("Error retrieving weekly data for activity.")
+            }
 
         // Error
         },

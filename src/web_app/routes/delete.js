@@ -17,6 +17,33 @@ router.use(cookieParser(process.env.SESSION_SECRET));
 // Website header
 const webname = ' The Edgy ';
 
+
+router.get('/facility/:id*', function(req, res, next) {
+    if(req.session.userId != undefined && req.session.userType == 3) {
+       
+        user.deleteFacility(req.params['id']).then(function() {
+            res.redirect('/manager/facilities/new');
+        }).catch(function(err) {
+
+            console.log(err);
+        });
+    }
+}); 
+
+
+router.get('/activity/:id*', function(req, res, next) {
+    console.log(req.params['id']);
+
+    user.deleteActivity(req.params['id']).then(function() {
+        res.redirect('/manager/activities/new');
+
+    }).catch(function(err) {
+
+        console.log(err);
+    });
+}); 
+
+
 /*
  *  Function:   Delete Membership by id
 */

@@ -172,14 +172,23 @@ router.get('/activities/new', function (req, res) {
         user.getDetails(req.session.userId).then(function(result) {
             facility.getAllFacilities().then(function(facilities) {
                 facility.getAllSports().then(function(sports) {
-                    return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
-                        title: webname + "| Activities | New",
-                        session: req.session,
-                        csrfToken: req.csrfToken(),
-                        user: result,
-                        facilities: facilities,
-                        sports: sports
-                    });
+                    facility.getAllActivities().then(function(activities) {
+
+                        return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
+                            title: webname + "| Activities | New",
+                            session: req.session,
+                            csrfToken: req.csrfToken(),
+                            user: result,
+                            facilities: facilities,
+                            sports: sports,
+                            activities: activities
+                        });
+                        
+                    }).catch(function(err) {
+                        console.log(err);
+                        res.redirect('/user/logout');
+                    })
+                    
                 }).catch(function(err) {
                     console.log(err);
                     res.redirect('/user/logout');
@@ -302,12 +311,18 @@ router.get('/facilities/new', function (req, res) {
         icons = ['basketball', 'gym', 'running', 'sport', 'swim', 'tennis'];
 
         user.getDetails(req.session.userId).then(function(result) {
-            return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
-                title: webname + "| Facilities | New",
-                session: req.session,
-                csrfToken: req.csrfToken(),
-                user: result,
-                icons: icons
+            facility.getAllFacilities().then(function(facilities) {
+                return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
+                    title: webname + "| Facilities | New",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: result,
+                    icons: icons,
+                    facilities: facilities
+                });
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/user/logout');
             });
 
         }).catch(function(err) {
@@ -348,7 +363,7 @@ router.post('/facilities/new', function(req, res) {
 
                 // validate img type
                 if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg')) {
-                    return error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, [{
                         message: "Invalid File Type",
                         path: "image"
                     }]);
@@ -365,7 +380,7 @@ router.post('/facilities/new', function(req, res) {
 
                 // Catch error when uploading new image to dir
                 }).catch(function(err){
-                    return error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, [{
                         message: err,
                         path: 'unsuccessful'
                     }]);
@@ -377,7 +392,7 @@ router.post('/facilities/new', function(req, res) {
 
                 // Error
                 if(value.error != undefined)
-                    return error.newFacilityErrorPage(req, res, webname, user, icons, value.error.details);
+                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, value.error.details);
 
                 
                 employee.newFacility(req_body).then(function (results) {
@@ -389,7 +404,7 @@ router.post('/facilities/new', function(req, res) {
 
                 // Catch error when adding new facility to the DB 
                 }).catch(function(err) {
-                    return error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, [{
                         message: err,
                         path: 'unsuccessful'
                     }]);
@@ -397,7 +412,7 @@ router.post('/facilities/new', function(req, res) {
                 });
                 
                 // When the facility is created successfully
-                error.newFacilityErrorPage(req, res, webname, user, icons, [{
+                error.newFacilityErrorPage(req, res, webname, user, facility, icons, [{
                     message: "Facility Created successfully",
                     path: 'success'
                 }]);
@@ -415,7 +430,7 @@ router.post('/facilities/new', function(req, res) {
 
         // Catch all other errors thrown
         } catch (err) {
-            error.newFacilityErrorPage(req, res, webname, user, icons, err);
+            error.newFacilityErrorPage(req, res, webname, user, facility, icons, err);
         }
     }
 })

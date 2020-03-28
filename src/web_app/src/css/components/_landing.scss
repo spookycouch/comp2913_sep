@@ -160,6 +160,9 @@
                 .item {
                     &__text {
                         width: 60%;
+                        text-align: left;
+                        font-weight: bold;
+                        line-height: 2;
                     }
                 }
             }

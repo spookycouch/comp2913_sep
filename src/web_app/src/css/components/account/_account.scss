@@ -67,6 +67,11 @@
             background-color: $black;
         }
 
+        &--filter {
+            background-color: $white;
+            color: $black;
+        }
+
 
         &--open {
             margin-left: 0 !important;
@@ -126,6 +131,13 @@
                             margin-right: 15px;
                         }
 
+                        &--submit {
+                            background-color: $white;
+                            border-color: $black;
+                            cursor: pointer;
+                            color: $black;
+                        }
+
                         .item {
                             &__link {
                                 display: flex;
@@ -136,11 +148,41 @@
                                     padding-right: 10px;
                                 }
                             }
+
+                            &__filter {
+                                text-align: center;
+
+                                .filter {
+                                    &__label {
+                                        display: block;
+                                        padding: 5px;
+                                    }
+
+                                    &__input {
+                                        border: $border_thickness solid $black;
+                                        padding: $padding_border_block;
+                                        width: 100%;
+                                    }
+
+                                    &__select {
+                                        border: $border_thickness solid $black;
+                                        background-color: $white;
+                                        padding: $padding_border_block;
+                                        color: $black;
+                                        width: 100%;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    &__section-container {
+        width: 80%;
     }
 
     &__section {
@@ -156,6 +198,18 @@
             margin: 0;
         }
 
+        &--d-none {
+            display: none;
+        }
+
+        // &--no-margin-bottom {
+        //     margin-bottom: 0;
+        // }
+
+        // &--no-margin-top {
+        //     margin-top: 0;
+        // }
+
         &--full-width {
             width: 100%;
         }
@@ -166,6 +220,34 @@
                 color: $black !important;
                 text-align: center;
                 margin-bottom: 40px;
+            }
+
+            &__filter {
+                display: flex;
+                flex-wrap: wrap;
+                margin-bottom: 40px;
+                // background-color: $primary;
+                // color: $white;
+                padding: 20px;
+
+
+                .filter {
+                    &__half {
+                        width: 50%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+
+                        &--title {
+                            width: 20%;
+                        }
+
+                        &--filter {
+                            width: 80%;
+                        }
+                    }
+                }
             }
         }
     }
@@ -234,6 +316,10 @@
 
         &__side-bar {
             margin-left: -$account_side_bar_width;
+        }
+
+        &__section-container {
+            width: 100%;
         }
 
         &__section {

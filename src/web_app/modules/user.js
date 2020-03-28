@@ -399,6 +399,38 @@ exports.facilities = function(no_items, page_no){
 }
 
 
+
+exports.deleteFacility = function(facilityId) {
+    return new Promise(function(resolve, reject) {
+
+        db.deleteFacility(facilityId).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+
+
+exports.deleteActivity = function(activityId) {
+    return new Promise(function(resolve, reject) {
+
+        db.deleteActivity(activityId).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
+
 /*
  *  Function:   Upcoming activities
  *  Input:      No Items, Page No
