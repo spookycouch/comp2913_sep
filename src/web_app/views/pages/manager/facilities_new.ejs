@@ -39,9 +39,11 @@
                         <h3>Add New Facility</h3>
                     </div>
         
-                    <div class="selector__item" target="configure">
-                        <h3>Configure Facilities</h3>
-                    </div>
+                    <% if(locals.facilities.length > 0) { %>
+                        <div class="selector__item" target="configure">
+                            <h3>Configure Facilities</h3>
+                        </div>
+                    <% } %>
                 </div>
             </div>
 
@@ -174,13 +176,12 @@
                 </div>            
             </div>
 
+            <% if(locals.facilities.length > 0) { %>
+                <div class="account__section account__section--full-width account__section--d-none account__details" id="configure">
+                    <div class="section__title">
+                        <h2>Configure Facilities</h2>
+                    </div>
 
-            <div class="account__section account__section--full-width account__section--d-none account__details" id="configure">
-                <div class="section__title">
-                    <h2>Configure Facilities</h2>
-                </div>
-
-                <% if(locals.facilities.length > 0) { %>
                     <% for (var i = 0; i < facilities.length; i++) { %>
                         <div class="details__content">
                             <div class="content__form-title content__form-title--top">
@@ -231,9 +232,9 @@
 
                         </div>
 
-                    <% } %> 
-                <% } %>
-            </div>
+                    <% } %>  
+                </div>
+            <% } %>
 
         </div>
     </div>

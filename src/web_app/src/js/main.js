@@ -594,24 +594,33 @@ function replaceHeader(className, selectedDate, data) {
 
 function replaceOutput(className, data) {
     var $newTable = $("<table class=\"timetable__table " + className + "--output\"></table>");
-    $newTable.append(`
-        <tr class="table__header">
-        <th class="header__item header__item--time">Time</th>
-        <th class="header__item header__item--activity">Activity</th>
-        <th class="header__item header__item--duration">Duration</th>
-        <th class="header__item header__item--location">Location</th>
-        <th class="header__item header__item--book"></th>
-        </tr>
-    `);
 
-    $.each(data.results, function(key, value) {
-        row = "<tr class=\"table__row\"><td class=\"row__item start_time-value\"  data_attr=\"" + value.start_time + "\">" + value.start_time.substr(value.start_time.length - 8) + "</td>";
-        row += "<td class=\"row__item activity-value\">" + value.name_sport + "</td>";
-        row += "<td class=\"row__item duration-value\">" + value.duration + " Minutes</td>";
-        row += "<td class=\"row__item location-value\">" + value.facility_name + "</td>";
-        row += "<td class=\"row__item\"><div id=\"" + value.id + "\" class=\"item__book item__book--book-modal hvr-sweep-to-right modal--open\"><h3>Book</h3></div></td></tr>";
-        $newTable.append(row);
-    });
+    if (data.results.length > 0) {
+        $newTable.append(`
+            <tr class="table__header">
+            <th class="header__item header__item--time">Time</th>
+            <th class="header__item header__item--activity">Activity</th>
+            <th class="header__item header__item--duration">Duration</th>
+            <th class="header__item header__item--location">Location</th>
+            <th class="header__item header__item--book"></th>
+            </tr>
+        `);
+
+        $.each(data.results, function(key, value) {
+            row = "<tr class=\"table__row\"><td class=\"row__item start_time-value\"  data_attr=\"" + value.start_time + "\">" + value.start_time.substr(value.start_time.length - 8) + "</td>";
+            row += "<td class=\"row__item activity-value\">" + value.name_sport + "</td>";
+            row += "<td class=\"row__item duration-value\">" + value.duration + " Minutes</td>";
+            row += "<td class=\"row__item location-value\">" + value.facility_name + "</td>";
+            row += "<td class=\"row__item\"><div id=\"" + value.id + "\" class=\"item__book item__book--book-modal hvr-sweep-to-right modal--open\"><h3>Book</h3></div></td></tr>";
+            $newTable.append(row);
+        });
+    } else {
+        $newTable.append(`
+            <tr class="table__row">
+                <td class="row__item row__item--none">No Activities Found on Selected Date</td>
+            </tr>
+        `)
+    }
 
     $('.' + className + '--output').replaceWith($newTable);
 }

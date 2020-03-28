@@ -134,7 +134,7 @@
                     <h2>Your Payment Details</h2>
                 </div>
 
-                <% if(locals.cards){ %>
+                <% if(locals.cards && locals.cards.length > 0){ %>
                     <% for (var i = 0; i < cards.length;  i++ ) { %>
                         <div class="overview__option hvr-float">
                             <div class="option__content option__content--center option__content--yellow">
@@ -169,11 +169,15 @@
                             </div>
                         </div>
                     <% } %>
-                    <% if(cards.length < 1) { %>
-                        <p style="color: black;">No Payment Details Found</p>
-                    <% } %> 
+        
                 <% } else { %>
-                    <p style="color: black;">No Payment Details Found</p>
+                    <div class="section__not-found">
+                        <div class="not-found__image">
+                            <img src="/img/icons/sadface.jpg" />
+                        </div>
+
+                        <h2>No Payment Methods Found</h2>
+                    </div>
                 <% } %>
             </div>
 

@@ -39,9 +39,12 @@
                         <h3>Add New Activity</h3>
                     </div>
         
-                    <div class="selector__item" target="configure">
-                        <h3>Configure Activities</h3>
-                    </div>
+
+                    <% if(locals.activities.length > 0) { %>
+                        <div class="selector__item" target="configure">
+                            <h3>Configure Activities</h3>
+                        </div>
+                    <% } %> 
                 </div>
             </div>
 
@@ -240,7 +243,19 @@
                         </form>
 
                     <% } else { %>
-                        There are currently no facilities to add activities to!
+                        <div class="content__list">
+                            <div class="list__field list__field--center">
+                                <h3>There are currently no facilities to add activities to!</h3>
+
+                                <div class="field__link hvr-sweep-to-right">
+                                    <a href="/manager/facilities/new">
+                                        <h3>Create Facilities</h3>
+                                    </a>
+                                </div>
+                            </div>
+
+                           
+                        </div>
                     <% } %>
 
                     <div class="content__form-title content__form-title--side">
@@ -255,13 +270,12 @@
                 </div>
             </div>
 
-            <div class="account__section account__section--full-width account__section--d-none  account__details" id="configure">
-                <div class="section__title">
-                    <h2>Configure Activities</h2>
-                </div>
+            <% if(locals.activities.length > 0) { %>
+                <div class="account__section account__section--full-width account__section--d-none  account__details" id="configure">
+                    <div class="section__title">
+                        <h2>Configure Activities</h2>
+                    </div>
 
-
-                <% if(locals.activities.length > 0) { %>
                     <% for (var i = 0; i < activities.length; i++) { %>
                         <div class="details__content">
                             <div class="content__form-title content__form-title--top">
@@ -333,9 +347,9 @@
                                 </div>
                             </div>
                         </div>
-                    <% } %>
-                <% } %>
-            </div>
+                    <% } %>    
+                </div>
+            <% } %>
         </div>
     </div>
 </div>

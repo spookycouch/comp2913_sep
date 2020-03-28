@@ -150,17 +150,27 @@
                 <% } %>
 
                 
-                <p>number of pages: <%=no_pages%></p>
+                <% if(no_pages > 1) { %>
+                    <p>number of pages: <%=no_pages%></p>
 
-                <% for (var i = 1; i <= no_pages; ++i) { %>
-                    <form method="GET" action="/activities">
-                        <input type="submit", value="<%=i%>">
-                        <input type="hidden", name="sport", value="<%=filters.sport%>">
-                        <input type="hidden", name="facility", value="<%=filters.facility%>">
-                        <input type="hidden", name="page_no", value="<%=i%>">
-                        <input type="hidden", name="no_items", value="<%=no_items%>">
-                    </form>
+                    <% for (var i = 1; i <= no_pages; ++i) { %>
+                        <form method="GET" action="/activities">
+                            <input type="submit", value="<%=i%>">
+                            <input type="hidden", name="sport", value="<%=filters.sport%>">
+                            <input type="hidden", name="facility", value="<%=filters.facility%>">
+                            <input type="hidden", name="page_no", value="<%=i%>">
+                            <input type="hidden", name="no_items", value="<%=no_items%>">
+                        </form>
+                    <% } %>
                 <% } %>
+            <% } else { %>
+                <div class="section__not-found">
+                    <div class="not-found__image">
+                        <img src="/img/icons/sadface.jpg" />
+                    </div>
+
+                    <h2>There are currently no upcoming activities, check back later!</h2>
+                </div>
             <% } %>
         </div>
     </div>
@@ -195,25 +205,32 @@
             </table>
 
             <table class="timetable__table timetable__activity--output">
-                <tr class="table__header">
-                    <th class="header__item header__item--time">Time</th>
-                    <th class="header__item header__item--activity">Activity</th>
-                    <th class="header__item header__item--duration">Duration</th>
-                    <th class="header__item header__item--location">Location</th>
-                    <th class="header__item header__item--book"></th>
-                </tr>
+                <% if(timetable.length > 0) { %>
 
-                <% for(var i = 0; i < timetable.length; i++) { %>
+                    <tr class="table__header">
+                        <th class="header__item header__item--time">Time</th>
+                        <th class="header__item header__item--activity">Activity</th>
+                        <th class="header__item header__item--duration">Duration</th>
+                        <th class="header__item header__item--location">Location</th>
+                        <th class="header__item header__item--book"></th>
+                    </tr>
+
+                    <% for(var i = 0; i < timetable.length; i++) { %>
+                        <tr class="table__row">
+                            <td class="row__item start_time-value" data_attr="<%- timetable[i].start_time %>"><%- timetable[i].start_time.substr(timetable[i].start_time.length - 8) %></td>
+                            <td class="row__item activity-value"><%- timetable[i].name_sport %></td>
+                            <td class="row__item duration-value"><%- timetable[i].duration %> Minutes</td>
+                            <td class="row__item location-value"><%- timetable[i].facility_name %></td>
+                            <td class="row__item">
+                                <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
+                                    <h3>Book</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    <% } %>
+                <% } else { %>
                     <tr class="table__row">
-                        <td class="row__item start_time-value" data_attr="<%- timetable[i].start_time %>"><%- timetable[i].start_time.substr(timetable[i].start_time.length - 8) %></td>
-                        <td class="row__item activity-value"><%- timetable[i].name_sport %></td>
-                        <td class="row__item duration-value"><%- timetable[i].duration %> Minutes</td>
-                        <td class="row__item location-value"><%- timetable[i].facility_name %></td>
-                        <td class="row__item">
-                            <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
-                                <h3>Book</h3>
-                            </div>
-                        </td>
+                        <td class="row__item row__item--none">No Activities Found on Selected Date</td>
                     </tr>
                 <% } %>
             </table>

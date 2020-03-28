@@ -368,6 +368,10 @@ h3 {
                     &__item {
                         padding: 40px 10px;
 
+                        &--none {
+                            width: 100%;
+                        }
+
                         .item {
                             &__book {
                                 border: $border_thickness solid $black;

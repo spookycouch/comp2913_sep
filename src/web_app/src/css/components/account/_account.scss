@@ -202,19 +202,44 @@
             display: none;
         }
 
-        // &--no-margin-bottom {
-        //     margin-bottom: 0;
-        // }
-
-        // &--no-margin-top {
-        //     margin-top: 0;
-        // }
-
         &--full-width {
             width: 100%;
         }
 
+        &--center {
+            text-align: center;
+        }
+
         .section {
+            &__not-found {
+                text-align: center;
+                width: 100%;
+                color: $black;
+
+                .not-found {
+                    &__image {
+                       width: 100%;
+                       display: flex;
+                       justify-content: center;
+
+                        img {
+                            width: $icon_default_width;
+                            margin: 40px;
+                        }
+                    }
+
+                    &__link {
+                        border: $border_thickness solid $black;
+                        padding: $padding_border_block;
+                        display: inline-block;
+                        margin-top: 20px;
+                        color: $black;
+                        background-color: $white;
+                    }
+                }
+            }
+
+
             &__title {
                 width: 100%;
                 color: $black !important;

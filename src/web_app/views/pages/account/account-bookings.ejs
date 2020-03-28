@@ -60,7 +60,7 @@
             </div>
 
 
-            <% if(locals.bookings){ %>
+            <% if(locals.bookings && locals.bookings.length > 0){ %>
                 <% for (var i = 0; i < bookings.length;  i++ ) { %>
                     <a href="##" class="overview__option overview__option--qr-modal hvr-float modal--open" id="<%- bookings[i].qr %>">
                         <div class="option__content option__content--center option__content--yellow">
@@ -104,11 +104,22 @@
                         </div>
                     </a>
                 <% } %>
-                <% if(bookings.length < 1) { %>
-                    <p style="color: black;">No Bookings Found</p>
-                <% } %>
+     
             <% } else { %>
-                <p style="color: black;">No Bookings Found</p>
+                <div class="section__not-found">
+                    <div class="not-found__image">
+                        <img src="/img/icons/sadface.jpg" />
+                    </div>
+
+                    <h2>No Bookings Found</h2>
+
+                    <div class="not-found__link hvr-sweep-to-right">
+                        <a href="/activities">
+                            <h3>Make Bookings</h3>
+                        </a>
+                    </div>
+
+                </div>
             <% } %>
         </div>
     </div>

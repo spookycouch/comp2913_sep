@@ -18,6 +18,26 @@
                 height: 25vw;
                 min-height: 250px;
                 object-fit: cover;
+
+                &--auto {
+      
+                    &:nth-child(4n + 1) {
+                        width: 40%;
+                    }
+
+                    &:nth-child(4n + 2) {
+                        width: 60%;
+                    }
+
+                    &:nth-child(4n + 3) {
+                        width: 60%;
+                    }
+
+                    &:nth-child(4n + 4) {
+                        width: 40%;
+                    }
+
+                }
             }
 
             &__image--first {

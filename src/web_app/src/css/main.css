@@ -1087,6 +1087,10 @@ ul {
   margin: 20px 40px;
 }
 
+.statistics__content .content__statistic .statistic__desc--center {
+  text-align: center;
+}
+
 @media only screen and (max-width: 950px) {
   .pricing-table__option {
     width: 60%;
@@ -1661,6 +1665,18 @@ ul {
   text-align: left;
 }
 
+.account__details .details__content .content__list .list__field--center {
+  text-align: center;
+}
+
+.account__details .details__content .content__list .list__field .field__link {
+  color: #413E4B;
+  border: 2px solid #413E4B;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-top: 20px;
+}
+
 .account__details .details__content .content__list .list__field .field__field {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2057,6 +2073,40 @@ ul {
   width: 100%;
 }
 
+.account__section--center {
+  text-align: center;
+}
+
+.account__section .section__not-found {
+  text-align: center;
+  width: 100%;
+  color: #413E4B;
+}
+
+.account__section .section__not-found .not-found__image {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.account__section .section__not-found .not-found__image img {
+  width: 80px;
+  margin: 40px;
+}
+
+.account__section .section__not-found .not-found__link {
+  border: 2px solid #413E4B;
+  padding: 5px 15px;
+  display: inline-block;
+  margin-top: 20px;
+  color: #413E4B;
+  background-color: white;
+}
+
 .account__section .section__title {
   width: 100%;
   color: #413E4B !important;
@@ -2209,6 +2259,22 @@ ul {
   min-height: 250px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.gallery__content .content__image--auto:nth-child(4n + 1) {
+  width: 40%;
+}
+
+.gallery__content .content__image--auto:nth-child(4n + 2) {
+  width: 60%;
+}
+
+.gallery__content .content__image--auto:nth-child(4n + 3) {
+  width: 60%;
+}
+
+.gallery__content .content__image--auto:nth-child(4n + 4) {
+  width: 40%;
 }
 
 .gallery__content .content__image--first {
@@ -3950,6 +4016,10 @@ h3 {
 
 .timetable__table .table__row .row__item {
   padding: 40px 10px;
+}
+
+.timetable__table .table__row .row__item--none {
+  width: 100%;
 }
 
 .timetable__table .table__row .row__item .item__book {

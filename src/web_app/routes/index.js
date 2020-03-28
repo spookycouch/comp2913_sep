@@ -127,6 +127,7 @@ router.get('/facilities/discover', csrf, function(req, res) {
     var today = (currentDate.getDay() + (currentDate.getDay() == 0 ? 6 : -1));
 
     user.facilities_discover(facilityId).then(function(results) {
+
         user.facilities_timetable(facilityId, currentDate).then(function(timetable) {
             res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
             {
@@ -260,7 +261,7 @@ router.get('/activities', csrf, function(req, res) {
 
     }).catch(function(err){
         console.log(err);
-        red.redirect('/home');
+        res.redirect('/home');
     });
 
 });
