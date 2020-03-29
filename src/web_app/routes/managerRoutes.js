@@ -329,7 +329,9 @@ router.post('/activities/new', function (req, res) {
                 
                     for (var i = 0; i < img_id_list.length; ++i) {
                         employee.newActivityImage(activity_id, img_id_list[i]).then(function (results){});
-                    }        
+                    }
+                    return 'success'
+
                 
                 // Catch error when adding new activity to DB    
                 }).catch(function(err) {
@@ -464,8 +466,9 @@ router.post('/facilities/new', function(req, res) {
                     var facility_id = results[1][0].id;
         
                     for (var i = 0; i < img_id_list.length; ++i) {
-                        return employee.newFacilityImage(facility_id, img_id_list[i]).then(function (results){});
+                        employee.newFacilityImage(facility_id, img_id_list[i]).then(function (results){});
                     }
+                    return 'success'
 
                 // Catch error when adding new facility to the DB 
                 }).catch(function(err) {
