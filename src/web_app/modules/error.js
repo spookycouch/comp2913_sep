@@ -64,6 +64,28 @@ exports.newFacilityErrorPage = function(req, res, webname, user, facility, icons
     }); 
 }
 
+exports.editFacilityErrorPage = function(req, res, webname, user, icons, err) {
+    user.getDetails(req.session.userId).then(function(userObj) {
+        user.facilities_discover(req.params['id']).then(function(result) {
+            
+            return res.render(path.join(__dirname + '/../views/pages/manager/facilities_edit.ejs'), {
+                title: webname + "| Facilities | Edit",
+                session: req.session,
+                csrfToken: req.csrfToken(),
+                user: userObj,
+                icons: icons,
+                facility: result[0],
+                error: err
+            });
+
+        }).catch(function(err) {
+            module.exports.defaultError(req, res, webname, err);
+        })
+    }).catch(function(err) {
+        module.exports.defaultError(req, res, webname, err);
+    });
+}
+
 
 /*
  *  Function:   Render new activity creation page with errors

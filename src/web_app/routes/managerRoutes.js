@@ -241,35 +241,6 @@ router.get('/activities/edit/:id*', function(req, res) {
 });
 
 
-router.get('/facilities/edit/:id*', function(req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
-        res.redirect('/home');
-
-    else {
-        user.getDetails(req.session.userId).then(function(userObj) {
-            user.facilities_discover(req.params['id']).then(function(result) {
-                return res.render(path.join(__dirname + '/../views/pages/manager/facilities_edit.ejs'), {
-                    title: webname + "| Facilities | Edit",
-                    session: req.session,
-                    csrfToken: req.csrfToken(),
-                    user: userObj,
-                    facility: result
-                });
-
-
-            }).catch(function(err) {
-                console.log(err);
-                res.redirect('/user/logout');
-            })
-
-        }).catch(function(err) {
-            console.log(err);
-            res.redirect('/user/logout');
-        });
-        
-    }
-});
-
 
 router.post('/activities/new', function (req, res) {  
     if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
@@ -399,7 +370,6 @@ router.get('/facilities/new', function (req, res) {
 
 
 /*
- *  TODO! SOMEONE FIX FFS THIS HAS BEEN LEFT FOR 4 DAYS NOW :(
  *  Function:   New Facility
 */
 router.post('/facilities/new', function(req, res) {
@@ -499,6 +469,75 @@ router.post('/facilities/new', function(req, res) {
         }
     }
 })
+
+
+
+router.get('/facilities/edit/:id*', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/home');
+
+    else {
+        icons = ['basketball', 'gym', 'running', 'sport', 'swim', 'tennis'];
+
+        user.getDetails(req.session.userId).then(function(userObj) {
+            user.facilities_discover(req.params['id']).then(function(result) {
+                return res.render(path.join(__dirname + '/../views/pages/manager/facilities_edit.ejs'), {
+                    title: webname + "| Facilities | Edit",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: userObj,
+                    icons: icons,
+                    facility: result[0]
+                });
+
+
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/user/logout');
+            })
+
+        }).catch(function(err) {
+            console.log(err);
+            res.redirect('/user/logout');
+        });
+        
+    }
+});
+
+
+router.post('/facilities/edit/:id*', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/home');
+
+    else {
+
+        try {
+            value = validation.newFacilityValidation(req.body);
+
+            // Error
+            if(value.error != undefined)
+                throw value.error.details;
+
+            employee.editFacility(req.body, req.params['id']).then(function(result) {
+
+                error.editFacilityErrorPage(req, res, webname, user, icons, [{
+                    message: "Facility updated successfully",
+                    path: 'success'
+                }]);
+
+            }).catch(function(err) {
+                error.editFacilityErrorPage(req, res, webname, user, icons, [{
+                    message: err,
+                    path: 'unsuccessful'
+                }]);
+            })
+            
+            
+        } catch (err) {
+            error.editFacilityErrorPage(req, res, webname, user, icons, err);
+        }
+    }
+});
 
 
 module.exports = router;

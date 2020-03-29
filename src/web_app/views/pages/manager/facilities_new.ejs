@@ -131,7 +131,11 @@
                         <div class="update-form__group">
                             <label class="update-form__label"><h3>icon</h3></label>
                             <!-- <input class="update-form__input" type="text" name="icon" /> -->
-                            <input id="icon" type="hidden" name="icon" value="basketball-white" />
+                            <% if(form.icon ) { %>
+                                <input id="icon" type="hidden" name="icon" value="<%- form.icon %>" />
+                            <% } else { %>
+                                <input id="icon" type="hidden" name="icon" value="basketball-white" />
+                            <% } %>
 
                             <% for(var i = 0; i < icons.length; i++) { %>
                                 <img class="update-form__icon update-form__icon--<%- icons[i] %>" src="/img/facilities/<%- icons[i] %>.png" data_attr="<%- icons[i] %>" />

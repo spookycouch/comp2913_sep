@@ -79,7 +79,7 @@ $(document).ready(function() {
     /*
     *  Set the default icon of the icon picker
     */
-    $('.update-form__icon--basketball').addClass('update-form__icon--selected');
+    $('.update-form__icon--' + $('#icon').val().replace('-white', '')).addClass('update-form__icon--selected');
 
 
     /*

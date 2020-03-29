@@ -531,6 +531,44 @@ exports.newFacilityImage = function(facility_id, image_id) {
 }
 
 
+
+exports.updateFacility = function(name, description, price, icon, facilityId) {
+
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'UPDATE Facility SET name = ?, description = ?, price = ?, icon = ? WHERE id = ? ',
+                    [name, description, price, icon, facilityId]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });
+}
+
+
 exports.createBooking = function(activity_id) {
 
     var conn = mysql.createConnection({
