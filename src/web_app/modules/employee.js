@@ -97,28 +97,6 @@ exports.newFacility = function(req_body){
     });
 }
 
-
-exports.editFacility = function(req_body, facilityId) {
-    // Parameters
-    let name = req_body.name;
-    let description = req_body.description;
-    let price = req_body.price;
-    let icon = req_body.icon;
-
-    return new Promise(function(resolve, reject) {
-
-        db.updateFacility(name, description, price, icon, facilityId).then(function(result){
-
-            resolve(result);
-
-        }).catch(function(err){
-
-            reject(err);
-        });
-
-    });
-}
-
 exports.newImage = function(ext){    
 
     return new Promise(function(resolve, reject) {
@@ -228,14 +206,13 @@ exports.newCashPayment = function(req_body, employee_id){
     // Parameters
     let activity_id = req_body.activity_id;
     let amount = req_body.amount;
-    // let usr_email = req_body.usr_email;
-    let usr_email = employee_id
+    let email = req_body.email;
 
     return new Promise(function(resolve, reject) {
 
         db.createBooking(activity_id).then(function(result){
 
-            db.createPaymentCash(amount, result[1][0].id, usr_email).then(function(result) {
+            db.createPaymentCash(amount, result[1][0].id, email).then(function(result) {
 
                 resolve(result);
             });
