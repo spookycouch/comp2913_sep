@@ -367,7 +367,7 @@ exports.createUser = function(name, surname, email, password, userType, phone, a
 
 
 /*
- *  Function:   Create New User
+ *  Function:   Create New Activity
  *  Input:      Discount, Cost, Start Time, Duration, Sport ID
  *  Output:     Bool / Error Message
 */

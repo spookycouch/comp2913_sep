@@ -15,6 +15,7 @@ var routes = require('./routes/index');
 var user = require('./routes/userRoutes.js');
 var api = require('./routes/api.js');
 var ajax = require('./routes/ajax.js');
+var pay = require('./routes/pay.js');
 var del = require('./routes/delete.js');
 var manager = require('./routes/managerRoutes.js');
 var error = require('./modules/error.js');
@@ -37,6 +38,7 @@ app.use('/api', api);
 app.use('/ajax', ajax);
 app.use('/delete', del);
 app.use('/manager', manager);
+app.use('/pay', pay);
 
 // Error 404
 app.get('*', function(req, res){

@@ -10,56 +10,45 @@ exports.preprocessPayment = function(res, req, webname, activityId, userId, card
 
     return new Promise(function(resolve, reject) {
 
-        /*
-                Please keep the methods for object-level processing.
-                Put payment processing here.
+        //Please keep the methods for object-level processing.
 
-                // Successful state 
-                if(PaymentSucceeded Somehow){
+        db.getActivityObj(activityId).then(function(activityObj){
+            db.getUserDetails(userId).then(function(userObj){
 
-                    // Grab Activity Details
-                    db.getActivityObj(activityId).then(function(activityObj){
 
-                        // Generate BookingActivity
-                        module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId){
-                            
-                            // Generate payment
-                            module.exports.generatePayment(bookedActivityId, activityObj.cost, userId, cardId).then(function(paymentId){
+                // Generate BookingActivity
+                module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId){
+                    
+                    // Generate payment
+                    module.exports.generatePayment(bookedActivityId, activityObj.cost, userId, cardId).then(function(paymentId){
 
-                                // Return successful payment id with redirect
+                        // Return successful payment id with redirect
 
-                                // somehow return paymentId (session?)
-                                // res.redirect(...);
+                        console.log(paymentId);
+                        resolve(paymentId);
 
-                                console.log(paymentId);
-                                 
-                                resolve(paymentId);
-
-                            // Payment failure
-                            }).catch(function(err){
-
-                                error.defaultError(req, res, webname, err);
-                            });
-
-                        // Booking Failure
-                        }).catch(function(err){
-
-                            error.defaultError(req, res, webname, err);
-                        });
-
-                    // Activity error
+                    // Payment failure
                     }).catch(function(err){
 
                         error.defaultError(req, res, webname, err);
                     });
-                                       
-                // Failure
-                } else {
-    
-                    reject(err);
 
-                }
-        */
+                // Booking Failure
+                }).catch(function(err){
+
+                    error.defaultError(req, res, webname, err);
+                });
+
+            // Activity error
+            }).catch(function(err){
+
+                error.defaultError(req, res, webname, err);
+            });
+                                       
+        }).catch(function(err){
+
+            error.defaultError(req, res, webname, err);
+        });
     });
 }
 
