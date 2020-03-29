@@ -78,26 +78,13 @@
                     </div>
 
                     <div class="update-form__group">
-                        <label class="update-form__label"><h3>User E-mail (optional)</h3></label>
+                        <label class="update-form__label"><h3>User E-mail</h3></label>
                         <input id="usr_email" class="update-form__input" name="usr_email" type="text" placeholder="E-mail">
 
                         <% if(locals.error){ %>
                             <% for (var i =0; i < error.length;  i++ ) { %>
-                                <% if(error[i].path == 'usr_email'){ %>   
+                                <% if(error[i].path == 'email'){ %>   
                                     <p id="usr_email-error" class="update-form__error"><%- error[i].message %></p>
-                                <% } %>
-                            <% } %>
-                        <% } %>
-                    </div>
-
-                    <div class="update-form__group">
-                        <label class="update-form__label"><h3>E-mail (optional: for electronic receipt)</h3></label>
-                        <input id="rcpt_email" class="update-form__input" name="rcpt_email" type="text" placeholder="E-mail">
-
-                        <% if(locals.error){ %>
-                            <% for (var i =0; i < error.length;  i++ ) { %>
-                                <% if(error[i].path == 'rcpt_email'){ %>   
-                                    <p id="rcpt_email-error" class="update-form__error"><%- error[i].message %></p>
                                 <% } %>
                             <% } %>
                         <% } %>

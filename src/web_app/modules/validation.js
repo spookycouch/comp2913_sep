@@ -358,19 +358,12 @@ const cashPaymentValidation = function(data) {
             .messages({
                 "number.base": "Amount Invalid"
             }),
-        usr_email: joi.string()
+        email: joi.string()
             .min(6)
+            .required()
             .email()
-            .allow('')
             .messages({
-                "string.min": "Email must be at least 6 characters long",
-                "string.email": "Invalid Email Address"
-            }),
-        rcpt_email: joi.string()
-            .min(6)
-            .email()
-            .allow('')
-            .messages({
+                "string.empty": "Email is Required",
                 "string.min": "Email must be at least 6 characters long",
                 "string.email": "Invalid Email Address"
             }),
