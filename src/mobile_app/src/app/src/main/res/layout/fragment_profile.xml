@@ -7,7 +7,7 @@
     android:id="@+id/profile_fragment"
     android:tag="fragment_profile">
 
-<TextView
+    <TextView
         android:id="@+id/text_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,4 +33,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_profile"
         app:layout_constraintVertical_bias="0.14" />
+
+    <ImageView
+        android:id="@+id/qr_membership"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buy_membership"
+        app:srcCompat="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/no_membership_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No membership"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/qr_membership"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buy_membership" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

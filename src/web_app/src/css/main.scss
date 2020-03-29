@@ -137,6 +137,23 @@ h3 {
                 padding: $padding_border_block;
                 width: 100%;
             }
+
+            &__select {
+                border: $border_thickness solid $black;
+                background-color: $white;
+                padding: $padding_border_block;
+                color: $black;
+                width: 100%;
+                cursor: pointer;
+            }
+
+            &__error {
+                color: $red;
+
+                &--d-none {
+                    display: none;
+                }
+            }
         }
     }
 
@@ -219,11 +236,59 @@ h3 {
 }
 
 
+.page-title {
+    padding: 30px 0;
+    background-color: $primary;
+
+    
+    &__header {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: $padding_border_block;
+        text-align: center;
+        color: $white;
+    }
+}
+
+.breadcrumbs {
+    // padding: $padding_main_section;
+    width: 100%;
+
+    &__selector {
+        color: $black;
+        border-bottom: $border_thickness solid $black;
+
+        .selector {
+            &__item {
+                display: inline-block;
+                padding: 20px 10px;
+                cursor: pointer;
+
+                &--selected {
+                    background-color: $tertiary;
+                }
+            }
+        }
+    }
+}
+
 
 .timetable {
     display: flex;
     justify-content: center;
     color: $black;
+    margin: 60px 0;
+
+    &--d-none {
+        display: none;
+    }
+
+    &__title {
+        width: 100%;
+        color: $black;
+        text-align: center;
+        margin-bottom: 40px;
+    }
 
     &__container {
         width: 80%;
@@ -233,6 +298,7 @@ h3 {
         text-align: center;
         padding: 20px;
         color: $black;
+        border-top: $border_thickness solid $black;
 
         h3 {
             display: inline-block;
@@ -302,6 +368,10 @@ h3 {
                     &__item {
                         padding: 40px 10px;
 
+                        &--none {
+                            width: 100%;
+                        }
+
                         .item {
                             &__book {
                                 border: $border_thickness solid $black;
@@ -346,6 +416,13 @@ h3 {
                     }
                 }
             }
+        }
+    }
+
+    .breadcrumbs {
+
+        &__selector {
+            text-align: right;
         }
     }
 }

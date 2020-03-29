@@ -54,6 +54,15 @@
                 </a>
             </li>
 
+            <% if(locals.session.userType == 2) { %>
+                <li class="nav__item hvr-inset">
+                    <a class="item__link" href="/user/account/payment/cash">
+                        <img src="/img/account/money.png" />
+                        <h3>New Cash Payment</h3>
+                    </a>
+                </li>
+            <% } %>
+
             <li class="nav__item nav__item--last">
                 <div class="nav__item--logout hvr-sweep-to-right">
                     <a href="/user/logout">

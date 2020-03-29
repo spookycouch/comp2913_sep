@@ -38,11 +38,24 @@
                                 width: 100%;
                                 text-align: left;
 
+                                &--center {
+                                    text-align: center;
+                                }
+
                                 .field {
+                                    &__link {
+                                        color: $black;
+                                        border: $border_thickness solid $black;
+                                        display: inline-block;
+                                        padding: $padding_border_block;
+                                        margin-top: 20px;
+                                    }
+
                                     &__field {
                                         display: flex;
                                         align-items: center;
                                         padding: 5px 0;
+                                        flex-wrap: wrap;
 
                                         img {
                                             width: $icon_small_width;
@@ -96,7 +109,7 @@
                                 display: inline-block;
                                 padding: $padding_border_block;
                                 cursor: pointer;
-                                margin-top: 10px;
+                                margin: 10px;
                             
                             }
                         }
@@ -144,9 +157,7 @@
                                 border: $border_thickness solid $black;
                                 background-color: $white;
                                 padding: $padding_border_block;
-                                font-weight: bold;
                                 color: $black;
-                                font-size: $header_3;
                                 width: 100%;
                                 cursor: pointer;
                             }

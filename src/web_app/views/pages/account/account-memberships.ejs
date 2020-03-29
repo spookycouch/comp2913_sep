@@ -37,7 +37,7 @@
                 <h2>Your memberships</h2>
             </div>
 
-            <% if(locals.memberships){ %>
+            <% if(locals.memberships && locals.memberships.length > 0){ %>
                 <% for (var i = 0; i < memberships.length;  i++ ) { %>
                     <div class="overview__option hvr-float">
                         <% if(!memberships[i].expired) { %>
@@ -106,11 +106,22 @@
                         </div>
                     </div>
                 <% } %>
-                <% if(memberships.length < 1) { %>
-                    <p style="color: black;">No Memberships Found</p>
-                <% } %>
+      
             <% } else { %>
-                <p style="color: black;">No Memberships Found</p>
+                <div class="section__not-found">
+                    <div class="not-found__image">
+                        <img src="/img/icons/sadface.jpg" />
+                    </div>
+
+                    <h2>No Memberships Found</h2>
+
+                    <div class="not-found__link hvr-sweep-to-right">
+                        <a href="/memberships">
+                            <h3>Buy Memberships</h3>
+                        </a>
+                    </div>
+
+                </div>
             <% } %>
 
             

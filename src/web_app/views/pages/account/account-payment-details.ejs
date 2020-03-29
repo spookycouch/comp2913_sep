@@ -42,27 +42,72 @@
                 <div class="content__half--form">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
+                    <% if(locals.error){ %>
+                        <% for (var i =0; i < error.length;  i++ ) { %>
+                            <% if(error[i].path == 'unsuccessful'){ %>   
+                                <p class="form__error modal--open-auto"><%- error[i].message %></p>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+
+
                     <div class="form__group">
                         <label class="form__label"><h3>Card Number</h3></label>
-                        <input id="card_number" class="form__input" type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX XXXX"/>      
+                        <input id="card_number" class="form__input" type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX XXXX" value="<%- form.card_number %>"/>   
+                        
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'card_number'){ %>   
+                                    <p id="card_number-error" class="form__error modal--open-auto"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% } %>
                     </div>
 
                     <div class="form__group form__group--col">
                         <div class="form__group--row">
                             <label class="form__label"><h3>Expire Date </h3></label>
-                            <input id="expire_date" class="form__input" type="text" name="expire_date" placeholder="XX/XX"/>
+                            <input id="expire_date" class="form__input" type="text" name="expire_date" placeholder="XX/XX" value="<%- form.expire_date %>"/>
+
+                            <% if(locals.error){ %>
+                                <% for (var i =0; i < error.length;  i++ ) { %>
+                                    <% if(error[i].path == 'expire_date'){ %>   
+                                        <p id="expire_date-error" class="form__error modal--open-auto"><%- error[i].message %></p>
+                                    <% } %>
+                                <% } %>
+                            <% } %>
                         </div>
 
                         <div class="form__group--row">
                             <label class="form__label"><h3>CVV</h3></label>
-                            <input id="cvv" class="form__input" type="text" name="cvv" placeholder="XXX"/>
+                            <input id="cvv" class="form__input" type="text" name="cvv" placeholder="XXX" value="<%- form.cvv %>"/>
+
+                            <% if(locals.error){ %>
+                                <% for (var i =0; i < error.length;  i++ ) { %>
+                                    <% if(error[i].path == 'cvv'){ %>   
+                                        <p id="cvv-error" class="form__error modal--open-auto"><%- error[i].message %></p>
+                                    <% } %>
+                                <% } %>
+                            <% } %>
                         </div>
-                        
                     </div>  
 
                     <div class="form__group">
                         <label class="form__label"><h3>Type</h3></label>
-                        <input id="type" class="form__input" type="text" name="type" placeholder="VISA/Mastercard..."/>
+                        <!-- <input id="type" class="form__input" type="text" name="type" placeholder="VISA/Mastercard..." value="<%- form.type %>"/> -->
+
+                        <select id="type" class="form__select" name="type" value="<%- form.type %>">
+                            <option value="VISA">VISA</option>
+                            <option value="Mastercard">Mastercard</option>
+                        </select>
+
+                        <% if(locals.error){ %>
+                            <% for (var i =0; i < error.length;  i++ ) { %>
+                                <% if(error[i].path == 'type'){ %>   
+                                    <p id="type-error" class="form__error modal--open-auto"><%- error[i].message %></p>
+                                <% } %>
+                            <% } %>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -89,7 +134,7 @@
                     <h2>Your Payment Details</h2>
                 </div>
 
-                <% if(locals.cards){ %>
+                <% if(locals.cards && locals.cards.length > 0){ %>
                     <% for (var i = 0; i < cards.length;  i++ ) { %>
                         <div class="overview__option hvr-float">
                             <div class="option__content option__content--center option__content--yellow">
@@ -124,11 +169,15 @@
                             </div>
                         </div>
                     <% } %>
-                    <% if(cards.length < 1) { %>
-                        <p style="color: black;">No Payment Details Found</p>
-                    <% } %> 
+        
                 <% } else { %>
-                    <p style="color: black;">No Payment Details Found</p>
+                    <div class="section__not-found">
+                        <div class="not-found__image">
+                            <img src="/img/icons/sadface.jpg" />
+                        </div>
+
+                        <h2>No Payment Methods Found</h2>
+                    </div>
                 <% } %>
             </div>
 

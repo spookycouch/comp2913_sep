@@ -54,7 +54,7 @@ CREATE TABLE `FacilityImage` (
   `id_facility` int(11) NOT NULL,
   PRIMARY KEY (`id_image`, `id_facility`),
   FOREIGN KEY(`id_image`) REFERENCES Image(`id`),
-  FOREIGN KEY(`id_facility`) REFERENCES Facility(`id`)
+  FOREIGN KEY(`id_facility`) REFERENCES Facility(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -155,7 +155,7 @@ CREATE TABLE `Activity` (
   `id_facility` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY(`id_sport`) REFERENCES Sport(`id`),
-  FOREIGN KEY(`id_facility`) REFERENCES Facility(`id`)
+  FOREIGN KEY(`id_facility`) REFERENCES Facility(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -169,7 +169,7 @@ CREATE TABLE `ActivityImage` (
   `id_activity` int(11) NOT NULL,
   PRIMARY KEY (`id_image`, `id_activity`),
   FOREIGN KEY(`id_image`) REFERENCES Image(`id`),
-  FOREIGN KEY(`id_activity`) REFERENCES Activity(`id`)
+  FOREIGN KEY(`id_activity`) REFERENCES Activity(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -184,7 +184,7 @@ CREATE TABLE `BookedActivity` (
   `id_activity` int(11) NOT NULL,
   `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`id_activity`) REFERENCES Activity(`id`)
+  FOREIGN KEY (`id_activity`) REFERENCES Activity(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -210,7 +210,7 @@ CREATE TABLE `Lecturer_Activity` (
   `id_lecturer` int(11) NOT NULL,
   `id_activity` int(11) NOT NULL,
   FOREIGN KEY(`id_lecturer`) REFERENCES Lecturer(`id`),
-  FOREIGN KEY(`id_activity`) REFERENCES Activity(`id`)
+  FOREIGN KEY(`id_activity`) REFERENCES Activity(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -256,9 +256,10 @@ CREATE TABLE `Payment` (
   `id_booked_activity` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`id_booked_activity`) REFERENCES BookedActivity(`id`),
+  FOREIGN KEY (`id_booked_activity`) REFERENCES BookedActivity(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`id_card`) REFERENCES Card(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 --
 -- SAMPLE DATA

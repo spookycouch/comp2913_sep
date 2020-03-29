@@ -1,7 +1,7 @@
 // Memberships page styling
 
 .pricing-table {
-    padding: 40px 0;    
+    padding: $padding_main_section;
     
     &__container {
         display: flex;
@@ -16,6 +16,8 @@
         padding: $padding_border_block;
         margin-top: 20px;
         text-align: center;
+        color: $black;
+
     }
 
     &__option {
@@ -148,6 +150,9 @@
                     &__desc {
                         margin: 20px 40px;
                   
+                        &--center {
+                            text-align: center;
+                        }
                         
                     }
                 }

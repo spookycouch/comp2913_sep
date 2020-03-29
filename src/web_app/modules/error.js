@@ -41,16 +41,21 @@ exports.registerEmployeeErrorPage = function(req, res, webname, user, err) {
 /*
  *  Function:   Renders new facility creation page with errors
 */
-exports.newFacilityErrorPage = function(req, res, webname, user, icons, err) {
+exports.newFacilityErrorPage = function(req, res, webname, user, facility, icons, err) {
 
     user.getDetails(req.session.userId).then(function(result) {
-        return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
-            title: webname + "| Facilities | New",
-            session: req.session,
-            csrfToken: req.csrfToken(),
-            user: result,
-            icons: icons,
-            error: err
+        facility.getAllFacilities().then(function(facilities) {
+            return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
+                title: webname + "| Facilities | New",
+                session: req.session,
+                csrfToken: req.csrfToken(),
+                user: result,
+                icons: icons,
+                error: err,
+                facilities: facilities
+            });
+        }).catch(function(err) {
+            module.exports.defaultError(req, res, webname, err);
         });
 
     }).catch(function(err) {
@@ -66,15 +71,22 @@ exports.newActivityErrorPage = function(req, res, webname, user, facility, err) 
     user.getDetails(req.session.userId).then(function(result) {
         facility.getAllFacilities().then(function(facilities) {
             facility.getAllSports().then(function(sports) {
-                return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
-                    title: webname + "| Activities | New",
-                    session: req.session,
-                    csrfToken: req.csrfToken(),
-                    user: result,
-                    facilities: facilities,
-                    sports: sports,
-                    error: err
+                facility.getAllActivities().then(function(activities) {
+                    return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
+                        title: webname + "| Activities | New",
+                        session: req.session,
+                        csrfToken: req.csrfToken(),
+                        user: result,
+                        facilities: facilities,
+                        sports: sports,
+                        error: err,
+                        activities: activities
+                    });
+                }).catch(function(err) {
+                    module.exports.defaultError(req, res, webname, err);
+
                 });
+                
             }).catch(function(err) {
                 module.exports.defaultError(req, res, webname, err);
             });
@@ -132,6 +144,7 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
                 user: result,
                 cards: cards,
                 error: err,
+                form: req.body,
                 csrfToken: req.csrfToken()
             });
 
@@ -143,6 +156,29 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
     // Error
     }).catch(function(err) {
         
+        module.exports.defaultError(req, res, webname, err);
+    });
+}
+
+
+exports.cashPaymentError = function(req, res, webname, user, facility, err) {
+    user.getDetails(req.session.userId).then(function(result) {
+        facility.getAllActivities().then(function(activities) {
+            return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
+                title: webname + "| Account | Payments | Cash",
+                session: req.session,
+                csrfToken: req.csrfToken(),
+                user: result,
+                activities: activities,
+                error: err
+            });
+
+        }).catch(function(err) {
+
+            module.exports.defaultError(req, res, webname, err);
+        });
+    }).catch(function(err) {
+
         module.exports.defaultError(req, res, webname, err);
     });
 }
