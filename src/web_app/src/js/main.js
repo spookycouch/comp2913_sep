@@ -79,7 +79,9 @@ $(document).ready(function() {
     /*
     *  Set the default icon of the icon picker
     */
-    $('.update-form__icon--' + $('#icon').val().replace('-white', '')).addClass('update-form__icon--selected');
+    if ($('.update-form__icon')[0]) {
+        $('.update-form__icon--' + $('#icon').val().replace('-white', '')).addClass('update-form__icon--selected');
+    }
 
 
     /*
@@ -412,6 +414,77 @@ $(document).ready(function() {
     $('.login-form__btn--return').on('click', function(e) {
         pageCount--;
         changePage(pageCount, "back", 2);
+    });
+
+
+
+    $(document).on('click', '.image__delete--facility', function(e) {
+        facilityId = $(this).attr('facility_attr');
+
+        $.ajax({
+            url: '/ajax/delete/image/facility',
+            type: 'POST',
+            data: {
+                'imageId': $(this).attr('image_attr'),
+                'facilityId': facilityId
+            },
+            datatype: 'json',
+            success: function(data) {
+                data = JSON.parse(data);
+
+                var $newImages = $("<div id=\"image-container\"></div>")
+
+                var row = ""
+                $.each(data.results, function(key, value) {
+                    row += "<div class=\"update-form__image\">";
+                    row += "<span class=\"image__delete image__delete--facility \" image_attr=\"" + value.id + "\" facility_attr=\"" + facilityId + "\" ><h2>×</h2></span>";
+                    row += "<img src=\"/uploads/" + value.id + "." + value.ext + "\" />";
+                    row += "</div>";
+                });
+                $newImages.append(row);
+                
+                $('#image-container').replaceWith($newImages);
+
+            },
+            error: function(error) {
+                alert(error);
+            }
+        });
+    });
+
+
+    $(document).on('click', '.image__delete--activity', function(e) {
+        activityId = $(this).attr('activity_attr');
+
+        $.ajax({
+            url: '/ajax/delete/image/activity',
+            type: 'POST',
+            data: {
+                'imageId': $(this).attr('image_attr'),
+                'activityId': activityId
+            },
+            datatype: 'json',
+            success: function(data) {
+                data = JSON.parse(data);
+
+                var $newImages = $("<div id=\"image-container\"></div>")
+
+                var row = ""
+                $.each(data.results, function(key, value) {
+                    row += "<div class=\"update-form__image\">";
+                    row += "<span class=\"image__delete image__delete--activity \" image_attr=\"" + value.id + "\" activity_attr=\"" + activityId + "\" ><h2>×</h2></span>";
+                    row += "<img src=\"/uploads/" + value.id + "." + value.ext + "\" />";
+                    row += "</div>";
+                });
+                $newImages.append(row);
+                
+                $('#image-container').replaceWith($newImages);
+
+            }, 
+            error: function(error) {
+                alert(error);
+            }
+        });
     });
 });
 

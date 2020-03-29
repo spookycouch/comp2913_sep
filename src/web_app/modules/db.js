@@ -408,6 +408,44 @@ exports.createActivity = function(name, description, discount, cost, start_time,
     });
 }
 
+
+exports.updateActivity = function(name, description, discount, cost, start_time, duration, id_sport, id_facility, activityId) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        // Connection
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                
+                'UPDATE Activity SET name = ?, description = ?, discount = ?, cost = ?, start_time = ?, duration = ?, id_sport = ?, id_facility = ? WHERE id = ?;',
+                    [name, description, discount, cost, start_time, duration, id_sport, id_facility, activityId]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                resolve(results);
+            });
+        });
+    });
+}
+
+
 /*
  *  Function:   Create New User
  *  Input:      Discount, Cost, Start Time, Duration, Sport ID
@@ -446,6 +484,76 @@ exports.newActivityImage = function(activity_id, image_id) {
             });
         });
     });
+}
+
+
+exports.deleteActivityImage = function(activity_id, image_id) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'DELETE FROM ActivityImage WHERE id_image = ? AND id_activity = ?;',
+                    [image_id, activity_id]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(true);
+            
+            });
+        });
+    });
+}
+
+
+exports.getActivityImages = function(activity_id) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT id, ext FROM Image INNER JOIN ActivityImage ON id = id_image WHERE id_activity = ?;',
+                    [activity_id]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });   
 }
 
 
@@ -528,6 +636,76 @@ exports.newFacilityImage = function(facility_id, image_id) {
             });
         });
     });
+}
+
+
+exports.deleteFacilityImage = function(facility_id, image_id) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'DELETE FROM FacilityImage WHERE id_image = ? AND id_facility = ?;',
+                    [image_id, facility_id]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(true);
+            
+            });
+        });
+    });
+}
+
+
+exports.getFacilityImages = function(facility_id) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT id, ext FROM Image INNER JOIN FacilityImage ON id = id_image WHERE id_facility = ?;',
+                    [facility_id]
+            );
+            
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            
+            });
+        });
+    });   
 }
 
 

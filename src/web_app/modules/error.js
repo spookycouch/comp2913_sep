@@ -1,4 +1,6 @@
 var path = require('path');
+var moment = require('moment');
+
 
 const webname = ' The Edgy ';
 
@@ -67,7 +69,7 @@ exports.newFacilityErrorPage = function(req, res, webname, user, facility, icons
 exports.editFacilityErrorPage = function(req, res, webname, user, icons, err) {
     user.getDetails(req.session.userId).then(function(userObj) {
         user.facilities_discover(req.params['id']).then(function(result) {
-            
+
             return res.render(path.join(__dirname + '/../views/pages/manager/facilities_edit.ejs'), {
                 title: webname + "| Facilities | Edit",
                 session: req.session,
@@ -75,6 +77,7 @@ exports.editFacilityErrorPage = function(req, res, webname, user, icons, err) {
                 user: userObj,
                 icons: icons,
                 facility: result[0],
+                images: result[1],
                 error: err
             });
 
@@ -108,7 +111,6 @@ exports.newActivityErrorPage = function(req, res, webname, user, facility, req_b
                     });
                 }).catch(function(err) {
                     module.exports.defaultError(req, res, webname, err);
-
                 });
                 
             }).catch(function(err) {
@@ -118,6 +120,52 @@ exports.newActivityErrorPage = function(req, res, webname, user, facility, req_b
         }).catch(function(err) {
             module.exports.defaultError(req, res, webname, err);
         });
+    }).catch(function(err) {
+        module.exports.defaultError(req, res, webname, err);
+    })
+}
+
+
+exports.editActivityErrorPage = function(req, res, webname, user, facility, employee, err) {
+    user.getDetails(req.session.userId).then(function(userObj) {
+        user.getActivity(req.params['id']).then(function(result) {
+            facility.getAllFacilities().then(function(facilities) {
+                facility.getAllSports().then(function(sports) {
+                    employee.getActivityImages(req.params['id']).then(function(images) {
+                        date = moment(result.start_time).format('YYYY-MM-DD');
+                        time = moment(result.start_time).format('HH:mm');
+
+                        return res.render(path.join(__dirname + '/../views/pages/manager/activities_edit.ejs'), {
+                            title: webname + "| Activities | Edit",
+                            session: req.session,
+                            csrfToken: req.csrfToken(),
+                            user: userObj,
+                            activity: result,
+                            images: images,
+                            date: date,
+                            time: time,
+                            facilities: facilities,
+                            sports: sports,
+                            error: err
+                        });
+
+
+                    }).catch(function(err) {
+                        module.exports.defaultError(req, res, webname, err);
+                    });
+
+                }).catch(function(err) {
+                    module.exports.defaultError(req, res, webname, err);
+                });
+
+            }).catch(function(err) {
+                module.exports.defaultError(req, res, webname, err);
+            });
+
+        }).catch(function(err) {
+            module.exports.defaultError(req, res, webname, err);
+        });
+
     }).catch(function(err) {
         module.exports.defaultError(req, res, webname, err);
     })

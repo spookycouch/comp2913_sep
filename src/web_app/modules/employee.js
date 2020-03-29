@@ -35,9 +35,40 @@ exports.newActivity = function(req_body){
 
             reject(err);
         });
-
     });
 }
+
+
+exports.editActivity = function(req_body, activityId) {
+
+    // Parameters
+    let name = req_body.name;
+    let description = req_body.description;
+    let discount = req_body.discount;
+    let cost = req_body.cost;
+    let date = req_body.date;
+    let time = req_body.time
+    let start_time = date + " " + time;
+    let duration = req_body.duration;
+    let id_sport = req_body.id_sport;
+    let id_facility = req_body.id_facility;
+
+    if (discount == '') // If discount is empty, set to 0 (since field is integer)
+        discount = 0;
+
+    return new Promise(function(resolve, reject) {
+
+        db.updateActivity(name, description, discount, cost, start_time, duration, id_sport, id_facility, activityId).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+    });
+}
+
 
 /*
  *  Function:   Create New Activity
@@ -119,6 +150,36 @@ exports.newActivityImage = function(activity_id, image_id){
     });
 }
 
+
+exports.deleteActivityImage = function(activity_id, image_id) {
+    return new Promise(function( resolve, reject) {
+
+        db.deleteActivityImage(activity_id, image_id).then(function(result) {
+
+            resolve(result);
+
+        }).catch(function(err) {
+
+            reject(err);
+        });
+    });
+}
+
+
+exports.getActivityImages = function(activity_id) {
+    return new Promise(function(resolve, reject) {
+
+        db.getActivityImages(activity_id).then(function(result) {
+
+            resolve(result);
+
+        }).catch(function(err) {
+
+            reject(err);
+        });
+    });
+}
+
 exports.newFacilityImage = function(facility_id, image_id){
     return new Promise(function(resolve, reject) {
 
@@ -131,6 +192,34 @@ exports.newFacilityImage = function(facility_id, image_id){
             reject(err);
         });
 
+    });
+}
+
+exports.deleteFacilityImage = function(facility_id, image_id) {
+    return new Promise(function( resolve, reject) {
+
+        db.deleteFacilityImage(facility_id, image_id).then(function(result) {
+
+            resolve(result);
+
+        }).catch(function(err) {
+
+            reject(err);
+        });
+    });
+}
+
+exports.getFacilityImages = function(facility_id) {
+    return new Promise(function( resolve, reject) {
+
+        db.getFacilityImages(facility_id).then(function(result) {
+
+            resolve(result);
+
+        }).catch(function(err) {
+
+            reject(err);
+        });
     });
 }
 
