@@ -181,7 +181,8 @@ router.get('/activities/new', function (req, res) {
                             user: result,
                             facilities: facilities,
                             sports: sports,
-                            activities: activities
+                            activities: activities,
+                            form: req.body
                         });
                         
                     }).catch(function(err) {
@@ -203,6 +204,69 @@ router.get('/activities/new', function (req, res) {
             console.log(err);
             res.redirect('/user/logout');
         });
+    }
+});
+
+
+router.get('/activities/edit/:id*', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/home');
+
+    else {
+        user.getDetails(req.session.userId).then(function(userObj) {
+            user.getActivity(req.params['id']).then(function(result) {
+
+                console.log(result);
+
+                return res.render(path.join(__dirname + '/../views/pages/manager/activities_edit.ejs'), {
+                    title: webname + "| Activities | Edit",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: userObj,
+                    activity: result
+                });
+
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/user/logout');
+            })
+           
+
+        }).catch(function(err) {
+            console.log(err);
+            res.redirect('/user/logout');
+            
+        });   
+    }
+});
+
+
+router.get('/facilities/edit/:id*', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/home');
+
+    else {
+        user.getDetails(req.session.userId).then(function(userObj) {
+            user.facilities_discover(req.params['id']).then(function(result) {
+                return res.render(path.join(__dirname + '/../views/pages/manager/facilities_edit.ejs'), {
+                    title: webname + "| Facilities | Edit",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: userObj,
+                    facility: result
+                });
+
+
+            }).catch(function(err) {
+                console.log(err);
+                res.redirect('/user/logout');
+            })
+
+        }).catch(function(err) {
+            console.log(err);
+            res.redirect('/user/logout');
+        });
+        
     }
 });
 
@@ -229,7 +293,7 @@ router.post('/activities/new', function (req, res) {
 
                 // validate img type
                 if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
-                    return error.newActivityErrorPage(req, res, webname, user, facility, [{
+                    return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
                         message: "Invalid File Type",
                         path: "image"
                     }]);
@@ -244,7 +308,7 @@ router.post('/activities/new', function (req, res) {
 
                 // Catch error when uploading Image
                 }).catch(function(err){
-                    return error.newActivityErrorPage(req, res, webname, user, facility, [{
+                    return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
                         message: err,
                         path: 'unsuccessful'
                     }]);
@@ -257,7 +321,7 @@ router.post('/activities/new', function (req, res) {
 
                 // Error with validation of fields
                 if(value.error != undefined)
-                    return error.newActivityErrorPage(req, res, webname, user, facility, value.error.details);
+                    return error.newActivityErrorPage(req, res, webname, user, facility, req_body, value.error.details);
 
 
                 employee.newActivity(req_body).then(function (results) {
@@ -269,14 +333,14 @@ router.post('/activities/new', function (req, res) {
                 
                 // Catch error when adding new activity to DB    
                 }).catch(function(err) {
-                    return error.newActivityErrorPage(req, res, webname, user, facility, [{
+                    return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
                         message: err,
                         path: 'unsuccessful'
                     }]);
                 });
 
                 // When the activity is created successfully
-                return error.newActivityErrorPage(req, res, webname, user, facility, [{
+                return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
                     message: "Activity Created successfully",
                     path: 'success'
                 }]);
@@ -295,7 +359,7 @@ router.post('/activities/new', function (req, res) {
         // Catch all other errors thrown
         } catch(err) {
             console.log(err) // For debugging
-            error.newActivityErrorPage(req, res, webname, user, facility, err);
+            error.newActivityErrorPage(req, res, webname, user, facility, {}, err);
         }
     }
 });
@@ -318,7 +382,8 @@ router.get('/facilities/new', function (req, res) {
                     csrfToken: req.csrfToken(),
                     user: result,
                     icons: icons,
-                    facilities: facilities
+                    facilities: facilities,
+                    form: req.body
                 });
             }).catch(function(err) {
                 console.log(err);
@@ -363,7 +428,7 @@ router.post('/facilities/new', function(req, res) {
 
                 // validate img type
                 if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg')) {
-                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, [{
+                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, req_body, [{
                         message: "Invalid File Type",
                         path: "image"
                     }]);
@@ -380,7 +445,7 @@ router.post('/facilities/new', function(req, res) {
 
                 // Catch error when uploading new image to dir
                 }).catch(function(err){
-                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, [{
+                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, req_body, [{
                         message: err,
                         path: 'unsuccessful'
                     }]);
@@ -392,7 +457,7 @@ router.post('/facilities/new', function(req, res) {
 
                 // Error
                 if(value.error != undefined)
-                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, value.error.details);
+                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, req_body, value.error.details);
 
                 
                 employee.newFacility(req_body).then(function (results) {
@@ -404,7 +469,7 @@ router.post('/facilities/new', function(req, res) {
 
                 // Catch error when adding new facility to the DB 
                 }).catch(function(err) {
-                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, [{
+                    return error.newFacilityErrorPage(req, res, webname, user, facility, icons, req_body, [{
                         message: err,
                         path: 'unsuccessful'
                     }]);
@@ -412,7 +477,7 @@ router.post('/facilities/new', function(req, res) {
                 });
                 
                 // When the facility is created successfully
-                error.newFacilityErrorPage(req, res, webname, user, facility, icons, [{
+                error.newFacilityErrorPage(req, res, webname, user, facility, icons, req_body, [{
                     message: "Facility Created successfully",
                     path: 'success'
                 }]);
@@ -430,7 +495,7 @@ router.post('/facilities/new', function(req, res) {
 
         // Catch all other errors thrown
         } catch (err) {
-            error.newFacilityErrorPage(req, res, webname, user, facility, icons, err);
+            error.newFacilityErrorPage(req, res, webname, user, facility, icons, {}, err);
         }
     }
 })

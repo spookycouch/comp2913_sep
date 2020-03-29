@@ -77,6 +77,8 @@ router.post('/register', function(req, res) {
  *  Function:   Login Backend Query
 */
 router.post('/login', function(req, res) {
+    var nextPage = req.session.from;
+    req.session.destroy();
 
     try { 
 
@@ -98,7 +100,9 @@ router.post('/login', function(req, res) {
             user.setUserSession(req, email).then(function(result){
 
                 // Success!
-                if (req.session.userType > 2) { // If they're a manager redirect to manager overview
+                if (nextPage != undefined) {
+                    res.redirect(nextPage);
+                } else if (req.session.userType > 2) { // If they're a manager redirect to manager overview
                     res.redirect('/manager/overview');
                 } else {
                     res.redirect('/user/account');

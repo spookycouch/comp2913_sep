@@ -93,7 +93,7 @@
             
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Name</h3></label>
-                                <input id="name" class="update-form__input" name="name" type="text" placeholder="Name">
+                                <input id="name" class="update-form__input" name="name" type="text" placeholder="Name" value="<%- form.name %>">
 
                                 <% if(locals.error){ %>
                                     <% for (var i =0; i < error.length;  i++ ) { %>
@@ -107,7 +107,7 @@
                             
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Description</h3></label>
-                                <textarea id="description" class="update-form__input" name="description" placeholder="Description"></textarea>
+                                <textarea id="description" class="update-form__input" name="description" placeholder="Description"><%- form.description %></textarea>
 
 
                                 <% if(locals.error){ %>
@@ -121,7 +121,7 @@
                             
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Discount <small>(optional)</small></h3></label>
-                                <input id="discount" class="update-form__input" name="discount" type="text" placeholder="Discount">
+                                <input id="discount" class="update-form__input" name="discount" type="text" placeholder="Discount" value="<%- form.discount %>">
 
                                 <% if(locals.error){ %>
                                     <% for (var i =0; i < error.length;  i++ ) { %>
@@ -134,7 +134,7 @@
                             
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Price</h3></label>
-                                <input class="update-form__input" name="cost" type="text" placeholder="Price">
+                                <input id="cost" class="update-form__input" name="cost" type="text" placeholder="Price" value="<%- form.cost %>">
 
                                 <% if(locals.error){ %>
                                     <% for (var i =0; i < error.length;  i++ ) { %>
@@ -148,7 +148,7 @@
                             <div class="update-form__group update-form__group--col">
                                 <div class="update-form__group--row">
                                     <label class="update-form__label"><h3>Start Date</h3></label>
-                                    <input id="date" class="update-form__input" name="date" type="date" placeholder="Start Date">
+                                    <input id="date" class="update-form__input" name="date" type="date" placeholder="Start Date" value="<%- form.date %>">
 
                                     <% if(locals.error){ %>
                                         <% for (var i =0; i < error.length;  i++ ) { %>
@@ -161,7 +161,7 @@
 
                                 <div class="update-form__group--row">
                                     <label class="update-form__label"><h3>Start Time</h3></label>
-                                    <input id="time" class="update-form__input" name="time" type="time" placeholder="Start Time">
+                                    <input id="time" class="update-form__input" name="time" type="time" placeholder="Start Time" value="<%- form.time %>">
 
                                     <% if(locals.error){ %>
                                         <% for (var i =0; i < error.length;  i++ ) { %>
@@ -177,7 +177,7 @@
                             
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Duration</h3></label>
-                                <input id="duration" class="update-form__input" name="duration" type="text" placeholder="Duration">
+                                <input id="duration" class="update-form__input" name="duration" type="text" placeholder="Duration" value="<%- form.duration %>">
 
                                 <% if(locals.error){ %>
                                     <% for (var i =0; i < error.length;  i++ ) { %>
@@ -191,7 +191,7 @@
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Sport</h3></label>
 
-                                <select id="id_sport" class="update-form__select" name="id_sport">
+                                <select id="id_sport" class="update-form__select" name="id_sport" value="<%- form.id_sport %>">
                                     <% for (var i = 0; i < sports.length; i++) { %>
                                         <option value="<%- sports[i].id %>"><%- sports[i].name %></option>
                                     <% } %>
@@ -209,7 +209,7 @@
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Facility</h3></label>
 
-                                <select id="id_facility" class="update-form__select" name="id_facility">
+                                <select id="id_facility" class="update-form__select" name="id_facility" value="<%- form.id_facility %>">
                                     <% for (var i = 0; i < facilities.length;  i++ ) { %>
                                         <option value="<%- facilities[i].id %>"><%- facilities[i].name %></option>
                                     <% } %>
@@ -339,7 +339,9 @@
                                 </div>
     
                                 <div class="form-title__book hvr-sweep-to-right">
-                                    <h3>Edit</h3>
+                                    <a href="/manager/activities/edit/<%- activities[i].id %>">
+                                        <h3>Edit</h3>
+                                    </a>
                                 </div>
 
                                 <div id="<%- activities[i].id %>" class="form-title__book hvr-sweep-to-right form-title__book--delete-activity modal--open-delete">

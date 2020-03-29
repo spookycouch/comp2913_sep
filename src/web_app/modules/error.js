@@ -41,7 +41,7 @@ exports.registerEmployeeErrorPage = function(req, res, webname, user, err) {
 /*
  *  Function:   Renders new facility creation page with errors
 */
-exports.newFacilityErrorPage = function(req, res, webname, user, facility, icons, err) {
+exports.newFacilityErrorPage = function(req, res, webname, user, facility, icons, req_body, err) {
 
     user.getDetails(req.session.userId).then(function(result) {
         facility.getAllFacilities().then(function(facilities) {
@@ -52,7 +52,8 @@ exports.newFacilityErrorPage = function(req, res, webname, user, facility, icons
                 user: result,
                 icons: icons,
                 error: err,
-                facilities: facilities
+                facilities: facilities,
+                form: req_body
             });
         }).catch(function(err) {
             module.exports.defaultError(req, res, webname, err);
@@ -67,7 +68,7 @@ exports.newFacilityErrorPage = function(req, res, webname, user, facility, icons
 /*
  *  Function:   Render new activity creation page with errors
 */
-exports.newActivityErrorPage = function(req, res, webname, user, facility, err) {
+exports.newActivityErrorPage = function(req, res, webname, user, facility, req_body, err) {
     user.getDetails(req.session.userId).then(function(result) {
         facility.getAllFacilities().then(function(facilities) {
             facility.getAllSports().then(function(sports) {
@@ -80,7 +81,8 @@ exports.newActivityErrorPage = function(req, res, webname, user, facility, err) 
                         facilities: facilities,
                         sports: sports,
                         error: err,
-                        activities: activities
+                        activities: activities,
+                        form: req_body
                     });
                 }).catch(function(err) {
                     module.exports.defaultError(req, res, webname, err);

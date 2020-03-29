@@ -89,7 +89,7 @@
                                     
                         <div class="update-form__group">
                             <label class="update-form__label"><h3>Name</h3></label>
-                            <input id="name" class="update-form__input" type="text" name="name" placeholder="Name" />
+                            <input id="name" class="update-form__input" type="text" name="name" placeholder="Name" value="<%- form.name %>" />
 
                             <% if(locals.error){ %>
                                 <% for (var i =0; i < error.length;  i++ ) { %>
@@ -102,7 +102,7 @@
 
                         <div class="update-form__group">
                             <label class="update-form__label"><h3>Description</h3></label>
-                            <textarea id="description" class="update-form__input" name="description" placeholder="Description"></textarea>
+                            <textarea id="description" class="update-form__input" name="description" placeholder="Description"><%- form.description %></textarea>
 
                             <% if(locals.error){ %>
                                 <% for (var i =0; i < error.length;  i++ ) { %>
@@ -116,7 +116,7 @@
                         
                         <div class="update-form__group">
                             <label class="update-form__label"><h3>Price</h3></label>
-                            <input id="price" class="update-form__input" type="text" name="price" placeholder="Price" />
+                            <input id="price" class="update-form__input" type="text" name="price" placeholder="Price" value="<%- form.price %>" />
 
                             <% if(locals.error){ %>
                                 <% for (var i =0; i < error.length;  i++ ) { %>
@@ -222,7 +222,9 @@
                                 </div>
 
                                 <div class="form-title__book hvr-sweep-to-right">
-                                    <h3>Edit</h3>
+                                    <a href="/manager/facilities/edit/<%- facilities[i].id %>">
+                                        <h3>Edit</h3>
+                                    </a>
                                 </div>
 
                                 <div id="<%- facilities[i].id %>" class="form-title__book hvr-sweep-to-right form-title__book--delete-facility modal--open-delete">

@@ -431,6 +431,20 @@ exports.deleteActivity = function(activityId) {
 }
 
 
+exports.getActivity = function(activityId) {
+    return new Promise(function(resolve, reject) {
+        db.getActivityObj(activityId).then(function(result) {
+
+            resolve(result);
+
+        }).catch(function(err) {
+
+            reject(err);
+        })
+    });
+}
+
+
 /*
  *  Function:   Upcoming activities
  *  Input:      No Items, Page No

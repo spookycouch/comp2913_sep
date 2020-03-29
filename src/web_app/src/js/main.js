@@ -274,7 +274,7 @@ $(document).ready(function() {
         $('#duration').text($(this).parent().parent().find('.duration-value').text());
         $('#location').text($(this).parent().parent().find('.location-value').text());
 
-        $('#book-activity').attr('href', this.id); // TODO: add router route
+        $('#book-activity').attr('href', '/payment/booking/' + this.id); // TODO: add router route
     });
 
 
