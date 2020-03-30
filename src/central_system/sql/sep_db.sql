@@ -255,6 +255,7 @@ CREATE TABLE `Payment` (
   `id_card` int(11) NOT NULL,
   `id_booked_activity` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `id_employee` int(11),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_booked_activity`) REFERENCES BookedActivity(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`id_card`) REFERENCES Card(`id`)

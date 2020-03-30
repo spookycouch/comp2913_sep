@@ -605,7 +605,7 @@ exports.createBooking = function(activity_id) {
     });
 }
 
-exports.createPaymentCash = function(amount, activity_id, usr_email) {
+exports.createPaymentCash = function(amount, activity_id, user_email, employee_id) {
 
     var conn = mysql.createConnection({
         host: host,
@@ -624,8 +624,8 @@ exports.createPaymentCash = function(amount, activity_id, usr_email) {
 
             query = SqlString.format(
         
-                'INSERT INTO Payment(amount, id_card, id_booked_activity, id_user) SELECT ?, id, ?, ? FROM Card WHERE type = "__CASH__"; SELECT LAST_INSERT_ID() AS id;',
-                    [amount, activity_id, usr_email]
+                'INSERT INTO Payment(amount, id_card, id_booked_activity, id_user, id_employee) SELECT ?, Card.id, ?, User.id, ? FROM Card CROSS JOIN User WHERE Card.type = "__CASH__" AND User.email = "test@mail.com"; SELECT LAST_INSERT_ID() AS id;',
+                    [amount, activity_id, employee_id, user_email]
             );
             
             // Query
@@ -636,6 +636,46 @@ exports.createPaymentCash = function(amount, activity_id, usr_email) {
                 // Result
                 resolve(results);
             
+            });
+        });
+    });
+}
+
+exports.receiptPaymentCash = function(payment_id) {
+    var conn = mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db
+    });
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT Payment.id, Payment.purchase_date, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name, cost, amount, User.id AS employee_id, User.name AS employee_name FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id INNER JOIN User ON Payment.id_user = User.id WHERE Payment.id = ?;',
+                    [payment_id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.length > 0)
+                    resolve(results[0]);
+
+                else
+                    reject("Payment not found.");
+
             });
         });
     });

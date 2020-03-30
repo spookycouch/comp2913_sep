@@ -117,16 +117,31 @@ exports.newCashPayment = function(req_body, employee_id){
     // Parameters
     let activity_id = req_body.activity_id;
     let amount = req_body.amount;
-    let email = req_body.email;
+    let user_email = req_body.email;
 
     return new Promise(function(resolve, reject) {
 
         db.createBooking(activity_id).then(function(result){
 
-            db.createPaymentCash(amount, result[1][0].id, email).then(function(result) {
+            db.createPaymentCash(amount, result[1][0].id, user_email, employee_id).then(function(result) {
 
                 resolve(result);
             });
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+
+    });
+}
+
+exports.getCashPaymentReceipt = function(payment_id){
+    return new Promise(function(resolve, reject) {
+
+        db.receiptPaymentCash(payment_id).then(function(result){
+            
+            resolve(result);
 
         }).catch(function(err){
 

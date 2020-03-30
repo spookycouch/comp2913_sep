@@ -1,5 +1,6 @@
 const express = require('express');
 const validation = require('../modules/validation');
+const PDFDocument = require('pdfkit');
 const jwt = require('jsonwebtoken');
 var path = require('path');
 const router = express.Router();
@@ -547,6 +548,91 @@ router.post('/account/payment/cash', function(req, res) {
         // Catch all other errors thrown
         } catch(err) {
             error.cashPaymentError(req, res, webname, user, facility, err)
+        }
+    }
+});
+
+
+/*
+ *  Function:   Cash Payment Receipt GET
+*/
+router.get('/account/payment/cash/receipt', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType != 2) // If not an employee
+        res.redirect('/user/logout');
+
+    else {  
+        try {
+            // TODO: validation
+
+            employee.getCashPaymentReceipt(req.query.payment_id).then (function (result){
+                console.log(result);
+                var doc = new PDFDocument({size: [400, 600]});
+                doc.font('Courier');
+                
+                doc.text('THE EDGY GYM', {align: 'center'});
+                doc.text('Woodhouse', {align: 'center'});
+                doc.text('Leeds LS2 9JT', {align: 'center'});
+
+                doc.text('\n\n');
+
+                // date
+                var date = new Date(result.purchase_date);
+                console.log(date);
+                var date_string =   date.getDate().toString().padStart(2, '0') + '/' +
+                                    (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                                    date.getFullYear().toString().padStart(4, '0')
+
+                var time_string =   date.getHours().toString().padStart(2, '0') + ':' +
+                                    date.getMinutes().toString().padStart(2, '0') + ':' +
+                                    date.getSeconds().toString().padStart(2, '0');
+                var curr_y = doc.y
+                doc.text(date_string, doc.x, curr_y, {align: 'left'});
+                doc.text(time_string, doc.x, curr_y, {align: 'right'});
+                doc.text('\n');
+
+                doc.text('\n');
+                doc.text('Payment no:   ' + result.id);
+                doc.text('Served by:    ' + result.employee_name);
+                doc.text('Employee ID:  ' + result.employee_id);
+                
+                doc.text('\n\n');
+
+                doc.text('Booking ID: ' + result.booking_id);
+                doc.text('Activity ID ' + result.activity_id + ': ' + result.name);
+
+                // break
+                doc.text('\n\n');
+                doc.text('===================================', {align: 'center'})
+
+                // monies count
+                var curr_y = doc.y
+                doc.text('total:', doc.x, curr_y, {align: 'left'});
+                doc.text(result.cost.toFixed(2), doc.x, curr_y, {align: 'right'});
+                doc.text('\n');
+                curr_y = doc.y
+                doc.text('paid:', doc.x, curr_y, {align: 'left'});
+                doc.text(result.amount.toFixed(2), doc.x, curr_y, {align: 'right'});
+                doc.text('\n');
+                curr_y = doc.y
+                doc.text('change:', doc.x, curr_y, {align: 'left'});
+                doc.text((result.amount - result.cost).toFixed(2), doc.x, curr_y, {align: 'right'});
+
+
+                // pipe the doc to response and end write
+                doc.pipe(res);
+                doc.end();
+            
+            }).catch(function(err) {
+                
+                // TODO: proper error handle
+                console.log(err);
+            });
+
+        // Catch all other errors thrown
+        } catch(err) {
+
+            // TODO: proper error handle
+            console.log(err);
         }
     }
 });

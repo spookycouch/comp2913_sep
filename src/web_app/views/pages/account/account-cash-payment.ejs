@@ -79,7 +79,7 @@
 
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>User E-mail</h3></label>
-                        <input id="usr_email" class="update-form__input" name="usr_email" type="text" placeholder="E-mail">
+                        <input id="usr_email" class="update-form__input" name="email" type="text" placeholder="E-mail">
 
                         <% if(locals.error){ %>
                             <% for (var i =0; i < error.length;  i++ ) { %>
@@ -93,6 +93,8 @@
                     <div class="update-form__group">
                         <button class="update-form__btn hvr-sweep-to-right" type="submit"><h3>Confirm</h3></button>
                     </div>
+
+                    <button><a href="/user/account/payment/cash/receipt?payment_id=1">Receipt</a></button>
                 </form>
 
 
