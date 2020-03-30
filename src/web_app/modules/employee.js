@@ -97,6 +97,28 @@ exports.newFacility = function(req_body){
     });
 }
 
+exports.editFacility = function(req_body, facilityId) {
+    // Parameters
+    let name = req_body.name;
+    let description = req_body.description;
+    let price = req_body.price;
+    let icon = req_body.icon;
+
+    return new Promise(function(resolve, reject) {
+
+        db.updateFacility(name, description, price, icon, facilityId).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err){
+
+            reject(err);
+        });
+
+    });
+}
+
+
 exports.newImage = function(ext){    
 
     return new Promise(function(resolve, reject) {

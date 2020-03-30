@@ -7,6 +7,18 @@ let user = "web_comp2913"
 let psw = ""
 let port = 3306
 
+
+
+function getConnection() {
+    return mysql.createConnection({
+        host: host,
+        user: user,
+        password: psw,
+        database: db,
+        multipleStatements: true
+    });
+}
+
 /*
  *  Function:   Check for email registration existance
  *  Input:      Email
@@ -14,12 +26,7 @@ let port = 3306
 */
 exports.checkEmailRegistered = function(email) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -59,12 +66,7 @@ exports.checkEmailRegistered = function(email) {
 */
 exports.queryUser = function(email, password) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -114,12 +116,7 @@ exports.queryUser = function(email, password) {
 */
 exports.getUserIdType = function(email) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -160,12 +157,7 @@ exports.getUserIdType = function(email) {
 */
 exports.getUserDetails = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -206,12 +198,7 @@ exports.getUserDetails = function(id) {
 */
 exports.updateUserDetails = function(id, name, surname, email, phone) { //TODO: include Profile picture when updating
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -242,12 +229,7 @@ exports.updateUserDetails = function(id, name, surname, email, phone) { //TODO: 
 
 
 exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) { 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -277,12 +259,7 @@ exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) {
 
 
 exports.updateUserPassword = function(id, password, current_password) { 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -322,12 +299,7 @@ exports.updateUserPassword = function(id, password, current_password) {
 */
 exports.createUser = function(name, surname, email, password, userType, phone, address_1, address_2, zipcode, city, birth, type) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -373,13 +345,7 @@ exports.createUser = function(name, surname, email, password, userType, phone, a
 */
 exports.createActivity = function(name, description, discount, cost, start_time, duration, id_sport, id_facility) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -410,13 +376,7 @@ exports.createActivity = function(name, description, discount, cost, start_time,
 
 
 exports.updateActivity = function(name, description, discount, cost, start_time, duration, id_sport, id_facility, activityId) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -453,12 +413,7 @@ exports.updateActivity = function(name, description, discount, cost, start_time,
 */
 exports.newActivityImage = function(activity_id, image_id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -488,12 +443,7 @@ exports.newActivityImage = function(activity_id, image_id) {
 
 
 exports.deleteActivityImage = function(activity_id, image_id) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -523,12 +473,7 @@ exports.deleteActivityImage = function(activity_id, image_id) {
 
 
 exports.getActivityImages = function(activity_id) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -564,13 +509,7 @@ exports.getActivityImages = function(activity_id) {
 */
 exports.createFacility = function(name, description, price, icon) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -605,12 +544,7 @@ exports.createFacility = function(name, description, price, icon) {
 */
 exports.newFacilityImage = function(facility_id, image_id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -640,12 +574,7 @@ exports.newFacilityImage = function(facility_id, image_id) {
 
 
 exports.deleteFacilityImage = function(facility_id, image_id) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn =  getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -675,12 +604,7 @@ exports.deleteFacilityImage = function(facility_id, image_id) {
 
 
 exports.getFacilityImages = function(facility_id) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn =  getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -712,13 +636,7 @@ exports.getFacilityImages = function(facility_id) {
 
 exports.updateFacility = function(name, description, price, icon, facilityId) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -749,13 +667,7 @@ exports.updateFacility = function(name, description, price, icon, facilityId) {
 
 exports.createBooking = function(activity_id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -785,13 +697,7 @@ exports.createBooking = function(activity_id) {
 
 exports.createPaymentCash = function(amount, activity_id, usr_email) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -826,12 +732,7 @@ exports.createPaymentCash = function(amount, activity_id, usr_email) {
 */
 exports.getUserMemberships = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -867,12 +768,7 @@ exports.getUserMemberships = function(id) {
 */
 exports.cancelMembership = function(userId, membershipId) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -908,12 +804,7 @@ exports.cancelMembership = function(userId, membershipId) {
 */
 exports.deleteUserCard = function(userId, cardId) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -949,12 +840,7 @@ exports.deleteUserCard = function(userId, cardId) {
 */
 exports.getUserPayments = function(userId) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -991,12 +877,7 @@ exports.getUserPayments = function(userId) {
 */
 exports.getUserBookings = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1032,12 +913,7 @@ exports.getUserBookings = function(id) {
 */
 exports.cancelBooking = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1073,13 +949,7 @@ exports.cancelBooking = function(id) {
 */
 exports.getUpcomingActivities = function(no_items, page_no, filters) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     var query_1 = 'SELECT COUNT(*) AS count FROM Activity INNER JOIN Sport ON id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE start_time >';
     var query_2 = 'SELECT Activity.id, id_image, ext, Activity.name, Activity.description, discount, cost, start_time, duration, Sport.id AS id_sport, Sport.name AS name_sport, Sport.description AS description_sport, Facility.name AS facility_name, id_facility ' +
@@ -1136,13 +1006,7 @@ exports.getUpcomingActivities = function(no_items, page_no, filters) {
 */
 exports.getFacilities = function(no_items, page_no) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1177,13 +1041,7 @@ exports.getFacilities = function(no_items, page_no) {
 */
 exports.getFacility = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1213,13 +1071,7 @@ exports.getFacility = function(id) {
 
 
 exports.deleteFacility = function(facilityId) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1247,13 +1099,7 @@ exports.deleteFacility = function(facilityId) {
 
 
 exports.deleteActivity = function(activityId) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1287,13 +1133,7 @@ exports.deleteActivity = function(activityId) {
 */
 exports.newImage = function(ext) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1328,13 +1168,7 @@ exports.newImage = function(ext) {
 */
 exports.getUserCards = function(user_id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1370,12 +1204,7 @@ exports.getUserCards = function(user_id) {
 */
 exports.createUserCard = function(userId, req_body) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1426,12 +1255,7 @@ exports.createUserCard = function(userId, req_body) {
 */
 exports.logUserRegistration = function(user_id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1467,12 +1291,7 @@ exports.logUserRegistration = function(user_id) {
 */
 exports.logUserLogin = function(user_id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1507,13 +1326,7 @@ exports.logUserLogin = function(user_id) {
 */
 exports.getUserLoginActivity = function(start, end) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1548,13 +1361,7 @@ exports.getUserLoginActivity = function(start, end) {
 */
 exports.getUserRegistrationActivity = function() {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1590,13 +1397,7 @@ exports.getUserRegistrationActivity = function() {
 */
 exports.getFacilityActivities = function(facilityId) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1632,12 +1433,7 @@ exports.getFacilityActivities = function(facilityId) {
 */
 exports.getFacilityTimetable = function(facilityId, date) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1672,12 +1468,7 @@ exports.getFacilityTimetable = function(facilityId, date) {
  *  Output:     Activities [] / Error Message
 */
 exports.getActivitiesTimetable = function(date) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     return new Promise(function(resolve, reject) {
         conn.connect(function(err) {
@@ -1710,12 +1501,7 @@ exports.getActivitiesTimetable = function(date) {
 */
 exports.generateActivityBooking = function(idActivity) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1752,12 +1538,7 @@ exports.generateActivityBooking = function(idActivity) {
 */
 exports.generatePayment = function(bookedActivityId, cost, userId, cardId) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1794,13 +1575,7 @@ exports.generatePayment = function(bookedActivityId, cost, userId, cardId) {
 */
 exports.getActivityObj = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1840,13 +1615,7 @@ exports.getActivityObj = function(id) {
 */
 exports.getOverallActivityUsage = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1885,13 +1654,7 @@ exports.getOverallActivityUsage = function(id) {
 */
 exports.getOverallActivityUsage = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1930,13 +1693,7 @@ exports.getOverallActivityUsage = function(id) {
 */
 exports.getWeeklyActivityUsage = function(id, start, end) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -1974,13 +1731,7 @@ exports.getWeeklyActivityUsage = function(id, start, end) {
 */
 exports.getAllActivities = function() {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -2020,13 +1771,7 @@ exports.getAllActivities = function() {
 */
 exports.getAllFacilities = function() {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn =  getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -2067,13 +1812,7 @@ exports.getAllFacilities = function() {
 */
 exports.getOverallFacilityUsage = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -2112,13 +1851,7 @@ exports.getOverallFacilityUsage = function(id) {
 */
 exports.getWeeklyFacilityUsage = function(id, start, end) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -2156,13 +1889,7 @@ exports.getWeeklyFacilityUsage = function(id, start, end) {
 */
 exports.getAllSports = function() {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -2201,13 +1928,7 @@ exports.getAllSports = function() {
 */
 exports.getOverallSportUsage = function(id) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -2246,13 +1967,7 @@ exports.getOverallSportUsage = function(id) {
 */
 exports.getWeeklySportUsage = function(id, start, end) {
 
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db,
-        multipleStatements: true
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
