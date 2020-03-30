@@ -26,6 +26,9 @@ router.use(csurf({ cookie: true }));
 const webname = ' The Edgy ';
 
 
+/*
+ *  Function:   Booking payment page
+*/
 router.get('/booking/:id*', function(req, res) {
     if (req.session.userId == undefined) {
         req.session.from = "/payment/" + req.url;
@@ -47,19 +50,26 @@ router.get('/booking/:id*', function(req, res) {
 });
 
 
+/*
+ *  Function:   Membership payment page
+*/
 router.get('/membership/:id*', function(req, res) {
+    
+    // If user not logged in -> store url intent -> redirect login
     if (req.session.userId == undefined) {
+        
         req.session.from = "/payment/" + req.url;
         res.redirect('/user/login');
+
+    // Else render payment page
     } else {
+        
         res.render(path.join(__dirname + '/../views/pages/payment/payment-membership.ejs'),
         {
             title: webname + "| Payment | Membership",
             session: req.session
         });
     }
-
-    
 });
 
 

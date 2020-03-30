@@ -135,10 +135,7 @@ var orderComplete = function(clientSecret) {
     document.querySelector(".sr-payment-form").classList.add("hidden");
     document.querySelector("pre").textContent = paymentIntentJson;
 
-    document.querySelector(".sr-result").classList.remove("hidden");
-    setTimeout(function() {
-      document.querySelector(".sr-result").classList.add("expand");
-    }, 200);
+    // CALL AJAX HERE TO PROCESS PAYMENT
 
     changeLoadingState(false);
   });

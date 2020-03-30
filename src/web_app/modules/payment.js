@@ -1,12 +1,64 @@
 var db = require('./db.js');
 var error = require('./error.js');
 
+
 /*
  *  Function:   Pre-processing of Payment with check
  *  Input:      Res, Req, Webname, Activity, User {id}, Card {id}
  *  Output:     Error Message
 */
-exports.preprocessPayment = function(res, req, webname, activityId, userId, cardId){
+exports.processMembershipPayment = function(res, req, webname, membershipType, userId, cardId){
+
+    return new Promise(function(resolve, reject) {
+
+        //Please keep the methods for object-level processing.
+
+        db.getActivityObj(activityId).then(function(activityObj){
+            
+            db.getUserDetails(userId).then(function(userObj){
+
+                // Generate BookingActivity
+                module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId){
+                    
+                    // Generate payment
+                    module.exports.generatePayment(bookedActivityId, activityObj.cost, userId, cardId).then(function(paymentId){
+
+                        // Return successful payment id with redirect
+
+                        console.log(paymentId);
+                        resolve(paymentId);
+
+                    // Payment failure
+                    }).catch(function(err){
+
+                        error.defaultError(req, res, webname, err);
+                    });
+
+                // Booking Failure
+                }).catch(function(err){
+
+                    error.defaultError(req, res, webname, err);
+                });
+
+            // Activity error
+            }).catch(function(err){
+
+                error.defaultError(req, res, webname, err);
+            });
+                                       
+        }).catch(function(err){
+
+            error.defaultError(req, res, webname, err);
+        });
+    });
+}
+
+/*
+ *  Function:   Pre-processing of Payment with check
+ *  Input:      Res, Req, Webname, Activity, User {id}, Card {id}
+ *  Output:     Error Message
+*/
+exports.processBookingPayment = function(res, req, webname, activityId, userId, cardId){
 
     return new Promise(function(resolve, reject) {
 
