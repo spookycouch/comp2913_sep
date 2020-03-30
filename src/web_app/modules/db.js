@@ -2038,3 +2038,81 @@ exports.getWeeklySportUsage = function(id, start, end) {
         });
     });
 }
+
+/*
+ *  Function:   Get Pricing by Sport Id
+ *  Input:      Sport {id}
+ *  Output:     Pricing[] / Error Message
+*/
+exports.getPricingBySport = function(sportId) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT * FROM Pricing WHERE id_sport = ? ORDER BY type ASC',
+                [sportId]
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                if (results.length > 0)
+                    resolve(results);
+
+                else
+                    reject('No activities found.');     
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Get Pricing By Type
+ *  Input:      Type:int
+ *  Output:     Pricing[] / Error Message
+*/
+exports.getPricingByType = function(type) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT * FROM Pricing WHERE type = ? ORDER BY amount ASC',
+                [type]
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                if (results.length > 0)
+                    resolve(results);
+
+                else
+                    reject('No activities found.');     
+            });
+        });
+    });
+}
