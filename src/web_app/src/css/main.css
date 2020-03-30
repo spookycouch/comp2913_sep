@@ -1796,6 +1796,27 @@ ul {
   cursor: pointer;
 }
 
+.account__details .details__content .content__update-form .update-form__image {
+  display: inline-block;
+  margin: 5px;
+  position: relative;
+}
+
+.account__details .details__content .content__update-form .update-form__image img {
+  width: 150px;
+}
+
+.account__details .details__content .content__update-form .update-form__image .image__delete {
+  position: absolute;
+  background-color: red;
+  color: white;
+  padding: 0 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  top: -10px;
+  right: -10px;
+}
+
 .account__details .details__content .content__update-form .update-form__btn {
   border: 2px solid #413E4B;
   padding: 5px 15px;

@@ -9,6 +9,8 @@ var bodyParser = require('body-parser');
 const validation = require('../modules/validation');
 const report = require('../modules/report');
 const facility = require('../modules/facility');
+var employee = require('../modules/employee');
+
 
 var urlEncoded = bodyParser.urlencoded({ extended: true });
 var jsonEncoded = bodyParser.json();
@@ -404,6 +406,49 @@ router.post('/report/usage/weekly/', function(req, res) {
     });
 });
 
+
+router.post('/delete/image/activity', function(req, res) {
+    employee.deleteActivityImage(req.body.activityId, req.body.imageId).then(function() {
+        employee.getActivityImages(req.body.activityId).then(function(result) {
+
+            res.end(JSON.stringify({
+                results: result
+            }));
+
+        }).catch(function(err) {
+            res.end(JSON.stringify({
+                error: err
+            }));
+        })
+
+    }).catch(function(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    })
+});
+
+
+router.post('/delete/image/facility', function(req, res) {
+    employee.deleteFacilityImage(req.body.facilityId, req.body.imageId).then(function() {
+        employee.getFacilityImages(req.body.facilityId).then(function(result) {
+            res.end(JSON.stringify({
+                results: result
+            }));
+
+        }).catch(function(err) {
+            res.end(JSON.stringify({
+                error: err
+            }));
+        });
+
+    }).catch(function(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+
+})
 
 /*
  *  Function:   Export module functions

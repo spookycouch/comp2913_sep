@@ -11,6 +11,7 @@ var error = require('../modules/error');
 var report = require('../modules/report');
 var facility = require('../modules/facility');
 var employee = require('../modules/employee');
+var moment = require('moment');
 var busboy = require('busboy');
 // let multer = require('multer');
 var fs = require('fs');
@@ -215,22 +216,44 @@ router.get('/activities/edit/:id*', function(req, res) {
     else {
         user.getDetails(req.session.userId).then(function(userObj) {
             user.getActivity(req.params['id']).then(function(result) {
+                facility.getAllFacilities().then(function(facilities) {
+                    facility.getAllSports().then(function(sports) {
 
-                console.log(result);
+                        employee.getActivityImages(req.params['id']).then(function(images) {
+                            date = moment(result.start_time).format('YYYY-MM-DD');
+                            time = moment(result.start_time).format('HH:mm');
 
-                return res.render(path.join(__dirname + '/../views/pages/manager/activities_edit.ejs'), {
-                    title: webname + "| Activities | Edit",
-                    session: req.session,
-                    csrfToken: req.csrfToken(),
-                    user: userObj,
-                    activity: result
+                            return res.render(path.join(__dirname + '/../views/pages/manager/activities_edit.ejs'), {
+                                title: webname + "| Activities | Edit",
+                                session: req.session,
+                                csrfToken: req.csrfToken(),
+                                user: userObj,
+                                activity: result,
+                                images: images,
+                                date: date,
+                                time: time,
+                                facilities: facilities,
+                                sports: sports
+                            });
+                        }).catch(function(err) {
+                            console.log(err);
+                            res.redirect('/user/logout');
+                        })
+
+                    }).catch(function(err) {
+                        console.log(err);
+                        res.redirect('/user/logout');
+
+                    });
+                }).catch(function(err) {
+                    console.log(err);
+                    res.redirect('/user/logout');
                 });
 
             }).catch(function(err) {
                 console.log(err);
                 res.redirect('/user/logout');
-            })
-           
+            })           
 
         }).catch(function(err) {
             console.log(err);
@@ -239,6 +262,107 @@ router.get('/activities/edit/:id*', function(req, res) {
         });   
     }
 });
+
+
+router.post('/activities/edit/:id*', function(req, res) {
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+        res.redirect('/home');
+
+    else {
+        try {
+            // Validation
+            var bboy = new busboy({ headers : req.headers });
+            var img_id_list = [];
+            var req_body = {};
+            
+            // Fields - push to json
+            bboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+                req_body[fieldname] = val;
+            });
+
+
+            // Files - upload images and append image id to list
+            bboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+                var ext = mimetype.split('/')[1];
+
+                if (filename != "") {
+                    // validate img type
+                    if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
+                        return error.editActivityErrorPage(req, res, webname, user, facility, employee, [{
+                            message: "Invalid File Type",
+                            path: "image"
+                        }]);
+
+                    // create db entry then save image to src/uploads/ using returned id
+                    employee.newImage(ext).then(function(results){
+                        var id = results[1][0].id;
+                        var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
+                        file.pipe(fs.createWriteStream(output_path));
+
+                        img_id_list.push(id);
+
+                    // Catch error when uploading Image
+                    }).catch(function(err){
+                        return error.editActivityErrorPage(req, res, webname, user, facility, employee, [{
+                            message: err,
+                            path: 'unsuccessful'
+                        }]);
+                    });
+                } else {
+                    file.resume();
+                }
+            });
+
+
+
+            bboy.on('finish', function() {
+                const value = validation.newActivityValidation(req_body);   
+
+                // Error with validation of fields
+                if(value.error != undefined)
+                    return error.editActivityErrorPage(req, res, webname, user, facility, employee, value.error.details);
+
+
+
+                employee.editActivity(req_body, req.params['id']).then(function (results) {
+                    var activity_id = req.params['id'];
+                
+                    for (var i = 0; i < img_id_list.length; ++i) {
+                        employee.newActivityImage(activity_id, img_id_list[i]).then(function (results){});
+                    }
+                    return 'success'
+
+                
+                // Catch error when adding new activity to DB    
+                }).catch(function(err) {
+                    return error.editActivityErrorPage(req, res, webname, user, facility, employee, [{
+                        message: err,
+                        path: 'unsuccessful'
+                    }]);
+                });
+
+                // When the activity is created successfully
+                return error.editActivityErrorPage(req, res, webname, user, facility, employee, [{
+                    message: "Activity Edited successfully",
+                    path: 'success'
+                }]);
+            });
+
+            try {
+                return req.pipe(bboy);
+            } catch(err) {
+        
+                res.setHeader('Content-Type', 'application/json');
+                res.end(
+                    JSON.stringify(err)
+                );
+            }
+
+        } catch (err) {
+            return error.editActivityErrorPage(req, res, webname, user, facility, employee, err);
+        }
+    }
+})
 
 
 
@@ -422,7 +546,7 @@ router.post('/facilities/new', function(req, res) {
                         path: 'unsuccessful'
                     }]);
                 });
-            })
+            });
 
             bboy.on('finish', function() {
                 const value = validation.newFacilityValidation(req_body);   
@@ -450,7 +574,7 @@ router.post('/facilities/new', function(req, res) {
                 });
                 
                 // When the facility is created successfully
-                error.newFacilityErrorPage(req, res, webname, user, facility, icons, req_body, [{
+                return error.newFacilityErrorPage(req, res, webname, user, facility, icons, req_body, [{
                     message: "Facility Created successfully",
                     path: 'success'
                 }]);
@@ -490,7 +614,8 @@ router.get('/facilities/edit/:id*', function(req, res) {
                     csrfToken: req.csrfToken(),
                     user: userObj,
                     icons: icons,
-                    facility: result[0]
+                    facility: result[0],
+                    images: result[1]
                 });
 
 
@@ -513,28 +638,101 @@ router.post('/facilities/edit/:id*', function(req, res) {
         res.redirect('/home');
 
     else {
+        icons = ['basketball', 'gym', 'running', 'sport', 'swim', 'tennis'];
 
         try {
-            value = validation.newFacilityValidation(req.body);
 
-            // Error
-            if(value.error != undefined)
-                throw value.error.details;
+            // Validation
+            var bboy = new busboy({ headers : req.headers });
+            var img_id_list = [];
+            var req_body = {};
 
-            employee.editFacility(req.body, req.params['id']).then(function(result) {
+            // Fields - push to json
+            bboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+                req_body[fieldname] = val;
+            });
 
-                error.editFacilityErrorPage(req, res, webname, user, icons, [{
+
+            // Files - upload images and append image id to list
+            bboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+                var ext = mimetype.split('/')[1];
+
+                if (filename != "") {
+                    
+                    // validate img type
+                    if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg')) {
+                        return error.editFacilityErrorPage(req, res, webname, user, icons, [{
+                            message: "Invalid File Type",
+                            path: 'image'
+                        }]);
+
+                    }
+
+                    // create db entry then save image to src/uploads/ using returned id
+                    employee.newImage(ext).then(function(results){
+                        var id = results[1][0].id;
+                        var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
+                        file.pipe(fs.createWriteStream(output_path));
+
+                        img_id_list.push(id);
+
+                    // Catch error when uploading new image to dir
+                    }).catch(function(err){
+                        return error.editFacilityErrorPage(req, res, webname, user, icons, [{
+                            message: err,
+                            path: 'unsuccessful'
+                        }]);
+                    });
+                } else {
+                    // when there is no file to upload
+                    file.resume();
+                }
+            });
+
+            bboy.on('finish', function() {
+
+                const value = validation.newFacilityValidation(req_body);   
+
+                // Error
+                if(value.error != undefined)
+                    return error.editFacilityErrorPage(req, res, webname, user, icons, value.error.details);
+
+
+                
+                employee.editFacility(req_body, req.params['id']).then(function (results) {
+                    var facility_id = req.params['id'];
+        
+                    for (var i = 0; i < img_id_list.length; ++i) {
+                        employee.newFacilityImage(facility_id, img_id_list[i]).then(function (results){});
+                    }
+                    return 'success'
+
+                // Catch error when adding new facility to the DB 
+                }).catch(function(err) {
+                    return error.editFacilityErrorPage(req, res, webname, user, icons, [{
+                        message: err,
+                        path: 'unsuccessful'
+                    }]);
+
+                });
+                
+                // When the facility is created successfully
+                return error.editFacilityErrorPage(req, res, webname, user, icons, [{
                     message: "Facility updated successfully",
                     path: 'success'
                 }]);
+            });
 
-            }).catch(function(err) {
-                error.editFacilityErrorPage(req, res, webname, user, icons, [{
-                    message: err,
-                    path: 'unsuccessful'
-                }]);
-            })
-            
+            try {
+                return req.pipe(bboy);
+            } catch(err) {
+        
+                res.setHeader('Content-Type', 'application/json');
+                res.end(
+                    JSON.stringify(err)
+                );
+            }
+
             
         } catch (err) {
             error.editFacilityErrorPage(req, res, webname, user, icons, err);
