@@ -41,6 +41,12 @@
 
         <div class="modal__close">
             <div class="close__close hvr-sweep-to-right modal--close">
+                <a id="delete-booking" href="#">
+                    <h3>Cancel Booking</h3>
+                </a>
+            </div>
+
+            <div class="close__close hvr-sweep-to-right modal--close">
                 <h3>Close</h3>
             </div>
         </div>
@@ -62,7 +68,7 @@
 
             <% if(locals.bookings && locals.bookings.length > 0){ %>
                 <% for (var i = 0; i < bookings.length;  i++ ) { %>
-                    <a href="##" class="overview__option overview__option--qr-modal hvr-float modal--open" id="<%- bookings[i].qr %>">
+                    <a href="##" class="overview__option overview__option--qr-modal hvr-float modal--open" attr_qr="<%- bookings[i].qr %>" attr_id="<%- bookings[i].id %>">
                         <div class="option__content option__content--center option__content--yellow">
                             <div class="content__title content__title--margin-bottom">
                                 <h2 class="sportName-value"><%- bookings[i].sportName %></h2>

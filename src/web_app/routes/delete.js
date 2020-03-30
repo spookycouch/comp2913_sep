@@ -64,6 +64,29 @@ router.get('/memberships/:id*', function(req, res, next) {
     }
 });
 
+
+/*
+ *  Function:   Delete Booking by id
+*/
+router.get('/booking/:id*', function(req, res) {
+
+    // Session Check
+    if (req.session.userId == undefined)
+       res.redirect('/home');
+
+   // Success
+    else {
+
+        user.cancelBooking(req.params['id']).then(function() {
+            res.redirect('/user/account/bookings');
+
+        }).catch(function(err) {
+            // error.defaultError(req, res, webname, err);
+            console.log(err);
+        });
+    }
+});
+
 /*
  *  Function:   Delete Card by id
 */

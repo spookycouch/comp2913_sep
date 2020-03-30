@@ -7,10 +7,29 @@
     <div class="account account--background">
         <%- include('../../partials/manager-side-bar') %>
 
-        <div class="account__section account__overview">
+        <div class="account__section-container">
+            <div class="breadcrumbs">
+                <div class="breadcrumbs__selector">
+                    <div class="selector__item selector__item--selected" target="general-usage">
+                        <h3>General Usage</h3>
+                    </div>
+ 
+                    <div class="selector__item selector__item" target="activity-usage">
+                        <h3>Activity Usage</h3>
+                    </div>
 
-            <div style="width:100%; padding:100px;">
+                    <div class="selector__item selector__item" target="session-usage">
+                        <h3>Session Usage</h3>
+                    </div>
 
+                    <div class="selector__item selector__item" target="facility-usage">
+                        <h3>Facility Usage</h3>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="account__section account__section--full-width account__details" id="general-usage">
                 <!-- Activity Weekly Overall -->
                 <div class="section__title" style="text-align:center;margin-top:100px;">
 
@@ -25,11 +44,15 @@
                     <canvas id="weekly-login-usage" width="400" height="200"></canvas>
 
                     <hr>
-                </div>
-                
+                </div> 
+            </div>
 
-                 <!-- Activity Usage Overall -->
-                 <div class="section__title sport-result" style="text-align:center;margin-top:100px;">
+
+            <div class="account__section account__section--d-none account__section--full-width account__details" id="activity-usage">
+                    
+
+                <!-- Activity Usage Overall -->
+                <div class="section__title sport-result" style="text-align:center;margin-top:100px;">
 
                     <h3>Overall Activity Usage</h3>
                     <b>Activity: </b>
@@ -62,8 +85,11 @@
 
                     <hr>
                 </div>
+            </div>
 
-                
+
+            <div class="account__section account__section--d-none account__section--full-width account__details" id="session-usage">
+                    
                 <!-- Session Usage Overall -->
                 <div class="section__title activity-result" style="text-align:center;margin-top:100px;">
 
@@ -97,8 +123,10 @@
 
                     <hr>
                 </div>
+            </div>
 
 
+            <div class="account__section account__section--d-none account__section--full-width account__details" id="facility-usage">
                 <!-- Facility Usage Overall -->
                 <div class="section__title facility-result" style="text-align:center;margin-top:100px;">
 
@@ -133,9 +161,6 @@
 
                     <hr>
                 </div>
-
-            
-
             </div>
         </div>
     </div>  

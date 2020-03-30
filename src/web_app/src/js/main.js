@@ -263,7 +263,9 @@ $(document).ready(function() {
         $('#start_time').text($(this).find('.start_time-value').text());
         $('#duration').text($(this).find('.duration-value').text());
         $('#status').text($(this).find('.status-value').text());
-        $('#qr').attr('src', this.id);
+        $('#qr').attr('src', $(this).attr('attr_qr'));
+        $('#delete-booking').attr('href', '/delete/booking/' + $(this).attr('attr_id'));
+
     });
 
 

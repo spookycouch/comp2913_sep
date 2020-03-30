@@ -219,7 +219,6 @@ router.get('/account/bookings', function(req, res) {
 });
 
 
-
 /*
  *  Function:   Login Details Page Router
 */
@@ -533,10 +532,11 @@ router.post('/account/payment/cash', function(req, res) {
                 throw value.error.details;
 
             employee.newCashPayment(req.body, req.session.userId).then (function (result){
-                error.cashPaymentError(req, res, webname, user, facility, [{
-                    message: "Cash Payment Booking created successfully",
-                    path: 'success'
-                }]);
+                res.redirect('/user/account/payment/cash/receipt');
+                // error.cashPaymentError(req, res, webname, user, facility, [{
+                //     message: "Cash Payment Booking created successfully",
+                //     path: 'success'
+                // }]);
             
             }).catch(function(err) {
                 error.cashPaymentError(req, res, webname, user, facility, [{
