@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const session = require('client-sessions');
 var facility = require('../modules/facility');
+var error = require('../modules/error');
 
 
 var csrf = csurf({ cookie: true });
@@ -45,11 +46,35 @@ router.get(['/', '/home'], csrf, function(req, res) {
  *  Function:   Memberships Page Router
 */
 router.get('/memberships', csrf, function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/memberships.ejs'),
-    {
-        title: webname + "| Memberships",
-        session: req.session
+
+    var queries = [
+        facility.getMonthlyPricing(),
+        facility.getYearlyPricing(),
+        facility.getSportsPassPricing()
+    ];
+
+    // Gather all the pricings
+    Promise.all(queries).then(results => { 
+    
+        // Parse data
+        var startMonthlyPricing = results[0][0].amount;
+        var startYearlyPricing = results[1][0].amount;
+        var passPricing = results[2][0].amount;
+
+        // Render page
+        res.render(path.join(__dirname + '/../views/pages/memberships.ejs'),
+        {
+            title: webname + "| Memberships",
+            session: req.session,
+            pricing: [startMonthlyPricing, startYearlyPricing, passPricing],
+        });
+
+    // Catch errors
+    }).catch(function(err){
+
+        error.defaultError(req, res, webname, err);
     });
+
 });
 
 /*
@@ -75,7 +100,7 @@ router.get('/facilities', csrf, function(req, res) {
 
     }).catch(function(err){
         
-        console.log(err);
+        error.defaultError(req, res, webname, err);
     });
 
 });
@@ -103,7 +128,7 @@ router.post('/facilities', csrf, function(req, res) {
 
     }).catch(function(err){
         
-        console.log(err);
+        error.defaultError(req, res, webname, err);
     });
 
 });
@@ -141,11 +166,12 @@ router.get('/facilities/discover', csrf, function(req, res) {
                 timetable: timetable
             });
         }).catch(function(err) {
-            console.log(err);
+            
+            error.defaultError(req, res, webname, err);
         });
     }).catch(function(err){
         
-        console.log(err);
+        error.defaultError(req, res, webname, err);
     });
 
 });
@@ -248,23 +274,23 @@ router.get('/activities', csrf, function(req, res) {
                         facilities: facilities
                     });
                 }).catch(function(err) {
-                    console.log(err);
-                    res.redirect('/home');
+                    
+                    error.defaultError(req, res, webname, err);
                 });
                 
             }).catch(function(err) {
-                console.log(err);
-                res.redirect('/home');
+                
+                error.defaultError(req, res, webname, err);
             });
         
         }).catch(function(err) {
-            console.log(err);
-            res.redirect('/home');
+            
+            error.defaultError(req, res, webname, err);
         }); 
 
     }).catch(function(err){
-        console.log(err);
-        res.redirect('/home');
+        
+        error.defaultError(req, res, webname, err);
     });
 
 });
@@ -293,7 +319,7 @@ router.post('/activities', csrf, function(req, res) {
 
     }).catch(function(err){
         
-        console.log(err);
+        error.defaultError(req, res, webname, err);
     });
 });
 
