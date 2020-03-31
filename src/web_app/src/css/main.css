@@ -1640,6 +1640,14 @@ ul {
   color: #00A984;
 }
 
+.account__details .details__content .content__link {
+  color: #413E4B;
+  border: 2px solid #413E4B;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-left: 20px;
+}
+
 .account__details .details__content .content__danger {
   color: red;
 }
@@ -2084,6 +2092,14 @@ ul {
 
 .account__section--no-margin {
   margin: 0;
+}
+
+.account__section--no-margin-top {
+  margin-top: 0;
+}
+
+.account__section--no-margin-bottom {
+  margin-bottom: 0;
 }
 
 .account__section--d-none {

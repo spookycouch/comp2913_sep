@@ -216,6 +216,7 @@ exports.getDetails = function(id){
     });
 }
 
+
 /*
  *  Function:   Get User's memberships
  *  Input:      User {id}
@@ -555,5 +556,21 @@ exports.addCard = function(userId, req_body){
 
             reject(err);
         });
+    });
+}
+
+
+exports.getPayments = function(userId) {
+    return new Promise(function(resolve, reject) {
+
+        db.getUserPayments(userId).then(function(result) {
+
+            resolve(result);
+            
+        }).catch(function(err) {
+
+            reject(err);    
+        })
+
     });
 }

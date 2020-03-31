@@ -235,22 +235,32 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
 /*
  *  Function:   Cash payment error
 */
-exports.cashPaymentError = function(req, res, webname, user, facility, err) {
+exports.cashPaymentError = function(req, res, webname, user, facility, employee, err) {
     user.getDetails(req.session.userId).then(function(result) {
-        facility.getAllActivities().then(function(activities) {
-            return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
-                title: webname + "| Account | Payments | Cash",
-                session: req.session,
-                csrfToken: req.csrfToken(),
-                user: result,
-                activities: activities,
-                error: err
+        employee.getEmployeePayments(req.session.userId).then(function(payments) {
+
+            facility.getAllActivities().then(function(activities) {
+                return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
+                    title: webname + "| Account | Payments | Cash",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: result,
+                    activities: activities,
+                    payments: payments,
+                    error: err,
+                    form: req.body
+                });
+    
+            }).catch(function(err) {
+    
+                module.exports.defaultError(req, res, webname, err);
             });
 
         }).catch(function(err) {
-
             module.exports.defaultError(req, res, webname, err);
+
         });
+    
     }).catch(function(err) {
 
         module.exports.defaultError(req, res, webname, err);

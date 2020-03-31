@@ -29,8 +29,8 @@ router.post('/register', function(req, res) {
 
     // Data validation
     try {
-        
-        const value = validation.registerValidation(req.body);   
+
+        const value = validation.registerValidation(req.body);
 
         // Error
         if(value.error != undefined)
@@ -81,11 +81,11 @@ router.post('/login', function(req, res) {
     var nextPage = req.session.from;
     req.session.destroy();
 
-    try { 
+    try {
 
         // Validation
         const value = validation.loginValidation(req.body);
-        
+
         if(value.error != undefined) {
             throw value.error.details;
         }
@@ -139,18 +139,18 @@ router.post('/login', function(req, res) {
  *  Function:   Account Page
 */
 router.get('/account', function(req, res) {
-    
+
     if (req.session.userId == undefined)
         res.redirect('/home');
 
     if (req.session.userType > 2)
         res.redirect('/manager/overview');
-    
+
     else {
 
         // Get user details
         user.getDetails(req.session.userId).then(function(result) {
-            
+
             res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
             {
                 title: webname + "| Account",
@@ -170,7 +170,7 @@ router.get('/account', function(req, res) {
  *  Function:   Logout Redirect
 */
 router.get('/logout', function(req, res) {
-    
+
     // Deleting session
     delete req.session.userId;
 
@@ -182,7 +182,7 @@ router.get('/logout', function(req, res) {
  *  Function:   Account Bookings Page Router
 */
 router.get('/account/bookings', function(req, res) {
-    
+
     // Session Check
     if (req.session.userId == undefined)
         res.redirect('/home');
@@ -207,12 +207,12 @@ router.get('/account/bookings', function(req, res) {
 
             // Error catching
             }).catch(function(err){
-                
+
                 error.defaultError(req, res, webname, err);
             });
-                
+
         }).catch(function(err) {
-            
+
             error.defaultError(req, res, webname, err);
         });
     }
@@ -223,11 +223,11 @@ router.get('/account/bookings', function(req, res) {
  *  Function:   Login Details Page Router
 */
 router.get('/account/details', function(req, res) {
-    
+
     // Session check
     if (req.session.userId == undefined)
         res.redirect('/home');
-    
+
     // Success
     else {
 
@@ -242,10 +242,10 @@ router.get('/account/details', function(req, res) {
                 user: userObj,
                 csrfToken: req.csrfToken()
             });
-            
+
         // Error -> logout
         }).catch(function(err) {
-            
+
             error.defaultError(req, res, webname, err);
         });
     }
@@ -274,7 +274,7 @@ router.post('/account/update/details', function(req, res) {
                     message: 'Details Updated Successfully',
                     path: 'success'
                 }]);
-    
+
             }).catch(function(err) {
                 error.updateErrorPage(req, res, webname, user, [{
                     message: err,
@@ -293,7 +293,7 @@ router.post('/account/update/details', function(req, res) {
  *  Function:   Login Details Update Address
 */
 router.post('/account/update/address', function(req, res) {
-    
+
     if (req.session.userId == undefined)
         res.redirect('/home');
 
@@ -315,7 +315,7 @@ router.post('/account/update/address', function(req, res) {
                     message: 'Address Updated Successfully',
                     path: 'success'
                 }]);
-    
+
             }).catch(function(err) {
                 error.updateErrorPage(req, res, webname, user, [{
                     message: err,
@@ -352,8 +352,8 @@ router.post('/account/update/password', function(req, res) {
                     message: 'Password Updated Successfully',
                     path: 'success'
                 }]);
-    
-            }).catch(function(err) {    
+
+            }).catch(function(err) {
                 error.updateErrorPage(req, res, webname, user, [{
                     message: err,
                     path: 'current_password'
@@ -371,7 +371,7 @@ router.post('/account/update/password', function(req, res) {
  *  Function:   Account Memberships Page Router
 */
 router.get('/account/memberships', function(req, res) {
-    
+
     if (req.session.userId == undefined)
         res.redirect('/home');
 
@@ -394,7 +394,7 @@ router.get('/account/memberships', function(req, res) {
                 });
 
             }).catch(function(err) {
-                
+
                 error.defaultError(req, res, webname, err);
             });
 
@@ -402,7 +402,7 @@ router.get('/account/memberships', function(req, res) {
 
             error.defaultError(req, res, webname, err);
         });
-        
+
     }
 });
 
@@ -435,12 +435,12 @@ router.get('/account/payment', function(req, res) {
                 });
 
             }).catch(function(err){
-                
+
                 error.defaultError(req, res, webname, err);
             });
-            
+
         }).catch(function(err) {
-            
+
             error.defaultError(req, res, webname, err);
         });
     }
@@ -450,7 +450,7 @@ router.get('/account/payment', function(req, res) {
  *  Function:   Update Account Password
 */
 router.post('/account/add/card', function(req, res) {
-    
+
     if (req.session.userId == undefined)
         res.redirect('/home');
 
@@ -471,7 +471,7 @@ router.post('/account/add/card', function(req, res) {
                     path: "success"
                 }]);
 
-            }).catch(function(err) {    
+            }).catch(function(err) {
                 console.log(err);
                 error.cardPaymentErrorPage(req, res, webname, user, [{
                     message: err,
@@ -479,7 +479,7 @@ router.post('/account/add/card', function(req, res) {
                 }])
             });
 
-        } catch(err) {            
+        } catch(err) {
             error.cardPaymentErrorPage(req, res, webname, user, err);
         }
     }
@@ -490,24 +490,33 @@ router.post('/account/add/card', function(req, res) {
 /*
  * Function:    new cash payment
 */
-router.get('/account/payment/cash', function (req, res) {   
+router.get('/account/payment/cash', function (req, res) {
     if(req.session.userId == undefined || req.session.userType != 2) // If not an employee
         res.redirect('/home');
 
     else {
         user.getDetails(req.session.userId).then(function(result) {
-            facility.getAllActivities().then(function(activities) {
-                return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
-                    title: webname + "| Account | Payments | Cash",
-                    session: req.session,
-                    csrfToken: req.csrfToken(),
-                    user: result,
-                    activities: activities
+            employee.getEmployeePayments(req.session.userId).then(function(payments) {
+                facility.getAllActivities().then(function(activities) {
+                    return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
+                        title: webname + "| Account | Payments | Cash",
+                        session: req.session,
+                        csrfToken: req.csrfToken(),
+                        user: result,
+                        activities: activities,
+                        payments: payments,
+                        form: req.body
+                    });
+                }).catch(function(err) {
+                    console.log(err); // for debugging
+                    res.redirect('/user/logout');
                 });
+
             }).catch(function(err) {
-                console.log(err); // for debugging
+                console.log(err);
                 res.redirect('/user/logout');
-            })
+            });
+
         }).catch(function(err) {
             console.log(err);
             res.redirect('/user/logout');
@@ -523,7 +532,7 @@ router.post('/account/payment/cash', function(req, res) {
     if(req.session.userId == undefined || req.session.userType != 2) // If not an employee
         res.redirect('/user/logout');
 
-    else {  
+    else {
         try {
             const value = validation.cashPaymentValidation(req.body);
 
@@ -531,23 +540,47 @@ router.post('/account/payment/cash', function(req, res) {
             if (value.error != undefined)
                 throw value.error.details;
 
-            employee.newCashPayment(req.body, req.session.userId).then (function (result){
-                error.cashPaymentError(req, res, webname, user, facility, [{
-                    message: "Cash Payment Booking created successfully",
-                    path: 'success',
-                    payment_id: result[1][0].id
-                }]);
-            
+            user.checkEmailRegistered(req.body.email).then(function(userBuying) {
+                if (userBuying == false) throw [{
+                    message: "No user exists for such email",
+                    path: "email"
+                }];
+
+                user.getActivity(req.body.activity_id).then(function(activity) {
+                    console.log(activity);
+
+                    if (req.body.amount < activity.cost) throw [{
+                        message: "Amount Paid cannot be less than cost of activity",
+                        path: "amount"
+                    }];
+
+                    employee.newCashPayment(userBuying[0], req.body, req.session.userId).then (function (result){
+                    // res.redirect('/user/account/payment/cash/receipt?payment_id=' + result[1][0].id);
+                        error.cashPaymentError(req, res, webname, user, facility, employee, [{
+                            message: "Cash Payment Booking created successfully",
+                            path: 'success',
+                            payment_id: result[1][0].id
+                        }]);
+                    }).catch(function(err) {
+                        error.cashPaymentError(req, res, webname, user, facility, employee, [{
+                            message: err,
+                            path: 'unsuccessful'
+                        }])
+                    });
+        
+
+                }).catch(function(err) {
+                    error.cashPaymentError(req, res, webname, user, facility, employee, err);
+                });
+
             }).catch(function(err) {
-                error.cashPaymentError(req, res, webname, user, facility, [{
-                    message: err,
-                    path: 'unsuccessful'
-                }])
+                error.cashPaymentError(req, res, webname, user, facility, employee, err);
             });
+
 
         // Catch all other errors thrown
         } catch(err) {
-            error.cashPaymentError(req, res, webname, user, facility, err)
+            error.cashPaymentError(req, res, webname, user, facility, employee, err)
         }
     }
 });
@@ -560,7 +593,7 @@ router.get('/account/payment/cash/receipt', function(req, res) {
     if(req.session.userId == undefined || req.session.userType != 2) // If not an employee
         res.redirect('/user/logout');
 
-    else {  
+    else {
         try {
             // TODO: validation
 
@@ -568,7 +601,7 @@ router.get('/account/payment/cash/receipt', function(req, res) {
                 console.log(result);
                 var doc = new PDFDocument({size: [400, 600]});
                 doc.font('Courier');
-                
+
                 doc.text('THE EDGY GYM', {align: 'center'});
                 doc.text('Woodhouse', {align: 'center'});
                 doc.text('Leeds LS2 9JT', {align: 'center'});
@@ -591,14 +624,14 @@ router.get('/account/payment/cash/receipt', function(req, res) {
                 doc.text('\n');
 
                 doc.text('\n');
-                doc.text('Payment no:   ' + result.id);
-                doc.text('Served by:    ' + result.employee_name);
+                doc.text('Payment No:   ' + result.id);
+                doc.text('Served by:    ' + result.employee_name + " " + result.employee_surname);
                 doc.text('Employee ID:  ' + result.employee_id);
-                
+
                 doc.text('\n\n');
 
                 doc.text('Booking ID: ' + result.booking_id);
-                doc.text('Activity ID ' + result.activity_id + ': ' + result.name);
+                doc.text('Activity ID: ' + result.activity_id + '; ' + result.name);
 
                 // break
                 doc.text('\n\n');
@@ -621,9 +654,9 @@ router.get('/account/payment/cash/receipt', function(req, res) {
                 // pipe the doc to response and end write
                 doc.pipe(res);
                 doc.end();
-            
+
             }).catch(function(err) {
-                
+
                 // TODO: proper error handle
                 console.log(err);
             });

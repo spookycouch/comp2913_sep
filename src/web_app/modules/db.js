@@ -50,7 +50,7 @@ exports.checkEmailRegistered = function(email) {
 
                 // Result
                 if (results.length > 0)
-                    resolve(true);
+                    resolve(results);
 
                 else
                     resolve(false);
@@ -190,6 +190,7 @@ exports.getUserDetails = function(id) {
         });
     });
 }
+
 
 /*
  *  Function:   Change user details
@@ -634,6 +635,9 @@ exports.getFacilityImages = function(facility_id) {
 
 
 
+
+
+
 exports.updateFacility = function(name, description, price, icon, facilityId) {
 
     var conn = getConnection();
@@ -695,7 +699,7 @@ exports.createBooking = function(activity_id) {
     });
 }
 
-exports.createPaymentCash = function(amount, activity_id, user_email, employee_id) {
+exports.createPaymentCash = function(amount, activity_id, user_id, employee_id) {
 
     var conn = getConnection();
 
@@ -707,9 +711,11 @@ exports.createPaymentCash = function(amount, activity_id, user_email, employee_i
             if (err) reject(err);
 
             query = SqlString.format(
-        
-                'INSERT INTO Payment(amount, id_card, id_booked_activity, id_user, id_employee) SELECT ?, Card.id, ?, User.id, ? FROM Card CROSS JOIN User WHERE Card.type = "__CASH__" AND User.email = "test@mail.com"; SELECT LAST_INSERT_ID() AS id;',
-                    [amount, activity_id, employee_id, user_email]
+                // 'INSERT INTO Payment(amount, id_card, id_booked_activity, id_user, id_employee) SELECT ?, Card.id, ?, User.id, ? FROM Card CROSS JOIN User WHERE Card.type = "__CASH__" AND User.email = "test@mail.com"; SELECT LAST_INSERT_ID() AS id;',
+                //     [amount, activity_id, employee_id, user_email]
+                
+                'INSERT INTO PAYMENT(amount, id_booked_activity, id_user, id_employee) VALUES (?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
+                [amount, activity_id, user_id, employee_id]
             );
             
             // Query
@@ -743,7 +749,7 @@ exports.receiptPaymentCash = function(payment_id) {
 
             query = SqlString.format(
         
-                'SELECT Payment.id, Payment.purchase_date, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name, cost, amount, User.id AS employee_id, User.name AS employee_name FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id INNER JOIN User ON Payment.id_user = User.id WHERE Payment.id = ?;',
+                'SELECT Payment.id, Payment.purchase_date, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name, cost, amount, User.id AS employee_id, User.name AS employee_name, User.surname AS employee_surname FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id INNER JOIN User ON Payment.id_employee = User.id WHERE Payment.id = ?;',
                     [payment_id]
             );
 
@@ -873,6 +879,7 @@ exports.deleteUserCard = function(userId, cardId) {
     });
 }
 
+
 /*
  *  Function:   Query payments by user id (passed from session)
  *  Input:      User {id}
@@ -893,7 +900,7 @@ exports.getUserPayments = function(userId) {
             query = SqlString.format(
         
                 'SELECT * FROM Payment WHERE id_user = ?',
-                    [userId.id]
+                    [userId]
             );
 
             // Query
@@ -908,6 +915,46 @@ exports.getUserPayments = function(userId) {
         });
     });
 }
+
+
+
+/*
+ *  Function:   Query payments by employee id (passed from session)
+ *  Input:      User {id}
+ *  Output:     Payments / Error Message
+*/
+exports.getEmployeePayments = function(employeeId) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+
+                'SELECT Payment.*, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name AS activity_name, Activity.cost AS activity_cost, User.name as user_name, User.surname AS user_surname, User.email as user_email FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id INNER JOIN User ON Payment.id_user = User.id WHERE Payment.id_employee = ?;',
+                    [employeeId]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            });
+        });
+    });
+}
+
+
 
 
 /*

@@ -270,7 +270,7 @@ CREATE TABLE `Payment` (
   `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` int(11) NOT NULL DEFAULT 1,
   `amount` double NOT NULL,
-  `id_card` int(11) NOT NULL,
+  `id_card` int(11) NOT NULL DEFAULT 1,
   `id_booked_activity` int(11),
   `id_membership` int(11),
   `id_user` int(11) NOT NULL,
@@ -372,5 +372,6 @@ INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
+
 
 
