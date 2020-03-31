@@ -1,11 +1,16 @@
 // A reference to Stripe.js
 var stripe;
 
-//All the info required to process the payment.
+//activity ID is stored here
+const queryString = window.location.pathname.split("/");
+
+//All the info required to process the payment. (activity/membership Id s)
 var orderData = {
-  items: [{ id: "photo-subscription" }],
+  items: [{ id: queryString[queryString.length -1] }],
   currency: "gbp"
 };
+
+
 
 // Disable the button until we have Stripe set up on the page
 document.querySelector("button").disabled = true;

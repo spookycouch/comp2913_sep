@@ -31,6 +31,9 @@ router.post("/pay", async function(req, res){
     //items are a collection of activity Id's
     const orderAmount = calculateOrderAmount(items);
 
+    console.log(req.session);
+    console.log(items);
+
     //userId is stored in the session.
     var userId = req.session.userId;
 
