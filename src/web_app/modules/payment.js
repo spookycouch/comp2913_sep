@@ -1,54 +1,52 @@
 var db = require('./db.js');
-var error = require('./error.js');
-
+var user = require('./user.js');
 
 /*
  *  Function:   Pre-processing of Payment with check
  *  Input:      Res, Req, Webname, Activity, User {id}, Card {id}
  *  Output:     Error Message
 */
-exports.processMembershipPayment = function(res, req, webname, membershipType, userId, cardId){
+exports.processMembershipPayment = function(pricingId, userId, cardId){
 
     return new Promise(function(resolve, reject) {
 
-        //Please keep the methods for object-level processing.
+        // Get cost
+        db.getPricingAmount(pricingId).then(function(pricingCost){
 
-        db.getActivityObj(activityId).then(function(activityObj){
-            
+            //Please keep the methods for object-level processing. 
             db.getUserDetails(userId).then(function(userObj){
 
-                // Generate BookingActivity
-                module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId){
-                    
+                // Generate Membership
+                db.createMembership(userId, pricingId).then(function(membershipId){
+
                     // Generate payment
-                    module.exports.generatePayment(bookedActivityId, activityObj.cost, userId, cardId).then(function(paymentId){
+                    module.exports.generateMembershipPayment(membershipId, pricingCost, userId, cardId).then(function(paymentId){
 
                         // Return successful payment id with redirect
-
-                        console.log(paymentId);
                         resolve(paymentId);
 
                     // Payment failure
                     }).catch(function(err){
 
-                        error.defaultError(req, res, webname, err);
+                        reject(err);
                     });
 
-                // Booking Failure
+                // Membership error
                 }).catch(function(err){
-
-                    error.defaultError(req, res, webname, err);
+                    
+                    reject(err);
                 });
 
-            // Activity error
+            // User details error
             }).catch(function(err){
 
-                error.defaultError(req, res, webname, err);
+                reject(err);
             });
-                                       
-        }).catch(function(err){
 
-            error.defaultError(req, res, webname, err);
+        // Pricing error
+        }).catch(function(err){
+        
+            reject(err);
         });
     });
 }
@@ -58,48 +56,46 @@ exports.processMembershipPayment = function(res, req, webname, membershipType, u
  *  Input:      Res, Req, Webname, Activity, User {id}, Card {id}
  *  Output:     Error Message
 */
-exports.processBookingPayment = function(res, req, webname, activityId, userId, cardId){
+exports.processBookingPayment = function(activityId, userId, cardId){
 
     return new Promise(function(resolve, reject) {
 
-        //Please keep the methods for object-level processing.
-
+        // Get Activity details
         db.getActivityObj(activityId).then(function(activityObj){
-            db.getUserDetails(userId).then(function(userObj){
 
+            // Get user Details
+            db.getUserDetails(userId).then(function(userObj){
 
                 // Generate BookingActivity
                 module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId){
                     
                     // Generate payment
-                    module.exports.generatePayment(bookedActivityId, activityObj.cost, userId, cardId).then(function(paymentId){
+                    module.exports.generateBookingPayment(bookedActivityId, activityObj.cost, userId, cardId).then(function(paymentId){
 
-                        // Return successful payment id with redirect
-
-                        console.log(paymentId);
+                        // Successful payment
                         resolve(paymentId);
 
                     // Payment failure
                     }).catch(function(err){
 
-                        error.defaultError(req, res, webname, err);
+                        reject(err);
                     });
 
                 // Booking Failure
                 }).catch(function(err){
 
-                    error.defaultError(req, res, webname, err);
+                    reject(err);
                 });
 
             // Activity error
             }).catch(function(err){
 
-                error.defaultError(req, res, webname, err);
+                reject(err);
             });
                                        
         }).catch(function(err){
 
-            error.defaultError(req, res, webname, err);
+            reject(err);
         });
     });
 }
@@ -125,15 +121,36 @@ exports.generateActivityBooking = function(idActivity){
 }
 
 /*
- *  Function:   Generate Payment Obj
+ *  Function:   Generate Booking Payment Obj
  *  Input:      BookedActivity {id}, Activity {cost}, User {id}, Card {id}
  *  Output:     Payment {id} / Error Message
 */
-exports.generatePayment = function(bookedActivityId, activityCost, userId, cardId){
+exports.generateBookingPayment = function(bookedActivityId, activityCost, userId, cardId){
 
     return new Promise(function(resolve, reject) {
 
-        db.generatePayment(bookedActivityId, activityCost, userId, cardId).then(function(result){
+        db.generateBookingPayment(bookedActivityId, activityCost, userId, cardId).then(function(result){
+
+            resolve(result)
+
+        }).catch(function(err){
+
+            reject(err);
+        })
+    });
+}
+
+/*
+ *  Function:   Generate Booking Payment Obj
+ *  Input:      Membership {id}, Pricing {amount}, User {id}, Card {id}
+ *  Output:     Payment {id} / Error Message
+*/
+exports.generateMembershipPayment = function(membershipId, cost, userId, cardId){
+
+    return new Promise(function(resolve, reject) {
+
+        
+        db.generateMembershipPayment(membershipId, cost, userId, cardId).then(function(result){
 
             resolve(result)
 
