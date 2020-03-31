@@ -7,6 +7,14 @@ var stripe = require('stripe')('sk_test_6QysuydtyRi7yOTPx9c2dtBf000bOnLDIM');
 // Website header
 const webname = ' The Edgy ';
 
+//the part of the url representing the payment for the activity
+const activityPaymentPart = 'booking';
+
+//the part of the url representing the payment for the membership
+const membershipPaymentPart = 'membership';
+
+
+
  /*
   * Function returnes stripe API public key
  */
@@ -31,8 +39,7 @@ router.post("/pay", async function(req, res){
     //items are a collection of activity Id's
     const orderAmount = calculateOrderAmount(items);
 
-    console.log(req.session);
-    console.log(items);
+    console.log(paymentMethodId);
 
     //userId is stored in the session.
     var userId = req.session.userId;

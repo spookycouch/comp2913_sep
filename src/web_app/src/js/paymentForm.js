@@ -6,10 +6,12 @@ const queryString = window.location.pathname.split("/");
 
 //All the info required to process the payment. (activity/membership Id s)
 var orderData = {
-  items: [{ id: queryString[queryString.length -1] }],
+  items: [{ 
+    type : queryString[queryString.length -2],
+    id: queryString[queryString.length -1] 
+  }],
   currency: "gbp"
 };
-
 
 
 // Disable the button until we have Stripe set up on the page

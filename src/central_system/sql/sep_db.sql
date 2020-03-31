@@ -13,6 +13,7 @@ CREATE TABLE `Card` (
   `cvv` int(11) NOT NULL,
   `expire_date` varchar(6) NOT NULL,
   `type` varchar(20) NOT NULL,
+  `stripe_id` varchar(32) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -104,6 +105,7 @@ CREATE TABLE `User` (
   `city` varchar(200) NOT NULL,  
   `type` int(11) NOT NULL DEFAULT 1,
   `birth` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `stripe_customer` varchar(32) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
