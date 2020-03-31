@@ -768,7 +768,7 @@ exports.receiptPaymentCash = function(payment_id) {
 /*
  *  Function:   Query Membershops by user id (passed from session)
  *  Input:      User {id}
- *  Output:     Membership {id, validity, start_date, id_user, id_sport} / Error Message
+ *  Output:     Membership {id, start_date, id_user} / Error Message
 */
 exports.getUserMemberships = function(id) {
 
@@ -784,7 +784,7 @@ exports.getUserMemberships = function(id) {
 
             query = SqlString.format(
         
-                'SELECT * FROM Membership INNER JOIN Sport ON Membership.id_sport = Sport.id WHERE id_user = ?',
+                'SELECT Membership.id, Sport.name as sportName, Membership.start_date, Pricing.type FROM Membership INNER JOIN Pricing ON Membership.id_pricing = Pricing.id INNER JOIN Sport ON Sport.id = Pricing.id_sport WHERE id_user = ?',
                     [id]
             );
 
@@ -1572,11 +1572,11 @@ exports.generateActivityBooking = function(idActivity) {
 }
 
 /*
- *  Function:   Generate Payment
+ *  Function:   Generate Booking Payment
  *  Input:      BookedActivity {id}, Activity {cost}, User {id}, Card {id}
  *  Output:     Payment {id} / Error Message
 */
-exports.generatePayment = function(bookedActivityId, cost, userId, cardId) {
+exports.generateBookingPayment = function(bookedActivityId, cost, userId, cardId) {
 
     var conn = getConnection();
 
@@ -1607,6 +1607,44 @@ exports.generatePayment = function(bookedActivityId, cost, userId, cardId) {
         });
     });
 }
+
+/*
+ *  Function:   Generate Membership Payment
+ *  Input:      BookedActivity {id}, Activity {cost}, User {id}, Card {id}
+ *  Output:     Payment {id} / Error Message
+*/
+exports.generateMembershipPayment = function(membershipId, cost, userId, cardId) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO Payment(id_membership, amount, id_user, id_card) VALUES(?, ?, ?, ?);',
+                    [membershipId, cost, userId, cardId]
+            );
+            
+            // Query
+            conn.query(query, function (err, result, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(result.insertId);
+            
+            });
+        });
+    });
+}
+
 
 /*
  *  Function:   Get Activity Obj by Id
@@ -2033,7 +2071,7 @@ exports.getWeeklySportUsage = function(id, start, end) {
                     resolve(results);
 
                 else
-                    reject('No activities found.');     
+                    reject('No usage data found.');     
             });
         });
     });
@@ -2072,7 +2110,7 @@ exports.getPricingBySport = function(sportId) {
                     resolve(results);
 
                 else
-                    reject('No activities found.');     
+                    reject('No pricing found.');     
             });
         });
     });
@@ -2111,7 +2149,83 @@ exports.getPricingByType = function(type) {
                     resolve(results);
 
                 else
-                    reject('No activities found.');     
+                    reject('No pricing found.');     
+            });
+        });
+    });
+}
+
+
+/*
+ *  Function:   Get Pricing Amount
+ *  Input:      Pricing {id}
+ *  Output:     Pricing {amount} / Error Message
+*/
+exports.getPricingAmount = function(id) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT amount FROM Pricing WHERE id = ?',
+                [id]
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                if (results.length > 0)
+                    resolve(results[0].amount);
+
+                else
+                    reject('No pricing found.');     
+            });
+        });
+    });
+}
+
+/*
+ *  Function:   Create Membership
+ *  Input:      User {id}, Pricing {id}
+ *  Output:     Membership {id} / Error Message
+*/
+exports.createMembership = function(userId, pricingId) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'INSERT INTO Membership (id_user, id_pricing) VALUES (?, ?)',
+                [userId, pricingId]
+            );
+        
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Success
+                resolve(results.insertId)
             });
         });
     });

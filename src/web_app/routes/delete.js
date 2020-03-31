@@ -17,7 +17,9 @@ router.use(cookieParser(process.env.SESSION_SECRET));
 // Website header
 const webname = ' The Edgy ';
 
-
+/*
+ *  Function:   Delete facility by id
+*/
 router.get('/facility/:id*', function(req, res, next) {
     if(req.session.userId != undefined && req.session.userType == 3) {
        
@@ -30,7 +32,9 @@ router.get('/facility/:id*', function(req, res, next) {
     }
 }); 
 
-
+/*
+ *  Function:   Delete activity by id
+*/
 router.get('/activity/:id*', function(req, res, next) {
     console.log(req.params['id']);
 

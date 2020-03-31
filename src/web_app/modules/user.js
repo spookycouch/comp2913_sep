@@ -230,6 +230,13 @@ exports.getMemberships = function(id){
             // Formatting date
             for(i = 0; i < memberships.length; i++){
 
+                // Validity
+                if(memberships[i].type == 1)
+                    memberships[i].validity = 31;
+                
+                else
+                    memberships[i].validity = 365;
+
                 // Formatting
                 var mysql_date = memberships[i].start_date;
 

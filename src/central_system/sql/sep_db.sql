@@ -9,6 +9,7 @@ USE comp2913_sep;
 
 CREATE TABLE `Card` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stripe_token` varchar(200) NOT NULL,
   `number` varchar(21) NOT NULL,
   `cvv` int(11) NOT NULL,
   `expire_date` varchar(6) NOT NULL,
@@ -109,6 +110,24 @@ CREATE TABLE `User` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Definition of the table `Pricing`
+--
+
+CREATE TABLE `Pricing` (
+  
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_sport` int(11) NOT NULL DEFAULT 1,
+  
+  -- 1: monthly, 2: yearly, 3: sports pass --
+  `type` int(11) NOT NULL DEFAULT 1,
+  
+  `amount` double NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`id_sport`) REFERENCES Sport(`id`)
+  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
@@ -117,13 +136,12 @@ CREATE TABLE `User` (
 
 CREATE TABLE `Membership` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `validity` int(11) NOT NULL,
   `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `id_user` int(11) NOT NULL,
-  `id_sport` int(11) NOT NULL,
+  `id_pricing` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_user`) REFERENCES User(`id`),
-  FOREIGN KEY (`id_sport`) REFERENCES Sport(`id`)
+  FOREIGN KEY (`id_pricing`) REFERENCES Pricing(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -265,24 +283,6 @@ CREATE TABLE `Payment` (
   FOREIGN KEY (`id_card`) REFERENCES Card(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Definition of the table `Pricing`
---
-
-CREATE TABLE `Pricing` (
-  
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_sport` int(11) NOT NULL DEFAULT 1,
-  
-  -- 1: monthly, 2: yearly, 3: sports pass --
-  `type` int(11) NOT NULL DEFAULT 1,
-  
-  `amount` double NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`id_sport`) REFERENCES Sport(`id`)
-  
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 --
 -- SAMPLE DATA
@@ -326,13 +326,17 @@ INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, 
 INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
 
 -- Creating a membership
-INSERT INTO Membership(validity, id_user, id_sport) VALUES (31, 1, 1);
-INSERT INTO Membership(validity, id_user, id_sport) VALUES (-14, 1, 2);
+INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 1, 20);
+INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 2, 240);
+INSERT INTO Pricing (type, amount) VALUES (3, 2400);
+
+INSERT INTO Membership(id_user, id_pricing) VALUES (1, 1);
+INSERT INTO Membership(id_user, id_pricing, start_date) VALUES (1, 2, '2007-01-01 10:00');
 
 -- Payment simulation
-INSERT INTO Card (number, cvv, expire_date, type) VALUES ('0000000000000000', '000', '00/00', '__CASH__');
-INSERT INTO Card (number, cvv, expire_date, type) VALUES ('12345678901234567890', '123', '01/02', 'VISA');
-INSERT INTO Card (number, cvv, expire_date, type) VALUES ('09876543210987654321', '321', '02/01', 'MasterCard');
+INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('0000000000000000', '000', '00/00', '__CASH__', '');
+INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('12345678901234567890', '123', '01/02', 'VISA', '');
+INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('09876543210987654321', '321', '02/01', 'MasterCard', '');
 INSERT INTO Card_User(id_card, id_user) VALUES (1, 1);
 INSERT INTO Card_User(id_card, id_user) VALUES (2, 1);
 
@@ -370,7 +374,5 @@ INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
-  
-INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 1, 20);
-INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 2, 240);
-INSERT INTO Pricing (type, amount) VALUES (3, 2400);
+
+

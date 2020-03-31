@@ -268,7 +268,6 @@ exports.defaultError = function (req, res, webname, err){
     {
         title: webname + "| Account | Payment",
         session: req.session,
-        error: err,
-        csrfToken: req.csrfToken()
+        error: err
     });
 }
