@@ -263,6 +263,24 @@ CREATE TABLE `Payment` (
   FOREIGN KEY (`id_card`) REFERENCES Card(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Definition of the table `Pricing`
+--
+
+CREATE TABLE `Pricing` (
+  
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_sport` int(11) NOT NULL DEFAULT 1,
+  
+  -- 1: monthly, 2: yearly, 3: sports pass --
+  `type` int(11) NOT NULL DEFAULT 1,
+  
+  `amount` double NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`id_sport`) REFERENCES Sport(`id`)
+  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 --
 -- SAMPLE DATA
@@ -350,3 +368,7 @@ INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
+  
+INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 1, 20);
+INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 2, 240);
+INSERT INTO Pricing (type, amount) VALUES (3, 2400);

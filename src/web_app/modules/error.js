@@ -232,7 +232,9 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
     });
 }
 
-
+/*
+ *  Function:   Cash payment error
+*/
 exports.cashPaymentError = function(req, res, webname, user, facility, err) {
     user.getDetails(req.session.userId).then(function(result) {
         facility.getAllActivities().then(function(activities) {
