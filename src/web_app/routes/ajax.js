@@ -447,7 +447,24 @@ router.post('/delete/image/facility', function(req, res) {
             error: err
         }));
     });
+});
 
+
+
+router.post('/update/payment', function(req, res) {
+    console.log(req.session.userId);
+
+    user.getPayments(req.session.userId, req.body.cardId).then(function(payments) {
+
+        res.end(JSON.stringify({
+            results: payments
+        }));
+
+    }).catch(function(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    })
 })
 
 /*

@@ -711,9 +711,7 @@ exports.createPaymentCash = function(amount, activity_id, user_id, employee_id) 
             if (err) reject(err);
 
             query = SqlString.format(
-                // 'INSERT INTO Payment(amount, id_card, id_booked_activity, id_user, id_employee) SELECT ?, Card.id, ?, User.id, ? FROM Card CROSS JOIN User WHERE Card.type = "__CASH__" AND User.email = "test@mail.com"; SELECT LAST_INSERT_ID() AS id;',
-                //     [amount, activity_id, employee_id, user_email]
-                
+         
                 'INSERT INTO PAYMENT(amount, id_booked_activity, id_user, id_employee) VALUES (?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
                 [amount, activity_id, user_id, employee_id]
             );
@@ -732,12 +730,7 @@ exports.createPaymentCash = function(amount, activity_id, user_id, employee_id) 
 }
 
 exports.receiptPaymentCash = function(payment_id) {
-    var conn = mysql.createConnection({
-        host: host,
-        user: user,
-        password: psw,
-        database: db
-    });
+    var conn = getConnection();
 
     // Synching request
     return new Promise(function(resolve, reject) {
@@ -770,6 +763,42 @@ exports.receiptPaymentCash = function(payment_id) {
         });
     });
 }
+
+
+exports.receiptPayment = function(payment_id) {
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'SELECT Payment.*, Card.number, Card.type, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name AS activity_name FROM Payment INNER JOIN Card ON Payment.id_card = Card.id INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id WHERE Payment.id = ?',
+                    [payment_id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.length > 0)
+                    resolve(results[0]);
+
+                else
+                    reject("Payment not found.");
+
+            });
+        });
+    });
+}
+
 
 /*
  *  Function:   Query Membershops by user id (passed from session)
@@ -882,10 +911,10 @@ exports.deleteUserCard = function(userId, cardId) {
 
 /*
  *  Function:   Query payments by user id (passed from session)
- *  Input:      User {id}
+ *  Input:      User {id}, Card {id}
  *  Output:     Payments / Error Message
 */
-exports.getUserPayments = function(userId) {
+exports.getUserPayments = function(userId, cardId) {
 
     var conn = getConnection();
 
@@ -899,7 +928,43 @@ exports.getUserPayments = function(userId) {
 
             query = SqlString.format(
         
-                'SELECT * FROM Payment WHERE id_user = ?',
+                'SELECT Payment.*, Card.number, Card.type, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name AS activity_name FROM Payment INNER JOIN Card ON Payment.id_card = Card.id INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id WHERE id_user = ? AND Card.id = ?',
+                    [userId, cardId]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                resolve(results);
+            });
+        });
+    });
+}
+
+
+/*
+ *  Function:   Query payments by user id (passed from session), only for which are cash payments
+ *  Input:      User {id}
+ *  Output:     Payments / Error Message
+*/
+exports.getUserPaymentsCash = function(userId) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'SELECT Payment.*, Card.type, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name AS activity_name, Activity.cost AS activity_cost, User.name as user_name, User.surname AS user_surname, User.email as user_email FROM Payment INNER JOIN Card ON Payment.id_card = Card.id INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id INNER JOIN User ON Payment.id_user = User.id WHERE id_user = ? AND Card.type = "__CASH__"',
                     [userId]
             );
 

@@ -190,9 +190,10 @@
         color: $white;
         display: flex;
         justify-content: center;
+        align-content: flex-start;
         flex-wrap: wrap;
         margin: 60px 0px;
-        height: 0%;
+        // height: 0%;
 
         &--no-margin {
             margin: 0;
@@ -253,6 +254,7 @@
                 color: $black !important;
                 text-align: center;
                 margin-bottom: 40px;
+                align-self: flex-start;
             }
 
             &__filter {
