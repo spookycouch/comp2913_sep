@@ -34,7 +34,6 @@ fetch("/pay/stripe-key")
     
     form.addEventListener("submit", function(event) {
       event.preventDefault();
-
         pay(stripe, card, clientSecret);
     });
   });

@@ -113,14 +113,23 @@ var addCard = function(stripe, card) {
             showError(result.error);
           } else {
             // The setup has succeeded. Display a success message.
-            return fetch("/user/account/add/card",
+
+            $.ajax (
             {
-              method: "POST",
+              url: "/user/account/add/card",
+              type: "POST",
               headers: {
                 "Content-Type": "application/json",
                 'X-CSRF-Token': csrfToken,
                 },
-              body: JSON.stringify(result.setupIntent)
+              data: JSON.stringify(result.setupIntent),
+              success: function(data) {
+                location.reload();
+                return;
+              },
+              error: function(error) {
+                alert(error);
+              }
             });
           }
         });
@@ -150,10 +159,11 @@ var orderComplete = function(clientSecret) {
 var showError = function(errorMsgText) {
   changeLoadingState(false);
   var errorMsg = document.querySelector(".sr-field-error");
-  errorMsg.textContent = errorMsgText;
-  setTimeout(function() {
-    errorMsg.textContent = "";
-  }, 4000);
+  console.log(errorMsgText);
+  errorMsg.textContent = errorMsgText.message;
+  // setTimeout(function() {
+  //   errorMsg.textContent = "";
+  // }, 4000);
 };
 
 // Show a spinner on payment submission

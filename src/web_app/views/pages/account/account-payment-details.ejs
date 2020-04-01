@@ -54,15 +54,15 @@
                             <div class="sr-field-error" id="card-errors" role="alert"></div>
                             <button id="submit">
                                 <div class="spinner hidden" id="spinner"></div>
-                                <span id="button-text">Pay</span><span id="order-amount"></span>
+                                <span id="button-text">Add Card</span><span id="order-amount"></span>
                             </button>
                         </form>
-                        <div class="sr-result hidden">
+                        <!-- <div class="sr-result hidden">
                             <p>Payment completed<br/></p>
                             <pre>
                                 <code></code>
                             </pre>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                                 <div class="option__content option__content--center option__content--yellow">
                                     <div class="content__title content__title--margin-bottom">
                                         <h2><%- cards[i].type %> Credit Card</h2>
-                                        <h3><%- cards[i].number %></h3>
+                                        <h3>ending in <%- cards[i].number %></h3>
                                     </div>
 
                                     <div class="content__dsc content__dsc--flex">       
@@ -238,7 +238,7 @@
                                         <label class="option-form__label"><h3>View Payment History:</h3></label>
                                         <select id="card-select" class="option-form__select" name="card-history">
                                             <% for (var i = 0; i < cards.length;  i++ ) { %>
-                                                <option value="<%- cards[i].id %>"><%- cards[i].number %></option>
+                                                <option value="<%- cards[i].id %>"><%- cards[i].type %> ending in <%- cards[i].number %></option>
                                             <% } %>
                                         </select>
                                     </div>

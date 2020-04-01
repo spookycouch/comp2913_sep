@@ -198,11 +198,9 @@ exports.updateErrorPage = function(req, res, webname, user, err) {
 
 
 /*
-// TODO: IMPLEMENT ERRORS WITHIN THE MODAL - FOR SAM
  *  Function:  Render Create card payment option with errors 
 */
 exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
-    
     user.getDetails(req.session.userId).then(function(result) {
 
         // Cards
@@ -215,6 +213,7 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
                 // Cash payment history
                 user.getPaymentsCash(req.session.userId).then(function(cashPayments) {
                     // Render
+
                     res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
                     {
                         title: webname + "| Account | Payment",

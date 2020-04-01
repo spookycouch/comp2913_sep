@@ -576,8 +576,6 @@ $(document).ready(function() {
                     $payments.append(payment);
                 }
 
-                console.log($payments.html());
-
                 $('#payment-history').replaceWith($payments);
             },
             error: function(error) {

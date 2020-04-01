@@ -538,13 +538,6 @@ exports.getCards = function(id){
     return new Promise(function(resolve, reject) {
 
         db.getUserCards(id).then(function(cards){
-            
-            // Preprocess cards for security reasons
-            for(x = 0; x < cards.length; x++){
-                
-                cards[x].number = cards[x].number.replace(cards[x].number.substring(0, 12), "****************");
-                cards[x].expire_date = cards[x].expire_date.replace(cards[x].expire_date.substring(0,2), "**");
-            }
 
             resolve(cards);
 
@@ -589,8 +582,6 @@ exports.getPayments = function(userId, cardId) {
                 date = moment(date).format('DD/MM/YYYY hh:mm');
                 
                 result[i].purchase_date = date;
-
-                result[i].number = result[i].number.replace(result[i].number.substring(0,12), '');
             }
 
             resolve(result);
@@ -633,9 +624,7 @@ exports.getPaymentsCash = function(userId) {
 exports.getPaymentReceipt = function(paymentId) {
     return new Promise(function(resolve, reject) {
         db.receiptPayment(paymentId).then(function(result) {
-            // Get last 4 numbers of card
-            result.number = result.number.replace(result.number.substring(0,12), '');
-
+            
             resolve(result);
 
         }).catch(function(err) {

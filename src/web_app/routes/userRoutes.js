@@ -109,6 +109,7 @@ router.post('/login', function(req, res) {
                     res.redirect('/manager/overview');
                 } else {
                     res.redirect('/user/account');
+
                 }
 
             // Error
@@ -161,7 +162,7 @@ router.get('/account', function(req, res) {
             });
 
         }).catch(function(err) {
-
+            console.log(err);
             error.loginErrorPage(req, res, webname);
         });
     }
@@ -540,6 +541,11 @@ router.get('/account/payment/receipt', function(req, res) {
 router.post('/account/add/card', async function(req, res) {
 
     var pm  = await stripe.paymentMethods.retrieve(req.body.payment_method);
+    pm.card.brand = pm.card.brand.toUpperCase(); // Convert brand to upeprcase
+
+    if (pm.card.exp_month < 10) pm.card.exp_month = '0' + pm.card.exp_month.toString(); // convert single digit to have 0 beforehand
+
+    console.log(pm);
 
     if (req.session.userId == undefined)
         res.redirect('/home');
@@ -568,12 +574,17 @@ router.post('/account/add/card', async function(req, res) {
             try {
                 // Query
                 user.addCard(req.session.userId, pm.card, pm.id).then(function(result) {
+
                     req.body = {} // Clear request body so data isnt showed on reload
-    
-                    error.cardPaymentErrorPage(req, res, webname, user, [{
-                        message: "Payment Method Added Successfully",
-                        path: "success"
-                    }]);
+
+                    res.end(JSON.stringify({
+                        result: "success"
+                    }));
+
+                    // error.cardPaymentErrorPage(req, res, webname, user, [{
+                    //     message: "Payment Method Added Successfully",
+                    //     path: "success"
+                    // }]);
     
                 }).catch(function(err) {    
                     console.log(err);
