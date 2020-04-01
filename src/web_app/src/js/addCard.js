@@ -9,7 +9,7 @@ var csrfToken = document.getElementsByName("_csrf")[0].value;
 
 
 // Disable the button until we have Stripe set up on the page
-document.querySelector("button").disabled = true;
+document.querySelector("#submit").disabled = false;
 
 fetch("/pay/stripe-key")
   .then(function(result) {
@@ -81,7 +81,6 @@ var handleAction = function(clientSecret) {
 
 
 var addCard = function(stripe, card) {
-
   changeLoadingState(true);
 
   fetch("/pay/setup-intent",{
@@ -160,11 +159,11 @@ var showError = function(errorMsgText) {
 // Show a spinner on payment submission
 var changeLoadingState = function(isLoading) {
   if (isLoading) {
-    document.querySelector("button").disabled = true;
+    document.querySelector("#submit").disabled = true;
     document.querySelector("#spinner").classList.remove("hidden");
     document.querySelector("#button-text").classList.add("hidden");
   } else {
-    document.querySelector("button").disabled = false;
+    document.querySelector("#submit").disabled = false;
     document.querySelector("#spinner").classList.add("hidden");
     document.querySelector("#button-text").classList.remove("hidden");
   }
