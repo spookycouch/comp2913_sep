@@ -57,9 +57,9 @@ router.get('/memberships', csrf, function(req, res) {
     Promise.all(queries).then(results => { 
     
         // Parse data
-        var startMonthlyPricing = results[0][0].amount;
-        var startYearlyPricing = results[1][0].amount;
-        var passPricing = results[2][0].amount;
+        var startMonthlyPricing = results[0][0];
+        var startYearlyPricing = results[1][0];
+        var passPricing = results[2][0];
 
         // Render page
         res.render(path.join(__dirname + '/../views/pages/memberships.ejs'),

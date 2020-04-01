@@ -423,15 +423,13 @@ router.get('/account/payment', function(req, res) {
             // Cards
             user.getCards(req.session.userId).then(function(cards){
                 var cardId = 0;
-                if (cards.length > 0)
-                    cardId = cards[0].id;
+                if (cards.length > 0) cardId = cards[0].id;
 
                 // Payment history
                 user.getPayments(req.session.userId, cardId).then(function(payments) {
 
                     // Cash payment history
                     user.getPaymentsCash(req.session.userId).then(function(cashPayments) {
-
 
                         // Render
                         res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
@@ -450,18 +448,14 @@ router.get('/account/payment', function(req, res) {
                         console.log(err);
                     })
 
-                    
-
                 }).catch(function(err) {
                     error.defaultError(req, res, webname, err);
                     
                 });
-
             }).catch(function(err){
 
                 error.defaultError(req, res, webname, err);
-            });
-        
+            });   
         }).catch(function(err) {
 
             error.defaultError(req, res, webname, err);
