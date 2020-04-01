@@ -488,6 +488,103 @@ $(document).ready(function() {
             }
         });
     });
+
+
+
+    $('#card-select').on('change', function(e) {
+        $.ajax({
+            url: '/ajax/update/payment',
+            type: 'POST',
+            data: {cardId: $(this).val()},
+            datatype: 'json',
+            success: function(data) {
+                data = JSON.parse(data);
+
+                console.log(data);
+
+                var $payments = $("<div class=\"account__section account__section--full-width account__details\" id=\"payment-history\"></div>")
+
+                if (data.results.length > 0) {
+                    $payments.append(`
+                        <div class="section__title">
+                            <h2>Your Payment History</h2>
+                        </div>
+                    `);
+
+                    var payment = "";
+                    $.each(data.results, function(key, value) {
+                        payment += `
+                            <div class="details__content">
+                                <div class="content__form-title content__form-title--top">
+                                    <div class="form-title__title">
+                                        <h2>Payment No. ${value.id}</h2>
+                                    </div>
+                    
+                                    <div class="form-title__desc">
+                                        ${value.activity_name}
+                                    </div>
+
+                                    <div class="form-title__book hvr-sweep-to-right">
+                                        <a href="/user/account/payment/receipt?payment_id=${value.id}" target="_blank">
+                                            <h3>Show Reciept</h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="content__list">
+                                    <div class="list__field">
+                                        <div class="field__field">
+                                            <img src="/img/icons/clock.png" />
+                                            <h3>Purchase Date:</h3>
+                                            <span>${value.purchase_date}</span>
+                                        </div>
+
+                                        <div class="field__field">
+                                            <img src="/img/icons/discount.png" />
+                                            <h3>Amount Cost:</h3>
+                                            <span>£${value.amount}</span>
+                                        </div>
+
+                                        <div class="field__field">
+                                            <img src="/img/icons/pay.png" />
+                                            <h3>Payment Method:</h3>
+                                            <span>${value.type} ending in ${value.number}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div class="content__form-title content__form-title--side">
+                                    <div class="form-title__title">
+                                        <h2>Payment No. ${value.id}</h2>
+
+                                    </div>
+                    
+                                    <div class="form-title__desc">
+                                        ${value.activity_name}
+                                    </div>
+
+                                    <div class="form-title__book hvr-sweep-to-right">
+                                        <a href="/user/account/payment/receipt?payment_id=${value.id}" target="_blank">
+                                            <h3>Show Reciept</h3>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    }); 
+
+                    $payments.append(payment);
+                }
+
+                console.log($payments.html());
+
+                $('#payment-history').replaceWith($payments);
+            },
+            error: function(error) {
+                alert(error);
+            }
+        });
+    });
 });
 
 

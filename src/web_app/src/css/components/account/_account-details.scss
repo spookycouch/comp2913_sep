@@ -20,6 +20,14 @@
                         color: $quatenary;
                     }
 
+                    &__link {
+                        color: $black;
+                        border: $border_thickness solid $black;
+                        display: inline-block;
+                        padding: $padding_border_block;
+                        margin-left: 20px;
+                    }
+
                     &__danger {
                         color: $red;
                     }

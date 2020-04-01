@@ -232,6 +232,7 @@ exports.getDetails = function(id){
     });
 }
 
+
 /*
  *  Function:   Get User's memberships
  *  Input:      User {id}
@@ -541,7 +542,7 @@ exports.getCards = function(id){
             // Preprocess cards for security reasons
             for(x = 0; x < cards.length; x++){
                 
-                cards[x].number = cards[x].number.replace(cards[x].number.substring(0,15), "****************");
+                cards[x].number = cards[x].number.replace(cards[x].number.substring(0, 12), "****************");
                 cards[x].expire_date = cards[x].expire_date.replace(cards[x].expire_date.substring(0,2), "**");
             }
 
@@ -571,5 +572,74 @@ exports.addCard = function(userId, card, stripe_id){
 
             reject(err);
         });
+    });
+}
+
+
+exports.getPayments = function(userId, cardId) {
+    return new Promise(function(resolve, reject) {
+
+        db.getUserPayments(userId, cardId).then(function(result) {
+
+            for (var i = 0; i < result.length; i++) {
+                // Formatting date
+                var mysql_date = result[i].purchase_date;
+
+                let date = mysql_date.getTime();
+                date = moment(date).format('DD/MM/YYYY hh:mm');
+                
+                result[i].purchase_date = date;
+
+                result[i].number = result[i].number.replace(result[i].number.substring(0,12), '');
+            }
+
+            resolve(result);
+            
+        }).catch(function(err) {
+
+            reject(err);    
+        })
+
+    });
+}
+
+
+exports.getPaymentsCash = function(userId) {
+    return new Promise(function(resolve, reject) {
+
+        db.getUserPaymentsCash(userId).then(function(result) {
+
+            for (var i = 0; i < result.length; i++) {
+                // Formatting date
+                var mysql_date = result[i].purchase_date;
+
+                let date = mysql_date.getTime();
+                date = moment(date).format('DD/MM/YYYY hh:mm');
+                
+                result[i].purchase_date = date;
+            }
+
+            resolve(result);
+            
+        }).catch(function(err) {
+
+            reject(err);    
+        })
+
+    });
+}
+
+
+exports.getPaymentReceipt = function(paymentId) {
+    return new Promise(function(resolve, reject) {
+        db.receiptPayment(paymentId).then(function(result) {
+            // Get last 4 numbers of card
+            result.number = result.number.replace(result.number.substring(0,12), '');
+
+            resolve(result);
+
+        }).catch(function(err) {
+            reject(err);
+        })
     });
 }

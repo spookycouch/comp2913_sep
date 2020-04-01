@@ -122,6 +122,8 @@ CREATE TABLE `Pricing` (
   `type` int(11) NOT NULL DEFAULT 1,
   
   `amount` double NOT NULL,
+  `name` varchar(1000) NOT NULL,
+  `description` varchar(5000) NOT NULL DEFAULT "There is no desription for this pricing",
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_sport`) REFERENCES Sport(`id`)
   
@@ -271,7 +273,7 @@ CREATE TABLE `Payment` (
   `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` int(11) NOT NULL DEFAULT 1,
   `amount` double NOT NULL,
-  `id_card` int(11) NOT NULL,
+  `id_card` int(11) NOT NULL DEFAULT 1,
   `id_booked_activity` int(11),
   `id_membership` int(11),
   `id_user` int(11) NOT NULL,
@@ -297,20 +299,62 @@ INSERT INTO User(name, surname, email, type, password, phone, address_1, zipcode
 INSERT INTO User(name, surname, email, type, password, phone, address_1, zipcode, city) VALUES ('Mr', 'Admin', 'admin@mail.com', 3, 'cc03e747a6afbbcbf8be7668acfebee5', '+44 1234567890', 'Weetwood Lane', 'LS166IL', 'Leeds');
 
 -- Creating a Facility
-INSERT INTO Facility (name, description, price, icon) VALUES ('F.Pellegrini Swimming Pool', 'The swimming pool is very nice you might like 8====D', 1000,  'swim-white');
-INSERT INTO Facility (name, description, price, icon) VALUES ('M. Ali Box', 'Where the kick boxing happens innit blud', '53.804326', 'gym-white');
+INSERT INTO Facility (name, description, price, icon) VALUES ('Swimming Pool', 'Our world class swimming pool allows for innovative pool programmes that are designed for begginers in need of lessions, or competitive swimmers taking advantage of lane sessions. If this all sounds like hard work we also offer pool parties!', 5,  'swim-white');
+INSERT INTO Facility (name, description, price, icon) VALUES ('Fitness Room', 'We provide you with the latest fitness equipment combined with group fitness classes that will leave you wanting more. We make sure our fitness programmes are tailored for everyone, no matter their ability.', '10', 'gym-white');
+INSERT INTO Facility (name, description, price, icon) VALUES ('Squash Courts', 'We offer 4 state of the art squash courts for you to practice in. Book alone, in pairs or as a group, we can match you up with other players your level to test and enhance your abilities.', '8', 'tennis-white');
+INSERT INTO Facility (name, description, price, icon) VALUES ('Sports Hall', 'Our state of the art sports hall offeres enough room for many different sports. Whether you are trying a sport for the first time or have decided to start again, playing sport is a great way to get fit, stay healthy and meet new friends. You can also book out the sports hall for over, non-sport related activities.', '15', 'running-white');
 
 -- Create image references
-INSERT INTO Image(ext) VALUES('jpg');
-INSERT INTO Image(ext) VALUES('jpg');
-INSERT INTO Image(ext) VALUES('jpg');
-INSERT INTO Image(ext) VALUES('JPG');
+
+-- Swimming Pool Images
+INSERT INTO Image(ext) VALUES('jpg'); -- image 1
+INSERT INTO Image(ext) VALUES('jpg'); -- image 2
+INSERT INTO Image(ext) VALUES('jpg'); -- image 3
+INSERT INTO Image(ext) VALUES('jpg'); -- image 4
+
+--  Fitness room images
+INSERT INTO Image(ext) VALUES('jpg'); -- image 1
+INSERT INTO Image(ext) VALUES('jpg'); -- image 2
+INSERT INTO Image(ext) VALUES('jpg'); -- image 3
+INSERT INTO Image(ext) VALUES('jpg'); -- image 4
+
+-- Squash court images
+
+INSERT INTO Image(ext) VALUES('jpg'); -- image 1
+INSERT INTO Image(ext) VALUES('jpg'); -- image 2
+INSERT INTO Image(ext) VALUES('jpg'); -- image 3
+INSERT INTO Image(ext) VALUES('jpg'); -- image 4
+
+-- Sports hall images
+INSERT INTO Image(ext) VALUES('jpg'); -- image 1
+INSERT INTO Image(ext) VALUES('jpg'); -- image 2
+INSERT INTO Image(ext) VALUES('jpg'); -- image 3
+
 
 -- Create image/facility references
+
+-- swimming pool image references
 INSERT INTO FacilityImage(id_image, id_facility) VALUES (1,1);
 INSERT INTO FacilityImage(id_image, id_facility) VALUES (2,1);
-INSERT INTO FacilityImage(id_image, id_facility) VALUES (3,2);
-INSERT INTO FacilityImage(id_image, id_facility) VALUES (4,2);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (3,1);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (4,1);
+
+-- Fitness room image references
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (5,2);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (6,2);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (7,2);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (8,2);
+
+-- Squash courts image references
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (9,3);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (10,3);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (11,3);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (12,3);
+
+-- Sports hall image references
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (13,4);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (14,4);
+INSERT INTO FacilityImage(id_image, id_facility) VALUES (15,4);
 
 -- Creating a sport with an activity by a lecturer
 INSERT INTO Sport(name, description) VALUES ('Swimming', 'Free swimming, Sub Classes, Competitive Freestyle Swimming.');
@@ -325,19 +369,20 @@ INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, 
 INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
 
 -- Creating a membership
-INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 1, 20);
-INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 2, 240);
-INSERT INTO Pricing (type, amount) VALUES (3, 2400);
+INSERT INTO Pricing (id_sport, type, amount, name, description) VALUES (1, 1, 20, "Monthly", "Pay monthly from a selected of different sports. Each sport allows access to that sports facilitiy and the activities taking place within it.");
+INSERT INTO Pricing (id_sport, type, amount, name, description) VALUES (1, 2, 240, "Annual", "Pay annually from a selection of different sports. Get the best value for money! Each sport allows access to that sports facility and the activities taking place within it.");
+INSERT INTO Pricing (type, amount, name, description) VALUES (3, 400, "Sports Pass", "The best package for those wanting to use multiple facilities to participate in lots of different sports. This pass grants access to all of them at a discounted rate!");
 
 INSERT INTO Membership(id_user, id_pricing) VALUES (1, 1);
 INSERT INTO Membership(id_user, id_pricing, start_date) VALUES (1, 2, '2007-01-01 10:00');
 
 -- Payment simulation
 INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('0000000000000000', '000', '00/00', '__CASH__', '');
-INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('12345678901234567890', '123', '01/02', 'VISA', '');
-INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('09876543210987654321', '321', '02/01', 'MasterCard', '');
-INSERT INTO Card_User(id_card, id_user) VALUES (1, 1);
+INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('1234123412341234', '123', '01/02', 'VISA', '');
+INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('0987654321098765', '321', '02/01', 'MasterCard', '');
+INSERT INTO Card_User(id_card, id_user) VALUES (1, 3); -- for now we add cash card to admin
 INSERT INTO Card_User(id_card, id_user) VALUES (2, 1);
+INSERT INTO Card_User(id_card, id_user) VALUES (3, 1);
 
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
@@ -349,29 +394,30 @@ INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (3, '2020-01-01')
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (4, '2020-01-01');
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (5, '2020-01-01');
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 1, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 2, 2);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 1, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 2, 2);
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 2, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 3, 2, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 3, 2, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 3, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 1, 4, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 3, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 4, 1);
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 1, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 1, 2, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 2, 2, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 2, 2, 1);
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 3, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 4, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 1, 5, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 3, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 4, 1);
+INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 5, 1);
 
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
+
 
 

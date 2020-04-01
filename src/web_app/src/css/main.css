@@ -1167,10 +1167,21 @@ ul {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  height: 100%;
 }
 
 .facilities__facility .facility__spacing .spacing__content .content__desc {
   width: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .facilities__facility .facility__spacing .spacing__content .content__desc .desc__facility-info {
@@ -1640,6 +1651,14 @@ ul {
   color: #00A984;
 }
 
+.account__details .details__content .content__link {
+  color: #413E4B;
+  border: 2px solid #413E4B;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-left: 20px;
+}
+
 .account__details .details__content .content__danger {
   color: red;
 }
@@ -2076,14 +2095,23 @@ ul {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   margin: 60px 0px;
-  height: 0%;
 }
 
 .account__section--no-margin {
   margin: 0;
+}
+
+.account__section--no-margin-top {
+  margin-top: 0;
+}
+
+.account__section--no-margin-bottom {
+  margin-bottom: 0;
 }
 
 .account__section--d-none {
@@ -2133,6 +2161,8 @@ ul {
   color: #413E4B !important;
   text-align: center;
   margin-bottom: 40px;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
 }
 
 .account__section .section__filter {

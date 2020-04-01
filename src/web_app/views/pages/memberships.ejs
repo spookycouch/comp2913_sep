@@ -18,18 +18,18 @@
 
         <div class="pricing-table__container">
             <div class="pricing-table__option hvr-float">
-                <a href="/payment/membership/1?monthly=true">
+                <a href="/payment/membership/<%- pricing[0].type %>">
                     <div class="option__content">
                         <div class="content__membership-plan">
-                            <h2>Monthly</h2>
+                            <h2><%- pricing[0].name %></h2>
                         </div>
 
                         <div class="content__membership-desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
+                            <%- pricing[0].description %>
                         </div>
 
                         <div class="content__membership-price">
-                            starting from <h2>£<%- pricing[0] %></h2>
+                            starting from <h2>£<%- pricing[0].amount %></h2>
                         </div>
 
                         <div class="content__membership-join">
@@ -43,22 +43,22 @@
 
 
             <div class="pricing-table__option pricing-table__option--focus hvr-float">
-                <a href="/payment/membership/2?annual=true">
+                <a href="/payment/membership/<%- pricing[1].type %>">
                     <div class="option__content">
                         <div class="content__image">
                             <img src="/img/icons/star (1).png" />
                         </div>
 
                         <div class="content__membership-plan">
-                            <h2>Annual</h2>
+                            <h2><%- pricing[1].name %></h2>
                         </div>
 
                         <div class="content__membership-desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
+                            <%- pricing[1].description %>
                         </div>
 
                         <div class="content__membership-price">
-                            starting from <h2>£<%- pricing[1] %></h2>
+                            starting from <h2>£<%- pricing[1].amount %></h2>
                         </div>
 
                         <div class="content__membership-join">
@@ -71,18 +71,18 @@
             </div>
 
             <div class="pricing-table__option hvr-float">
-                <a href="/payment/membership/3">
+                <a href="/payment/membership/<%- pricing[2].type %>">
                     <div class="option__content">
                         <div class="content__membership-plan">
-                            <h2>Sports Pass</h2>
+                            <h2><%- pricing[2].name %></h2>
                         </div>
 
                         <div class="content__membership-desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
+                            <%- pricing[2].description %>
                         </div>
 
                         <div class="content__membership-price">
-                            starting from <h2>£<%- pricing[2] %></h2>
+                            starting from <h2>£<%- pricing[2].amount %></h2>
                         </div>
 
                         <div class="content__membership-join">
@@ -123,7 +123,7 @@
                     </div>
 
                     <div class="statistic__desc">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
+                        We provide some of the best and highest ranked facilities in the country. Join us to gain access to some of the best training equipment you will find!
                     </div>
                 </div>
                 
@@ -133,7 +133,9 @@
                     </div>
 
                     <div class="statistic__desc">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
+                        Here at The Edgy,
+                        <b>95%</b>
+                        of our members are statisfied with the facilities and services that we provide!
                     </div>
                 </div>
 
@@ -143,7 +145,9 @@
                     </div>
 
                     <div class="statistic__desc">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, nulla ut commodo sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat
+                        Did you know that The Edgy has been rated amongst the top
+                        <b>5%</b>
+                        of sports centers in the country? We are very proud of this and happy to have you on board!
                     </div>
                 </div>
             </div>

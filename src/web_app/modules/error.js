@@ -207,17 +207,33 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
 
         // Cards
         user.getCards(req.session.userId).then(function(cards){
+            var cardId = 0;
+                if (cards.length > 0) cardId = cards[0].id;
 
-            // Render
-            res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
-            {
-                title: webname + "| Account | Payment",
-                session: req.session,
-                user: result,
-                cards: cards,
-                error: err,
-                form: req.body,
-                csrfToken: req.csrfToken()
+            // Payment history
+            user.getPayments(req.session.userId, cardId).then(function(payments) {
+                // Cash payment history
+                user.getPaymentsCash(req.session.userId).then(function(cashPayments) {
+                    // Render
+                    res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
+                    {
+                        title: webname + "| Account | Payment",
+                        session: req.session,
+                        user: result,
+                        cards: cards,
+                        payments: payments,
+                        cashPayments: cashPayments,
+                        error: err,
+                        form: req.body,
+                        csrfToken: req.csrfToken()
+                    });
+
+                }).catch(function(err) {
+                    module.exports.defaultError(req, res, webname, err);
+                });
+
+            }).catch(function(err) {
+                module.exports.defaultError(req, res, webname, err);
             });
 
         }).catch(function(err){
@@ -235,22 +251,32 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
 /*
  *  Function:   Cash payment error
 */
-exports.cashPaymentError = function(req, res, webname, user, facility, err) {
+exports.cashPaymentError = function(req, res, webname, user, facility, employee, err) {
     user.getDetails(req.session.userId).then(function(result) {
-        facility.getAllActivities().then(function(activities) {
-            return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
-                title: webname + "| Account | Payments | Cash",
-                session: req.session,
-                csrfToken: req.csrfToken(),
-                user: result,
-                activities: activities,
-                error: err
+        employee.getEmployeePayments(req.session.userId).then(function(payments) {
+
+            facility.getAllActivities().then(function(activities) {
+                return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
+                    title: webname + "| Account | Payments | Cash",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    user: result,
+                    activities: activities,
+                    payments: payments,
+                    error: err,
+                    form: req.body
+                });
+    
+            }).catch(function(err) {
+    
+                module.exports.defaultError(req, res, webname, err);
             });
 
         }).catch(function(err) {
-
             module.exports.defaultError(req, res, webname, err);
+
         });
+    
     }).catch(function(err) {
 
         module.exports.defaultError(req, res, webname, err);
