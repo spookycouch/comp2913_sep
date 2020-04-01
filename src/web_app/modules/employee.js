@@ -223,18 +223,18 @@ exports.getFacilityImages = function(facility_id) {
     });
 }
 
-exports.newCashPayment = function(req_body, employee_id){
+exports.newCashPayment = function(userBuying, req_body, employee_id){
 
     // Parameters
     let activity_id = req_body.activity_id;
     let amount = req_body.amount;
-    let user_email = req_body.email;
+    let user_id = userBuying.id;
 
     return new Promise(function(resolve, reject) {
 
         db.createBooking(activity_id).then(function(result){
 
-            db.createPaymentCash(amount, result[1][0].id, user_email, employee_id).then(function(result) {
+            db.createPaymentCash(amount, result[1][0].id, user_id, employee_id).then(function(result) {
 
                 resolve(result);
             });
@@ -258,6 +258,30 @@ exports.getCashPaymentReceipt = function(payment_id){
 
             reject(err);
         });
-
     });
+}
+
+
+exports.getEmployeePayments = function(employee_id) {
+    return new Promise(function(resolve, reject) {
+        db.getEmployeePayments(employee_id).then(function(result) {
+
+            for (var i = 0; i < result.length; i++) {
+                // Formatting date
+                var mysql_date = result[i].purchase_date;
+
+                let date = mysql_date.getTime();
+                date = moment(date).format('DD/MM/YYYY hh:mm');
+                
+                result[i].purchase_date = date;
+            }
+
+
+            resolve(result);
+
+        }).catch(function(err) {
+
+            reject(err);
+        });
+    })
 }

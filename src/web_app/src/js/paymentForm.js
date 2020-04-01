@@ -18,11 +18,14 @@ fetch("/pay/stripe-key")
     return setupElements(data);
   })
   .then(function({ stripe, card, clientSecret }) {
+
     document.querySelector("button").disabled = false;
 
     var form = document.getElementById("payment-form");
+    
     form.addEventListener("submit", function(event) {
       event.preventDefault();
+
       pay(stripe, card, clientSecret);
     });
   });
@@ -59,9 +62,12 @@ var setupElements = function(data) {
 
 var handleAction = function(clientSecret) {
   stripe.handleCardAction(clientSecret).then(function(data) {
+
     if (data.error) {
       showError("Your card was not authenticated, please try again");
+
     } else if (data.paymentIntent.status === "requires_confirmation") {
+
       fetch("/pay/pay", {
         method: "POST",
         headers: {
@@ -113,12 +119,17 @@ var pay = function(stripe, card) {
       return result.json();
     })
     .then(function(response) {
+
       if (response.error) {
         showError(response.error);
+        
       } else if (response.requiresAction) {
+        
         // Request authentication
         handleAction(response.clientSecret);
+      
       } else {
+        
         orderComplete(response.clientSecret);
       }
     });
@@ -129,6 +140,7 @@ var pay = function(stripe, card) {
 /* Shows a success / error message when the payment is complete */
 var orderComplete = function(clientSecret) {
   stripe.retrievePaymentIntent(clientSecret).then(function(result) {
+
     var paymentIntent = result.paymentIntent;
     var paymentIntentJson = JSON.stringify(paymentIntent, null, 2);
 
