@@ -27,6 +27,11 @@ fetch("/pay/stripe-key")
     form.addEventListener("submit", function(event) {
 
       event.preventDefault();
+
+      // remove error on submit
+      var errorMsg = document.querySelector(".sr-field-error");
+      errorMsg.textContent = "";
+
       addCard(stripe, card, clientSecret);
 
     });
@@ -114,6 +119,8 @@ var addCard = function(stripe, card) {
           } else {
             // The setup has succeeded. Display a success message.
 
+            changeLoadingState(true);
+
             $.ajax (
             {
               url: "/user/account/add/card",
@@ -124,8 +131,15 @@ var addCard = function(stripe, card) {
                 },
               data: JSON.stringify(result.setupIntent),
               success: function(data) {
-                location.reload();
-                return;
+                data = JSON.parse(data);
+
+                if (data.result == "success") {
+                  location.reload();
+                  return;
+                } else {
+                  alert("Something went wrong, please try again");
+                }
+                
               },
               error: function(error) {
                 alert(error);
@@ -170,11 +184,11 @@ var showError = function(errorMsgText) {
 var changeLoadingState = function(isLoading) {
   if (isLoading) {
     document.querySelector("#submit").disabled = true;
-    document.querySelector("#spinner").classList.remove("hidden");
+    document.querySelector(".payment__spinner").classList.remove("payment__spinner--hidden");
     document.querySelector("#button-text").classList.add("hidden");
   } else {
     document.querySelector("#submit").disabled = false;
-    document.querySelector("#spinner").classList.add("hidden");
+    document.querySelector(".payment__spinner").classList.add("payment__spinner--hidden");
     document.querySelector("#button-text").classList.remove("hidden");
   }
 };
