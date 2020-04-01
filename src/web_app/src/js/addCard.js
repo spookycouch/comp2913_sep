@@ -7,14 +7,6 @@ const queryString = window.location.pathname.split("/");
 //csrf token
 var csrfToken = document.getElementsByName("_csrf")[0].value;
 
-var orderData = {
-  items: [{ 
-    type : queryString[queryString.length -2],
-    id: queryString[queryString.length -1] 
-  }],
-  currency: "gbp"
-};
-
 
 // Disable the button until we have Stripe set up on the page
 document.querySelector("button").disabled = true;
@@ -33,9 +25,10 @@ fetch("/pay/stripe-key")
     var form = document.getElementById("payment-form");
     
     form.addEventListener("submit", function(event) {
-      event.preventDefault();
 
-        pay(stripe, card, clientSecret);
+      event.preventDefault();
+      addCard(stripe, card, clientSecret);
+
     });
   });
 
@@ -86,51 +79,56 @@ var handleAction = function(clientSecret) {
   });
 };
 
-/*
- * Collect card details and pay for the order
- */
-var pay = function(stripe, card) {
+
+var addCard = function(stripe, card) {
+
   changeLoadingState(true);
 
-  // Collects card details and creates a PaymentMethod
-  stripe
-    .createPaymentMethod("card", card)
-    .then(function(result) {
-      if (result.error) {
-        showError(result.error.message);
-      } else {
-        orderData.paymentMethodId = result.paymentMethod.id;
-        orderData.card = result.paymentMethod.card;
-
-        return fetch("/pay/pay", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            'X-CSRF-Token': csrfToken
-          },
-          body: JSON.stringify(orderData)
-        });
-      }
-    })
-    .then(function(result) {
+  fetch("/pay/setup-intent",{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'X-CSRF-Token': csrfToken
+    },
+    body: null
+    }).then(function(result) {
       return result.json();
-    })
-    .then(function(response) {
 
-      if (response.error) {
-        showError(response.error);
-        
-      } else if (response.requiresAction) {
-        
-        // Request authentication
-        handleAction(response.clientSecret);
-      
+    }).then(function(result) {
+      if (result.error) {
+        // Display error.message in your UI.
+        showError(json.error);
       } else {
-        
-        orderComplete(response.clientSecret);
+
+        // The setup has succeeded. Display a success message.
+        stripe.confirmCardSetup(
+          result.clientSecret,
+          {
+            payment_method: {
+              card: card,
+            },
+          }
+        ).then(function(result) {
+          if (result.error) {
+            // Display error.message in your UI.
+            showError(result.error);
+          } else {
+            // The setup has succeeded. Display a success message.
+            return fetch("/user/account/add/card",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                'X-CSRF-Token': csrfToken,
+                },
+              body: JSON.stringify(result.setupIntent)
+            });
+          }
+        });
       }
     });
 };
+
 
 /* ------- Post-payment helpers ------- */
 

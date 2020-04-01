@@ -121,6 +121,22 @@ exports.updatePassword = function(req_body) {
     });   
 }
 
+ /*
+ *  Function:   Update User Stripe Token
+ *  Input:      Id, Stripe token
+ *  Output:     Error Message
+*/
+exports.updateStripeToken = function(id, token) {
+
+    return new Promise(function(resolve, reject) {
+        db.updateUserStripeToken(id, token).then(function(result){
+            resolve(result);
+        }).catch(function(err){
+            reject(err);
+        });
+    });   
+}
+
 
 /*
  *  Function:   Create New User 
@@ -540,14 +556,14 @@ exports.getCards = function(id){
 
 /*
  *  Function:   Add new User Card
- *  Input:      User Id, Request Body
+ *  Input:      User Id, Stripe card object
  *  Output:     Error Message
 */
-exports.addCard = function(userId, req_body){
+exports.addCard = function(userId, card, stripe_id){
 
     return new Promise(function(resolve, reject) {
 
-        db.createUserCard(userId, req_body).then(function(result){
+        db.createUserCard(userId, card, stripe_id).then(function(result){
             
             resolve(result);
 

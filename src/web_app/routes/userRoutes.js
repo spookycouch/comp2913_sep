@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var facility = require('../modules/facility');
 var error = require('../modules/error');
 var employee = require('../modules/employee');
+const stripe = require('stripe')('sk_test_6QysuydtyRi7yOTPx9c2dtBf000bOnLDIM');
 
 
 // Router settings
@@ -447,42 +448,64 @@ router.get('/account/payment', function(req, res) {
 });
 
 /*
- *  Function:   Update Account Password
+ *  Function:   add a payment method to the user.
 */
-router.post('/account/add/card', function(req, res) {
-    
+router.post('/account/add/card', async function(req, res) {
+
+    var pm  = await stripe.paymentMethods.retrieve(req.body.payment_method);
+
     if (req.session.userId == undefined)
         res.redirect('/home');
 
     else {
-        try {
-            // Validation
-            const value = validation.newCardValidation(req.body);
 
-            if(value.error != undefined)
-                throw value.error.details;
+        //getting the user object to update stripe cards.
+        user.getDetails(req.session.userId).then(async function(userObj){
 
-            // Query
-            user.addCard(req.session.userId, req.body).then(function(result) {
-                req.body = {} // Clear request body so data isnt showed on reload
+            //Creating a new stripe customer, if user did't have a stripe token.
+            if(userObj.stripe_token == ''){
+                const stripeCustomer = await stripe.customers.create({
+                    email: userObj.email,
+                    name: userObj.name,
+                });
 
-                error.cardPaymentErrorPage(req, res, webname, user, [{
-                    message: "Payment Method Added Successfully",
-                    path: "success"
-                }]);
+                stripeCustomerId = stripeCustomer.id;
+                user.updateStripeToken(userObj.id, stripeCustomerId);
 
-            }).catch(function(err) {    
-                console.log(err);
-                error.cardPaymentErrorPage(req, res, webname, user, [{
-                    message: err,
-                    path: 'unsuccessful'
-                }])
-            });
 
-        } catch(err) {            
+            }else{
+
+                stripeCustomerId = userObj.stripe_token;
+            }
+
+            try {
+                // Query
+                user.addCard(req.session.userId, pm.card, pm.id).then(function(result) {
+                    req.body = {} // Clear request body so data isnt showed on reload
+    
+                    error.cardPaymentErrorPage(req, res, webname, user, [{
+                        message: "Payment Method Added Successfully",
+                        path: "success"
+                    }]);
+    
+                }).catch(function(err) {    
+                    console.log(err);
+                    error.cardPaymentErrorPage(req, res, webname, user, [{
+                        message: err,
+                        path: 'unsuccessful'
+                    }])
+                });
+    
+            } catch(err) {    
+                console.log(err);    
+                error.cardPaymentErrorPage(req, res, webname, user, err);
+            }
+        }).catch(function(err){     
+            console.log(err);       
             error.cardPaymentErrorPage(req, res, webname, user, err);
-        }
+        });
     }
+
 });
 
 

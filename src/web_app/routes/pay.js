@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+var user = require('../modules/user');
 var payment = require('../modules/payment');
 var error = require('../modules/error');
 
@@ -15,12 +16,48 @@ const activityPaymentPart = 'booking';
 const membershipPaymentPart = 'membership';
 
 
-
  /*
   * Function returnes stripe API public key
  */
 router.get("/stripe-key", function(req, res){
     res.send({ publishableKey: "pk_test_M2OkvXhkSGXf5hSxOXXFuJn400HaRqhZZc" });
+});
+
+ /*
+  * Function returnes stripe API public key
+ */
+router.post("/setup-intent", async function(req, res){
+
+    if (req.session.userId == undefined)
+        res.redirect('/home');
+
+    else {
+
+        //getting the user object to update stripe cards.
+        user.getDetails(req.session.userId).then(async function(userObj){
+
+            //Creating a new stripe customer, if user did't have a stripe token.
+            if(userObj.stripe_token == ''){
+                const stripeCustomer = await stripe.customers.create({
+                    email: userObj.email,
+                    name: userObj.name,
+                });
+
+                stripeCustomerId = stripeCustomer.id;
+                user.updateStripeToken(userObj.id, stripeCustomerId);
+
+
+            }else{
+
+                stripeCustomerId = userObj.stripe_token;
+            }
+            const intent =  await stripe.setupIntents.create({
+                customer: stripeCustomerId,
+                usage: "on_session"
+            });
+            res.send({clientSecret: intent.client_secret });
+        });
+    }
 });
 
 const calculateOrderAmount = function(items){
@@ -126,9 +163,9 @@ const generateResponse = function(userId, intent){
 
             //stripe's card ID can be used? placeholder for now
             var cardId = 1;
-            
+            return {status: true, body: 18, clientSecret: intent.client_secret};
             // ****** Membership payment ********
-            payment.processMembershipPayment(pricingId, userId, cardId).then(function(paymentId){
+            /*payment.processMembershipPayment(pricingId, userId, cardId).then(function(paymentId){
 
                 // Success redirect here
                 console.log("Membership Payment id received: " + paymentId);
@@ -138,7 +175,7 @@ const generateResponse = function(userId, intent){
             }).catch(function(err){
                 
                 return {status: false, body: err};
-            });
+            });*/
 
             /*
                 // ****** Booking payment ********

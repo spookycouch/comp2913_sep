@@ -1,6 +1,11 @@
 <%- include('../../partials/head') %>
 <%- include('../../partials/header') %>
 
+<head>
+    <!-- Stripe Payment -->
+    <script src="https://js.stripe.com/v3/" defer></script>
+    <script src="/js/addCard.js" defer></script>
+</head>
 
 <div class="modal modal--delete">
     <div class="modal__container">
@@ -37,9 +42,32 @@
             </div>
         </div>
         
-        <form class="modal__form" action="/user/account/add/card" method="POST" autocomplete="off">
-            <div class="modal__content modal__content--split">
-                <div class="content__half--form">
+        <form class="modal__form sr-payment-form" action="/user/account/add/card" method="POST" autocomplete="off" id="payment-form">
+            <div class="modal__content">
+                <div class="sr-root">
+                    <div class="sr-main">
+                        <form id="payment-form" class="sr-payment-form">
+                            <div class="sr-combo-inputs-row">
+                                <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                                <div class="sr-input sr-card-element" id="card-element"></div>
+                            </div>
+                            <div class="sr-field-error" id="card-errors" role="alert"></div>
+                            <button id="submit">
+                                <div class="spinner hidden" id="spinner"></div>
+                                <span id="button-text">Pay</span><span id="order-amount"></span>
+                            </button>
+                        </form>
+                        <div class="sr-result hidden">
+                            <p>Payment completed<br/></p>
+                            <pre>
+                                <code></code>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="modal__content modal__content--split">
+                <div class="content__half--form" id="card-element">
                     <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
 
                     <% if(locals.error){ %>
@@ -51,8 +79,8 @@
                     <% } %>
 
 
-                    <div class="form__group">
-                        <label class="form__label"><h3>Card Number</h3></label>
+                    <div class="form__group" id="card-errors" role="alert">
+                        <label class="form__label" for="card-element"><h3>Card Number</h3></label>
                         <input id="card_number" class="form__input" type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX XXXX" value="<%- form.card_number %>"/>   
                         
                         <% if(locals.error){ %>
@@ -94,7 +122,7 @@
 
                     <div class="form__group">
                         <label class="form__label"><h3>Type</h3></label>
-                        <!-- <input id="type" class="form__input" type="text" name="type" placeholder="VISA/Mastercard..." value="<%- form.type %>"/> -->
+                        <!-- <input id="type" class="form__input" type="text" name="type" placeholder="VISA/Mastercard..." value="<%- form.type %>"/>
 
                         <select id="type" class="form__select" name="type" value="<%- form.type %>">
                             <option value="VISA">VISA</option>
@@ -118,7 +146,7 @@
                 <div class="close__close hvr-sweep-to-right modal--close">
                     <h3>Close</h3>
                 </div>                
-            </div>
+            </div> -->
         </form>
     </div>  
 </div>

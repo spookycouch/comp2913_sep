@@ -169,7 +169,7 @@ exports.getUserDetails = function(id) {
 
             query = SqlString.format(
         
-                'SELECT id, name, surname, email, birth, phone, address_1, address_2, city, zipcode, profile_pic FROM User WHERE id = ?',
+                'SELECT id, name, surname, email, birth, phone, address_1, address_2, city, zipcode, profile_pic, stripe_token FROM User WHERE id = ?',
                     [id]
             );
 
@@ -290,7 +290,37 @@ exports.updateUserPassword = function(id, password, current_password) {
     });
 }
 
+exports.updateUserStripeToken = function(id, new_token) { 
+    var conn = getConnection();
 
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'UPDATE User SET stripe_token = ? WHERE id = ?',
+                    [new_token, id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.changedRows > 0)
+                    resolve(true);
+
+                else
+                    reject("Password Incorrect.");
+            });
+        });
+    });
+}
 
 /*
  *  Function:   Create New User
@@ -1242,7 +1272,7 @@ exports.getUserCards = function(user_id) {
  *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
  *  Output:     Bool / Error Message
 */
-exports.createUserCard = function(userId, req_body) {
+exports.createUserCard = function(userId, card, stripe_id) {
 
     var conn = getConnection();
 
@@ -1255,10 +1285,12 @@ exports.createUserCard = function(userId, req_body) {
             // Error 
             if (err) reject(err);
 
+            expire_date = card.exp_month + '/' + card.exp_year;
+
             query = SqlString.format(
                 
-                'INSERT INTO Card(number, expire_date, type, cvv) VALUES(?, ?, ?, ?);',
-                 [req_body.card_number, req_body.expire_date, req_body.type, req_body.cvv]
+                'INSERT INTO Card(number, expire_date, type, stripe_token) VALUES(?, ?, ?, ?);',
+                 [card.last4, expire_date, card.brand, stripe_id]
             );
 
             // Query
