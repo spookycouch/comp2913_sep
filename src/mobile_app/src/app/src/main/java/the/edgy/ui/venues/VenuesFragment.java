@@ -25,7 +25,7 @@ public class VenuesFragment extends Fragment {
             Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Fragment buyMembershipFragment = new ShowVenuesFragment();
+                    Fragment showVenuesFragment = new ShowVenuesFragment();
 
                     // Replaces current fragment with a new fragment.
                     /*
@@ -35,7 +35,7 @@ public class VenuesFragment extends Fragment {
                      *         '<parent>_sub_fragment'
                      */
                     getActivity().getSupportFragmentManager().beginTransaction().
-                            replace(R.id.fragment_container, buyMembershipFragment, "venues_sub_fragment").
+                            replace(R.id.fragment_container, showVenuesFragment, "venues_sub_fragment").
                             addToBackStack("venues_sub_fragment").
                             commit();
                 }

@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment {
         ImageView qrCode = (ImageView) root.findViewById(R.id.qr_membership);
         TextView noMembershipText = (TextView) root.findViewById(R.id.no_membership_text);
 
-        noMembershipText.setVisibility(View.GONE);
+        noMembershipText.setText("Current membership:");
 
         qrCode.setVisibility(View.VISIBLE);
         qrCode.setImageBitmap(bitmap);
