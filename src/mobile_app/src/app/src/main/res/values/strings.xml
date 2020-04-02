@@ -20,7 +20,7 @@
 
     <string name="buy_membership">"Buy membership"</string>
     <string name="show_venues">"Show venues"</string>
-
+    <string name="show_activities">"Show activities"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
