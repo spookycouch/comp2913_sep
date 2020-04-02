@@ -160,3 +160,19 @@ exports.getPricingBySport = function(sportId){
         });
     });
 }
+
+exports.getPricingByType = function(type) {
+    return new Promise(function(resolve, reject) {
+
+        db.getPricingByType(type).then(function(results) {
+
+            resolve(results);
+
+        }).catch(function(err) {
+
+            reject(err);
+
+        });
+
+    });
+}   

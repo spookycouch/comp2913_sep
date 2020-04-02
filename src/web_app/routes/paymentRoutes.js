@@ -54,6 +54,9 @@ router.get('/booking/:id*', function(req, res) {
  *  Function:   Membership payment page
 */
 router.get('/membership/:id*', function(req, res) {
+
+    var type = req.params['id']
+
     
     // If user not logged in -> store url intent -> redirect login
     if (req.session.userId == undefined) {
@@ -63,11 +66,23 @@ router.get('/membership/:id*', function(req, res) {
 
     // Else render payment page
     } else {
-        
-        res.render(path.join(__dirname + '/../views/pages/payment/payment-membership.ejs'),
-        {
-            title: webname + "| Payment | Membership",
-            session: req.session
+        facility.getPricingByType(type).then(function(pricing) {
+
+            console.log(pricing)
+
+            facility.getAllSports().then(function(sports) {
+                res.render(path.join(__dirname + '/../views/pages/payment/payment-membership.ejs'),
+                {
+                    title: webname + "| Payment | Membership",
+                    session: req.session,
+                    pricing: pricing,
+                    sports: sports
+                });
+            }).catch(function(err) {
+                console.log(err);
+            });
+        }).catch(function(err) {
+            console.log(err);
         });
     }
 });

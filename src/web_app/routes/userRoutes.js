@@ -578,29 +578,34 @@ router.post('/account/add/card', async function(req, res) {
                     req.body = {} // Clear request body so data isnt showed on reload
 
                     res.end(JSON.stringify({
+                        message: "New Payment Method added Successfully",
                         result: "success"
                     }));
-
-                    // error.cardPaymentErrorPage(req, res, webname, user, [{
-                    //     message: "Payment Method Added Successfully",
-                    //     path: "success"
-                    // }]);
     
                 }).catch(function(err) {    
                     console.log(err);
-                    error.cardPaymentErrorPage(req, res, webname, user, [{
+
+                    res.end(JSON.stringify({
                         message: err,
-                        path: 'unsuccessful'
-                    }])
+                        result: "unsuccessful"
+                    }));
+
                 });
     
             } catch(err) {    
                 console.log(err);    
-                error.cardPaymentErrorPage(req, res, webname, user, err);
+                res.end(JSON.stringify({
+                    message: err,
+                    result: "unsuccessful"
+                }));
             }
         }).catch(function(err){     
             console.log(err);       
-            error.cardPaymentErrorPage(req, res, webname, user, err);
+
+            res.end(JSON.stringify({
+                message: err,
+                result: "unsuccessful"
+            }));
         });
     }
 

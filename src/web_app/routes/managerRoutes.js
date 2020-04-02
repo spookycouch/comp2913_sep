@@ -386,28 +386,33 @@ router.post('/activities/new', function (req, res) {
             bboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
                 var ext = mimetype.split('/')[1];
 
-                // validate img type
-                if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
-                    return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
-                        message: "Invalid File Type",
-                        path: "image"
-                    }]);
+                if (filename != "") {
 
-                // create db entry then save image to src/uploads/ using returned id
-                employee.newImage(ext).then(function(results){
-                    var id = results[1][0].id;
-                    var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
-                    file.pipe(fs.createWriteStream(output_path));
+                    // validate img type
+                    if (!(mimetype == 'image/png' || mimetype == 'image/jpg' || mimetype == 'image/jpeg'))
+                        return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
+                            message: "Invalid File Type",
+                            path: "image"
+                        }]);
 
-                    img_id_list.push(id);
+                    // create db entry then save image to src/uploads/ using returned id
+                    employee.newImage(ext).then(function(results){
+                        var id = results[1][0].id;
+                        var output_path = __dirname + '/../src/uploads/' + id + '.' + ext;
+                        file.pipe(fs.createWriteStream(output_path));
 
-                // Catch error when uploading Image
-                }).catch(function(err){
-                    return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
-                        message: err,
-                        path: 'unsuccessful'
-                    }]);
-                });
+                        img_id_list.push(id);
+
+                    // Catch error when uploading Image
+                    }).catch(function(err){
+                        return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
+                            message: err,
+                            path: 'unsuccessful'
+                        }]);
+                    });
+                } else {
+                    file.resume();
+                }
             });
 
 

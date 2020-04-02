@@ -359,6 +359,13 @@ INSERT INTO FacilityImage(id_image, id_facility) VALUES (15,4);
 -- Creating a sport with an activity by a lecturer
 INSERT INTO Sport(name, description) VALUES ('Swimming', 'Free swimming, Sub Classes, Competitive Freestyle Swimming.');
 INSERT INTO Sport(name, description) VALUES ('Kick Box', 'Lightweight, agility-based martial arts discipline.');
+INSERT INTO Sport(name, description) VALUES ('Football', 'Football description');
+INSERT INTO Sport(name, description) VALUES ('Squash', 'Squash description');
+INSERT INTO Sport(name, description) VALUES ('running', 'Running description');
+INSERT INTO Sport(name, description) VALUES ('Fitness', 'Fitness description'); -- Something for fitness room?
+INSERT INTO Sport(name, description) VALUES ('Cross-training', 'cross-training description');
+
+
 INSERT INTO Lecturer(full_name, email, phone) VALUES ('John Fish', 'iswimalot@gmail.com', '+44 1234567890');
 INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-03-23 15:30:10');
 INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-03-25');

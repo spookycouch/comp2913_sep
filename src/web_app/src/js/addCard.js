@@ -135,9 +135,10 @@ var addCard = function(stripe, card) {
 
                 if (data.result == "success") {
                   location.reload();
+                  // alert(data.message);
                   return;
                 } else {
-                  alert("Something went wrong, please try again");
+                  alert(data.message);
                 }
                 
               },
