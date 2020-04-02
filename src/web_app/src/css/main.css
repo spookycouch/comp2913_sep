@@ -1640,6 +1640,11 @@ ul {
   border-top: 2px solid #413E4B;
 }
 
+.account__details .details__content--wrap {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
 .account__details .details__content--success, .account__details .details__content--danger {
   border: none;
   -webkit-box-pack: center;
@@ -1676,6 +1681,15 @@ ul {
   width: 60%;
   min-width: 300px;
   padding: 20px;
+}
+
+.account__details .details__content .content__list--full-width {
+  width: 100%;
+}
+
+.account__details .details__content .content__list .list__graph {
+  max-width: 800px;
+  margin-top: 40px;
 }
 
 .account__details .details__content .content__list .list__field {
@@ -1729,6 +1743,11 @@ ul {
   display: none;
 }
 
+.account__details .details__content .content__form-title--top-open {
+  width: 100%;
+  display: block;
+}
+
 .account__details .details__content .content__form-title--spacing {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
@@ -1762,6 +1781,37 @@ ul {
   padding: 5px 15px;
   cursor: pointer;
   margin: 10px;
+}
+
+.account__details .details__content .content__form-title .form-title__form {
+  width: 100%;
+  text-align: center;
+}
+
+.account__details .details__content .content__form-title .form-title__group {
+  margin-top: 10px;
+  padding: 10px;
+  color: #413E4B;
+  text-align: center;
+  display: inline-block;
+}
+
+.account__details .details__content .content__form-title .form-title__label {
+  display: block;
+  padding: 5px;
+}
+
+.account__details .details__content .content__form-title .form-title__input {
+  border: 2px solid #413E4B;
+  padding: 5px 15px;
+}
+
+.account__details .details__content .content__form-title .form-title__select {
+  border: 2px solid #413E4B;
+  background-color: white;
+  padding: 5px 15px;
+  color: #413E4B;
+  cursor: pointer;
 }
 
 .account__details .details__content .content__update-form {

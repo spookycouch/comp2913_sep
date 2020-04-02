@@ -30,7 +30,7 @@ function overallActivityChart(elements){
 
         // Data
         users.push(val.users);
-        dates.push("Income: " + val.income + "; Date: " + dateStr);
+        dates.push(["£" + val.income, dateStr]);
     });
 
     // Chart
@@ -65,11 +65,32 @@ function overallActivityChart(elements){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0
+                    }
+                }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0,
                     }
                 }]
             }
         },
+        plugins: [{
+            beforeDraw: function(c) {
+               var chartHeight = c.chart.height;
+               c.scales['y-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 13);
+               c.scales['x-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 12);
+            }
+        }],
         onAnimationComplete: function () {
 
             var ctx = this.chart.ctx;
@@ -103,7 +124,7 @@ function overallFacilityChart(elements){
 
         // Data
         users.push(val.users);
-        dates.push("Income: " + val.income + "; Date: " + dateStr);
+        dates.push(["£" + val.income, dateStr]);
     });
 
     // Chart
@@ -138,11 +159,32 @@ function overallFacilityChart(elements){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0
+                    }
+                }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0,
                     }
                 }]
             }
-        }
+        },
+        plugins: [{
+            beforeDraw: function(c) {
+               var chartHeight = c.chart.height;
+               c.scales['y-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 13);
+               c.scales['x-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 12);
+            }
+        }]
     });
 }
 
@@ -162,7 +204,7 @@ function overallSportChart(elements){
 
         // Data
         users.push(val.users);
-        dates.push("Income: " + val.income + "; Date: " + dateStr);
+        dates.push(["£" + val.income, dateStr]);
     });
 
     // Chart
@@ -197,11 +239,32 @@ function overallSportChart(elements){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0
+                    }
+                }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0,
                     }
                 }]
             }
-        }
+        },
+        plugins: [{
+            beforeDraw: function(c) {
+               var chartHeight = c.chart.height;
+               c.scales['y-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 13);
+               c.scales['x-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 12);
+            }
+        }]
     });
 }
 
@@ -221,7 +284,7 @@ function weeklySportChart(elements){
 
         // Data
         users.push(val.users);
-        dates.push("Income: " + val.income + "; Date: " + dateStr);
+        dates.push(["£" + val.income, dateStr]);
     });
 
     // Chart
@@ -256,11 +319,32 @@ function weeklySportChart(elements){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0
+                    }
+                }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0,
                     }
                 }]
             }
-        }
+        },
+        plugins: [{
+            beforeDraw: function(c) {
+               var chartHeight = c.chart.height;
+               c.scales['y-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 13);
+               c.scales['x-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 12);
+            }
+        }]
     });
 }
 
@@ -281,7 +365,7 @@ function weeklyActivityChart(elements){
 
         // Data
         users.push(val.users);
-        dates.push("Income: " + val.income + "; Date: " + dateStr);
+        dates.push(["£" + val.income , dateStr]);
     });
 
     // Chart
@@ -316,11 +400,32 @@ function weeklyActivityChart(elements){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0
                     }
-                }]
+                }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0,
+                    }
+                }],
             }
-        }
+        },
+        plugins: [{
+            beforeDraw: function(c) {
+               var chartHeight = c.chart.height;
+               c.scales['y-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 13);
+               c.scales['x-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 12);
+            }
+        }]
     });
 }
 
@@ -339,7 +444,7 @@ function weekLoginChart(elements){
 
         // Data
         users.push(val.users);
-        dates.push("Date: " + date);
+        dates.push([date]);
     });
 
     // Chart
@@ -374,11 +479,32 @@ function weekLoginChart(elements){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0
+                    }
+                }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0,
                     }
                 }]
             }
-        }
+        },
+        plugins: [{
+            beforeDraw: function(c) {
+               var chartHeight = c.chart.height;
+               c.scales['y-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 13);
+               c.scales['x-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 12);
+            }
+        }]
     });
 }
 
@@ -390,6 +516,9 @@ function weeklyFacilityChart(elements){
     // Data preprocessing
     var dates = [];
     var users = [];
+
+    console.log(elements);
+
     elements.forEach(function(val){
 
         // Date formatting
@@ -398,7 +527,7 @@ function weeklyFacilityChart(elements){
 
         // Data
         users.push(val.users);
-        dates.push("Income: " + val.income + "; Date: " + dateStr);
+        dates.push(["£" + val.income, dateStr]);
     });
 
     // Chart
@@ -407,6 +536,7 @@ function weeklyFacilityChart(elements){
         type: 'line',
         data: {
             labels: dates,
+            
             datasets: [{
                 label: '# of users per booking day',
                 data: users,
@@ -433,11 +563,32 @@ function weeklyFacilityChart(elements){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0
+                    }
+                }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        fontSize: 11,
+                        fontStyle: "bold",
+                        precision: 2,
+                        suggestedMin: 0,
                     }
                 }]
             }
-        }
+        },
+        plugins: [{
+            beforeDraw: function(c) {
+               var chartHeight = c.chart.height;
+               c.scales['y-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 13);
+               c.scales['x-axis-0'].options.ticks.fontSize = Math.min(chartHeight * 6 / 100, 12);
+            }
+        }]
     });
 }
 
@@ -525,8 +676,8 @@ function renderFacility(id){
 */
 function renderWeeklyFacility(id){
 
-    var start = $('#activity-week-start').val();
-    var end = $('#activity-week-end').val();
+    var start = $('#facility-week-start').val();
+    var end = $('#facility-week-end').val();
 
     // Query
     $.ajax({
@@ -632,6 +783,10 @@ function renderWeeklyLoginUsage(){
 
     var start = $('#login-week-start').val();
     var end = $('#login-week-end').val();
+
+    console.log(start, end);
+
+    
 
     // Query
     $.ajax({

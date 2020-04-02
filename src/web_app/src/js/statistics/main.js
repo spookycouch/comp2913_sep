@@ -25,7 +25,6 @@ $.getJSON('/ajax/data/activity/all/', function(result) {
 
     } else {
         // Do something if no activities
-        console.log("hkjkjlki");
         $('.activity-result').css('display', 'none');
     }
 });
@@ -38,6 +37,8 @@ $.getJSON('/ajax/data/facility/all/', function(result) {
     
     // Error check
     if(result.error == undefined && result.facilities.length > 0){
+
+        console.log(result);
 
         let facilities = result.facilities;
 
@@ -58,8 +59,8 @@ $.getJSON('/ajax/data/facility/all/', function(result) {
         $('#loader-4').fadeOut();
 
     } else {
+        console.log("facility is empty");
         $('.facility-result').css('display', 'none');
-
     }
 });
 
@@ -92,6 +93,7 @@ $.getJSON('/ajax/data/sport/all/', function(result) {
         $('#loader-6').fadeOut();
 
     } else {
+        console.log("sport is empty");
         $('.sport-result').css('display', 'none');
     }
 });
@@ -103,6 +105,13 @@ $.getJSON('/ajax/data/sport/all/', function(result) {
 renderWeeklyLoginUsage();
 $('#loader-7').fadeOut();
 
+$('#login-week-start').on('change', function(e) {
+    renderWeeklyLoginUsage();
+});
+
+$('#login-week-end').on('change', function(e) {
+    renderWeeklyLoginUsage();
+})
 
 /*
  *  Function:   Handle overall select change
@@ -122,6 +131,17 @@ $('#activity-select-2').on('change', function() {
     renderWeeklyActivity(id);
 });
 
+$('#activity-week-start').on('change', function(e) {
+    var id = $('#activity-select-2').val();
+    renderWeeklyActivity(id);
+});
+
+$('#activity-week-end').on('change', function(e) {
+    var id = $('#activity-select-2').val();
+    renderWeeklyActivity(id);
+});
+
+
 /*
  *  Function:   Handle overall select change
 */
@@ -140,6 +160,19 @@ $('#facility-select-2').on('change', function() {
     renderWeeklyFacility(id);
 });
 
+
+$('#facility-week-start').on('change', function(e) {
+    var id = $('#facility-select-2').val();
+    renderWeeklyFacility(id);
+
+});
+
+$('#facility-week-end').on('change', function(e) {
+    var id = $('#facility-select-2').val();
+    renderWeeklyFacility(id);
+})
+
+
 /*
  *  Function:   Handle overall select change
 */
@@ -157,3 +190,15 @@ $('#sport-select-2').on('change', function() {
     var id = this.value;
     renderWeeklySport(id);
 });
+
+$('#sport-week-start').on('change', function(e) {
+    var id = $('#sport-select-2').val();
+    renderWeeklySport(id);
+
+})
+
+$('#sport-week-end').on('change', function(e) {
+    var id = $('#sport-select-2').val();
+    renderWeeklySport(id);
+
+})

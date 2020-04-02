@@ -10,6 +10,8 @@ const validation = require('../modules/validation');
 const report = require('../modules/report');
 const facility = require('../modules/facility');
 var employee = require('../modules/employee');
+var moment = require('moment');
+
 
 
 var urlEncoded = bodyParser.urlencoded({ extended: true });
@@ -194,6 +196,9 @@ router.post('/report/weekly/activity/', function(req, res) {
     let start = req.body.start;
     let end = req.body.end;
 
+    start = moment(start).format('DD/MM/YYYY');
+    end = moment(end).format('DD/MM/YYYY');
+
     // Query
     report.getWeeklyActivityUsage(id, start, end).then(function(results){
 
@@ -314,6 +319,9 @@ router.post('/report/weekly/facility/', function(req, res) {
     let start = req.body.start;
     let end = req.body.end;
 
+    start = moment(start).format('DD/MM/YYYY');
+    end = moment(end).format('DD/MM/YYYY');
+
     // Query
     report.getWeeklyFacilityUsage(id, start, end).then(function(results){
 
@@ -364,6 +372,9 @@ router.post('/report/weekly/sport/', function(req, res) {
     let start = req.body.start;
     let end = req.body.end;
 
+    start = moment(start).format('DD/MM/YYYY');
+    end = moment(end).format('DD/MM/YYYY');
+
     // Query
     report.getWeeklySportUsage(id, start, end).then(function(results){
 
@@ -389,6 +400,10 @@ router.post('/report/usage/weekly/', function(req, res) {
     // Data
     let start = req.body.start;
     let end = req.body.end;
+
+
+    start = moment(start).format('DD/MM/YYYY');
+    end = moment(end).format('DD/MM/YYYY');
 
     report.getLoginActivity(start, end).then(function(results){
 
