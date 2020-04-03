@@ -742,7 +742,7 @@ exports.createPaymentCash = function(amount, activity_id, user_id, employee_id) 
 
             query = SqlString.format(
          
-                'INSERT INTO PAYMENT(amount, id_booked_activity, id_user, id_employee) VALUES (?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
+                'INSERT INTO Payment(amount, id_booked_activity, id_user, id_employee) VALUES (?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
                 [amount, activity_id, user_id, employee_id]
             );
             
