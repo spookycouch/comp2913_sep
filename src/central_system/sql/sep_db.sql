@@ -96,7 +96,7 @@ CREATE TABLE `User` (
   `profile_pic` varchar(400) DEFAULT '',
   `name` varchar(400) NOT NULL,  
   `surname` varchar(400) NOT NULL,  
-  `email` varchar(200) NOT NULL,
+  `email` varchar(200) NOT NULL UNIQUE,
   `password` varchar(400) NOT NULL,
   `phone` varchar(200) NOT NULL,
   `address_1` varchar(500) NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE `User` (
   `zipcode` varchar(8) NOT NULL,  
   `city` varchar(200) NOT NULL,  
   `type` int(11) NOT NULL DEFAULT 1,
-  `birth` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `birth` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `stripe_token` varchar(200) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
