@@ -53,24 +53,47 @@ class TestNode(unittest.TestCase):
         self.test_cases = yaml.safe_load(open(YAML_PATH,'r'))
 
 
-    def test_0_register(self):
-        url = HOST + '/api/register'
-        cases = self.test_cases['test_0']
+    def test_0_register_and_login(self):
+        url = HOST + '/user/register'
+        cases = self.test_cases['test_0_0']
 
-        for case in cases:
-            payload = json_from_case(case)
-            resp = requests.post(url, data=payload, headers=HEADERS)
-            print resp
-    
-
-    def test_1_login(self):
-        url = HOST + '/user/login'
-
-        cases = self.test_cases['test_1']
         for case in cases:
             payload = json_from_case(case)
             resp = requests.post(url, data=payload, headers=HEADERS, cookies=COOKIES)
-            print resp
+
+            passed = True
+            for line in resp.text.split('\n'):
+                if 'error' in line and 'none' not in line:
+                    passed = False
+
+            
+            # valid logins should pass
+            # invallid logins should throw an error
+            if case['result'] and not passed:
+                self.fail('valid login {} failed'.format(case['payload']))
+            if not case['result'] and passed:
+                self.fail('invalid login {} should throw an error'.format(case['payload']))
+        
+    
+        url = HOST + '/user/login'
+
+        cases = self.test_cases['test_0_1']
+        for case in cases:
+            payload = json_from_case(case)
+            resp = requests.post(url, data=payload, headers=HEADERS, cookies=COOKIES)
+            
+            passed = True
+            for line in resp.text.split('\n'):
+                # valid logins should pass
+                if 'error' in line and 'none' not in line:
+                    passed = False
+
+            # valid logins should pass
+            # invallid logins should throw an error
+            if case['result'] and not passed:
+                self.fail('valid login {} failed'.format(case['payload']))
+            if not case['result'] and passed:
+                self.fail('invalid login {} should throw an error'.format(case['payload']))
 
 
     @classmethod

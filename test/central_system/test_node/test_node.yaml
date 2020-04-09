@@ -1,4 +1,4 @@
-test_0:
+test_0_0:
   - result: True
     payload:
       name: not
@@ -8,12 +8,26 @@ test_0:
       confirm_password: password
       phone: "07777777777"
       address_1: Leeds Uni
+      address_2: EC Stoner
       zipcode: LS2 9JT
       city: Leeds
+      type: 1
       birth: '2020-01-01'
   - result: True
     payload:
       name: not
+      email: another_test@leeds.ac.uk
+      password: password
+      confirm_password: password
+      phone: "999"
+      address_1: Leeds Uni
+      zipcode: LS2 9JT
+      city: Leeds
+      type: 1
+      birth: '2020-01-01'
+  - result: False
+    payload:
+      name: not
       surname: real
       email: test@leeds.ac.uk
       password: password
@@ -22,6 +36,7 @@ test_0:
       address_1: Leeds Uni
       zipcode: LS2 9JT
       city: Leeds
+      type: 1
       birth: '2020-01-01'
   - result: False
     payload:
@@ -33,9 +48,10 @@ test_0:
       address_1: Leeds Uni
       zipcode: LS2 9JT
       city: Leeds
+      type: 1
       birth: '2020-01-01'
 
-test_1:
+test_0_1:
   - result: True
     payload:
       email: test@leeds.ac.uk
