@@ -51,9 +51,12 @@
             }
 
             &__form-transition-header {
-                border: $border_thickness solid $white;
+                border: $border_thickness solid $black;
                 display: inline-block;
                 padding: $padding_border_block;
+                background-color: $white;
+                color: $black;
+                opacity: .9;
             }
 
             &__login-header {
