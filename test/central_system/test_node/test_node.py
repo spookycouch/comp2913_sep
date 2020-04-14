@@ -5,21 +5,16 @@ import yaml
 import os
 import mysql.connector
 import subprocess
+from requests_toolbelt import MultipartEncoder
 
 HOST = 'http://127.0.0.1:3000'
-HEADERS = {'content-type': 'application/json'}
 # CSURF COMBINATION THAT ACTUALLY WORKS
 COOKIES =  {'_csrf' : 'plshelpme'}
-CSRF_TOKEN = 'iSIzC89x-luXTapA58TaKgGNEokgJUVSTLj4'
+CSRF_TOKEN = {'_csrf': 'iSIzC89x-luXTapA58TaKgGNEokgJUVSTLj4'}
 
 YAML_PATH = os.path.dirname(os.path.abspath(__file__)) + '/test_node.yaml'
 db_path = os.path.dirname(os.path.abspath(__file__)) + '/../../../src/central_system/sql/sep_db.sql'
 db_name = 'comp2913_sep'
-
-def json_from_case(case):
-    payload = case['payload']
-    payload['_csrf'] = CSRF_TOKEN
-    return json.dumps(payload)
 
 
 class TestNode(unittest.TestCase):
@@ -52,49 +47,46 @@ class TestNode(unittest.TestCase):
         # load test yaml
         self.test_cases = yaml.safe_load(open(YAML_PATH,'r'))
 
+    
+    def assert_requests(self, url, cases, is_json, cookies):
+        for case in cases:
+            payload = dict(case['payload'].items() + CSRF_TOKEN.items())
+            if is_json:
+                resp = requests.post(url, data=json.dumps(payload), headers={'content-type': 'application/json'}, cookies=dict(COOKIES.items() + cookies.items()))
+            else:
+                print payload
+                m =  MultipartEncoder(fields=payload)
+                resp = requests.post(url, data=m, headers={'content-type': m.content_type}, cookies=dict(COOKIES.items() + cookies.items()))
+                print resp.text
+
+            passed = True
+            for line in resp.text.split('\n'):
+                if 'error' in line and 'none' not in line:
+                    passed = False
+
+            # valid requests should pass
+            # invallid requests should throw an error
+            if case['result'] and not passed:
+                self.fail('valid request {} failed'.format(case['payload']))
+            if not case['result'] and passed:
+                self.fail('invalid request {} should throw an error'.format(case['payload']))
 
     def test_0_register_and_login(self):
         url = HOST + '/user/register'
         cases = self.test_cases['test_0_0']
-
-        for case in cases:
-            payload = json_from_case(case)
-            resp = requests.post(url, data=payload, headers=HEADERS, cookies=COOKIES)
-
-            passed = True
-            for line in resp.text.split('\n'):
-                if 'error' in line and 'none' not in line:
-                    passed = False
-
-            
-            # valid logins should pass
-            # invallid logins should throw an error
-            if case['result'] and not passed:
-                self.fail('valid login {} failed'.format(case['payload']))
-            if not case['result'] and passed:
-                self.fail('invalid login {} should throw an error'.format(case['payload']))
+        cookies = {}
+        self.assert_requests(url, cases, True, cookies)
         
-    
         url = HOST + '/user/login'
-
         cases = self.test_cases['test_0_1']
-        for case in cases:
-            payload = json_from_case(case)
-            resp = requests.post(url, data=payload, headers=HEADERS, cookies=COOKIES)
-            
-            passed = True
-            for line in resp.text.split('\n'):
-                # valid logins should pass
-                if 'error' in line and 'none' not in line:
-                    passed = False
+        cookies = {}
+        self.assert_requests(url, cases, True, cookies)
 
-            # valid logins should pass
-            # invallid logins should throw an error
-            if case['result'] and not passed:
-                self.fail('valid login {} failed'.format(case['payload']))
-            if not case['result'] and passed:
-                self.fail('invalid login {} should throw an error'.format(case['payload']))
-
+    def test_1(self):
+        url = HOST + '/manager/activities/new' + '?_csrf=' + CSRF_TOKEN['_csrf']
+        cases = self.test_cases['test_1']
+        cookies = {'session': '9kZDuuVRHS98LqjYBKsg8A.H9-ygPZQ3Dj30KZZtV1O7TVvceHOJEK3AVhISXBbTumhi-KN_nWIaAJUF5YCuEj8.1586879179143.1800000.MtLgLcq1X0zwSELHksg-Ag7NWrxFYEw50WzyJbT6MRs'}
+        self.assert_requests(url, cases, False, cookies)
 
     @classmethod
     def tearDownClass(self):
