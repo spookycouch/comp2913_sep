@@ -85,8 +85,13 @@ class TestNode(unittest.TestCase):
     def test_1(self):
         url = HOST + '/manager/activities/new' + '?_csrf=' + CSRF_TOKEN['_csrf']
         cases = self.test_cases['test_1']
-        cookies = {'session': '9kZDuuVRHS98LqjYBKsg8A.H9-ygPZQ3Dj30KZZtV1O7TVvceHOJEK3AVhISXBbTumhi-KN_nWIaAJUF5YCuEj8.1586879179143.1800000.MtLgLcq1X0zwSELHksg-Ag7NWrxFYEw50WzyJbT6MRs'}
+        cookies = {'session': 'jBVdtfp-y9SPjDRcdCDt7g.rjtTuD3z0VKzAexeJVOphP3P14jJ4P3vGGzWWbYR_ishFfvGst2iAbobxD_Lbj5c.1586898844860.1800000000000000.76ducV8-2RnaMEodlCMvpJpjlXsn-OrSaR_yGDG72Ls'}
         self.assert_requests(url, cases, False, cookies)
+        
+        # url = HOST + '/activities'
+        # for i in range(1000):
+        #     resp = requests.get(url)
+        #     print i, resp, len(resp.text)
 
     @classmethod
     def tearDownClass(self):
