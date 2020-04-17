@@ -44,7 +44,8 @@ exports.checkEmailRegistered = function(email) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -84,6 +85,7 @@ exports.queryUser = function(email, password) {
 
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
                 
                 // Error
                 if (err) return reject(err);
@@ -134,7 +136,8 @@ exports.getUserIdType = function(email) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -175,7 +178,8 @@ exports.getUserDetails = function(id) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -216,7 +220,8 @@ exports.updateUserDetails = function(id, name, surname, email, phone) { //TODO: 
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -247,7 +252,8 @@ exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -277,6 +283,8 @@ exports.updateUserPassword = function(id, password, current_password) {
 
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+                
                 // Error
                 if (err) return reject(err);
 
@@ -309,6 +317,8 @@ exports.updateUserStripeToken = function(id, new_token) {
 
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -349,6 +359,7 @@ exports.createUser = function(name, surname, email, password, userType, phone, a
 
             // Query
             conn.query(query, function (err, result, fields) {
+                conn.end();
                 
                 // Error
                 if (err) return reject(err);
@@ -395,6 +406,7 @@ exports.createActivity = function(name, description, discount, cost, start_time,
 
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
+                conn.end();
                 
                 // Error
                 if (err) return reject(err);
@@ -426,7 +438,8 @@ exports.updateActivity = function(name, description, discount, cost, start_time,
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -461,6 +474,8 @@ exports.newActivityImage = function(activity_id, image_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -491,6 +506,8 @@ exports.deleteActivityImage = function(activity_id, image_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -521,6 +538,8 @@ exports.getActivityImages = function(activity_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -557,6 +576,8 @@ exports.createFacility = function(name, description, price, icon) {
             
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -592,6 +613,8 @@ exports.newFacilityImage = function(facility_id, image_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -622,6 +645,8 @@ exports.deleteFacilityImage = function(facility_id, image_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -652,6 +677,8 @@ exports.getFacilityImages = function(facility_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -687,6 +714,8 @@ exports.updateFacility = function(name, description, price, icon, facilityId) {
             
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -718,6 +747,8 @@ exports.createBooking = function(activity_id) {
             
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -748,6 +779,8 @@ exports.createPaymentCash = function(amount, activity_id, user_id, employee_id) 
             
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -778,6 +811,7 @@ exports.receiptPaymentCash = function(payment_id) {
 
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
                 
                 // Error
                 if (err) return reject(err);
@@ -813,7 +847,8 @@ exports.receiptPayment = function(payment_id) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -855,7 +890,8 @@ exports.getUserMemberships = function(id) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -891,7 +927,8 @@ exports.cancelMembership = function(userId, membershipId) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -927,7 +964,8 @@ exports.deleteUserCard = function(userId, cardId) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -964,7 +1002,8 @@ exports.getUserPayments = function(userId, cardId) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1000,7 +1039,8 @@ exports.getUserPaymentsCash = function(userId) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1038,7 +1078,8 @@ exports.getEmployeePayments = function(employeeId) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1077,7 +1118,8 @@ exports.getUserBookings = function(id) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1113,7 +1155,8 @@ exports.cancelBooking = function(id) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1167,6 +1210,8 @@ exports.getUpcomingActivities = function(no_items, page_no, filters) {
             );
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
                 
@@ -1205,6 +1250,8 @@ exports.getFacilities = function(no_items, page_no) {
             
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1240,6 +1287,8 @@ exports.getFacility = function(id) {
             
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1269,6 +1318,8 @@ exports.deleteFacility = function(facilityId) {
             ); 
 
             conn.query(query, function(err, results, fields) {
+                conn.end();
+
                 if (err) return reject(err);
             
                 resolve(true);
@@ -1297,6 +1348,8 @@ exports.deleteActivity = function(activityId) {
             ); 
 
             conn.query(query, function(err, results, fields) {
+                conn.end();
+
                 if (err) return reject(err);
                 
             
@@ -1332,6 +1385,8 @@ exports.newImage = function(ext) {
             
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1368,6 +1423,7 @@ exports.getUserCards = function(user_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
+                conn.end();
                 
                 // Error
                 if (err) return reject(err);
@@ -1407,7 +1463,8 @@ exports.createUserCard = function(userId, card, stripe_id) {
 
             // Query
             conn.query(query, function (err, result, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1456,7 +1513,8 @@ exports.logUserRegistration = function(user_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1492,7 +1550,8 @@ exports.logUserLogin = function(user_id) {
             
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1528,7 +1587,8 @@ exports.getUserLoginActivity = function(start, end) {
             
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1563,7 +1623,8 @@ exports.getUserRegistrationActivity = function() {
             
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1599,7 +1660,8 @@ exports.getFacilityActivities = function(facilityId) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1634,7 +1696,8 @@ exports.getFacilityTimetable = function(facilityId, date) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1666,7 +1729,8 @@ exports.getActivitiesTimetable = function(date) {
 
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1703,7 +1767,8 @@ exports.generateActivityBooking = function(idActivity) {
             
             // Query
             conn.query(query, function (err, result, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1740,7 +1805,8 @@ exports.generateBookingPayment = function(bookedActivityId, cost, userId, cardId
             
             // Query
             conn.query(query, function (err, result, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1777,7 +1843,8 @@ exports.generateMembershipPayment = function(membershipId, cost, userId, cardId)
             
             // Query
             conn.query(query, function (err, result, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1815,7 +1882,8 @@ exports.getActivityObj = function(id) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1855,7 +1923,8 @@ exports.getOverallActivityUsage = function(id) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1894,7 +1963,8 @@ exports.getOverallActivityUsage = function(id) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1933,7 +2003,8 @@ exports.getWeeklyActivityUsage = function(id, start, end) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -1970,7 +2041,8 @@ exports.getAllActivities = function() {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2010,7 +2082,8 @@ exports.getAllFacilities = function() {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2052,7 +2125,8 @@ exports.getOverallFacilityUsage = function(id) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2091,7 +2165,8 @@ exports.getWeeklyFacilityUsage = function(id, start, end) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2128,7 +2203,8 @@ exports.getAllSports = function() {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2168,7 +2244,8 @@ exports.getOverallSportUsage = function(id) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2207,7 +2284,8 @@ exports.getWeeklySportUsage = function(id, start, end) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2246,7 +2324,8 @@ exports.getPricingBySport = function(sportId) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2285,7 +2364,8 @@ exports.getPricingByType = function(type) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2325,7 +2405,8 @@ exports.getPricingAmount = function(id) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
@@ -2364,7 +2445,8 @@ exports.createMembership = function(userId, pricingId) {
         
             // Query
             conn.query(query, function (err, results, fields) {
-                
+                conn.end();
+
                 // Error
                 if (err) return reject(err);
 
