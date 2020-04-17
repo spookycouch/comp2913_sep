@@ -13,6 +13,7 @@ $(window).scroll(function() {
     }	
 });
 
+
 /*
 *       document load function (on ready)
 */
@@ -419,7 +420,12 @@ $(document).ready(function() {
     });
 
 
-
+    /*
+    *  Function:   Delete selected Facility image
+    *  Input:      ID of selected image
+    *              ID of facility
+    *  Output:     Re-render all the images 
+    */ 
     $(document).on('click', '.image__delete--facility', function(e) {
         facilityId = $(this).attr('facility_attr');
 
@@ -455,6 +461,12 @@ $(document).ready(function() {
     });
 
 
+    /*
+    *  Function:   Delete selected actitivity image
+    *  Input:      ID of selected image
+    *              ID of activity
+    *  Output:     Re-render all the images 
+    */ 
     $(document).on('click', '.image__delete--activity', function(e) {
         activityId = $(this).attr('activity_attr');
 
@@ -490,7 +502,11 @@ $(document).ready(function() {
     });
 
 
-
+    /*
+    *  Function:   Replace payment history data on card selected (from dropdown)
+    *  Input:      Selected Cards ID
+    *  Output:     Selected cards payment history displayed
+    */ 
     $('#card-select').on('change', function(e) {
         $.ajax({
             url: '/ajax/update/payment',
@@ -583,12 +599,66 @@ $(document).ready(function() {
             }
         });
     });
+
+
+    /*
+    *  Function:   Update activities timetable data on day selection
+    *  Input:      Day selected
+    *  Output:     New data within the timetable for activities on selected date
+    */ 
+    $(document).on('click', '.timetable__activity--day', function(e) {
+        var selectedDate = $(this).text();
+    
+        updateActivityTimetable(selectedDate);
+    });
+
+
+    /*
+    *  Function:   Update activities timetable data on datepicker
+    *  Input:      Datepicker date
+    *  Output:     New data within the timetable for activities on selected date
+    */
+    $('.timetable__activity--week').on('change', function(e) {
+        var selectedDate = $(this).val();
+    
+        updateActivityTimetable(selectedDate);
+    });
+    
+    
+    /*
+    *  Function:   Update facility timetable data on day selection
+    *  Input:      Day selected
+    *  Output:     New data within the timetable for activities on selected date
+    */ 
+    $(document).on('click', '.timetable__facility--day', function(e) {
+        var selectedDate = $(this).text();
+    
+        updateFacilityTimetable(selectedDate);
+    });
+    
+    
+    /*
+    *  Function:   Update facility timetable data on datepicker
+    *  Input:      Datepicker date
+    *  Output:     New data within the timetable for activities on selected date
+    */ 
+    $('.timetable__facility--week').on('change', function(e) {
+        var selectedDate = $(this).val();
+    
+        updateFacilityTimetable(selectedDate); 
+    });
 });
 
 
+/*
+    *  Function:   Combine the forms from the different pages of registration
+    *  Input:      Form data from registration
+    *  Output:     A new form with all the forms combined, submitted
+*/
 function combineForms() {
     var $newForm = $("<form></form>").attr({method: "POST", action: "/user/register"});
 
+    // Get all the values from form 1
     $('#form-1').find(":input:not(:submit, :button)").each(function() {
         $newForm.append($("<input type=\"hidden\" />")  
             .attr('name', this.name)   
@@ -596,6 +666,7 @@ function combineForms() {
         );
     });
 
+    // Get all the values from form 2
     $('#form-2').find(":input:not(:submit, :button)").each(function() {
         if (this.name != "_csrf") {
             $newForm.append($("<input type=\"hidden\" />")  
@@ -603,9 +674,9 @@ function combineForms() {
                 .val($(this).val())  
             );
         }
-            
     });
 
+    // Get all the values from form 3
     $('#form-3').find(":input:not(:submit, :button)").each(function() {
         if (this.name != "_csrf") {
             $newForm.append($("<input type=\"hidden\" />")  
@@ -615,6 +686,7 @@ function combineForms() {
         }
     });
 
+    // Append the body to the document so it can be submitted
     $newForm.appendTo(document.body).submit();
 }
 
@@ -625,7 +697,7 @@ function combineForms() {
     *              string direction: 'prev' or 'next' for which page to go to
     *              int size:         how many pages are in the form 
     *  Output:     The new page count / the page the form is on
-    */
+*/
 function changePage(count, direction, size) {
     if (direction == "next") {
         $('#slide-' + count).addClass('half__slide--d-none');
@@ -635,7 +707,6 @@ function changePage(count, direction, size) {
         $('#slide-' + (count + 1)).removeClass('half__slide--d-none');
     }
 }
-
 
 
 /*
@@ -662,34 +733,11 @@ function showScrollToggle() {
 }
 
 
-
-
-$(document).on('click', '.timetable__activity--day', function(e) {
-    var selectedDate = $(this).text();
-
-    updateActivityTimetable(selectedDate);
-});
-
-$('.timetable__activity--week').on('change', function(e) {
-    var selectedDate = $(this).val();
-
-    updateActivityTimetable(selectedDate);
-});
-
-
-$(document).on('click', '.timetable__facility--day', function(e) {
-    var selectedDate = $(this).text();
-
-    updateFacilityTimetable(selectedDate);
-});
-
-
-$('.timetable__facility--week').on('change', function(e) {
-    var selectedDate = $(this).val();
-
-    updateFacilityTimetable(selectedDate); 
-});
-
+/*
+*  Function:   Update Activity Timetable
+*  Input:      Selected date for the timetable
+*  Output:     New timetable with activities on the selected date
+*/ 
 function updateActivityTimetable(selectedDate) {
     $.ajax({
         url: '/ajax/activities/timetable',
@@ -709,6 +757,12 @@ function updateActivityTimetable(selectedDate) {
     });
 }
 
+
+/*
+*  Function:   Update Facility Timetable
+*  Input:      Selected date for the timetable
+*  Output:     New timetable with activities on the selected date
+*/ 
 function updateFacilityTimetable(selectedDate) {
     $.ajax ({
         url: '/ajax/facility/timetable',
@@ -730,7 +784,13 @@ function updateFacilityTimetable(selectedDate) {
 }
 
 
-function replaceHeader(className, selectedDate, data) {
+/*
+*  Function:   Replace the header dates on the timetable class
+*  Input:      Timetable classname
+               Selected Date of the timetable
+*  Output:     Timetable header to be replaced within the timetable
+*/ 
+function replaceHeader(className, selectedDate) {
     currentDate = new Date(selectedDate);
 
     var week = new Array(); 
@@ -761,7 +821,12 @@ function replaceHeader(className, selectedDate, data) {
 }
 
 
-
+/*
+*  Function:   Replace the output within the timetable (display activities on selected date)
+*  Input:      Timetable classname
+               Data activities on selected day
+*  Output:     Timetable output to be replaced within the timetable
+*/ 
 function replaceOutput(className, data) {
     var $newTable = $("<table class=\"timetable__table " + className + "--output\"></table>");
 
@@ -789,7 +854,7 @@ function replaceOutput(className, data) {
             <tr class="table__row">
                 <td class="row__item row__item--none">No Activities Found on Selected Date</td>
             </tr>
-        `)
+        `);
     }
 
     $('.' + className + '--output').replaceWith($newTable);
