@@ -126,6 +126,20 @@
                                 <% } %>
                             <% } %>
                         </div>
+
+
+                        <div class="update-form__group">
+                            <label class="update-form__label"><h3>Capacity</h3></label>
+                            <input id="capacity" class="update-form__input" type="text" name="capacity" placeholder="Capacity" value="<%- form.capacity %>" />
+
+                            <% if(locals.error){ %>
+                                <% for (var i =0; i < error.length;  i++ ) { %>
+                                    <% if(error[i].path == 'capacity'){ %>
+                                        <p id="capacity-error" class="update-form__error"><%- error[i].message %></p>
+                                    <% } %>
+                                <% } %>
+                            <% } %>
+                        </div>
                     
                     
                         <div class="update-form__group">

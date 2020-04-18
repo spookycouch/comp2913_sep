@@ -277,6 +277,7 @@ $(document).ready(function() {
         $('#activity').text($(this).parent().parent().find('.activity-value').text());
         $('#start_time').text($(this).parent().parent().find('.start_time-value').attr('data_attr'));
         $('#duration').text($(this).parent().parent().find('.duration-value').text());
+        $('#capacity').text($(this).parent().parent().find('.capacity-value').attr('data_attr'));
         $('#location').text($(this).parent().parent().find('.location-value').text());
 
         $('#book-activity').attr('href', '/payment/booking/' + this.id); // TODO: add router route
@@ -845,8 +846,14 @@ function replaceOutput(className, data) {
             row = "<tr class=\"table__row\"><td class=\"row__item start_time-value\"  data_attr=\"" + value.start_time + "\">" + value.start_time.substr(value.start_time.length - 8) + "</td>";
             row += "<td class=\"row__item activity-value\">" + value.name_sport + "</td>";
             row += "<td class=\"row__item duration-value\">" + value.duration + " Minutes</td>";
+            row += "<input type=\"hidden\" class=\"capacity-value\" data_attr=\"" + value.booked_capacity + " / " + value.capacity + "\" />";
             row += "<td class=\"row__item location-value\">" + value.facility_name + "</td>";
-            row += "<td class=\"row__item\"><div id=\"" + value.id + "\" class=\"item__book item__book--book-modal hvr-sweep-to-right modal--open\"><h3>Book</h3></div></td></tr>";
+
+            if (value.booked_capacity >= value.capacity) {
+                row += "<td class=\"row__item\"><button type=\"button\" disabled class=\"item__book\"><h3>Fully Booked</h3></button></td></tr>";
+            } else {
+                row += "<td class=\"row__item\"><div id=\"" + value.id + "\" class=\"item__book item__book--book-modal hvr-sweep-to-right modal--open\"><h3>Book</h3></div></td></tr>";
+            }
             $newTable.append(row);
         });
     } else {

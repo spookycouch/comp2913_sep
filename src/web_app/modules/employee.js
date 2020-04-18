@@ -81,11 +81,12 @@ exports.newFacility = function(req_body){
     let name = req_body.name;
     let description = req_body.description;
     let price = req_body.price;
+    let capacity = req_body.capacity;
     let icon = req_body.icon;
 
     return new Promise(function(resolve, reject) {
 
-        db.createFacility(name, description, price, icon).then(function(result){
+        db.createFacility(name, description, price, capacity, icon).then(function(result){
 
             resolve(result);
 
@@ -102,11 +103,12 @@ exports.editFacility = function(req_body, facilityId) {
     let name = req_body.name;
     let description = req_body.description;
     let price = req_body.price;
+    let capacity = req_body.capacity;
     let icon = req_body.icon;
 
     return new Promise(function(resolve, reject) {
 
-        db.updateFacility(name, description, price, icon, facilityId).then(function(result){
+        db.updateFacility(name, description, price, capacity, icon, facilityId).then(function(result){
 
             resolve(result);
 

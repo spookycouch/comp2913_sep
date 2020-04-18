@@ -495,7 +495,7 @@ exports.facilities_discover = function(id){
 */
 exports.facilities_timetable = function(facilityId, date){
     return new Promise(function(resolve, reject) {
-        db.getFacilityTimetable(facilityId, date.getDate()).then(function(result) {
+        db.getFacilityTimetable(facilityId, date.getDate(), date.getMonth() + 1, date.getFullYear()).then(function(result) {
             for (var i = 0; i < result.length; i++) {
                 let date = result[i].start_time.getTime();
                 date = moment(date).format('DD/MM/YYYY HH:mm:ss');
@@ -512,8 +512,10 @@ exports.facilities_timetable = function(facilityId, date){
 
 
 exports.activitiesTimetable = function(date) {
+    console.log(date.getYear());
+
     return new Promise(function(resolve, reject) {
-        db.getActivitiesTimetable(date.getDate()).then(function(result) {
+        db.getActivitiesTimetable(date.getDate(), date.getMonth() + 1, date.getFullYear()).then(function(result) {
             for (var i = 0; i < result.length; i++) {
                 let date = result[i].start_time.getTime();
                 date = moment(date).format('DD/MM/YYYY HH:mm:ss');
