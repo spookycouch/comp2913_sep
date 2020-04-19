@@ -291,7 +291,7 @@ exports.defaultError = function (req, res, webname, err){
     // Render with error
     res.render(path.join(__dirname + '/../views/pages/error.ejs'),
     {
-        title: webname + "| Account | Payment",
+        title: "Oops an error occured!",
         session: req.session,
         error: err
     });

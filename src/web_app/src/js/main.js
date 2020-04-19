@@ -116,6 +116,8 @@ $(document).ready(function() {
         e.preventDefault();                                                 // Prevent from being submitted (and page reloading)
         hamburgerPressed = !hamburgerPressed;
 
+        console.log("does this worl");
+
         if (hamburgerPressed) {
             $('.hamburger').addClass('is-active');
 

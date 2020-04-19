@@ -1729,8 +1729,6 @@ exports.getActivitiesTimetable = function(day, month, year) {
                 [day, month, year]
             );
 
-            console.log(query);
-
             // Query
             conn.query(query, function (err, results, fields) {
                 conn.end();
