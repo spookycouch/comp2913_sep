@@ -31,14 +31,16 @@ const webname = ' The Edgy ';
 
 
 /*
- *  Function:   Register Employee
+ *  Function:   Register Employee GET
 */
 router.get('/register/employee', function(req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3)     // If not an admin, redirect
         res.redirect('/user/logout');
 
     else {
-        user.getDetails(req.session.userId).then(function(result) {
+        user.getDetails(req.session.userId).then(function(result) {     // Get the user detaild
+
+            // Render the page
             res.render(path.join(__dirname + '/../views/pages/manager/employee_new.ejs'), {
                 title: webname + "| Register | Employee",
                 session: req.session,
@@ -46,27 +48,28 @@ router.get('/register/employee', function(req, res) {
                 form: req.body,
                 user: result
             });
+
+        // Error getting user details
         }).catch(function(err) {
             console.log(err);
             res.redirect('/user/logout'); 
         });
-        
     }
 });
 
 
 /*
- *  Function:   Register POST
+ *  Function:   Register Employee POST
 */
 router.post('/register/employee', function(req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/user/logout');
 
     else {  
         try {
             const value = validation.registerValidation(req.body);   
 
-            // Error
+            // Error in validation
             if(value.error != undefined)
                 throw value.error.details;
 
@@ -102,16 +105,15 @@ router.post('/register/employee', function(req, res) {
     }
 });
 
+
 /*
  *  Function:   Statistics page
 */
 router.get('/statistics', function(req, res) {
-    
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/user/logout');
 
     else {
-
         var queries = [
             user.getDetails(req.session.userId)
         ];
@@ -143,17 +145,20 @@ router.get('/statistics', function(req, res) {
  * Function:    Manager overview page
 */
 router.get('/overview', function(req, res) { 
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/user/logout');
 
     else {
-        user.getDetails(req.session.userId).then(function(result) {
+        user.getDetails(req.session.userId).then(function(result) { // Get the user details
+
+            // Render the page
             res.render(path.join(__dirname + '/../views/pages/manager/account_manager.ejs'), {
                 title: webname + "| Manager | Overview",
                 session: req.session,
                 user: result
             });
 
+        // Error getting user details
         }).catch(function(err) {
             console.log(err);
             res.redirect('/user/logout'); 
@@ -163,18 +168,19 @@ router.get('/overview', function(req, res) {
 
 
 /*
- * Function:    Test new activity
+ * Function:    configure activities page GET 
 */
 router.get('/activities/new', function (req, res) {   
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/home');
 
     else {
-        user.getDetails(req.session.userId).then(function(result) {
-            facility.getAllFacilities().then(function(facilities) {
-                facility.getAllSports().then(function(sports) {
-                    facility.getAllActivities().then(function(activities) {
+        user.getDetails(req.session.userId).then(function(result) {                 // Get the user details
+            facility.getAllFacilities().then(function(facilities) {                 // Get all the facilities for use in creating a new activity
+                facility.getAllSports().then(function(sports) {                     // Get all the sports for use in creating a new activity
+                    facility.getAllActivities().then(function(activities) {         // Get all the activities for use in configuring existing activities
 
+                        // Render the page
                         return res.render(path.join(__dirname + '/../views/pages/manager/activities_new.ejs'), {
                             title: webname + "| Activities | New",
                             session: req.session,
@@ -186,21 +192,25 @@ router.get('/activities/new', function (req, res) {
                             form: req.body
                         });
                         
-                    }).catch(function(err) {
+                    // Error getting all the activities
+                    }).catch(function(err) {                                                
                         console.log(err);
                         res.redirect('/user/logout');
-                    })
+                    });
                     
+                // Error getting all the sports
                 }).catch(function(err) {
                     console.log(err);
                     res.redirect('/user/logout');
-                })
+                });
+
+            // Error getting all the facilities
             }).catch(function(err) {
                 console.log(err);
                 res.redirect('/user/logout');
             });
 
-            
+        // Error getting user details
         }).catch(function(err) {
             console.log(err);
             res.redirect('/user/logout');
@@ -209,20 +219,25 @@ router.get('/activities/new', function (req, res) {
 });
 
 
+/*
+ * Function:    Edit Activity GET
+*/
 router.get('/activities/edit/:id*', function(req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/home');
 
     else {
-        user.getDetails(req.session.userId).then(function(userObj) {
-            user.getActivity(req.params['id']).then(function(result) {
-                facility.getAllFacilities().then(function(facilities) {
-                    facility.getAllSports().then(function(sports) {
-
-                        employee.getActivityImages(req.params['id']).then(function(images) {
+        user.getDetails(req.session.userId).then(function(userObj) {                         // Get the user details
+            user.getActivity(req.params['id']).then(function(result) {                       // Get the specific activity details from the ID    
+                facility.getAllFacilities().then(function(facilities) {                      // Get all the facilities for editing the activity
+                    facility.getAllSports().then(function(sports) {                          // Get all the sports for editing the activity
+                        employee.getActivityImages(req.params['id']).then(function(images) { // Get all the images for the specific activity, from the ID
+                            
+                            // Seperate date and time from start_time
                             date = moment(result.start_time).format('YYYY-MM-DD');
                             time = moment(result.start_time).format('HH:mm');
 
+                            // Render the page
                             return res.render(path.join(__dirname + '/../views/pages/manager/activities_edit.ejs'), {
                                 title: webname + "| Activities | Edit",
                                 session: req.session,
@@ -235,37 +250,46 @@ router.get('/activities/edit/:id*', function(req, res) {
                                 facilities: facilities,
                                 sports: sports
                             });
+                        
+                        // Error getting the activity images
                         }).catch(function(err) {
                             console.log(err);
                             res.redirect('/user/logout');
-                        })
+                        });
 
+                    // Error getting all the sports
                     }).catch(function(err) {
                         console.log(err);
                         res.redirect('/user/logout');
 
                     });
+
+                // Error getting all the facilities
                 }).catch(function(err) {
                     console.log(err);
                     res.redirect('/user/logout');
                 });
 
+            // Error getting the activity details
             }).catch(function(err) {
                 console.log(err);
                 res.redirect('/user/logout');
-            })           
+            });      
 
+        // Error getting the user details
         }).catch(function(err) {
             console.log(err);
-            res.redirect('/user/logout');
-            
+            res.redirect('/user/logout');  
         });   
     }
 });
 
 
+/*
+ * Function:    Edit Activity POST
+*/
 router.post('/activities/edit/:id*', function(req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/home');
 
     else {
@@ -308,12 +332,12 @@ router.post('/activities/edit/:id*', function(req, res) {
                             path: 'unsuccessful'
                         }]);
                     });
+
+                // if image is not uploaded, skip
                 } else {
                     file.resume();
                 }
             });
-
-
 
             bboy.on('finish', function() {
                 const value = validation.newActivityValidation(req_body);   
@@ -322,8 +346,6 @@ router.post('/activities/edit/:id*', function(req, res) {
                 if(value.error != undefined)
                     return error.editActivityErrorPage(req, res, webname, user, facility, employee, value.error.details);
 
-
-
                 employee.editActivity(req_body, req.params['id']).then(function (results) {
                     var activity_id = req.params['id'];
                 
@@ -331,7 +353,6 @@ router.post('/activities/edit/:id*', function(req, res) {
                         employee.newActivityImage(activity_id, img_id_list[i]).then(function (results){});
                     }
                     return 'success'
-
                 
                 // Catch error when adding new activity to DB    
                 }).catch(function(err) {
@@ -358,6 +379,7 @@ router.post('/activities/edit/:id*', function(req, res) {
                 );
             }
 
+        // Catch all other errors
         } catch (err) {
             return error.editActivityErrorPage(req, res, webname, user, facility, employee, err);
         }
@@ -365,9 +387,11 @@ router.post('/activities/edit/:id*', function(req, res) {
 })
 
 
-
+/*
+ * Function:    configure activities page POST (for new activity)
+*/
 router.post('/activities/new', function (req, res) {  
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/home');
 
     else {
@@ -410,7 +434,9 @@ router.post('/activities/new', function (req, res) {
                             path: 'unsuccessful'
                         }]);
                     });
-                } else {
+
+                // if image is not uploaded, skip
+                } else {    
                     file.resume();
                 }
             });
@@ -466,18 +492,21 @@ router.post('/activities/new', function (req, res) {
     }
 });
 
+
 /*
- * Function:    Test new facility
+ * Function:    configure facilities GET
 */
 router.get('/facilities/new', function (req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // if not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // if not an admin, redirect
         res.redirect('/home');
 
     else {
         icons = ['basketball', 'gym', 'running', 'sport', 'swim', 'tennis'];
 
-        user.getDetails(req.session.userId).then(function(result) {
-            facility.getAllFacilities().then(function(facilities) {
+        user.getDetails(req.session.userId).then(function(result) {     // Get the user details 
+            facility.getAllFacilities().then(function(facilities) {     // Get all the facilities for use in configuring an existing facility
+
+                // Render the page
                 return res.render(path.join(__dirname + '/../views/pages/manager/facilities_new.ejs'), {
                     title: webname + "| Facilities | New",
                     session: req.session,
@@ -487,11 +516,14 @@ router.get('/facilities/new', function (req, res) {
                     facilities: facilities,
                     form: req.body
                 });
+
+            // Error getting all facilities
             }).catch(function(err) {
                 console.log(err);
                 res.redirect('/user/logout');
             });
 
+        // Error getting user details
         }).catch(function(err) {
             console.log(err);
             res.redirect('/user/logout');
@@ -501,10 +533,10 @@ router.get('/facilities/new', function (req, res) {
 
 
 /*
- *  Function:   New Facility
+ *  Function:   New Facility POST (for new facility)
 */
 router.post('/facilities/new', function(req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // if not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // if not an admin, redirect
         res.redirect('/home');
 
     else {
@@ -603,9 +635,11 @@ router.post('/facilities/new', function(req, res) {
 })
 
 
-
+/*
+ * Function:    Edit Facility GET
+*/
 router.get('/facilities/edit/:id*', function(req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/home');
 
     else {
@@ -638,8 +672,11 @@ router.get('/facilities/edit/:id*', function(req, res) {
 });
 
 
+/*
+ * Function:    Edit Activity POST
+*/
 router.post('/facilities/edit/:id*', function(req, res) {
-    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin
+    if(req.session.userId == undefined || req.session.userType < 3) // If not an admin, redirect
         res.redirect('/home');
 
     else {
@@ -738,7 +775,7 @@ router.post('/facilities/edit/:id*', function(req, res) {
                 );
             }
 
-            
+        // Catch all other errors
         } catch (err) {
             error.editFacilityErrorPage(req, res, webname, user, icons, err);
         }

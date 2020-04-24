@@ -557,7 +557,7 @@ exports.getActivityImages = function(activity_id) {
  *  Input:      Discount, Cost, Start Time, Duration, Sport ID
  *  Output:     Bool / Error Message
 */
-exports.createFacility = function(name, description, price, icon) {
+exports.createFacility = function(name, description, price, capacity, icon) {
 
     var conn = getConnection();
 
@@ -570,8 +570,8 @@ exports.createFacility = function(name, description, price, icon) {
 
             query = SqlString.format(
         
-                'INSERT INTO Facility(name, description, price, icon) VALUES(?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
-                    [name, description, price, icon]
+                'INSERT INTO Facility(name, description, price, capacity, icon) VALUES(?, ?, ?, ?, ?); SELECT LAST_INSERT_ID() AS id;',
+                    [name, description, price, capacity, icon]
             );
             
             // Query
@@ -695,7 +695,7 @@ exports.getFacilityImages = function(facility_id) {
 
 
 
-exports.updateFacility = function(name, description, price, icon, facilityId) {
+exports.updateFacility = function(name, description, price, capacity, icon, facilityId) {
 
     var conn = getConnection();
 
@@ -708,8 +708,8 @@ exports.updateFacility = function(name, description, price, icon, facilityId) {
 
             query = SqlString.format(
         
-                'UPDATE Facility SET name = ?, description = ?, price = ?, icon = ? WHERE id = ? ',
-                    [name, description, price, icon, facilityId]
+                'UPDATE Facility SET name = ?, description = ?, price = ?, capacity = ?, icon = ? WHERE id = ? ',
+                    [name, description, price, capacity, icon, facilityId]
             );
             
             // Query
@@ -1177,7 +1177,7 @@ exports.getUpcomingActivities = function(no_items, page_no, filters) {
     var conn = getConnection();
 
     var query_1 = 'SELECT COUNT(*) AS count FROM Activity INNER JOIN Sport ON id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE start_time >';
-    var query_2 = 'SELECT Activity.id, id_image, ext, Activity.name, Activity.description, discount, cost, start_time, duration, Sport.id AS id_sport, Sport.name AS name_sport, Sport.description AS description_sport, Facility.name AS facility_name, id_facility ' +
+    var query_2 = 'SELECT Activity.id, id_image, ext, Activity.name, Activity.description, discount, cost, start_time, duration, Sport.id AS id_sport, Sport.name AS name_sport, Sport.description AS description_sport, (SELECT COUNT(*) FROM BookedActivity WHERE BookedActivity.id_activity = Activity.id) AS booked_capacity, Facility.name AS facility_name, Facility.capacity AS capacity, id_facility ' +
                   'FROM Sport INNER JOIN (SELECT * FROM Activity LEFT JOIN (SELECT id_activity, id_image, ext FROM ActivityImage INNER JOIN Image on id_image = id LIMIT 1) AS Image ON id = id_activity) AS Activity ON id_sport = Sport.id INNER JOIN Facility ON Facility.id = id_facility HAVING start_time > ';
 
     var query_filters = ''
@@ -1211,6 +1211,8 @@ exports.getUpcomingActivities = function(no_items, page_no, filters) {
             // Query
             conn.query(query, [1,2], function (err, results, fields) {
                 conn.end();
+
+                // console.log(results);
 
                 // Error
                 if (err) return reject(err);
@@ -1677,7 +1679,7 @@ exports.getFacilityActivities = function(facilityId) {
  *  Input:      Facility {id}, Date
  *  Output:     Timetable / Error Message
 */
-exports.getFacilityTimetable = function(facilityId, date) {
+exports.getFacilityTimetable = function(facilityId, day, month, year) {
 
     var conn = getConnection();
 
@@ -1690,8 +1692,8 @@ exports.getFacilityTimetable = function(facilityId, date) {
             if (err) reject(err);
 
             query = SqlString.format(
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE id_facility = ? AND DAY(start_time) = ? ORDER BY start_time;',
-                [facilityId, date]
+                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, (SELECT COUNT(*) FROM BookedActivity WHERE BookedActivity.id_activity = Activity.id) AS booked_capacity, Facility.name AS facility_name, Facility.capacity AS capacity, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE id_facility = ? AND DAY(start_time) = ? AND MONTH(start_time) = ? AND YEAR(start_time) = ? ORDER BY start_time;',
+                [facilityId, day, month, year]
             );
         
             // Query
@@ -1714,7 +1716,7 @@ exports.getFacilityTimetable = function(facilityId, date) {
  *  Input:      Date String
  *  Output:     Activities [] / Error Message
 */
-exports.getActivitiesTimetable = function(date) {
+exports.getActivitiesTimetable = function(day, month, year) {
     var conn = getConnection();
 
     return new Promise(function(resolve, reject) {
@@ -1723,8 +1725,8 @@ exports.getActivitiesTimetable = function(date) {
             if (err) reject(err);
 
             query = SqlString.format(
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, Facility.name AS facility_name, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE DAY(start_time) = ? ORDER BY start_time;;',
-                [date]
+                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, (SELECT COUNT(*) FROM BookedActivity WHERE BookedActivity.id_activity = Activity.id) AS booked_capacity, Facility.name AS facility_name, Facility.capacity AS capacity, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE DAY(start_time) = ? AND MONTH(start_time) = ? AND YEAR(start_time) = ? ORDER BY start_time;',
+                [day, month, year]
             );
 
             // Query

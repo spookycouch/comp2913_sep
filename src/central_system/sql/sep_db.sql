@@ -40,6 +40,7 @@ CREATE TABLE `Facility` (
   `name` varchar(200) NOT NULL,
   `description` varchar(5000) NOT NULL,
   `price` double NOT NULL,
+  `capacity` double NOT NULL DEFAULT 1,
   `icon` varchar(400) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -299,10 +300,10 @@ INSERT INTO User(name, surname, email, type, password, phone, address_1, zipcode
 INSERT INTO User(name, surname, email, type, password, phone, address_1, zipcode, city) VALUES ('Mr', 'Admin', 'admin@mail.com', 3, 'cc03e747a6afbbcbf8be7668acfebee5', '+44 1234567890', 'Weetwood Lane', 'LS166IL', 'Leeds');
 
 -- Creating a Facility
-INSERT INTO Facility (name, description, price, icon) VALUES ('Swimming Pool', 'Our world class swimming pool allows for innovative pool programmes that are designed for begginers in need of lessions, or competitive swimmers taking advantage of lane sessions. If this all sounds like hard work we also offer pool parties!', 5,  'swim-white');
-INSERT INTO Facility (name, description, price, icon) VALUES ('Fitness Room', 'We provide you with the latest fitness equipment combined with group fitness classes that will leave you wanting more. We make sure our fitness programmes are tailored for everyone, no matter their ability.', '10', 'gym-white');
-INSERT INTO Facility (name, description, price, icon) VALUES ('Squash Courts', 'We offer 4 state of the art squash courts for you to practice in. Book alone, in pairs or as a group, we can match you up with other players your level to test and enhance your abilities.', '8', 'tennis-white');
-INSERT INTO Facility (name, description, price, icon) VALUES ('Sports Hall', 'Our state of the art sports hall offeres enough room for many different sports. Whether you are trying a sport for the first time or have decided to start again, playing sport is a great way to get fit, stay healthy and meet new friends. You can also book out the sports hall for over, non-sport related activities.', '15', 'running-white');
+INSERT INTO Facility (name, description, price, capacity, icon) VALUES ('Swimming Pool', 'Our world class swimming pool allows for innovative pool programmes that are designed for begginers in need of lessions, or competitive swimmers taking advantage of lane sessions. If this all sounds like hard work we also offer pool parties!', 5, 2, 'swim-white');
+INSERT INTO Facility (name, description, price, capacity, icon) VALUES ('Fitness Room', 'We provide you with the latest fitness equipment combined with group fitness classes that will leave you wanting more. We make sure our fitness programmes are tailored for everyone, no matter their ability.', '10', 25, 'gym-white');
+INSERT INTO Facility (name, description, price, capacity, icon) VALUES ('Squash Courts', 'We offer 4 state of the art squash courts for you to practice in. Book alone, in pairs or as a group, we can match you up with other players your level to test and enhance your abilities.', '8', 4, 'tennis-white');
+INSERT INTO Facility (name, description, price, capacity, icon) VALUES ('Sports Hall', 'Our state of the art sports hall offeres enough room for many different sports. Whether you are trying a sport for the first time or have decided to start again, playing sport is a great way to get fit, stay healthy and meet new friends. You can also book out the sports hall for over, non-sport related activities.', '15', 20, 'running-white');
 
 -- Create image references
 

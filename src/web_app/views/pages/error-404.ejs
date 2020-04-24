@@ -1,12 +1,31 @@
 <%- include('../partials/head') %>
+<%- include('../partials/header') %>
 
+<div class="container container--full-height-no-header">
+    <div class="error-page">
+        <div class="error-page__info">
+    
+            <div class="info__content">
+                <div class="content__title">Oops!</div>   
+                <h2>We can't seem to find the page your looking for</h2>
+                <h3>Error Code: 404</h3>
+                <div class="content__link hvr-sweep-to-right">
+                    <a href="/home">
+                        <h3>Return to safety</h3>
+                    </a>
+                </div>
+            </div>
 
-<div class="container" style="height:100%;margin:auto;text-align:center;background-image:url('https://gallery.yopriceville.com/var/albums/Free-Clipart-Pictures/Animals-PNG/Funny_Dog_Transparent_PNG_Clipart.png?m=1434276923');background-size:cover;">
-   
-    <div style="background: rgba(255,255,255,0.5);height:100%;width:100%;padding:200px">
-        <h1 style="font-size:7em;">404 :(</h1><br>
-        <h2>Wha? I guess you've lost your way around.</h2><br>
-        <h3>"Home is behind, the world ahead, and there are many paths to tread." (cit.)</h3>
+            <div class="info__spacer"></div>
+        </div>
+
+        <div class="error-page__image">
+            <!-- <img src="https://a0.muscache.com/airbnb/static/error_pages/404-Airbnb_final-d652ff855b1335dd3eedc3baa8dc8b69.gif" /> -->
+            <img src="/img/elements/erorr.gif" />
+        </div>
     </div>
-
 </div>
+
+
+
+<%- include('../partials/foot') %>

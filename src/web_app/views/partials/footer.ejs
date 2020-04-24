@@ -40,13 +40,29 @@
                     <li><a href="/memberships">Join Now</a></li>  
 
                     <% if(locals.session.userId) { %>
-                        <li><a href="/user/account">Account Overview</a></li>  
-                        <li><a href="/user/account/details">Account Details</a></li>  
-                        <li><a href="/user/account/memberships">Account Memberships</a></li>  
-                        <li><a href="/user/account/Bookings">Account Bookings</a></li>  
-                        <li><a href="/user/account/Payment">Account Payment Details</a></li>  
-                        <li><a href="/user/logout">Logout</a></li>  
+                        <% if(locals.session.userType < 3) { %>
+                            <li><a href="/user/account">Account Overview</a></li>  
+                            <li><a href="/user/account/details">Account Details</a></li>  
+                            <li><a href="/user/account/memberships">Account Memberships</a></li>  
+                            <li><a href="/user/account/Bookings">Account Bookings</a></li>  
+                            <li><a href="/user/account/Payment">Account Payment Details</a></li>  
 
+                            <% if(locals.session.userType == 2) { %>
+                                <li><a href="/user/account/payment/cash">New Cash Payment</a></li>  
+                            <% } %>
+
+                            <li><a href="/user/logout">Logout</a></li>  
+                        <% } else { %>
+
+
+                            <li><a href="/manager/overview">Manager Account Overview</a></li>  
+                            <li><a href="/manager/statistics">View Usage Statistics</a></li>  
+                            <li><a href="/manager/register/employee">Add a new Employee</a></li>  
+                            <li><a href="/manager/activities/new">Configure Activities</a></li>  
+                            <li><a href="/manager/facilities/new">Configure Facilities</a></li>  
+                            <li><a href="/user/logout">Logout</a></li>  
+
+                        <% } %>
                     <% }else{ %>    
                         <li><a href="/user/login">Login</a></li>  
                     <% } %>
