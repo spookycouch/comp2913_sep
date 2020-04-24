@@ -76,7 +76,6 @@ class TestNode(unittest.TestCase):
 
     def assert_get(self, url, result, cookies):
         resp = requests.get(url, cookies=dict(COOKIES.items() + cookies.items()))
-        print resp.text
         for string in result['contains']:
             if not string in resp.text:
                 self.fail('Valid information {} was not added'.format(string))
@@ -105,7 +104,6 @@ class TestNode(unittest.TestCase):
         self.assert_post(url, cases, cookies, False)
 
         url = HOST + '/activities?page_no=1&sport=&facility=&start_date=0-1-1&end_date=3000-1-1&no_items=1000'
-        print self.test_cases['test_1_1'][0]
         result = self.test_cases['test_1_1'][0]['result']
         self.assert_get(url, result, cookies)
 

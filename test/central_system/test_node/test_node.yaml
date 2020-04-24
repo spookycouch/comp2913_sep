@@ -101,10 +101,10 @@ test_1_0:
     payload:
       name: ()*&^%$#@![]/\~`'"-=+-1234567890Bigbigbigbigbigbigbigbigbigbigbigbigbigbigbigbigbigbigbig Swim
       description: ()*&^%$#@![]/\~`'"-=+-1234567890 big swim in a 100cm X 100cm pool. Antibac water included. A big swim in a 100cm X 100cm pool. Antibac water included.A big swim in a 100cm X 100cm pool. Antibac water included. A big swim in a 100cm X 100cm pool. Antibac water included.
-      cost: '99999999999999'
+      cost: '999999999'
       date: '1970-5-10'
       time: '14:00:00'
-      duration: '99999999999999'
+      duration: '999999999'
       id_sport: '1'
       id_facility: '1'
   # Abnormal data
@@ -125,16 +125,6 @@ test_1_0:
       duration: '1'
       id_sport: '1'
       id_facility: '1'
-  - result: False
-    payload:
-      name: ()*&^%$#@![]/\~`'"-=+-1234567890Bigbigbigbigbigbigbigbigbigbigbigbigbigbigbigbigbigbigbig Swim
-      description: __False Swim__
-      cost: '99999999999999'
-      date: '1970-5-10'
-      time: '14:00:00'
-      duration: '99999999999999'
-      id_sport: '-999'
-      id_facility: '-999'
 
 test_1_1:
   - result:
