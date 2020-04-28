@@ -134,11 +134,15 @@ var addCard = function(stripe, card) {
                 data = JSON.parse(data);
 
                 if (data.result == "success") {
+                  console.log("is it getting here??");
                   location.reload();
-                  // alert(data.message);
                   return;
                 } else {
-                  alert(data.message);
+                  if (data.message.code) {
+                    alert(data.message.code);
+                  } else {
+                    showError(data.message);
+                  }
                 }
                 
               },
@@ -174,11 +178,7 @@ var orderComplete = function(clientSecret) {
 var showError = function(errorMsgText) {
   changeLoadingState(false);
   var errorMsg = document.querySelector(".sr-field-error");
-  console.log(errorMsgText);
   errorMsg.textContent = errorMsgText.message;
-  // setTimeout(function() {
-  //   errorMsg.textContent = "";
-  // }, 4000);
 };
 
 // Show a spinner on payment submission

@@ -1465,7 +1465,6 @@ exports.createUserCard = function(userId, card, stripe_id) {
 
             // Query
             conn.query(query, function (err, result, fields) {
-                conn.end();
 
                 // Error
                 if (err) return reject(err);
@@ -1479,7 +1478,8 @@ exports.createUserCard = function(userId, card, stripe_id) {
 
                 // Query
                 conn.query(query, function (err, result, fields) {
-                    
+                    conn.end();
+
                     // Error
                     if (err) return reject(err);
 
