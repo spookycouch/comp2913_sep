@@ -120,9 +120,11 @@ const calculatePrice = async function(item){
 */
 router.post("/pay", async function(req, res){
 
+    console.log(req.body);
+
     let {item, cardId} = req.body;
-    console.log(item);
-    console.log(cardId);
+    console.log("item", item);
+    console.log("card id ", cardId);
     var price = await calculatePrice(item);
 
     if(price < 1){
@@ -151,6 +153,7 @@ router.post("/pay", async function(req, res){
             var card = filter[0];
             paymentMethodId = card.stripe_token;
 
+            console.log(card);
         
             let intent;
             if (paymentMethodId) {

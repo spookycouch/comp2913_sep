@@ -1419,7 +1419,7 @@ exports.getUserCards = function(user_id) {
 
             query = SqlString.format(
         
-                'SELECT Card.id, Card.number, Card.expire_date, Card.type FROM Card_User INNER JOIN Card ON Card.id = Card_User.id_card WHERE Card_User.id_user = ?',
+                'SELECT Card.id, Card.number, Card.expire_date, Card.type, Card.stripe_token FROM Card_User INNER JOIN Card ON Card.id = Card_User.id_card WHERE Card_User.id_user = ?',
                     [user_id]
             );
             
