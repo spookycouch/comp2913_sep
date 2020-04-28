@@ -176,3 +176,16 @@ exports.getPricingByType = function(type) {
 
     });
 }   
+
+
+exports.getPricingAmount = function(paymentId) {
+    return new Promise(function(resolve, reject) {
+        db.getPricingAmount(paymentId).then(function(result) {
+
+            resolve(result);
+
+        }).catch(function(err) {
+            reject(err)
+        });
+    });
+}

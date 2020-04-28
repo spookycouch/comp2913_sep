@@ -51,6 +51,8 @@ exports.processMembershipPayment = function(pricingId, userId, cardId){
     });
 }
 
+
+
 /*
  *  Function:   Pre-processing of Payment with check
  *  Input:      Res, Req, Webname, Activity, User {id}, Card {id}

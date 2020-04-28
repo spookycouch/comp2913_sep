@@ -83,11 +83,20 @@
 <div class="sr-main">
   <h2>Pay For membership</h2>
 
-  <select name="sport" class="membership__sport">
-    <% for (var i = 0; i < sports.length; i++) { %>
-      <option value="<%- sports[i].id %>"><%- sports[i].name %></option>
-    <% } %>
-  </select>
+  <% if(type == 1) { %>
+
+    <select name="sport" class="membership__sport">
+      <% for (var i = 0; i < pricing.length; i++) { %>
+        <option value="<%- pricing[i].id %>"><%- pricing[i].name %>  £<%- pricing[i].amount %></option>
+      <% } %>
+    </select>
+  <% } else if (type == 2) { %>
+    <select name="sport" class="membership__sport">
+      <% for (var i = 0; i < pricing.length; i++) { %>
+        <option value="<%- pricing[i].id %>"><%- pricing[i].name %>  £<%- pricing[i].amount %>, Saving £<%- pricing[i].savings %></option>
+      <% } %>
+    </select>
+  <% } %>
 
   <div class="account__section account__section--full-width account__overview">
     <div class="section__title">

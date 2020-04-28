@@ -71,18 +71,9 @@ const calculatePrice = async function(item){
 
     try{
         if(item.type == membershipPaymentPart){
-            if(item.id == 1){
-                result = await facility.getMonthlyPricing();
-                amount = result[0].amount;
-    
-            }else if(item.id == 2){
-                result = await facility.getYearlyPricing();
-                amount = result[0].amount;
-    
-            }else if(item.id == 3){
-                result = await facility.getSportsPassPricing();
-                amount = result[0].amount;
-            }
+            amount = await facility.getPricingAmount(item.id);
+            console.log(amount);
+
         }else if(item.type == activityPaymentPart){
             console.log("activity");
             activities = await facility.getAllActivities();
@@ -170,7 +161,7 @@ router.post("/pay", async function(req, res){
                     // If a mobile client passes `useStripeSdk`, set `use_stripe_sdk=true`
                     // to take advantage of new authentication features in mobile SDKs
                     use_stripe_sdk: true,
-                    receipt_email: "sc18at@leeds.ac.uk"
+                    receipt_email: "sc18sjb@leeds.ac.uk"
                 });
 
                 console.log(intent);

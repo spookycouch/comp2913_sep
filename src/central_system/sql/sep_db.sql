@@ -123,8 +123,6 @@ CREATE TABLE `Pricing` (
   `type` int(11) NOT NULL DEFAULT 1,
   
   `amount` double NOT NULL,
-  `name` varchar(1000) NOT NULL,
-  `description` varchar(5000) NOT NULL DEFAULT "There is no desription for this pricing",
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_sport`) REFERENCES Sport(`id`)
   
@@ -363,8 +361,7 @@ INSERT INTO Sport(name, description) VALUES ('Kick Box', 'Lightweight, agility-b
 INSERT INTO Sport(name, description) VALUES ('Football', 'Football description');
 INSERT INTO Sport(name, description) VALUES ('Squash', 'Squash description');
 INSERT INTO Sport(name, description) VALUES ('running', 'Running description');
-INSERT INTO Sport(name, description) VALUES ('Fitness', 'Fitness description'); -- Something for fitness room?
-INSERT INTO Sport(name, description) VALUES ('Cross-training', 'cross-training description');
+INSERT INTO Sport(name, description) VALUES ('Gym Access', 'Allows you to use the fitness rooms equipment!'); -- Something for fitness room?
 
 
 INSERT INTO Lecturer(full_name, email, phone) VALUES ('John Fish', 'iswimalot@gmail.com', '+44 1234567890');
@@ -377,9 +374,25 @@ INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, 
 INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
 
 -- Creating a membership
-INSERT INTO Pricing (id_sport, type, amount, name, description) VALUES (1, 1, 20, "Monthly", "Pay monthly from a selected of different sports. Each sport allows access to that sports facilitiy and the activities taking place within it.");
-INSERT INTO Pricing (id_sport, type, amount, name, description) VALUES (1, 2, 240, "Annual", "Pay annually from a selection of different sports. Get the best value for money! Each sport allows access to that sports facility and the activities taking place within it.");
-INSERT INTO Pricing (type, amount, name, description) VALUES (3, 400, "Sports Pass", "The best package for those wanting to use multiple facilities to participate in lots of different sports. This pass grants access to all of them at a discounted rate!");
+
+-- monthly memberships
+INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 1, 10); -- swimming 
+INSERT INTO Pricing (id_sport, type, amount) VALUES (2, 1, 8); -- kick box
+INSERT INTO Pricing (id_sport, type, amount) VALUES (3, 1, 15); -- football
+INSERT INTO Pricing (id_sport, type, amount) VALUES (4, 1, 4.99); -- squash
+INSERT INTO Pricing (id_sport, type, amount) VALUES (5, 1, 6); -- running 
+INSERT INTO Pricing (id_sport, type, amount) VALUES (6, 1, 10); -- gym access
+
+-- annual memberships
+INSERT INTO Pricing (id_sport, type, amount) VALUES (1, 2, 110); -- swimming
+INSERT INTO Pricing (id_sport, type, amount) VALUES (2, 2, 90); -- kick box
+INSERT INTO Pricing (id_sport, type, amount) VALUES (3, 2, 160); -- football
+INSERT INTO Pricing (id_sport, type, amount) VALUES (4, 2, 50); -- squash
+INSERT INTO Pricing (id_sport, type, amount) VALUES (5, 2, 70); -- running
+INSERT INTO Pricing (id_sport, type, amount) VALUES (6, 2, 100); -- fitness
+
+-- sports pass
+INSERT INTO Pricing (type, amount) VALUES (3, 400);
 
 INSERT INTO Membership(id_user, id_pricing) VALUES (1, 1);
 INSERT INTO Membership(id_user, id_pricing, start_date) VALUES (1, 2, '2007-01-01 10:00');
@@ -388,9 +401,10 @@ INSERT INTO Membership(id_user, id_pricing, start_date) VALUES (1, 2, '2007-01-0
 INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('0000', '000', '00/0000', '__CASH__', '');
 -- INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('1234', '123', '01/2022', 'VISA', '');
 -- INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('8765', '321', '02/2021', 'MasterCard', '');
+
 INSERT INTO Card_User(id_card, id_user) VALUES (1, 3); -- for now we add cash card to admin
-INSERT INTO Card_User(id_card, id_user) VALUES (2, 1);
-INSERT INTO Card_User(id_card, id_user) VALUES (3, 1);
+-- INSERT INTO Card_User(id_card, id_user) VALUES (2, 1);
+-- INSERT INTO Card_User(id_card, id_user) VALUES (3, 1);
 
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
@@ -402,24 +416,24 @@ INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (3, '2020-01-01')
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (4, '2020-01-01');
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (5, '2020-01-01');
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 1, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 2, 2);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 1, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 2, 2);
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 3, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 3, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 3, 2, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 3, 2, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 3, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 4, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 3, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 4, 1);
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 2, 2, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 2, 2, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 2, 2, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 2, 2, 1);
 
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 3, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 4, 1);
-INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 5, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 3, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 4, 1);
+-- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 5, 1);
 
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);

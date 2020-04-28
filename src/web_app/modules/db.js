@@ -884,7 +884,7 @@ exports.getUserMemberships = function(id) {
 
             query = SqlString.format(
         
-                'SELECT Membership.id, Sport.name as sportName, Membership.start_date, Pricing.type FROM Membership INNER JOIN Pricing ON Membership.id_pricing = Pricing.id INNER JOIN Sport ON Sport.id = Pricing.id_sport WHERE id_user = ?',
+                'SELECT Membership.id, Sport.name as sportName, Membership.start_date, Pricing.type, Pricing.amount FROM Membership INNER JOIN Pricing ON Membership.id_pricing = Pricing.id INNER JOIN Sport ON Sport.id = Pricing.id_sport WHERE id_user = ?',
                     [id]
             );
 
@@ -2360,7 +2360,7 @@ exports.getPricingByType = function(type) {
 
             query = SqlString.format(
         
-                'SELECT * FROM Pricing WHERE type = ? ORDER BY amount ASC',
+                'SELECT Pricing.*, Sport.name FROM Pricing INNER JOIN Sport ON Sport.id = Pricing.id_sport WHERE Pricing.type = ? ORDER BY amount ASC',
                 [type]
             );
         

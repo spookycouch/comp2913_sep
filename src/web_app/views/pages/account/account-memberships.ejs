@@ -88,6 +88,16 @@
                                         <h3>Sport:</h3>
                                         <%- memberships[i].sportName %>
                                     </div>
+
+                                    <div class="field__field">
+                                        <% if(!memberships[i].expired) { %>
+                                            <img src="/img/account/discount-black.png" />
+                                        <% } else { %>
+                                            <img src="/img/account/discount.png" />
+                                        <% } %>
+                                        <h3>Amount:</h3>
+                                        £<%- memberships[i].amount %>
+                                    </div>
                                 </div>
                             </div>
 

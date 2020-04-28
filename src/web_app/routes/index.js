@@ -42,6 +42,19 @@ router.get(['/', '/home'], csrf, function(req, res) {
     });
 });
 
+
+var getSmallestPrice = function(prices) {
+    var smallest = prices[0];
+    
+    for (var i = 0; i < prices.length; i++) {
+        if (prices[i].amount < smallest.amount) {
+            smallest.amount = prices[i].amount;
+        }
+    }
+
+    return smallest;
+}
+
 /*
  *  Function:   Memberships Page Router
 */
@@ -55,11 +68,11 @@ router.get('/memberships', csrf, function(req, res) {
 
     // Gather all the pricings
     Promise.all(queries).then(results => { 
-    
+
         // Parse data
-        var startMonthlyPricing = results[0][0];
-        var startYearlyPricing = results[1][0];
-        var passPricing = results[2][0];
+        var startMonthlyPricing = getSmallestPrice(results[0]);
+        var startYearlyPricing = getSmallestPrice(results[1]);
+        var passPricing = getSmallestPrice(results[2]);
 
         // Render page
         res.render(path.join(__dirname + '/../views/pages/memberships.ejs'),

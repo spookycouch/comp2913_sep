@@ -67,15 +67,20 @@ function sendPayment(){
   //csrf token
   var csrfToken = document.getElementsByName("_csrf")[0].value;
 
-  // var sports = document.querySelector(".membership__sport");
-  // var sportId = sports.options[sports.selectedIndex].value;
-
+  var type = queryString[queryString.length -2];
+  var id = queryString[queryString.length -1] ;
   var cardId = window.location.href.split("card=")[1];
+
+  
+  if (type == 'membership') {
+    var sports = document.querySelector(".membership__sport");
+    var id = sports.options[sports.selectedIndex].value;
+  } 
 
   var orderData = {
     item: { 
-      type : queryString[queryString.length -2],
-      id: queryString[queryString.length -1] 
+      type : type,
+      id: id 
     },
     currency: "gbp",
     cardId: cardId

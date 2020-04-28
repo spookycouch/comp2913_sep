@@ -207,6 +207,17 @@
     .pricing-table {
         &__option {
             width: 90%;
+
+            .option {
+                &__content {
+                    .content {
+                        &__membership-desc {
+                            padding: 10px 0;
+                            margin: 30px 20px 20px 20px;
+                        }
+                    }
+                }
+            }
         }
     }
 }   

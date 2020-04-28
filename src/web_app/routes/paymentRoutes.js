@@ -92,44 +92,57 @@ router.get('/membership/:id*', function(req, res) {
     } else {
         facility.getPricingByType(type).then(function(pricing) {
 
-            facility.getAllSports().then(function(sports) {
+            if (type == 2) {
+                facility.getMonthlyPricing().then(function(monthly) {
 
-                // User details
-                user.getDetails(req.session.userId).then(function(userDetails) {
+                    for(var i = 0; i < pricing.length; i++) {
+                        for (var j = 0; j < monthly.length; j++) {
+                            if (monthly[j].id_sport == pricing[i].id_sport) {
+                                pricing[i].savings = ((monthly[j].amount * 12) - pricing[i].amount).toFixed(2);
 
-                    // Cards
-                    user.getCards(req.session.userId).then(function(cards){
-                        var cardId = 0;
-                        if (cards.length > 0) cardId = cards[0].id;
+                            }
+                        }
+                    }
 
-                        // Render
-                        res.render(path.join(__dirname + '/../views/pages/payment/payment-membership.ejs'),
-                        {
-                            title: webname + "| Payment | Membership",
-                            session: req.session,
-                            user: userDetails,
-                            cards: cards,
-                            form: req.body,
-                            pricing: pricing,
-                            sports: sports,
-                            csrfToken: req.csrfToken()
-                        });
-
-
-                    }).catch(function(err){
-
-                        error.defaultError(req, res, webname, err);
-                    });   
                 }).catch(function(err) {
-
                     error.defaultError(req, res, webname, err);
                 });
+            }
+
+            // User details
+            user.getDetails(req.session.userId).then(function(userDetails) {
+
+                // Cards
+                user.getCards(req.session.userId).then(function(cards){
+                    var cardId = 0;
+                    if (cards.length > 0) cardId = cards[0].id;
+
+                    // Render
+                    res.render(path.join(__dirname + '/../views/pages/payment/payment-membership.ejs'),
+                    {
+                        title: webname + "| Payment | Membership",
+                        session: req.session,
+                        user: userDetails,
+                        cards: cards,
+                        form: req.body,
+                        pricing: pricing,
+                        type: type,
+                        csrfToken: req.csrfToken()
+                    });
+
+
+                }).catch(function(err){
+
+                    error.defaultError(req, res, webname, err);
+                });   
 
             }).catch(function(err) {
-                console.log(err);
+                error.defaultError(req, res, webname, err);
+                
             });
         }).catch(function(err) {
-            console.log(err);
+            error.defaultError(req, res, webname, err);
+            
         });
     }
 });

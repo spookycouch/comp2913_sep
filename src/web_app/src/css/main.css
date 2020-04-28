@@ -1122,6 +1122,10 @@ ul {
   .pricing-table__option {
     width: 90%;
   }
+  .pricing-table__option .option__content .content__membership-desc {
+    padding: 10px 0;
+    margin: 30px 20px 20px 20px;
+  }
 }
 
 .facilities {
