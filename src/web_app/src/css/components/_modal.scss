@@ -207,6 +207,10 @@
 @media only screen and (max-height: $max_height_secondary) {
     .modal {
         &__content {
+            &--shrink {
+                padding: 10px 20px;
+            }
+
             .content {
                 &__half {
                     .half {

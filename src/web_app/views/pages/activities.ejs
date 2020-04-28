@@ -11,31 +11,37 @@
             </div>
         </div>
 
-        <div class="modal__content modal__content--split">
+        <div class="modal__content modal__content--split modal__content--shrink">
             <div class="content__half content__half--center">
                 <div class="content__field">
                     <div class="field__field">
                         <img src="/img/icons/clock.png" />
                         <h3>Time:</h3>
-                        <span id="start_time">thing</span>
+                        <span id="start_time">UNDEFINED</span>
                     </div>
                    
                     <div class="field__field">
                         <img src="/img/icons/timer.png" />
                         <h3>Duration:</h3>
-                        <span id="duration">thing</span>
+                        <span id="duration">UNDEFINED</span>
                     </div>
 
                     <div class="field__field">
                         <img src="/img/icons/gym.png" />
                         <h3>Activity:</h3>
-                        <span id="activity">thing</span>
+                        <span id="activity">UNDEFINED</span>
+                    </div>
+
+                    <div class="field__field">
+                        <img src="/img/icons/team.png" />
+                        <h3>Capacity:</h3>
+                        <span id="capacity">UNDEFINED</span>
                     </div>
 
                     <div class="field__field">
                         <img src="/img/account/location-black.png" />
                         <h3>Location:</h3>
-                        <span id="location">thing</span>
+                        <span id="location">UNDEFINED</span>
                     </div>
                 </div>  
             </div>
@@ -100,9 +106,15 @@
                                 <%- results[i].description %>
                             </div>
 
-                            <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
-                                <h3>Book</h3>
-                            </div>
+                            <% if (results[i].booked_capacity >= results[i].capacity) { %>
+                                <button type="button" disabled class="form-title__book">
+                                    <h3>Fully Booked</h3>
+                                </button>
+                            <% } else { %>
+                                <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
+                                    <h3>Book</h3>
+                                </div>
+                            <% } %>
                         </div>
 
                         <div class="content__list">
@@ -124,6 +136,12 @@
                                     <h3>Activity:</h3>
                                     <span class="activity-value"><%- results[i].name_sport %></span>
                                 </div>
+
+                                <div class="field__field">
+                                    <img src="/img/icons/team.png" />
+                                    <h3>Capacity:</h3>
+                                    <span class="capacity-value" data_attr="<%- results[i].booked_capacity %> / <%- results[i].capacity %>"><%- results[i].booked_capacity %> / <%- results[i].capacity %></span>
+                                </div>
             
                                 <div class="field__field">
                                     <img src="/img/account/location-black.png" />
@@ -142,9 +160,16 @@
                                 <%- results[i].description %>
                             </div>
 
-                            <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
-                                <h3>Book</h3>
-                            </div>
+
+                            <% if (results[i].booked_capacity >= results[i].capacity) { %>
+                                <button type="button" disabled class="form-title__book">
+                                    <h3>Fully Booked</h3>
+                                </button>
+                            <% } else { %>
+                                <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
+                                    <h3>Book</h3>
+                                </div>
+                            <% } %>
                         </div>
                     </div>
                 <% } %>
@@ -220,12 +245,23 @@
                             <td class="row__item start_time-value" data_attr="<%- timetable[i].start_time %>"><%- timetable[i].start_time.substr(timetable[i].start_time.length - 8) %></td>
                             <td class="row__item activity-value"><%- timetable[i].name_sport %></td>
                             <td class="row__item duration-value"><%- timetable[i].duration %> Minutes</td>
+                            <input type="hidden" class="capacity-value" data_attr="<%- timetable[i].booked_capacity %> / <%- timetable[i].capacity %>" />
                             <td class="row__item location-value"><%- timetable[i].facility_name %></td>
-                            <td class="row__item">
-                                <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
-                                    <h3>Book</h3>
-                                </div>
-                            </td>
+
+                            <% if (timetable[i].booked_capacity >= timetable[i].capacity) { %>
+                                <td class="row__item">
+                                    <button type="button" disabled class="item__book">
+                                        <h3>Fully Booked</h3>
+                                    </button>
+                                </td>
+                            <% } else { %>
+                                <td class="row__item">
+                                    <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
+                                        <h3>Book</h3>
+                                    </div>
+                                </td>
+                            <% } %>
+
                         </tr>
                     <% } %>
                 <% } else { %>

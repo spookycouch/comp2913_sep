@@ -283,6 +283,11 @@ const newFacilityValidation = function(data) {
             .messages({
                 "number.base": "Price Invalid"
             }),
+        capacity: joi.number()
+            .required()
+            .messages({
+                "number.base": "Capacity Invalid"
+            }),
         description: joi.string()
             .required()
             .messages({

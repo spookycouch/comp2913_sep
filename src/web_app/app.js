@@ -42,9 +42,13 @@ app.use('/manager', manager);
 app.use('/payment', payment)
 app.use('/pay', pay);
 
+
 // Error 404
 app.get('*', function(req, res){
-    res.status(404).render(path.join(__dirname + '/views/pages/error-404.ejs'));
+    res.status(404).render(path.join(__dirname + '/views/pages/error-404.ejs'), {
+        title: "Page not found",
+        session: req.session
+    });
 });
 
 // Run the app
