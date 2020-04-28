@@ -8,36 +8,60 @@
 </head>
 
 
+<div class="modal modal--modal">
+  <div class="modal__container">
+    <div class="modal__header">
+        <h2>Add Payment Method</h2>
+        <div class="header__close modal--close">
+            <img src="/img/icons/close.png" />
+        </div>
+    </div>
+      
+    <form class="modal__form sr-payment-form" action="/user/account/add/card" method="POST" autocomplete="off" id="payment-form">
+      <div class="modal__content">
+        <div class="sr-root">
+          <div class="sr-main">
+            <form id="payment-form payment" class="sr-payment-form">
+                <div class="sr-combo-inputs-row payment__input">
+                    <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
+                    <div class="sr-input sr-card-element" id="card-element"></div>
+                </div>
 
-<div class="sr-main">
+                <div class="sr-field-error  payment__error" id="card-errors" role="alert"></div>
+                
 
+                <div class="payment__inline">
+                    <button id="submit" class="payment__submit hvr-sweep-to-right">
+                        <!-- <div class="spinner hidden" id="spinner"></div> -->
+                        <h3 id="button-text">Add Card</h3><span id="order-amount"></span>
+                    </button>
 
-  <div class="modal modal--delete">
-    <div class="modal__container">
-        <div class="modal__header modal__header--danger">
-          <h2>Confirm the payment</h2>
-          <div class="header__close modal--close">
-            <img src="/img/icons/close-white.png" />
+                    <img src="/img/elements/loader.gif" class="payment__spinner payment__spinner--hidden" />
+                </div>
+            </form>
           </div>
         </div>
+      </div>
+    </form>
+  </div>  
+</div>
 
-        <div class="modal__content">
-          Are You sure You want to Proceed?
+
+<div class="sr-main">
+  <div class="modal modal--delete">
+    <div class="modal__container">
+      <div class="modal__header modal__header--danger">
+        <h2>Confirm the payment</h2>
+        <div class="header__close modal--close">
+          <img src="/img/icons/close-white.png" />
         </div>
+      </div>
 
-        <div class="modal__close">
-          <a href="###" id="confirm-payment" class="close__close hvr-sweep-to-right modal--close">
-            <h3>Confirm the payment</h3>
-          </a>
-          
-          <a href="###">
-            <div class="close__close hvr-sweep-to-right modal--close">
-              <h3>Close</h3>
-            </div>
-          </a>
-          
-        </div>
+      <div class="modal__content">
+        Are You sure You want to Proceed?
+      </div>
 
+      <div class="modal__close">
         <form id="payment-form payment">
           <div class="sr-combo-inputs-row payment__input">
             <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
@@ -48,60 +72,30 @@
               <h3 id="button-text">Confirm Payment</h3><span id="order-amount"></span>
             </button>
         </form>
+        
+        <a href="###">
+          <div class="close__close hvr-sweep-to-right modal--close">
+            <h3>Close</h3>
+          </div>
+        </a>
+        
+      </div>
     </div>
   </div>
 
-  <div class="modal modal--modal">
-    <div class="modal__container">
-        <div class="modal__header">
-            <h2>Add Payment Method</h2>
-            <div class="header__close modal--close">
-                <img src="/img/icons/close.png" />
-            </div>
-        </div>
-        
-        <form class="modal__form sr-payment-form" action="/user/account/add/card" method="POST" autocomplete="off" id="payment-form">
-          <div class="modal__content">
-            <div class="sr-root">
-              <div class="sr-main">
-                <form id="payment-form payment" class="sr-payment-form">
-                    <div class="sr-combo-inputs-row payment__input">
-                        <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
-                        <div class="sr-input sr-card-element" id="card-element"></div>
-                    </div>
+  <form id="payment-form" class="sr-payment-form">
+    <h2>Pay For membership</h2>
 
-                    <div class="sr-field-error  payment__error" id="card-errors" role="alert"></div>
-                    
+    <select name="sport" >
+      <% for (var i = 0; i < sports.length; i++) { %>
+        <option value="<%- sports[i].id %>"><%- sports[i].name %></option>
+      <% } %>
+    </select>
 
-                    <div class="payment__inline">
-                        <button id="submit" class="payment__submit hvr-sweep-to-right">
-                            <!-- <div class="spinner hidden" id="spinner"></div> -->
-                            <h3 id="button-text">Add Card</h3><span id="order-amount"></span>
-                        </button>
-
-                        <img src="/img/elements/loader.gif" class="payment__spinner payment__spinner--hidden" />
-                    </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </form>
-    </div>  
-  </div>
-
-    <form id="payment-form" class="sr-payment-form">
-      <h2>Pay For membership</h2>
-
-      <select name="sport" >
-        <% for (var i = 0; i < sports.length; i++) { %>
-          <option value="<%- sports[i].id %>"><%- sports[i].name %></option>
-        <% } %>
-      </select>
-
-      <div class="account__section account__section--full-width account__overview">
-        <div class="section__title">
-            <h2>Your Payment Methods: </h2>
-        </div>
+    <div class="account__section account__section--full-width account__overview">
+      <div class="section__title">
+          <h2>Your Payment Methods: </h2>
+      </div>
 
       <% if(locals.cards && locals.cards.length > 0){ %>
         <% for (var i = 0; i < cards.length;  i++ ) { %>
@@ -141,22 +135,22 @@
           <% } %>
         <% } %>
 
-        <% } else { %>
-          <div class="section__not-found">
-            <div class="not-found__image">
-                <img src="/img/icons/sadface.jpg" />
-            </div>
-              <h2>No Payment Methods Found</h2>
+      <% } else { %>
+        <div class="section__not-found">
+          <div class="not-found__image">
+              <img src="/img/icons/sadface.jpg" />
           </div>
-        <% } %>
+            <h2>No Payment Methods Found</h2>
+        </div>
+      <% } %>
 
-        <div class="payment-history__option">
-          <button class="payment-history__button hvr-sweep-to-right modal--open">
-            <h3>Add Payment Method</h3>
-          </button>
+      <div class="payment-history__option">
+        <button type="button" class="payment-history__button hvr-sweep-to-right modal--open">
+          <h3>Add Payment Method</h3>
+        </button>
       </div>  
     </div>
-
+  </form>
 </div>
 
 <%- include('../../partials/foot') %>
