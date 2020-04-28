@@ -2,14 +2,14 @@
 var stripe;
 
 // Disable the button until we have Stripe set up on the page
-document.getElementById(".submit-payment").disabled = true;
+document.querySelector("button").disabled = true;
 
 
 var handleAction = function(clientSecret) {
   stripe.handleCardAction(clientSecret).then(function(data) {
 
     if (data.error) {
-      showError("Your card was not authenticated, please try again");
+      showErrorPayment("Your card was not authenticated, please try again");
 
     } else if (data.paymentIntent.status === "requires_confirmation") {
 
@@ -28,7 +28,7 @@ var handleAction = function(clientSecret) {
         })
         .then(function(json) {
           if (json.error) {
-            showError(json.error);
+            showErrorPayment(json.error);
           } else {
             orderComplete(clientSecret);
           }
@@ -36,6 +36,24 @@ var handleAction = function(clientSecret) {
     }
   });
 };
+
+
+$(document).ready(function(e) {
+  form = document.getElementById("submit-form");
+
+  form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    // remove error on submit
+    var errorMsg = document.querySelector(".sr-field-error");
+    errorMsg.textContent = "";
+
+    sendPayment();
+
+  });
+});
+
 
 /*
  * Collect card details and pay for the order
@@ -49,6 +67,9 @@ function sendPayment(){
   //csrf token
   var csrfToken = document.getElementsByName("_csrf")[0].value;
 
+  // var sports = document.querySelector(".membership__sport");
+  // var sportId = sports.options[sports.selectedIndex].value;
+
   var cardId = window.location.href.split("card=")[1];
 
   var orderData = {
@@ -59,6 +80,9 @@ function sendPayment(){
     currency: "gbp",
     cardId: cardId
   };
+
+  changeLoadingStatePayment(true);
+
 
   fetch("/pay/pay", {
     method: "POST",
@@ -72,7 +96,7 @@ function sendPayment(){
   }).then(function(response) {
 
     if (response.error) {
-      showError(response.error);
+      showErrorPayment(response.error);
 
     } else if (response.requiresAction) {
 
@@ -81,6 +105,12 @@ function sendPayment(){
 
     } else {
       orderComplete(response.clientSecret);
+
+      if (response.type == 'membership') {
+        location.replace('/user/account/memberships');
+      } else {
+        location.replace('/user/account/bookings');
+      }
     }
   });
 }
@@ -100,29 +130,28 @@ var orderComplete = function(clientSecret) {
 
     // CALL AJAX HERE TO PROCESS PAYMENT
 
-    changeLoadingState(false);
+    changeLoadingStatePayment(false);
   });
 };
 
-var showError = function(errorMsgText) {
-  changeLoadingState(false);
-  var errorMsg = document.querySelector(".sr-field-error");
+var showErrorPayment = function(errorMsgText) {
+  changeLoadingStatePayment(false);
+  var errorMsg = document.querySelector(".sr-field-error-payment");
   errorMsg.textContent = errorMsgText;
-  setTimeout(function() {
-    errorMsg.textContent = "";
-  }, 4000);
 };
 
 // Show a spinner on payment submission
-var changeLoadingState = function(isLoading) {
+var changeLoadingStatePayment = function(isLoading) {
+
   if (isLoading) {
-    document.querySelector("button").disabled = true;
-    document.querySelector("#spinner").classList.remove("hidden");
+    document.querySelector("#submit").disabled = true;
+    document.querySelector(".payment__spinner--payment").classList.remove("payment__spinner--hidden");
     document.querySelector("#button-text").classList.add("hidden");
+
   } else {
-    document.querySelector("button").disabled = false;
+    document.querySelector("#submit").disabled = false;
+    document.querySelector(".payment__spinner--payment").classList.add("payment__spinner--hidden");
     document.querySelector("#button-text").classList.remove("hidden");
   }
 };
-// Disable the button until we have Stripe set up on the page
-document.getElementById(".submit-payment").disabled = false;
+

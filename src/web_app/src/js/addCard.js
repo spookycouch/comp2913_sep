@@ -141,6 +141,7 @@ var addCard = function(stripe, card) {
                   if (data.message.code) {
                     alert(data.message.code);
                   } else {
+                    console.log(data);
                     showError(data.message);
                   }
                 }
@@ -185,11 +186,11 @@ var showError = function(errorMsgText) {
 var changeLoadingState = function(isLoading) {
   if (isLoading) {
     document.querySelector("#submit").disabled = true;
-    document.querySelector(".payment__spinner").classList.remove("payment__spinner--hidden");
+    document.querySelector(".payment__spinner--card").classList.remove("payment__spinner--hidden");
     document.querySelector("#button-text").classList.add("hidden");
   } else {
     document.querySelector("#submit").disabled = false;
-    document.querySelector(".payment__spinner").classList.add("payment__spinner--hidden");
+    document.querySelector(".payment__spinner--card").classList.add("payment__spinner--hidden");
     document.querySelector("#button-text").classList.remove("hidden");
   }
 };

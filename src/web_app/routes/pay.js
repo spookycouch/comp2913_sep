@@ -153,7 +153,6 @@ router.post("/pay", async function(req, res){
             var card = filter[0];
             paymentMethodId = card.stripe_token;
 
-            console.log(card);
         
             let intent;
             if (paymentMethodId) {
@@ -229,7 +228,7 @@ const generateResponse = function(userId, item, price, cardId, intent){
 
                     // Success redirect here
                     console.log("Membership Payment id received: " + paymentId);
-                    return {status: true, body: paymentId};
+                    return {status: true, type: item.type, body: paymentId};
     
                 // Error catch
                 }).catch(function(err){
@@ -250,7 +249,7 @@ const generateResponse = function(userId, item, price, cardId, intent){
                 });
             }
 
-            return {status: true, clientSecret: intent.client_secret};
+            return {status: true, type: item.type, clientSecret: intent.client_secret};
     }
 };
 

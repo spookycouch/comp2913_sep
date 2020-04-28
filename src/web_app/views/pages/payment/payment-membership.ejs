@@ -29,14 +29,13 @@
 
                 <div class="sr-field-error  payment__error" id="card-errors" role="alert"></div>
                 
-
                 <div class="payment__inline">
                     <button id="submit" class="payment__submit hvr-sweep-to-right">
                         <!-- <div class="spinner hidden" id="spinner"></div> -->
                         <h3 id="button-text">Add Card</h3><span id="order-amount"></span>
                     </button>
 
-                    <img src="/img/elements/loader.gif" class="payment__spinner payment__spinner--hidden" />
+                    <img src="/img/elements/loader.gif" class="payment__spinner payment__spinner--card payment__spinner--hidden" />
                 </div>
             </form>
           </div>
@@ -47,110 +46,107 @@
 </div>
 
 
-<div class="sr-main">
-  <div class="modal modal--delete">
-    <div class="modal__container">
-      <div class="modal__header modal__header--danger">
-        <h2>Confirm the payment</h2>
-        <div class="header__close modal--close">
-          <img src="/img/icons/close-white.png" />
-        </div>
+<div class="modal modal--delete">
+  <div class="modal__container">
+    <div class="modal__header modal__header--danger">
+      <h2>Confirm the payment</h2>
+      <div class="header__close modal--close">
+        <img src="/img/icons/close-white.png" />
       </div>
+    </div>
 
-      <div class="modal__content">
-        Are You sure You want to Proceed?
-      </div>
+    <div class="modal__content">
+      Are You sure You want to Proceed?
 
-      <div class="modal__close">
-        <form id="payment-form payment">
-          <div class="sr-combo-inputs-row payment__input">
+      <div class="sr-root">
+        <div class="sr-main">
+          <form id="submit-form" class="sr-payment-form">
             <input type="hidden" name="_csrf" value="<%- csrfToken %>" />
-          </div>
 
-          <div class="sr-field-error  payment__error" id="card-errors" role="alert"></div>
-            <button id="submit-payment" class="payment__submit hvr-sweep-to-right" onclick="sendPayment()">
-              <h3 id="button-text">Confirm Payment</h3><span id="order-amount"></span>
-            </button>
-        </form>
-        
-        <a href="###">
-          <div class="close__close hvr-sweep-to-right modal--close">
-            <h3>Close</h3>
-          </div>
-        </a>
-        
+            <div class="sr-field-error-payment payment__error" id="payment-errors" role="alert"></div>
+
+            <div class="payment__inline">
+              <button id="submit-payment" class="payment__submit hvr-sweep-to-right">
+                <h3 id="button-text">Confirm Payment</h3><span id="order-amount"></span>
+              </button>
+
+              <img src="/img/elements/loader.gif" class="payment__spinner payment__spinner--payment payment__spinner--hidden" />
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <form id="payment-form" class="sr-payment-form">
-    <h2>Pay For membership</h2>
 
-    <select name="sport" >
-      <% for (var i = 0; i < sports.length; i++) { %>
-        <option value="<%- sports[i].id %>"><%- sports[i].name %></option>
-      <% } %>
-    </select>
+<div class="sr-main">
+  <h2>Pay For membership</h2>
 
-    <div class="account__section account__section--full-width account__overview">
-      <div class="section__title">
-          <h2>Your Payment Methods: </h2>
-      </div>
+  <select name="sport" class="membership__sport">
+    <% for (var i = 0; i < sports.length; i++) { %>
+      <option value="<%- sports[i].id %>"><%- sports[i].name %></option>
+    <% } %>
+  </select>
 
-      <% if(locals.cards && locals.cards.length > 0){ %>
-        <% for (var i = 0; i < cards.length;  i++ ) { %>
-          <% if(cards[i].type != "__CASH__" ) { %> <!-- Dont display cash payment card everr -->
-            <div class="overview__option hvr-float">
-              <div class="option__content option__content--center option__content--yellow">
-                <div class="content__title content__title--margin-bottom">
-                  <h2><%- cards[i].type %> Credit Card</h2>
-                  <h3>ending in <%- cards[i].number %></h3>
-                </div>
+  <div class="account__section account__section--full-width account__overview">
+    <div class="section__title">
+        <h2>Your Payment Methods: </h2>
+    </div>
 
-                <div class="content__dsc content__dsc--flex">       
-                  <div class="content__field">
-                    <div class="field__field">
-                      <img src="/img/account/calendar-black.png" />
-                      <h3>Expire Date:</h3>
-                      <%- cards[i].expire_date %>
-                    </div>
+    <% if(locals.cards && locals.cards.length > 0){ %>
+      <% for (var i = 0; i < cards.length;  i++ ) { %>
+        <% if(cards[i].type != "__CASH__" ) { %> <!-- Dont display cash payment card everr -->
+          <div class="overview__option hvr-float">
+            <div class="option__content option__content--center option__content--yellow">
+              <div class="content__title content__title--margin-bottom">
+                <h2><%- cards[i].type %> Credit Card</h2>
+                <h3>ending in <%- cards[i].number %></h3>
+              </div>
 
-                    <div class="field__field">
-                      <img src="/img/icons/pay.png" />
-                      <h3>Type:</h3>
-                      <%- cards[i].type %>
-                    </div>
-                  </div>      
-                </div>
-
-                <div class="content__inline content__inline--right">
-                  <div id="<%- cards[i].id %>" class="content__explore content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white content__explore--delete-payment modal--open-delete">
-                    <a href="###?card=<%- cards[i].id %>">
-                      <h3>Select Card</h3>
-                    </a>
+              <div class="content__dsc content__dsc--flex">       
+                <div class="content__field">
+                  <div class="field__field">
+                    <img src="/img/account/calendar-black.png" />
+                    <h3>Expire Date:</h3>
+                    <%- cards[i].expire_date %>
                   </div>
+
+                  <div class="field__field">
+                    <img src="/img/icons/pay.png" />
+                    <h3>Type:</h3>
+                    <%- cards[i].type %>
+                  </div>
+                </div>      
+              </div>
+
+              <div class="content__inline content__inline--right">
+                <div id="<%- cards[i].id %>" class="content__explore content__explore--black hvr-sweep-to-right hvr-sweep-to-right--white content__explore--delete-payment modal--open-delete">
+                  <a href="###?card=<%- cards[i].id %>">
+                    <h3>Select Card</h3>
+                  </a>
                 </div>
               </div>
             </div>
-          <% } %>
-        <% } %>
-
-      <% } else { %>
-        <div class="section__not-found">
-          <div class="not-found__image">
-              <img src="/img/icons/sadface.jpg" />
           </div>
-            <h2>No Payment Methods Found</h2>
-        </div>
+        <% } %>
       <% } %>
 
-      <div class="payment-history__option">
-        <button type="button" class="payment-history__button hvr-sweep-to-right modal--open">
-          <h3>Add Payment Method</h3>
-        </button>
-      </div>  
-    </div>
-  </form>
+    <% } else { %>
+      <div class="section__not-found">
+        <div class="not-found__image">
+            <img src="/img/icons/sadface.jpg" />
+        </div>
+          <h2>No Payment Methods Found</h2>
+      </div>
+    <% } %>
+
+    <div class="payment-history__option">
+      <button type="button" class="payment-history__button hvr-sweep-to-right modal--open">
+        <h3>Add Payment Method</h3>
+      </button>
+    </div>  
+  </div>
 </div>
 
 <%- include('../../partials/foot') %>
