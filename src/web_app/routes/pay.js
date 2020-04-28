@@ -104,7 +104,6 @@ const calculatePrice = async function(item){
                 amount = activity.cost;
             }
         }
-        console.log(amount);
         //amount in cents
         return amount * 100;
     }catch(e){

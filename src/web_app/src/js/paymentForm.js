@@ -2,7 +2,7 @@
 var stripe;
 
 // Disable the button until we have Stripe set up on the page
-document.querySelector(".submit-payment").disabled = true;
+document.getElementById(".submit-payment").disabled = true;
 
 
 var handleAction = function(clientSecret) {
@@ -124,3 +124,5 @@ var changeLoadingState = function(isLoading) {
     document.querySelector("#button-text").classList.remove("hidden");
   }
 };
+// Disable the button until we have Stripe set up on the page
+document.getElementById(".submit-payment").disabled = false;
