@@ -2,7 +2,7 @@
 var stripe;
 
 //activity ID is stored here
-const queryString = window.location.pathname.split("/");
+var queryString = window.location.pathname.split("/");
 
 //csrf token
 var csrfToken = document.getElementsByName("_csrf")[0].value;
@@ -35,7 +35,7 @@ fetch("/pay/stripe-key")
       addCard(stripe, card, clientSecret);
 
     });
-  });
+});
 
 var setupElements = function(data) {
   stripe = Stripe(data.publishableKey);
