@@ -257,9 +257,9 @@
                     </div>
 
 
-                    <% if (payments.length > 0) { %>
-                        <div class="account__section account__section--full-width account__details" id="payment-history">
                     
+                    <div class="account__section account__section--full-width account__details" id="payment-history">
+                        <% if (payments.length > 0) { %>
                             <div class="section__title">
                                 <h2>Your Payment History</h2>
                             </div>
@@ -343,8 +343,8 @@
                                     </div>
                                 </div>
                             <% } %>    
-                        </div>
-                    <% } %>
+                        <% } %>
+                    </div>
                 </div>
 
                 <% if(cashPayments.length > 0) { %>

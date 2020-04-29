@@ -62,7 +62,7 @@ router.post("/setup-intent", async function(req, res){
     }
 });
 
-const calculatePrice = async function(item){
+const calculatePrice = async function(item, userId){
     // Replace this constant with a calculation of the order's amount
     // You should always calculate the order total on the server to prevent
     // people from directly manipulating the amount on the client
@@ -75,13 +75,11 @@ const calculatePrice = async function(item){
             console.log(amount);
 
         }else if(item.type == activityPaymentPart){
-            console.log("activity");
+
             activities = await facility.getAllActivities();
             filter = activities.filter(activity => {
                 return activity.id == item.id
             });
-            console.log(filter);
-
             if(filter.length < 1){
 
                 console.log("ERROR: Request with invalid activity id.");
@@ -89,7 +87,8 @@ const calculatePrice = async function(item){
             
             }else{
                 let activity = filter[0];
-                amount = activity.cost;
+
+                amount = await payment.getBookingPrice(userId, activity); // amount with discount
             }
         }
         //amount in cents
@@ -108,9 +107,12 @@ const calculatePrice = async function(item){
 */
 router.post("/pay", async function(req, res){
 
+    //userId is stored in the session.
+    var userId = req.session.userId;
+
     let {item, cardId} = req.body;
 
-    var price = await calculatePrice(item);
+    var price = await calculatePrice(item, userId);
 
     if(price < 1){
         //error occured
@@ -118,10 +120,6 @@ router.post("/pay", async function(req, res){
     }
 
     try {
-
-        //userId is stored in the session.
-        var userId = req.session.userId;
-
         var user = await db.getUserDetails(userId);
 
         var cards = await db.getUserCards(userId);
@@ -165,12 +163,8 @@ router.post("/pay", async function(req, res){
             // Render response
             var result = generateResponse(userId, item, price, cardId, intent);
     
-            console.log(result);
-
             // Return result
             res.send(result);
-            
-    
         }
     }catch (e) {
         console.log(e.message);

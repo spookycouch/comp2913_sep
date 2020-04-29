@@ -70,22 +70,29 @@ exports.processBookingPayment = function(activityId, userId, cardId){
                     return reject("This activity is fully booked");
                 }
 
-                // Generate BookingActivity
-                module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId){
-                    
-                    // Generate payment
-                    module.exports.generateBookingPayment(bookedActivityId, activityObj.cost, userId, cardId).then(function(paymentId){
+                module.exports.getBookingPrice(userId, activityObj).then(function(cost) {
+                
+                    // Generate BookingActivity
+                    module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId){
+                        
+                        // Generate payment
+                        module.exports.generateBookingPayment(bookedActivityId, cost, userId, cardId).then(function(paymentId){
 
-                        // Successful payment
-                        resolve(paymentId);
+                            // Successful payment
+                            resolve(paymentId);
 
-                    // Payment failure
+                        // Payment failure
+                        }).catch(function(err){
+                            reject(err);
+                        });
+
+                    // Booking Failure
                     }).catch(function(err){
                         reject(err);
                     });
 
-                // Booking Failure
-                }).catch(function(err){
+                // Getting cost error
+                }).catch(function(err) {
                     reject(err);
                 });
 
@@ -195,35 +202,43 @@ exports.generateMembershipPayment = function(membershipId, cost, userId, cardId)
 
 
 
-exports.getBookingMembership = function(userId, activityObj) {
+exports.getBookingPrice = function(userId, activityObj) {
     return new Promise(function(resolve, reject) {
 
         user.getMemberships(userId).then(function(memberships) {
 
-            if (memberships.length > 0) {
+            var price = activityObj.cost;
+
+            if (memberships.length > 0) {                       // if there is a membership
                 for (var i = 0; i < memberships.length; i++) {
                     if (!memberships[i].expired) {              // if the membership is not expired
                         if (memberships[i].type == 3) {         // if they have a sports pass always return true
                             
-                            resolve(true)
+                            price = 0;
+
+                            if (activityObj.discount > 0)
+                                price = activityObj.cost - activityObj.discount;
                         
                         } else if (memberships[i].type < 3) { 
                             if (memberships[i].id_sport == activityObj.id_sport) { // if their membership is for the same sport, return true
                                 
-                                resolve(true);
+                                price = 0;
+
+                                if (activityObj.discount > 0)
+                                    price = activityObj.cost - activityObj.discount;
                             }
                         }
                     }
                 }
             }   
 
-            resolve(false);
+            resolve(price);
 
         }).catch(function(err) {
             reject(err);
-        })
-
+        });
     });
 }
+
 
 

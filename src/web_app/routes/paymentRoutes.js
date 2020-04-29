@@ -52,10 +52,14 @@ router.get('/booking/:id*', function(req, res) {
                         error.fullError(req, res, webname);
 
                     } else {
-                        payment.getBookingMembership(req.session.userId, activity).then(function(bookingFree) {
+                        payment.getBookingPrice(req.session.userId, activity).then(function(cost) {
+
+                            console.log(cost);
+
+                            activity.cost = cost
 
                             // they have the correct membership so get the booking for free
-                            if (bookingFree || activity.cost == 0) { 
+                            if (activity.cost == 0) { 
         
                                 payment.processBookingPaymentFree(activity.id, req.session.userId, 2).then(function(paymentId) {
         

@@ -121,6 +121,7 @@
                             
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Discount <small>(optional)</small></h3></label>
+                                <div style="padding-bottom: 5px; font-size: 14px;">No discount = free for members, else discount (£) reduced from price</div>   
                                 <input id="discount" class="update-form__input" name="discount" type="text" placeholder="Discount" value="<%- form.discount %>">
 
                                 <% if(locals.error){ %>
@@ -176,7 +177,7 @@
                             </div>
                             
                             <div class="update-form__group">
-                                <label class="update-form__label"><h3>Duration</h3></label>
+                                <label class="update-form__label"><h3>Duration <small>(minutes)</small></h3></label>
                                 <input id="duration" class="update-form__input" name="duration" type="text" placeholder="Duration" value="<%- form.duration %>">
 
                                 <% if(locals.error){ %>
