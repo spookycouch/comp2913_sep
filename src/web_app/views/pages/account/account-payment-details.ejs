@@ -273,7 +273,17 @@
                                         </div>
                         
                                         <div class="form-title__desc">
-                                            <%- payments[i].activity_name %>
+                                            <% if(payments[i].membership_type != null) { %>
+                                                <% if (payments[i].membership_type == 3) { %>
+                                                    Annual Sports Pass Membership
+                                                <% } else if (payments[i].membership_type == 2) { %>
+                                                    Annual <%- payments[i].sport_name %> Membership
+                                                <% } else { %>
+                                                    Monthly <%- payments[i].sport_name %> Membership
+                                                <% } %>
+                                            <% } else { %>
+                                                <%- payments[i].activity_name %>
+                                            <% } %>
                                         </div>
 
                                         <div class="form-title__book hvr-sweep-to-right">
@@ -312,7 +322,17 @@
                                         </div>
                         
                                         <div class="form-title__desc">
-                                            <%- payments[i].activity_name %>
+                                            <% if(payments[i].membership_type != null) { %>
+                                                <% if (payments[i].membership_type == 3) { %>
+                                                    Annual Sports Pass Membership
+                                                <% } else if (payments[i].membership_type == 2) { %>
+                                                    Annual <%- payments[i].sport_name %> Membership
+                                                <% } else { %>
+                                                    Monthly <%- payments[i].sport_name %> Membership
+                                                <% } %>
+                                            <% } else { %>
+                                                <%- payments[i].activity_name %>
+                                            <% } %>
                                         </div>
 
                                         <div class="form-title__book hvr-sweep-to-right">

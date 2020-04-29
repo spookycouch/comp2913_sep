@@ -532,6 +532,18 @@ $(document).ready(function() {
 
                     var payment = "";
                     $.each(data.results, function(key, value) {
+                        var name = value.activity_name;
+
+                        if (value.membership_type != null) {
+                            if (value.membership_type == 3) {
+                                name = "Annual Sports Pass Membership";
+                            } else if (value.membership_type == 2) {
+                                name = "Annual " + value.sport_name + " Membership";
+                            } else {
+                                name = "Monthly " + value.sport_name + " Membership";
+                            }
+                        }
+
                         payment += `
                             <div class="details__content">
                                 <div class="content__form-title content__form-title--top">
@@ -540,7 +552,7 @@ $(document).ready(function() {
                                     </div>
                     
                                     <div class="form-title__desc">
-                                        ${value.activity_name}
+                                        ${name}
                                     </div>
 
                                     <div class="form-title__book hvr-sweep-to-right">
@@ -579,7 +591,7 @@ $(document).ready(function() {
                                     </div>
                     
                                     <div class="form-title__desc">
-                                        ${value.activity_name}
+                                        ${name}
                                     </div>
 
                                     <div class="form-title__book hvr-sweep-to-right">

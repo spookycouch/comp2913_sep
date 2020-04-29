@@ -828,7 +828,7 @@ exports.receiptPaymentCash = function(payment_id) {
     });
 }
 
-
+//
 exports.receiptPayment = function(payment_id) {
     var conn = getConnection();
 
@@ -840,8 +840,13 @@ exports.receiptPayment = function(payment_id) {
             // Error 
             if (err) reject(err);
 
+                var receipt_query = 'SELECT Payment.*, Card.number, Card.type, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name AS activity_name, Membership.id_pricing AS pricing_id, Pricing.type AS membership_type, Sport.name AS sport_name ' +
+                                    'FROM Payment INNER JOIN Card ON Payment.id_card = Card.id LEFT JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity LEFT JOIN Activity ON BookedActivity.id_activity = Activity.id ' +
+                                    'LEFT JOIN Membership ON Membership.id = Payment.id_membership LEFT JOIN Pricing ON Pricing.id = Membership.id_pricing LEFT JOIN Sport ON Sport.id = Pricing.id_sport WHERE Payment.id = ?;'
+            
+
             query = SqlString.format(
-                'SELECT Payment.*, Card.number, Card.type, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name AS activity_name FROM Payment INNER JOIN Card ON Payment.id_card = Card.id INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id WHERE Payment.id = ?',
+                    receipt_query,
                     [payment_id]
             );
 
@@ -977,6 +982,7 @@ exports.deleteUserCard = function(userId, cardId) {
 }
 
 
+
 /*
  *  Function:   Query payments by user id (passed from session)
  *  Input:      User {id}, Card {id}
@@ -986,22 +992,23 @@ exports.getUserPayments = function(userId, cardId) {
 
     var conn = getConnection();
 
-    // Synching request
     return new Promise(function(resolve, reject) {
 
         conn.connect(function(err) {
-            
-            // Error 
+
             if (err) reject(err);
 
+            var payment_query = 'SELECT Payment.*, Card.number, Card.type, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name AS activity_name, Membership.id_pricing AS pricing_id, Pricing.type AS membership_type, Sport.name AS sport_name ' + 
+                                'FROM Payment INNER JOIN Card ON Payment.id_card = Card.id LEFT JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity ' +
+                                'LEFT JOIN Activity ON BookedActivity.id_activity = Activity.id LEFT JOIN Membership ON Membership.id = Payment.id_membership LEFT JOIN Pricing ON Pricing.id = Membership.id_pricing LEFT JOIN Sport ON Sport.id = Pricing.id_sport ' +
+                                'WHERE Payment.id_user = ? AND Card.id = ?;';
+
             query = SqlString.format(
-        
-                'SELECT Payment.*, Card.number, Card.type, BookedActivity.id AS booking_id, Activity.id AS activity_id, Activity.name AS activity_name FROM Payment INNER JOIN Card ON Payment.id_card = Card.id INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON BookedActivity.id_activity = Activity.id WHERE id_user = ? AND Card.id = ?',
-                    [userId, cardId]
+                payment_query,
+                [userId, cardId]
             );
 
-            // Query
-            conn.query(query, function (err, results, fields) {
+            conn.query(query, function(err, results, fields){
                 conn.end();
 
                 // Error
@@ -1009,8 +1016,9 @@ exports.getUserPayments = function(userId, cardId) {
 
                 // Result
                 resolve(results);
-            });
-        });
+            })
+        })
+
     });
 }
 

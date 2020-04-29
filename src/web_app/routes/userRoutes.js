@@ -146,25 +146,27 @@ router.get('/account', function(req, res) {
     if (req.session.userId == undefined)
         res.redirect('/home');
 
-    if (req.session.userType > 2)
-        res.redirect('/manager/overview');
-
     else {
+        if (req.session.userType > 2)           // if an admin
+            res.redirect('/manager/overview');
 
-        // Get user details
-        user.getDetails(req.session.userId).then(function(result) {
+        else {
 
-            res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
-            {
-                title: webname + "| Account",
-                session: req.session,
-                user: result
+            // Get user details
+            user.getDetails(req.session.userId).then(function(result) {
+
+                res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
+                {
+                    title: webname + "| Account",
+                    session: req.session,
+                    user: result
+                });
+
+            }).catch(function(err) {
+                console.log(err);
+                error.loginErrorPage(req, res, webname);
             });
-
-        }).catch(function(err) {
-            console.log(err);
-            error.loginErrorPage(req, res, webname);
-        });
+        }
     }
 });
 
@@ -193,31 +195,36 @@ router.get('/account/bookings', function(req, res) {
     // Success
     else {
 
-        // Get details
-        user.getDetails(req.session.userId).then(function(usr) {
+        if (req.session.userType > 2) 
+            res.redirect('/manager/overview');
 
-            user.getBookings(req.session.userId).then(function(bookings){
+        else {
+            // Get details
+            user.getDetails(req.session.userId).then(function(usr) {
 
-                // Render details
-                res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
-                {
-                    title: webname + "| Account | Bookings",
-                    session: req.session,
-                    bookings: bookings,
-                    user: usr,
-                    csrfToken: req.csrfToken()
+                user.getBookings(req.session.userId).then(function(bookings){
+
+                    // Render details
+                    res.render(path.join(__dirname + '/../views/pages/account/account-bookings.ejs'),
+                    {
+                        title: webname + "| Account | Bookings",
+                        session: req.session,
+                        bookings: bookings,
+                        user: usr,
+                        csrfToken: req.csrfToken()
+                    });
+
+                // Error catching
+                }).catch(function(err){
+
+                    error.defaultError(req, res, webname, err);
                 });
 
-            // Error catching
-            }).catch(function(err){
+            }).catch(function(err) {
 
                 error.defaultError(req, res, webname, err);
             });
-
-        }).catch(function(err) {
-
-            error.defaultError(req, res, webname, err);
-        });
+        }
     }
 });
 
@@ -234,23 +241,29 @@ router.get('/account/details', function(req, res) {
     // Success
     else {
 
-        // Get data
-        user.getDetails(req.session.userId).then(function(userObj) {
+        if (req.session.userType > 2)
+            res.redirect('/manager/overview');
 
-            // Render data
-            res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
-            {
-                title: webname + "| Account | Details",
-                session: req.session,
-                user: userObj,
-                csrfToken: req.csrfToken()
+        else {
+                
+            // Get data
+            user.getDetails(req.session.userId).then(function(userObj) {
+
+                // Render data
+                res.render(path.join(__dirname + '/../views/pages/account/account-details.ejs'),
+                {
+                    title: webname + "| Account | Details",
+                    session: req.session,
+                    user: userObj,
+                    csrfToken: req.csrfToken()
+                });
+
+            // Error -> logout
+            }).catch(function(err) {
+
+                error.defaultError(req, res, webname, err);
             });
-
-        // Error -> logout
-        }).catch(function(err) {
-
-            error.defaultError(req, res, webname, err);
-        });
+        }
     }
 });
 
@@ -263,30 +276,34 @@ router.post('/account/update/details', function(req, res) {
         res.redirect('/home');
 
     else {
-        try {
-            id = req.body.id; // Put ID in temporary var
-            delete req.body.id; // Delete ID from object so it is not validated
-            const value = validation.updateDetailsValidation(req.body);
-            req.body.id = id // Add ID back into object
+        if (req.session.userType > 2) 
+            res.redirect('/manager/overview');
+        else {        
+            try {
+                id = req.body.id; // Put ID in temporary var
+                delete req.body.id; // Delete ID from object so it is not validated
+                const value = validation.updateDetailsValidation(req.body);
+                req.body.id = id // Add ID back into object
 
-            if(value.error != undefined)
-                throw value.error.details;
+                if(value.error != undefined)
+                    throw value.error.details;
 
-            user.updateDetails(req.body).then(function(result) {
-                error.updateErrorPage(req, res, webname, user, [{
-                    message: 'Details Updated Successfully',
-                    path: 'success'
-                }]);
+                user.updateDetails(req.body).then(function(result) {
+                    error.updateErrorPage(req, res, webname, user, [{
+                        message: 'Details Updated Successfully',
+                        path: 'success'
+                    }]);
 
-            }).catch(function(err) {
-                error.updateErrorPage(req, res, webname, user, [{
-                    message: err,
-                    path: 'unsuccessful-details'
-                }]);
-            })
+                }).catch(function(err) {
+                    error.updateErrorPage(req, res, webname, user, [{
+                        message: err,
+                        path: 'unsuccessful-details'
+                    }]);
+                })
 
-        } catch(err) {
-            error.updateErrorPage(req, res, webname, user, err);
+            } catch(err) {
+                error.updateErrorPage(req, res, webname, user, err);
+            }
         }
     }
 })
@@ -302,33 +319,38 @@ router.post('/account/update/address', function(req, res) {
 
     else {
 
-        // Validate the data
-        try {
-            id = req.body.id; // Put ID in temporary var
-            delete req.body.id; // Delete ID from object so it is not validated
-            const value = validation.updateAddressValidation(req.body);
-            req.body.id = id // Add ID back into object
+        if (req.session.userType > 2) 
+            res.redirect('/manager/overview');
 
-            if(value.error != undefined)
-                throw value.error.details;
+        else {
+            // Validate the data
+            try {
+                id = req.body.id; // Put ID in temporary var
+                delete req.body.id; // Delete ID from object so it is not validated
+                const value = validation.updateAddressValidation(req.body);
+                req.body.id = id // Add ID back into object
+
+                if(value.error != undefined)
+                    throw value.error.details;
 
 
-            user.updateAddress(req.body).then(function(result) {
-                error.updateErrorPage(req, res, webname, user, [{
-                    message: 'Address Updated Successfully',
-                    path: 'success'
-                }]);
+                user.updateAddress(req.body).then(function(result) {
+                    error.updateErrorPage(req, res, webname, user, [{
+                        message: 'Address Updated Successfully',
+                        path: 'success'
+                    }]);
 
-            }).catch(function(err) {
-                error.updateErrorPage(req, res, webname, user, [{
-                    message: err,
-                    path: 'unsuccessful-address'
-                }]);
-            });
+                }).catch(function(err) {
+                    error.updateErrorPage(req, res, webname, user, [{
+                        message: err,
+                        path: 'unsuccessful-address'
+                    }]);
+                });
 
-        // If an error with the data
-        } catch(err) {
-            error.updateErrorPage(req, res, webname, user, err);
+            // If an error with the data
+            } catch(err) {
+                error.updateErrorPage(req, res, webname, user, err);
+            }
         }
     }
 });
@@ -341,30 +363,36 @@ router.post('/account/update/password', function(req, res) {
         res.redirect('/home');
 
     else {
-        try {
-            id = req.body.id; // Put ID in temporary var
-            delete req.body.id; // Delete ID from object so it is not validated
-            const value = validation.updatePasswordValidation(req.body);
-            req.body.id = id // Add ID back into object
 
-            if(value.error != undefined)
-                throw value.error.details;
+        if (req.session.userType > 2) 
+            res.redirect('/manager/overview');
 
-            user.updatePassword(req.body).then(function(result) {
-                error.updateErrorPage(req, res, webname, user, [{
-                    message: 'Password Updated Successfully',
-                    path: 'success'
-                }]);
+        else {
+            try {
+                id = req.body.id; // Put ID in temporary var
+                delete req.body.id; // Delete ID from object so it is not validated
+                const value = validation.updatePasswordValidation(req.body);
+                req.body.id = id // Add ID back into object
 
-            }).catch(function(err) {
-                error.updateErrorPage(req, res, webname, user, [{
-                    message: err,
-                    path: 'current_password'
-                }]);
-            });
+                if(value.error != undefined)
+                    throw value.error.details;
 
-        } catch(err) {
-            error.updateErrorPage(req, res, webname, user, err);
+                user.updatePassword(req.body).then(function(result) {
+                    error.updateErrorPage(req, res, webname, user, [{
+                        message: 'Password Updated Successfully',
+                        path: 'success'
+                    }]);
+
+                }).catch(function(err) {
+                    error.updateErrorPage(req, res, webname, user, [{
+                        message: err,
+                        path: 'current_password'
+                    }]);
+                });
+
+            } catch(err) {
+                error.updateErrorPage(req, res, webname, user, err);
+            }
         }
     }
 });
@@ -380,32 +408,35 @@ router.get('/account/memberships', function(req, res) {
 
     else {
 
-        // Get memberships
-        user.getMemberships(req.session.userId).then(function(memberships) {
+        if (req.session.userType > 2) 
+            res.redirect('/manager/overview');
+        else {
+            // Get memberships
+            user.getMemberships(req.session.userId).then(function(memberships) {
 
-            // Get user details
-            user.getDetails(req.session.userId).then(function(result) {
+                // Get user details
+                user.getDetails(req.session.userId).then(function(result) {
 
-                // Render
-                res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
-                {
-                    title: webname + "| Account | Memberships",
-                    session: req.session,
-                    memberships: memberships,
-                    user: result,
-                    csrfToken: req.csrfToken()
+                    // Render
+                    res.render(path.join(__dirname + '/../views/pages/account/account-memberships.ejs'),
+                    {
+                        title: webname + "| Account | Memberships",
+                        session: req.session,
+                        memberships: memberships,
+                        user: result,
+                        csrfToken: req.csrfToken()
+                    });
+
+                }).catch(function(err) {
+
+                    error.defaultError(req, res, webname, err);
                 });
 
             }).catch(function(err) {
 
                 error.defaultError(req, res, webname, err);
             });
-
-        }).catch(function(err) {
-
-            error.defaultError(req, res, webname, err);
-        });
-
+        }
     }
 });
 
@@ -419,51 +450,58 @@ router.get('/account/payment', function(req, res) {
         res.redirect('/home');
 
     else {
-        // User details
-        user.getDetails(req.session.userId).then(function(result) {
 
-            // Cards
-            user.getCards(req.session.userId).then(function(cards){
-                var cardId = 0;
-                if (cards.length > 0) cardId = cards[0].id;
+        if (req.session.userType > 2) 
+            res.redirect('/manager/overview');
+        else {
+                
+            // User details
+            user.getDetails(req.session.userId).then(function(result) {
 
-                // Payment history
-                user.getPayments(req.session.userId, cardId).then(function(payments) {
+                // Cards
+                user.getCards(req.session.userId).then(function(cards){
+                    var cardId = 0;
+                    if (cards.length > 0) cardId = cards[0].id;
 
-                    // Cash payment history
-                    user.getPaymentsCash(req.session.userId).then(function(cashPayments) {
+                    // Payment history
+                    user.getPayments(req.session.userId, cardId).then(function(payments) {
 
-                        // Render
-                        res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
-                        {
-                            title: webname + "| Account | Payment",
-                            session: req.session,
-                            user: result,
-                            cards: cards,
-                            payments: payments,
-                            cashPayments: cashPayments,
-                            form: req.body,
-                            csrfToken: req.csrfToken()
-                        });
+                        // Cash payment history
+                        user.getPaymentsCash(req.session.userId).then(function(cashPayments) {
+
+                            // Render
+                            res.render(path.join(__dirname + '/../views/pages/account/account-payment-details.ejs'),
+                            {
+                                title: webname + "| Account | Payment",
+                                session: req.session,
+                                user: result,
+                                cards: cards,
+                                payments: payments,
+                                cashPayments: cashPayments,
+                                form: req.body,
+                                csrfToken: req.csrfToken()
+                            });
+
+                        }).catch(function(err) {
+                            console.log(err);
+                        })
 
                     }).catch(function(err) {
-                        console.log(err);
-                    })
+                        error.defaultError(req, res, webname, err);
+                        
+                    });
+                }).catch(function(err){
 
-                }).catch(function(err) {
                     error.defaultError(req, res, webname, err);
-                    
-                });
-            }).catch(function(err){
+                });   
+            }).catch(function(err) {
 
                 error.defaultError(req, res, webname, err);
-            });   
-        }).catch(function(err) {
-
-            error.defaultError(req, res, webname, err);
-        });
+            });
+        }
     }
 });
+
 
 router.get('/account/payment/receipt', function(req, res) {
     if(req.session.userId == undefined) 
@@ -493,13 +531,26 @@ router.get('/account/payment/receipt', function(req, res) {
 
                 doc.text('\n');
                 doc.text('Payment No:   ' + result.id);
-                // doc.text('Served by:    ' + result.employee_name + " " + result.employee_surname);
-                // doc.text('Employee ID:  ' + result.employee_id);
 
                 doc.text('\n\n');
 
-                doc.text('Booking ID: ' + result.booking_id);
-                doc.text('Activity ID: ' + result.activity_id + '; ' + result.activity_name);
+                if (result.membership_type != null) {
+                    var membership = "";
+
+                    if (result.membership_type == 3) 
+                        membership = "Annual Sports Pass Membership";
+                    else if (result.membership_type == 2)
+                        membership = "Annal " + result.sport_name + " Membership";
+                    else
+                        membership = "Monthly " + result.sport_name + " Membership";
+
+                    doc.text('Pricing ID: ' + result.pricing_id);
+                    doc.text('Membership ID: ' + result.id_membership + '; ' + membership);
+
+                } else {
+                    doc.text('Booking ID: ' + result.booking_id);
+                    doc.text('Activity ID: ' + result.activity_id + '; ' + result.activity_name);
+                }
 
                 // break
                 doc.text('\n\n');
@@ -552,61 +603,66 @@ router.post('/account/add/card', async function(req, res) {
 
     else {
 
-        //getting the user object to update stripe cards.
-        user.getDetails(req.session.userId).then(async function(userObj){
+        if (req.session.userType > 2) 
+            res.redirect('/manager/overview');
+        else {
+                
+            //getting the user object to update stripe cards.
+            user.getDetails(req.session.userId).then(async function(userObj){
 
-            //Creating a new stripe customer, if user did't have a stripe token.
-            if(userObj.stripe_token == ''){
-                const stripeCustomer = await stripe.customers.create({
-                    email: userObj.email,
-                    name: userObj.name,
-                });
+                //Creating a new stripe customer, if user did't have a stripe token.
+                if(userObj.stripe_token == ''){
+                    const stripeCustomer = await stripe.customers.create({
+                        email: userObj.email,
+                        name: userObj.name,
+                    });
 
-                stripeCustomerId = stripeCustomer.id;
-                user.updateStripeToken(userObj.id, stripeCustomerId);
+                    stripeCustomerId = stripeCustomer.id;
+                    user.updateStripeToken(userObj.id, stripeCustomerId);
 
 
-            }else{
+                }else{
 
-                stripeCustomerId = userObj.stripe_token;
-            }
+                    stripeCustomerId = userObj.stripe_token;
+                }
 
-            try {
-                // Query
-                user.addCard(req.session.userId, pm.card, pm.id).then(function(result) {
+                try {
+                    // Query
+                    user.addCard(req.session.userId, pm.card, pm.id).then(function(result) {
 
-                    req.body = {} // Clear request body so data isnt showed on reload
+                        req.body = {} // Clear request body so data isnt showed on reload
 
-                    res.end(JSON.stringify({
-                        message: "New Payment Method added Successfully",
-                        result: "success"
-                    }));
-    
-                }).catch(function(err) {    
-                    console.log(err);
+                        res.end(JSON.stringify({
+                            message: "New Payment Method added Successfully",
+                            result: "success"
+                        }));
+        
+                    }).catch(function(err) {    
+                        console.log(err);
 
+                        res.end(JSON.stringify({
+                            message: err,
+                            result: "unsuccessful"
+                        }));
+
+                    });
+        
+                } catch(err) {    
+                    console.log(err);    
                     res.end(JSON.stringify({
                         message: err,
                         result: "unsuccessful"
                     }));
+                }
+            }).catch(function(err){     
+                console.log(err);       
 
-                });
-    
-            } catch(err) {    
-                console.log(err);    
                 res.end(JSON.stringify({
                     message: err,
                     result: "unsuccessful"
                 }));
-            }
-        }).catch(function(err){     
-            console.log(err);       
-
-            res.end(JSON.stringify({
-                message: err,
-                result: "unsuccessful"
-            }));
-        });
+            });
+        }
     }
 
 });
@@ -789,9 +845,6 @@ router.get('/account/payment/cash/receipt', function(req, res) {
         }
     }
 });
-
-
-
 
 
 module.exports = router;
