@@ -634,3 +634,17 @@ exports.getPaymentReceipt = function(paymentId) {
         })
     });
 }
+
+
+exports.getActivityBookedCapacity = function(activityId) {
+    return new Promise(function(resolve, reject) {
+
+        db.getBookedCapacity(activityId).then(function(result) {
+
+            resolve(result);
+
+        }).catch(function(err) {
+            reject(err);
+        });
+    });
+}

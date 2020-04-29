@@ -296,3 +296,12 @@ exports.defaultError = function (req, res, webname, err){
         error: err
     });
 }
+
+
+exports.fullError = function(req, res, webname) {
+    res.render(path.join(__dirname + '/../views/pages/error-full.ejs'),
+    {
+        title: "Activity fully booked!",
+        session: req.session
+    });
+}

@@ -1886,7 +1886,7 @@ exports.getActivityObj = function(id) {
 
             query = SqlString.format(
         
-                'SELECT * FROM Activity WHERE id = ?',
+                'SELECT Activity.*, Facility.capacity FROM Activity INNER JOIN Facility ON Facility.id = Activity.id_facility WHERE Activity.id = ?',
                 [id]
             );
         
@@ -2462,6 +2462,37 @@ exports.createMembership = function(userId, pricingId) {
 
                 // Success
                 resolve(results.insertId)
+            });
+        });
+    });
+}
+
+
+exports.getBookedCapacity = function(activityId) {
+    
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+        
+        conn.connect(function(err) {
+
+            // Error
+            if (err) reject(err);
+
+            query = SqlString.format(
+
+                'SELECT COUNT(*) AS capacity FROM BookedActivity WHERE BookedActivity.id_activity = ?;',
+                [activityId]
+            );
+
+            conn.query(query, function(err, results, fields) {
+                conn.end();
+
+                //Error
+                if (err) return reject(err);
+
+                resolve(results[0]);
             });
         });
     });

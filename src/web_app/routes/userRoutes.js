@@ -729,29 +729,40 @@ router.post('/account/payment/cash', function(req, res) {
                 }];
 
                 user.getActivity(req.body.activity_id).then(function(activity) {
-                    console.log(activity);
 
                     if (req.body.amount < activity.cost) throw [{
                         message: "Amount Paid cannot be less than cost of activity",
                         path: "amount"
                     }];
 
-                    employee.newCashPayment(userBuying[0], req.body, req.session.userId).then (function (result){
-                        error.cashPaymentError(req, res, webname, user, facility, employee, [{
-                            message: "Cash Payment Booking created successfully",
-                            path: 'success',
-                            payment_id: result[1][0].id
-                        }]);
+                    user.getActivityBookedCapacity(activity.id).then(function(bookedCapacity) {
+
+                        if (bookedCapacity.capacity >= activity.capacity) throw [{
+                            message: "This activity is fully booked",
+                            path: "activity_id"
+                        }];
+
+                        employee.newCashPayment(userBuying[0], req.body, req.session.userId).then (function (result){
+                            error.cashPaymentError(req, res, webname, user, facility, employee, [{
+                                message: "Cash Payment Booking created successfully",
+                                path: 'success',
+                                payment_id: result[1][0].id
+                            }]);
+    
+                        }).catch(function(err) {
+                            error.cashPaymentError(req, res, webname, user, facility, employee, [{
+                                message: err,
+                                path: 'unsuccessful'
+                            }]);
+                        });
 
                     }).catch(function(err) {
-                        error.cashPaymentError(req, res, webname, user, facility, employee, [{
-                            message: err,
-                            path: 'unsuccessful'
-                        }])
+                        error.cashPaymentError(req, res, webname, user, facility, employee, err);
+
                     });
-        
 
                 }).catch(function(err) {
+
                     error.cashPaymentError(req, res, webname, user, facility, employee, err);
                 });
 

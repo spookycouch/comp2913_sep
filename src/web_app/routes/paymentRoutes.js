@@ -32,6 +32,8 @@ const webname = ' The Edgy ';
 */
 router.get('/booking/:id*', function(req, res) {
 
+    activityId = req.params['id'];
+
     if (req.session.userId == undefined) {
         req.session.from = "/payment/" + req.url;
         res.redirect('/user/login');
@@ -40,53 +42,65 @@ router.get('/booking/:id*', function(req, res) {
             res.redirect('/home');
         } else {
 
-            user.getActivity(req.params['id']).then(function(activity) {
+            user.getActivity(activityId).then(function(activity) {
 
-                payment.getBookingMembership(req.session.userId, activity).then(function(bookingFree) {
+                user.getActivityBookedCapacity(activityId).then(function(bookedCapacity) {
 
+                    if (bookedCapacity.capacity >= activity.capacity) {
 
-                    // they have the correct membership so get the booking for free
-                    if (bookingFree || activity.cost == 0) { 
+                        // Show error herererere
+                        error.fullError(req, res, webname);
 
-                        payment.processBookingPaymentFree(activity.id, req.session.userId, 2).then(function(paymentId) {
+                    } else {
+                        payment.getBookingMembership(req.session.userId, activity).then(function(bookingFree) {
 
-                            console.log("Booking id received, payment free: " + paymentId);
-                            res.redirect("/user/account/bookings");
-
-                        }).catch(function(err) {
-                            error.defaultError(req, res, webname, err);
-
-                        });
-
-                    // They dont have the correct membership so have to pay for the booking
-                    } else {          
-
-                        // User details
-                        user.getDetails(req.session.userId).then(function(userDetails) {
-
-                            // Cards
-                            user.getCards(req.session.userId).then(function(cards){
-                                var cardId = 0;
-                                if (cards.length > 0) cardId = cards[0].id;
-
-                                // Render
-                                res.render(path.join(__dirname + '/../views/pages/payment/payment-booking.ejs'),
-                                {
-                                    title: webname + "| Payment | Membership",
-                                    session: req.session,
-                                    activity: activity,
-                                    pricing: activity.cost,
-                                    user: userDetails,
-                                    cards: cards,
-                                    form: req.body,
-                                    csrfToken: req.csrfToken()
+                            // they have the correct membership so get the booking for free
+                            if (bookingFree || activity.cost == 0) { 
+        
+                                payment.processBookingPaymentFree(activity.id, req.session.userId, 2).then(function(paymentId) {
+        
+                                    console.log("Booking id received, payment free: " + paymentId);
+                                    res.redirect("/user/account/bookings");
+        
+                                }).catch(function(err) {
+                                    error.defaultError(req, res, webname, err);
+        
                                 });
-
-
-                            }).catch(function(err){
-                                error.defaultError(req, res, webname, err);
-                            });
-
+        
+                            // They dont have the correct membership so have to pay for the booking
+                            } else {          
+        
+                                // User details
+                                user.getDetails(req.session.userId).then(function(userDetails) {
+        
+                                    // Cards
+                                    user.getCards(req.session.userId).then(function(cards){
+                                        var cardId = 0;
+                                        if (cards.length > 0) cardId = cards[0].id;
+        
+                                        // Render
+                                        res.render(path.join(__dirname + '/../views/pages/payment/payment-booking.ejs'),
+                                        {
+                                            title: webname + "| Payment | Membership",
+                                            session: req.session,
+                                            activity: activity,
+                                            pricing: activity.cost,
+                                            user: userDetails,
+                                            cards: cards,
+                                            form: req.body,
+                                            csrfToken: req.csrfToken()
+                                        });
+        
+        
+                                    }).catch(function(err){
+                                        error.defaultError(req, res, webname, err);
+                                    });
+        
+                                }).catch(function(err) {
+                                    error.defaultError(req, res, webname, err);
+                                });
+                            }
+        
                         }).catch(function(err) {
                             error.defaultError(req, res, webname, err);
                         });

@@ -64,9 +64,11 @@ exports.processBookingPayment = function(activityId, userId, cardId){
 
         // Get Activity details
         db.getActivityObj(activityId).then(function(activityObj){
+            db.getBookedCapacity(activityId).then(function(bookedCapacity) {
 
-            // Get user Details
-            db.getUserDetails(userId).then(function(userObj){
+                if (bookedCapacity.capacity >= activityObj.capacity) {
+                    return reject("This activity is fully booked");
+                }
 
                 // Generate BookingActivity
                 module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId){
@@ -79,22 +81,20 @@ exports.processBookingPayment = function(activityId, userId, cardId){
 
                     // Payment failure
                     }).catch(function(err){
-
                         reject(err);
                     });
 
                 // Booking Failure
                 }).catch(function(err){
-
                     reject(err);
                 });
 
-            // Activity error
-            }).catch(function(err){
-
+            // Booked Capacity error
+            }).catch(function(err) {
                 reject(err);
             });
-                                       
+            
+        // Activity Error
         }).catch(function(err){
 
             reject(err);

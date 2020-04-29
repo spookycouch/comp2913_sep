@@ -88,10 +88,7 @@ const calculatePrice = async function(item){
                 return -1;
             
             }else{
-
                 let activity = filter[0];
-                console.log("result");
-                console.log(activity);
                 amount = activity.cost;
             }
         }
@@ -111,11 +108,8 @@ const calculatePrice = async function(item){
 */
 router.post("/pay", async function(req, res){
 
-    console.log(req.body);
-
     let {item, cardId} = req.body;
-    console.log("item", item);
-    console.log("card id ", cardId);
+
     var price = await calculatePrice(item);
 
     if(price < 1){
@@ -148,7 +142,6 @@ router.post("/pay", async function(req, res){
             let intent;
             if (paymentMethodId) {
                 
-                console.log("START");
                 // Create new PaymentIntent with a PaymentMethod ID from the client.
                 intent = await stripe.paymentIntents.create({
                     amount: price,
@@ -164,7 +157,7 @@ router.post("/pay", async function(req, res){
                     receipt_email: "sc18sjb@leeds.ac.uk"
                 });
 
-                console.log(intent);
+                // console.log(intent);
             
             // After create, if the PaymentIntent's status is succeeded, fulfill the order.
             } 
@@ -172,6 +165,8 @@ router.post("/pay", async function(req, res){
             // Render response
             var result = generateResponse(userId, item, price, cardId, intent);
     
+            console.log(result);
+
             // Return result
             res.send(result);
             
@@ -236,7 +231,9 @@ const generateResponse = function(userId, item, price, cardId, intent){
                 // Error catch
                 }).catch(function(err){
 
-                    error.defaultError(res, req, webname, err);
+                    console.log("there is an error " + err);
+
+                    return {status: false, body: err}
                 });
             }
 

@@ -365,12 +365,12 @@ INSERT INTO Sport(name, description) VALUES ('Gym Access', 'Allows you to use th
 
 
 INSERT INTO Lecturer(full_name, email, phone) VALUES ('John Fish', 'iswimalot@gmail.com', '+44 1234567890');
-INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-03-23 15:30:10');
-INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-03-25');
-INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 2, 2, '2020-03-27');
-INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-03-24 12:30:05');
-INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-03-26 10:00:00');
-INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-03-24');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-04-29 15:30:10');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility, start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-04-29');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 2, 2, '2020-04-29');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-04-30 12:30:05');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-05-01 10:00:00');
+INSERT INTO Activity (name, description, cost, duration, id_sport, id_facility,  start_time) VALUES ('Swimming for funsies', 'lets all go swimming, for fun!', 15, 60, 1, 1, '2020-05-01');
 INSERT INTO Lecturer_Activity (id_lecturer, id_activity) VALUES (1, 1);
 
 -- Creating a membership
