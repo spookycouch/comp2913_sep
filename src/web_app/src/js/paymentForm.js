@@ -101,9 +101,6 @@ function sendPayment(){
     return result.json();
   }).then(function(response) {
 
-    console.log(response);
-    return false;
-
     if (response.error) {
       showErrorPayment(response.error);
 

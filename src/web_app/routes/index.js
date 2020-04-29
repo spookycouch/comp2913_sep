@@ -166,22 +166,36 @@ router.get('/facilities/discover', csrf, function(req, res) {
 
     user.facilities_discover(facilityId).then(function(results) {
 
-        user.facilities_timetable(facilityId, currentDate).then(function(timetable) {
-            res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
-            {
-                facility: results[0],
-                images: results[1],
-                title: webname + "| Facilities",
-                session: req.session,
-                csrfToken: req.csrfToken(),
-                week: week,
-                today: today,
-                timetable: timetable
+        if (results[0].length < 1) 
+
+            // Throw 404 if no facility under id 
+            res.status(404).render(path.join(__dirname + '/../views/pages/error-404.ejs'), {
+                title: "Page not found",
+                session: req.session
             });
-        }).catch(function(err) {
-            
-            error.defaultError(req, res, webname, err);
-        });
+
+        else {
+            user.facilities_timetable(facilityId, currentDate).then(function(timetable) {
+                res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
+                {
+                    facility: results[0],
+                    images: results[1],
+                    title: webname + "| Facilities",
+                    session: req.session,
+                    csrfToken: req.csrfToken(),
+                    week: week,
+                    today: today,
+                    timetable: timetable
+                });
+
+            // Error getting timetable activities
+            }).catch(function(err) {
+                
+                error.defaultError(req, res, webname, err);
+            });
+        }
+
+    // Error getting facility details + images
     }).catch(function(err){
         
         error.defaultError(req, res, webname, err);
