@@ -96,6 +96,12 @@
         <option value="<%- pricing[i].id %>"><%- pricing[i].name %>  £<%- pricing[i].amount %>, Saving £<%- pricing[i].savings %></option>
       <% } %>
     </select>
+  <% } else { %>
+    <select name="sport" class="membership__sport">
+      <% for (var i = 0; i < pricing.length; i++) { %>
+        <option value="<%- pricing[i].id %>">Sports Pass</option>
+      <% } %>    
+    </select>
   <% } %>
 
   <div class="account__section account__section--full-width account__overview">

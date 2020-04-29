@@ -884,7 +884,7 @@ exports.getUserMemberships = function(id) {
 
             query = SqlString.format(
         
-                'SELECT Membership.id, Sport.name as sportName, Membership.start_date, Pricing.type, Pricing.amount FROM Membership INNER JOIN Pricing ON Membership.id_pricing = Pricing.id INNER JOIN Sport ON Sport.id = Pricing.id_sport WHERE id_user = ?',
+                'SELECT Membership.id, Sport.name as sportName, Membership.start_date, Pricing.type, Pricing.amount, Pricing.id_sport FROM Membership INNER JOIN Pricing ON Membership.id_pricing = Pricing.id INNER JOIN Sport ON Sport.id = Pricing.id_sport WHERE id_user = ?',
                     [id]
             );
 
@@ -1112,7 +1112,7 @@ exports.getUserBookings = function(id) {
 
             query = SqlString.format(
         
-                'SELECT BookedActivity.id, Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.name as facilityName, Sport.name as sportName, Payment.purchase_date as purchaseDate FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Facility ON Activity.id_facility = Facility.id INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC;',
+                'SELECT BookedActivity.id, Activity.start_time, Activity.duration, Payment.status AS bookingStatus, Facility.id AS facilityId, Facility.name as facilityName, Sport.name as sportName, Payment.purchase_date as purchaseDate, Payment.amount as amount FROM Payment INNER JOIN BookedActivity ON BookedActivity.id = Payment.id_booked_activity INNER JOIN Activity ON Activity.id = BookedActivity.id_activity INNER JOIN Facility ON Activity.id_facility = Facility.id INNER JOIN Sport ON Activity.id_sport = Sport.id WHERE Payment.id_user = ? ORDER BY Activity.start_time ASC;',
                     [id]
             );
 

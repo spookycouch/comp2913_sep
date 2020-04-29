@@ -79,15 +79,27 @@
                                         <%- memberships[i].validity %> days
                                     </div>
 
-                                    <div class="field__field">
-                                        <% if(!memberships[i].expired) { %>
-                                            <img src="/img/icons/gym.png" />
-                                        <% } else { %>
-                                            <img src="/img/icons/gym-white.png" />
-                                        <% } %>
-                                        <h3>Sport:</h3>
-                                        <%- memberships[i].sportName %>
-                                    </div>
+                                    <% if (memberships[i].type < 3) { %>
+                                        <div class="field__field">
+                                            <% if(!memberships[i].expired) { %>
+                                                <img src="/img/icons/gym.png" />
+                                            <% } else { %>
+                                                <img src="/img/icons/gym-white.png" />
+                                            <% } %>
+                                            <h3>Sport:</h3>
+                                            <%- memberships[i].sportName %>
+                                        </div>
+                                    <% } else { %>
+                                        <div class="field__field">
+                                            <% if(!memberships[i].expired) { %>
+                                                <img src="/img/icons/gym.png" />
+                                            <% } else { %>
+                                                <img src="/img/icons/gym-white.png" />
+                                            <% } %>
+                                            <h3>Sport:</h3>
+                                            Sports Pass (all sports)
+                                        </div>
+                                    <% } %>
 
                                     <div class="field__field">
                                         <% if(!memberships[i].expired) { %>
@@ -95,7 +107,7 @@
                                         <% } else { %>
                                             <img src="/img/account/discount.png" />
                                         <% } %>
-                                        <h3>Amount:</h3>
+                                        <h3>Amount Paid:</h3>
                                         £<%- memberships[i].amount %>
                                     </div>
                                 </div>

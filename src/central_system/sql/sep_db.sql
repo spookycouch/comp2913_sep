@@ -399,12 +399,9 @@ INSERT INTO Membership(id_user, id_pricing, start_date) VALUES (1, 2, '2007-01-0
 
 -- Payment simulation
 INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('0000', '000', '00/0000', '__CASH__', '');
--- INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('1234', '123', '01/2022', 'VISA', '');
--- INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('8765', '321', '02/2021', 'MasterCard', '');
+INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('0000', '000', '00/0000', '__FREE__', ''); -- free payments
 
 INSERT INTO Card_User(id_card, id_user) VALUES (1, 3); -- for now we add cash card to admin
--- INSERT INTO Card_User(id_card, id_user) VALUES (2, 1);
--- INSERT INTO Card_User(id_card, id_user) VALUES (3, 1);
 
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
 INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');

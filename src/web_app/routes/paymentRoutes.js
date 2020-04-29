@@ -11,6 +11,7 @@ var error = require('../modules/error');
 var report = require('../modules/report');
 var facility = require('../modules/facility');
 var employee = require('../modules/employee');
+var payment = require('../modules/payment');
 var busboy = require('busboy');
 var fs = require('fs');
 
@@ -34,42 +35,66 @@ router.get('/booking/:id*', function(req, res) {
         req.session.from = "/payment/" + req.url;
         res.redirect('/user/login');
     } else {
+
         user.getActivity(req.params['id']).then(function(activity) {
 
-            // User details
-            user.getDetails(req.session.userId).then(function(userDetails) {
+            payment.getBookingMembership(req.session.userId, activity).then(function(bookingFree) {
 
-                // Cards
-                user.getCards(req.session.userId).then(function(cards){
-                    var cardId = 0;
-                    if (cards.length > 0) cardId = cards[0].id;
+                console.log(bookingFree);
 
-                    // Render
-                    res.render(path.join(__dirname + '/../views/pages/payment/payment-booking.ejs'),
-                    {
-                        title: webname + "| Payment | Membership",
-                        session: req.session,
-                        activity: activity,
-                        pricing: activity.cost,
-                        user: userDetails,
-                        cards: cards,
-                        form: req.body,
-                        csrfToken: req.csrfToken()
+                // they have the correct membership so get the booking for free
+                if (bookingFree) { 
+
+                    payment.processBookingPaymentFree(activity.id, req.session.userId, 2).then(function(paymentId) {
+
+                        console.log("Booking id received, payment free: " + paymentId);
+                        res.redirect("/user/account/bookings");
+
+                    }).catch(function(err) {
+                        error.defaultError(req, res, webname, err);
+
                     });
 
+                // They dont have the correct membership so have to pay for the booking
+                } else {          
 
-                }).catch(function(err){
-                    console.log(err);
-                    error.defaultError(req, res, webname, err);
-                });   
+                    // User details
+                    user.getDetails(req.session.userId).then(function(userDetails) {
+
+                        // Cards
+                        user.getCards(req.session.userId).then(function(cards){
+                            var cardId = 0;
+                            if (cards.length > 0) cardId = cards[0].id;
+
+                            // Render
+                            res.render(path.join(__dirname + '/../views/pages/payment/payment-booking.ejs'),
+                            {
+                                title: webname + "| Payment | Membership",
+                                session: req.session,
+                                activity: activity,
+                                pricing: activity.cost,
+                                user: userDetails,
+                                cards: cards,
+                                form: req.body,
+                                csrfToken: req.csrfToken()
+                            });
+
+
+                        }).catch(function(err){
+                            error.defaultError(req, res, webname, err);
+                        });
+
+                    }).catch(function(err) {
+                        error.defaultError(req, res, webname, err);
+                    });
+                }
+
             }).catch(function(err) {
-                console.log(err);
                 error.defaultError(req, res, webname, err);
             });
 
         }).catch(function(err) {
-            console.log(err);
-            res.redirect('/home')
+            error.defaultError(req, res, webname, err);            
         });
     }
 });

@@ -102,6 +102,36 @@ exports.processBookingPayment = function(activityId, userId, cardId){
     });
 }
 
+
+exports.processBookingPaymentFree = function(activityId, userId) {
+    return new Promise(function(resolve, reject) {
+        db.getActivityObj(activityId).then(function(activityObj) {
+
+            module.exports.generateActivityBooking(activityObj.id).then(function(bookedActivityId) {
+                
+                // Generate payment // card 2 is free payments
+                module.exports.generateBookingPayment(bookedActivityId, 0, userId, 2).then(function(paymentId){
+
+                    // Successful payment
+                    resolve(paymentId);
+
+                // Payment failure
+                }).catch(function(err){
+
+                    reject(err);
+                });
+
+            }).catch(function(err) {
+                reject(err);
+            });
+     
+        }).catch(function(err) {
+            reject(err);
+        });
+    });
+}
+
+
 /*
  *  Function:   Generate Booking Activity Obj
  *  Input:      Activity {id}
@@ -163,5 +193,37 @@ exports.generateMembershipPayment = function(membershipId, cost, userId, cardId)
     });
 }
 
+
+
+exports.getBookingMembership = function(userId, activityObj) {
+    return new Promise(function(resolve, reject) {
+
+        user.getMemberships(userId).then(function(memberships) {
+
+            if (memberships.length > 0) {
+                for (var i = 0; i < memberships.length; i++) {
+                    if (!memberships[i].expired) {              // if the membership is not expired
+                        if (memberships[i].type == 3) {         // if they have a sports pass always return true
+                            
+                            resolve(true)
+                        
+                        } else if (memberships[i].type < 3) { 
+                            if (memberships[i].id_sport == activityObj.id_sport) { // if their membership is for the same sport, return true
+                                
+                                resolve(true);
+                            }
+                        }
+                    }
+                }
+            }   
+
+            resolve(false);
+
+        }).catch(function(err) {
+            reject(err);
+        })
+
+    });
+}
 
 
