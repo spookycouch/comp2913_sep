@@ -48,8 +48,12 @@
 
             <div class="content__half content__half--center">
                 <img class="half__qr half__act-img" src="/img/icons/trophy.png" />
-            </div>
+            </div>            
         </div>
+
+        <% if (locals.error.length > 0) { %>
+            <p id="full-erorr" class="modal__d-none modal__error"><%- error[0].message %></p>
+        <% } %>
 
         <div class="modal__close">
             <a href="###" id="book-activity" class="close__close hvr-sweep-to-right modal--close">
@@ -162,9 +166,17 @@
 
 
                             <% if (results[i].booked_capacity >= results[i].capacity) { %>
-                                <button type="button" disabled class="form-title__book">
-                                    <h3>Fully Booked</h3>
-                                </button>
+                                <% if(locals.error.length > 0 && locals.error[0].id == results[i].id){ %>
+                                    
+                                    <button type="button" disabled id="modal--open-auto" class="form-title__book">
+                                        <h3>Fully Booked</h3>
+                                    </button>
+                                <% } else { %>
+                                    <button type="button" disabled class="form-title__book">
+                                        <h3>Fully Booked</h3>
+                                    </button>
+                                <% } %>
+                                
                             <% } else { %>
                                 <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
                                     <h3>Book</h3>

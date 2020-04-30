@@ -97,9 +97,27 @@ const calculatePrice = async function(item, userId){
         console.log(e.message);
         return -1;
     }
-    
-    
 };
+
+
+const checkFullyBooked = async function(item) {
+    try {
+        activity = await user.getActivity(item.id);
+
+        bookedCapacity = await user.getActivityBookedCapacity(activity.id);
+
+        console.log(bookedCapacity, activity.capacity);
+
+        if (bookedCapacity.capacity >= activity.capacity)
+            return false;
+
+        return true;
+        
+    } catch(err) {
+        console.log(err.message);
+        return false;
+    }
+}
 
 
 /*
@@ -114,9 +132,19 @@ router.post("/pay", async function(req, res){
 
     var price = await calculatePrice(item, userId);
 
+    console.log(item.id);
+
     if(price < 1){
         //error occured
-        res.send({ error: "Error in price processing" });
+        return res.send({ error: "Error in price processing" });
+    }
+
+    if (item.type == activityPaymentPart) {
+        full = await checkFullyBooked(item);
+
+        if (!full) {
+            return res.send({ error: "Activity already fully booked" });
+        }
     }
 
     try {
@@ -126,11 +154,11 @@ router.post("/pay", async function(req, res){
 
         var filter = cards.filter(card => {
             return card.id == cardId
-            })
+            });
 
         if(filter.length < 1){
-            res.send({ error: "No such card in a database" });
             console.log("ERROR: Request with invalid cardId.");
+            return res.send({ error: "No such card in a database" });
         }else{
 
             var card = filter[0];

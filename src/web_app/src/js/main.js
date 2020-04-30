@@ -61,21 +61,6 @@ $(document).ready(function() {
     }
 
 
-    /*
-    *  Automatically open the modal and apply shake affects on errors
-    */
-    if ($('.modal--open-auto')[0]) {                                        // Check if an error exists 
-        errors = ['card_number', 'expire_date', 'cvv', 'type'];
-
-        $('.modal--modal').css('display', 'flex');                          // Show the modal
-
-        $.each(errors, function(key, value) {                               
-            if ($('#' + value + '-error')[0]) {                             // Find the error that exists
-                $('#' + value).addClass('wobble-horizontal');               // Add the shake effect
-            }
-        });
-    }
-
 
     /*
     *  Set the default icon of the icon picker
@@ -276,14 +261,34 @@ $(document).ready(function() {
     *  Set the content of the booking modal (for a new booking)
     */ 
     $(document).on('click', '.item__book--book-modal', function(e) {
+        $('#full-erorr').addClass('modal__d-none');
+        $('#book-activity').css('display', 'inline-block');
         $('#activity').text($(this).parent().parent().find('.activity-value').text());
         $('#start_time').text($(this).parent().parent().find('.start_time-value').attr('data_attr'));
         $('#duration').text($(this).parent().parent().find('.duration-value').text());
         $('#capacity').text($(this).parent().parent().find('.capacity-value').attr('data_attr'));
         $('#location').text($(this).parent().parent().find('.location-value').text());
 
-        $('#book-activity').attr('href', '/payment/booking/' + this.id); // TODO: add router route
+        $('#book-activity').attr('href', '/payment/booking/' + this.id);
     });
+
+
+    /*
+    *  Automatically open the modal and apply shake affects on errors
+    */
+    if ($('#modal--open-auto')[0]) {                                   // Check if an error exists 
+
+        $('#activity').text($('#modal--open-auto').parent().parent().find('.activity-value').text());
+        $('#start_time').text($('#modal--open-auto').parent().parent().find('.start_time-value').attr('data_attr'));
+        $('#duration').text($('#modal--open-auto').parent().parent().find('.duration-value').text());
+        $('#capacity').text($('#modal--open-auto').parent().parent().find('.capacity-value').attr('data_attr'));
+        $('#location').text($('#modal--open-auto').parent().parent().find('.location-value').text());
+        $('#full-erorr').removeClass('modal__d-none');
+        $('#book-activity').css('display', 'none');
+
+        $('.modal--modal').css('display', 'flex');                     // Show the modal
+
+    }
 
 
 

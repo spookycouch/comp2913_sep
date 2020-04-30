@@ -3897,6 +3897,15 @@ ul {
   overflow-y: auto;
 }
 
+.modal__error {
+  color: red;
+  text-align: center;
+}
+
+.modal__d-none {
+  display: none;
+}
+
 .modal__container {
   width: 50%;
   min-width: 500px;

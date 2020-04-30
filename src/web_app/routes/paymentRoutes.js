@@ -46,21 +46,17 @@ router.get('/booking/:id*', function(req, res) {
 
                 user.getActivityBookedCapacity(activityId).then(function(bookedCapacity) {
 
-                    if (bookedCapacity.capacity >= activity.capacity) {
+                    if (bookedCapacity.capacity >= activity.capacity)
+                        res.redirect('/activities?full=' + activity.id);
 
-                        // Show error herererere
-                        error.fullError(req, res, webname);
-
-                    } else {
+                    else {
                         payment.getBookingPrice(req.session.userId, activity).then(function(cost) {
 
-                            console.log(cost);
-
-                            activity.cost = cost
+                            activity.cost = cost;
 
                             // they have the correct membership so get the booking for free
                             if (activity.cost == 0) { 
-        
+
                                 payment.processBookingPaymentFree(activity.id, req.session.userId, 2).then(function(paymentId) {
         
                                     console.log("Booking id received, payment free: " + paymentId);
@@ -69,7 +65,7 @@ router.get('/booking/:id*', function(req, res) {
                                 }).catch(function(err) {
                                     error.defaultError(req, res, webname, err);
         
-                                });
+                                }); 
         
                             // They dont have the correct membership so have to pay for the booking
                             } else {          

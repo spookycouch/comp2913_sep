@@ -14,6 +14,15 @@
     color: $black;
     overflow-y: auto;
 
+    &__error {
+        color: $red;
+        text-align: center;
+    }
+
+    &__d-none {
+        display: none;
+    }
+
     &__container {
         width: 50%;
         min-width: 500px;
@@ -107,7 +116,7 @@
             justify-content: center;
         }
 
-        .content {
+        .content {    
             &__half {
                 width: 50%;
 

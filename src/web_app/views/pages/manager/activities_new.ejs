@@ -118,6 +118,21 @@
                                     <% } %>
                                 <% } %>
                             </div>
+
+
+                            <div class="update-form__group">
+                                <label class="update-form__label"><h3>Price</h3></label>
+                                <input id="cost" class="update-form__input" name="cost" type="text" placeholder="Price" value="<%- form.cost %>">
+
+                                <% if(locals.error){ %>
+                                    <% for (var i =0; i < error.length;  i++ ) { %>
+                                        <% if(error[i].path == 'cost'){ %>
+                                            <p id="cost-error" class="update-form__error"><%- error[i].message %></p>
+                                        <% } %>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                            
                             
                             <div class="update-form__group">
                                 <label class="update-form__label"><h3>Discount <small>(optional)</small></h3></label>
@@ -133,18 +148,6 @@
                                 <% } %>
                             </div>
                             
-                            <div class="update-form__group">
-                                <label class="update-form__label"><h3>Price</h3></label>
-                                <input id="cost" class="update-form__input" name="cost" type="text" placeholder="Price" value="<%- form.cost %>">
-
-                                <% if(locals.error){ %>
-                                    <% for (var i =0; i < error.length;  i++ ) { %>
-                                        <% if(error[i].path == 'cost'){ %>
-                                            <p id="cost-error" class="update-form__error"><%- error[i].message %></p>
-                                        <% } %>
-                                    <% } %>
-                                <% } %>
-                            </div>
                             
                             <div class="update-form__group update-form__group--col">
                                 <div class="update-form__group--row">

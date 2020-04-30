@@ -267,6 +267,15 @@ router.get('/activities', csrf, function(req, res) {
         filters['start_date'] = req.query.start_date;
     if (req.query.end_date)
         filters['end_date'] = req.query.end_date;
+        
+    errors = [];
+    if (req.query.full) { 
+        errors = [{
+            message: "Activity already fully booked!",
+            path: 'unsuccessful',
+            id: req.query.full
+        }];
+    }
 
 
     var week = new Array(); 
@@ -298,7 +307,8 @@ router.get('/activities', csrf, function(req, res) {
                         today: today,
                         timetable: timetable,
                         sports: sports,
-                        facilities: facilities
+                        facilities: facilities,
+                        error: errors
                     });
                 }).catch(function(err) {
                     
