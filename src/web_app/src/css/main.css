@@ -3902,7 +3902,7 @@ ul {
   text-align: center;
 }
 
-.modal__d-none {
+.modal__error--d-none {
   display: none;
 }
 
@@ -4092,13 +4092,19 @@ ul {
 
 @media only screen and (max-height: 600px) {
   .modal__content--shrink {
-    padding: 10px 20px;
+    padding: 5px 20px;
   }
   .modal__content .content__half .half__qr {
     width: 100px;
   }
   .modal__content .content__half .half__act-img {
     display: none;
+  }
+  .modal__close--shrink {
+    padding: 5px 20px;
+  }
+  #price {
+    font-size: 14px;
   }
 }
 

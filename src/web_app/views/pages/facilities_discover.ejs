@@ -43,6 +43,12 @@
                         <h3>Location:</h3>
                         <span id="location">UNDEFINED</span>
                     </div>
+
+                    <div class="field__field">
+                        <img src="/img/icons/pay.png" />
+                        <h3>Price:</h3>
+                        <span id="price">UNDEFINED</span>
+                    </div>
                 </div>  
             </div>
 
@@ -51,7 +57,11 @@
             </div>
         </div>
 
-        <div class="modal__close">
+        <% if (locals.error.length > 0) { %>
+            <p id="full-error"  data_attr="<%- error[0].id %>" class="modal__error modal__error--d-none modal--open-auto"><%- error[0].message %></p>
+        <% } %>
+
+        <div class="modal__close modal__close--shrink">
             <a href="###" id="book-activity" class="close__close hvr-sweep-to-right modal--close">
                 <h3>Proceeed to Payment</h3>
             </a>
@@ -143,6 +153,13 @@
                             <input type="hidden" class="capacity-value" data_attr="<%- timetable[i].booked_capacity %> / <%- timetable[i].capacity %>" />
                             <td class="row__item location-value"><%- timetable[i].facility_name %></td>
 
+                            <% if (timetable[i].discount == 0) { %>
+                                <% members = "Free" %>
+                            <% } else { %>
+                                <% members = "£" + (timetable[i].cost - timetable[i].discount) %>
+                            <% } %>
+                            <input type="hidden" class="price-value" value="<%- members %> for members,  £<%- timetable[i].cost %> for non-members" />
+
 
                             <% if (timetable[i].booked_capacity >= timetable[i].capacity) { %>
                                 <td class="row__item">
@@ -152,7 +169,7 @@
                                 </td>
                             <% } else { %>
                                 <td class="row__item">
-                                    <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
+                                    <div data_attr="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
                                         <h3>Book</h3>
                                     </div>
                                 </td>

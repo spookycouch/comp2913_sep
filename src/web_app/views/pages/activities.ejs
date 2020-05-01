@@ -43,6 +43,12 @@
                         <h3>Location:</h3>
                         <span id="location">UNDEFINED</span>
                     </div>
+
+                    <div class="field__field">
+                        <img src="/img/icons/pay.png" />
+                        <h3>Price:</h3>
+                        <span id="price">UNDEFINED</span>
+                    </div>
                 </div>  
             </div>
 
@@ -52,10 +58,10 @@
         </div>
 
         <% if (locals.error.length > 0) { %>
-            <p id="full-erorr" class="modal__d-none modal__error"><%- error[0].message %></p>
+            <p id="full-error"  data_attr="<%- error[0].id %>" class="modal__error modal__error--d-none modal--open-auto"><%- error[0].message %></p>
         <% } %>
 
-        <div class="modal__close">
+        <div class="modal__close modal__close--shrink">
             <a href="###" id="book-activity" class="close__close hvr-sweep-to-right modal--close">
                 <h3>Proceeed to Payment</h3>
             </a>
@@ -115,7 +121,7 @@
                                     <h3>Fully Booked</h3>
                                 </button>
                             <% } else { %>
-                                <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
+                                <div data_attr="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
                                     <h3>Book</h3>
                                 </div>
                             <% } %>
@@ -152,6 +158,20 @@
                                     <h3>Location:</h3>
                                     <span class="location-value"><%- results[i].facility_name %></span>
                                 </div>
+
+                                <% if (results[i].discount == 0) { %>
+                                    <% members = "Free" %>
+                                <% } else { %>
+                                    <% members = "£" + (results[i].cost - results[i].discount) %>
+                                <% } %>
+
+                                <% if (results[i].cost == 0) { %>
+                                    <% nonMembers = "Free" %>
+                                <% } else { %>
+                                    <% nonMembers = "£" + results[i].cost %>
+                                <% } %>
+
+                                <input type="hidden" class="price-value" value="<%- members %> for members, <%- nonMembers %> for non-members" />
                             </div>
                         </div>
 
@@ -166,19 +186,11 @@
 
 
                             <% if (results[i].booked_capacity >= results[i].capacity) { %>
-                                <% if(locals.error.length > 0 && locals.error[0].id == results[i].id){ %>
-                                    
-                                    <button type="button" disabled id="modal--open-auto" class="form-title__book">
-                                        <h3>Fully Booked</h3>
-                                    </button>
-                                <% } else { %>
-                                    <button type="button" disabled class="form-title__book">
-                                        <h3>Fully Booked</h3>
-                                    </button>
-                                <% } %>
-                                
-                            <% } else { %>
-                                <div id="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
+                                <button type="button" disabled class="form-title__book">
+                                    <h3>Fully Booked</h3>
+                                </button>
+                            <% } else { %>        
+                                <div data_attr="<%- results[i].id %>" class="form-title__book hvr-sweep-to-right item__book--book-modal modal--open">
                                     <h3>Book</h3>
                                 </div>
                             <% } %>
@@ -260,6 +272,20 @@
                             <input type="hidden" class="capacity-value" data_attr="<%- timetable[i].booked_capacity %> / <%- timetable[i].capacity %>" />
                             <td class="row__item location-value"><%- timetable[i].facility_name %></td>
 
+                            <% if (timetable[i].discount == 0) { %>
+                                <% members = "Free" %>
+                            <% } else { %>
+                                <% members = "£" + (timetable[i].cost - timetable[i].discount) %>
+                            <% } %>
+
+                            <% if (timetable[i].cost == 0) { %>
+                                <% nonMembers = "Free" %>
+                            <% } else { %>
+                                <% nonMembers = "£" + timetable[i].cost %>
+                            <% } %>
+                            <input type="hidden" class="price-value" value="<%- members %> for members, <%- nonMembers %> for non-members" />
+
+
                             <% if (timetable[i].booked_capacity >= timetable[i].capacity) { %>
                                 <td class="row__item">
                                     <button type="button" disabled class="item__book">
@@ -268,7 +294,7 @@
                                 </td>
                             <% } else { %>
                                 <td class="row__item">
-                                    <div id="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
+                                    <div data_attr="<%- timetable[i].id %>" class="item__book item__book--book-modal hvr-sweep-to-right modal--open">
                                         <h3>Book</h3>
                                     </div>
                                 </td>

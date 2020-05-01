@@ -12,6 +12,7 @@ var report = require('../modules/report');
 var facility = require('../modules/facility');
 var employee = require('../modules/employee');
 var payment = require('../modules/payment');
+const url = require('url');
 var busboy = require('busboy');
 var fs = require('fs');
 
@@ -35,21 +36,43 @@ router.get('/booking/:id*', function(req, res) {
     activityId = req.params['id'];
 
     if (req.session.userId == undefined) {
-        req.session.from = "/payment/" + req.url;
+        req.session.from = "/payment" + req.url;
         res.redirect('/user/login');
     } else {
         if (req.session.userType > 2) { // Managers shouldnt be able to book things
-            res.redirect('/home');
-        } else {
+            // res.redirect('/activities?admin=' + activityId);
 
+            back = req.header('Referer') || '/';
+            attr = url.parse(back, true).query;
+            back = url.parse(back, true).pathname;
+            connective = "?";
+
+            if (attr.id) {
+                back += "?id=" + attr.id;
+                connective = "&";
+            }
+            
+            res.redirect(back + connective + "admin=" + activityId);
+
+        } else {
             user.getActivity(activityId).then(function(activity) {
 
                 user.getActivityBookedCapacity(activityId).then(function(bookedCapacity) {
 
-                    if (bookedCapacity.capacity >= activity.capacity)
-                        res.redirect('/activities?full=' + activity.id);
+                    if (bookedCapacity.capacity >= activity.capacity) {
+                        back = req.header('Referer') || '/';
+                        attr = url.parse(back, true).query;
+                        back = url.parse(back, true).pathname;
+                        connective = "?";
+            
+                        if (attr.id) {
+                            back += "?id=" + attr.id;
+                            connective = "&";
+                        }
+                        
+                        res.redirect(back + connective + "full=" + activityId);
 
-                    else {
+                    } else {
                         payment.getBookingPrice(req.session.userId, activity).then(function(cost) {
 
                             activity.cost = cost;
@@ -128,7 +151,7 @@ router.get('/membership/:id*', function(req, res) {
     // If user not logged in -> store url intent -> redirect login
     if (req.session.userId == undefined) {
         
-        req.session.from = "/payment/" + req.url;
+        req.session.from = "/payment" + req.url;
         res.redirect('/user/login');
 
     // Else render payment page

@@ -479,8 +479,24 @@ router.post('/update/payment', function(req, res) {
         res.end(JSON.stringify({
             error: err
         }));
+    });
+});
+
+
+router.post('/get/activity', function(req, res) {
+    user.getActivity(req.body.activityId).then(function(activity) {
+
+        res.end(JSON.stringify({
+            results: activity
+        }));
+
+    }).catch(function(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
     })
-})
+
+});
 
 /*
  *  Function:   Export module functions

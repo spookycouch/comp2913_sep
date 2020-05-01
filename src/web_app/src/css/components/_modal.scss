@@ -17,10 +17,10 @@
     &__error {
         color: $red;
         text-align: center;
-    }
 
-    &__d-none {
-        display: none;
+        &--d-none {
+            display: none;
+        }
     }
 
     &__container {
@@ -217,7 +217,7 @@
     .modal {
         &__content {
             &--shrink {
-                padding: 10px 20px;
+                padding: 5px 20px;
             }
 
             .content {
@@ -234,5 +234,15 @@
                 }
             }
         }
+
+        &__close {
+            &--shrink {
+                padding: 5px 20px;
+            }
+        }
+    }
+
+    #price {
+        font-size: 14px;
     }
 }

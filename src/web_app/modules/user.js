@@ -260,7 +260,7 @@ exports.getMemberships = function(id){
                 var now = moment();
 
                 let date = mysql_date.getTime();
-                dateStr = moment(date).format('DD/MM/YYYY hh:mm');
+                dateStr = moment(date).format('DD/MM/YYYY HH:mm');
                 
                 // Validity check
                 memberships[i].start_date = dateStr;
@@ -332,13 +332,10 @@ exports.getBookings = function(id){
             for(var i = 0; i < result.length; i++){
 
                 // Formatting date
-                var mysql_date = result[i].start_time;
-
-                let date = mysql_date.getTime();
-                date = moment(date).format('DD/MM/YYYY hh:mm');
-                
+                let date = result[i].start_time.getTime();
+                date = moment(date).format('DD/MM/YYYY HH:mm:ss');
                 result[i].start_time = date;
-                
+
                 // Set QR code
                 await QRCode.toDataURL(result[i].id.toString()).then(function(url,err) {
                     result[i].qr = url;
@@ -458,6 +455,10 @@ exports.deleteActivity = function(activityId) {
 exports.getActivity = function(activityId) {
     return new Promise(function(resolve, reject) {
         db.getActivityObj(activityId).then(function(result) {
+
+            let date = result.start_time.getTime();
+            date = moment(date).format('DD/MM/YYYY HH:mm:ss');
+            result.start_time = date;
 
             resolve(result);
 

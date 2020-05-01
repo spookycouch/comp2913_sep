@@ -261,33 +261,58 @@ $(document).ready(function() {
     *  Set the content of the booking modal (for a new booking)
     */ 
     $(document).on('click', '.item__book--book-modal', function(e) {
-        $('#full-erorr').addClass('modal__d-none');
-        $('#book-activity').css('display', 'inline-block');
-        $('#activity').text($(this).parent().parent().find('.activity-value').text());
-        $('#start_time').text($(this).parent().parent().find('.start_time-value').attr('data_attr'));
-        $('#duration').text($(this).parent().parent().find('.duration-value').text());
-        $('#capacity').text($(this).parent().parent().find('.capacity-value').attr('data_attr'));
-        $('#location').text($(this).parent().parent().find('.location-value').text());
+        var target = $(this).parent().parent();
 
-        $('#book-activity').attr('href', '/payment/booking/' + this.id);
+        updateBookingModal(
+            target.find('.activity-value').text(),
+            target.find('.start_time-value').attr('data_attr'),
+            target.find('.duration-value').text(),
+            target.find('.capacity-value').attr('data_attr'),
+            target.find('.location-value').text(),
+            target.find('.price-value').val(),
+            $(this).attr('data_attr')
+        );
     });
 
 
-    /*
-    *  Automatically open the modal and apply shake affects on errors
-    */
-    if ($('#modal--open-auto')[0]) {                                   // Check if an error exists 
+    if ($('.modal--open-auto')[0]) {
+        var id = $('#full-error').attr('data_attr');
+        
+        $.ajax({
+            url: '/ajax/get/activity',
+            type: 'POST',
+            data: {
+                'activityId': id
+            },
+            datatype: 'json',
+            success: function(data) {
+                data = JSON.parse(data);
+                if (!data.error) {
 
-        $('#activity').text($('#modal--open-auto').parent().parent().find('.activity-value').text());
-        $('#start_time').text($('#modal--open-auto').parent().parent().find('.start_time-value').attr('data_attr'));
-        $('#duration').text($('#modal--open-auto').parent().parent().find('.duration-value').text());
-        $('#capacity').text($('#modal--open-auto').parent().parent().find('.capacity-value').attr('data_attr'));
-        $('#location').text($('#modal--open-auto').parent().parent().find('.location-value').text());
-        $('#full-erorr').removeClass('modal__d-none');
-        $('#book-activity').css('display', 'none');
+                    console.log(data.results);
 
-        $('.modal--modal').css('display', 'flex');                     // Show the modal
+                    members = data.results.discount == 0 ? "Free" : "£" + (data.results.cost - data.results.discount);
+                    nonMembers = data.results.cost == 0 ? "Free" : "£" + data.results.cost;
+                    
+                    updateBookingModal(
+                        data.results.name_sport,
+                        data.results.start_time,
+                        data.results.duration + " Minutes",
+                        data.results.booked_capacity + " / " + data.results.capacity,
+                        data.results.facility_name,
+                        members + " for members, " + nonMembers + " for non-members",
+                        "bob"
+                    );
 
+                    $('#full-error').removeClass('modal__error--d-none');          // Show the error
+                    $('#book-activity').css('display', 'none');                    // hide the booking option
+                    $('.modal--modal').css('display', 'flex');                     // Show the modal
+                }
+            },
+            error: function(error) {
+                alert(error);
+            }
+        });
     }
 
 
@@ -670,6 +695,22 @@ $(document).ready(function() {
 });
 
 
+function updateBookingModal(activity, start_time, duration, capacity, location, price, id) {
+    $('#full-error').addClass('modal__error--d-none'); // hide any errors that could have been shown
+    $('#book-activity').css('display', 'inline-block');
+
+    $('#activity').text(activity);
+    $('#start_time').text(start_time);
+    $('#duration').text(duration);
+    $('#capacity').text(capacity);
+    $('#location').text(location);
+    $('#price').text(price);
+
+    $('#book-activity').attr('href', '/payment/booking/' + id);
+}
+
+
+
 /*
     *  Function:   Combine the forms from the different pages of registration
     *  Input:      Form data from registration
@@ -868,10 +909,23 @@ function replaceOutput(className, data) {
             row += "<input type=\"hidden\" class=\"capacity-value\" data_attr=\"" + value.booked_capacity + " / " + value.capacity + "\" />";
             row += "<td class=\"row__item location-value\">" + value.facility_name + "</td>";
 
+            if (value.discount == 0) 
+                members = "Free";
+            else 
+                members = "£" + (value.cost - value.discount);
+
+            if (value.cost == 0) 
+                nonMembers = "Free"
+            else 
+                nonMembers = "£" + value.cost;
+
+
+            row += "<input type=\"hidden\" class=\"price-value\" value=\"" + members + " for members, " + nonMembers + " for non-members\" />";
+
             if (value.booked_capacity >= value.capacity) {
                 row += "<td class=\"row__item\"><button type=\"button\" disabled class=\"item__book\"><h3>Fully Booked</h3></button></td></tr>";
             } else {
-                row += "<td class=\"row__item\"><div id=\"" + value.id + "\" class=\"item__book item__book--book-modal hvr-sweep-to-right modal--open\"><h3>Book</h3></div></td></tr>";
+                row += "<td class=\"row__item\"><div data_attr=\"" + value.id + "\" class=\"item__book item__book--book-modal hvr-sweep-to-right modal--open\"><h3>Book</h3></div></td></tr>";
             }
             $newTable.append(row);
         });

@@ -451,11 +451,20 @@ router.post('/activities/new', function (req, res) {
 
                 console.log(req_body.discount, req_body.cost);
 
-                if (Number(req_body.discount) >= Number(req_body.cost)) {
-                    return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
-                        message: "Discount must be less than cost",
-                        path: 'discount'
-                    }]);
+                if (Number(req_body.cost) > 0) {
+                    if (Number(req_body.discount) >= Number(req_body.cost)) {
+                        return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
+                            message: "Discount must be less than cost",
+                            path: 'discount'
+                        }]);
+                    }
+                } else {
+                    if (Number(req_body.discount) > Number(req_body.cost)) {
+                        return error.newActivityErrorPage(req, res, webname, user, facility, req_body, [{
+                            message: "Discount must be less than cost",
+                            path: 'discount'
+                        }]);
+                    }
                 }
 
 

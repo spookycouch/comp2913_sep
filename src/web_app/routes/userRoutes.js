@@ -28,6 +28,7 @@ const webname = ' The Edgy ';
  *  Function:   Register Backend Query
 */
 router.post('/register', function(req, res) {
+    var nextPage = req.session.from;
 
     // Data validation
     try {
@@ -38,7 +39,7 @@ router.post('/register', function(req, res) {
         if(value.error != undefined)
             throw value.error.details;
 
-        console.log(req.body);
+        req.session.destroy();
 
         // Query
         user.registerUser(req.body).then(function(result){
@@ -48,8 +49,14 @@ router.post('/register', function(req, res) {
             // Success
             user.setUserSession(req, email).then(function(result){
 
-                // Redirect
-                res.redirect('/user/account');
+                // Success!
+                if (nextPage != undefined) {
+                    res.redirect(nextPage);
+                } else if (req.session.userType > 2) { // If they're a manager redirect to manager overview
+                    res.redirect('/manager/overview');
+                } else {
+                    res.redirect('/user/account');
+                }
 
             // Error
             }).catch(function(err){
@@ -81,7 +88,6 @@ router.post('/register', function(req, res) {
 */
 router.post('/login', function(req, res) {
     var nextPage = req.session.from;
-    req.session.destroy();
 
     try {
 
@@ -95,6 +101,8 @@ router.post('/login', function(req, res) {
         // Data
         let email = req.body.email;
         let password = req.body.password;
+
+        req.session.destroy();
 
         // Query
         user.loginUser(email, password).then(function(result){

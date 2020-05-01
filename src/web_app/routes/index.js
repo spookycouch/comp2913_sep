@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 const session = require('client-sessions');
 var facility = require('../modules/facility');
 var error = require('../modules/error');
+const url = require('url');
 
 
 var csrf = csurf({ cookie: true });
@@ -152,6 +153,7 @@ router.post('/facilities', csrf, function(req, res) {
 router.get('/facilities/discover', csrf, function(req, res) {
 
     var facilityId = parseInt(req.query.id);
+    var errors = [];
     var currentDate = new Date();
 
     var week = new Array(); 
@@ -163,6 +165,28 @@ router.get('/facilities/discover', csrf, function(req, res) {
    
     var currentDate = new Date();
     var today = (currentDate.getDay() + (currentDate.getDay() == 0 ? 6 : -1));
+
+    errors = [];
+
+    if (req.query.full) {
+        user.getActivity(req.query.full).then(function(fullActivity) {
+            if (fullActivity.booked_capacity >= fullActivity.capacity) errors = [{
+                    message: "Activity already fully booked!",
+                    path: 'unsuccessful',
+                    id: req.query.full
+                }];
+            
+        // Error getting activity, do nothing because it means incorrect params in url so we just dont show any error
+        }).catch(function(err) {
+            errors = [];
+        });
+    }
+
+    if (req.query.admin && req.session.userType == 3) errors = [{
+            message: "Admins cannot book activities",
+            path: 'unsuccessful',
+            id: req.query.admin
+        }];
 
     user.facilities_discover(facilityId).then(function(results) {
 
@@ -185,7 +209,8 @@ router.get('/facilities/discover', csrf, function(req, res) {
                     csrfToken: req.csrfToken(),
                     week: week,
                     today: today,
-                    timetable: timetable
+                    timetable: timetable,
+                    error: errors
                 });
 
             // Error getting timetable activities
@@ -202,8 +227,6 @@ router.get('/facilities/discover', csrf, function(req, res) {
     });
 
 });
-
-
 
 
 /*
@@ -227,6 +250,17 @@ router.get('/user/login', csrf, function(req, res) {
         res.redirect('/user/account');
 
     else {
+
+        from = req.header('Referer') || '/';
+
+        if (req.session.from != undefined) {
+            if (req.session.from.includes("membership") && url.parse(from, true).pathname != '/memberships') 
+                req.session.destroy();
+
+            else if (req.session.from.includes("booking") && url.parse(from, true).pathname != '/activities')
+                req.session.destroy();
+        }
+
         // Otherwise render login page
         res.render(path.join(__dirname + '/../views/pages/login.ejs'),
         {
@@ -268,15 +302,29 @@ router.get('/activities', csrf, function(req, res) {
     if (req.query.end_date)
         filters['end_date'] = req.query.end_date;
         
+
     errors = [];
-    if (req.query.full) { 
-        errors = [{
-            message: "Activity already fully booked!",
-            path: 'unsuccessful',
-            id: req.query.full
-        }];
+
+    if (req.query.full) {
+        user.getActivity(req.query.full).then(function(fullActivity) {
+            if (fullActivity.booked_capacity >= fullActivity.capacity) errors = [{
+                    message: "Activity already fully booked!",
+                    path: 'unsuccessful',
+                    id: req.query.full
+                }];
+            
+        // Error getting activity, do nothing because it means incorrect params in url so we just dont show any error
+        }).catch(function(err) {
+            errors = [];
+        });
     }
 
+    if (req.query.admin && req.session.userType == 3) errors = [{
+            message: "Admins cannot book activities",
+            path: 'unsuccessful',
+            id: req.query.admin
+        }];
+    
 
     var week = new Array(); 
     currentDate.setDate((currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() == 0 ? -6 : 1)));

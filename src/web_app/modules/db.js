@@ -1700,7 +1700,7 @@ exports.getFacilityTimetable = function(facilityId, day, month, year) {
             if (err) reject(err);
 
             query = SqlString.format(
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, (SELECT COUNT(*) FROM BookedActivity WHERE BookedActivity.id_activity = Activity.id) AS booked_capacity, Facility.name AS facility_name, Facility.capacity AS capacity, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE id_facility = ? AND DAY(start_time) = ? AND MONTH(start_time) = ? AND YEAR(start_time) = ? ORDER BY start_time;',
+                'SELECT Activity.id, Activity.name AS name_activity, Activity.cost AS cost, Activity.discount AS discount, Sport.name AS name_sport, (SELECT COUNT(*) FROM BookedActivity WHERE BookedActivity.id_activity = Activity.id) AS booked_capacity, Facility.name AS facility_name, Facility.capacity AS capacity, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE id_facility = ? AND DAY(start_time) = ? AND MONTH(start_time) = ? AND YEAR(start_time) = ? ORDER BY start_time;',
                 [facilityId, day, month, year]
             );
         
@@ -1733,7 +1733,7 @@ exports.getActivitiesTimetable = function(day, month, year) {
             if (err) reject(err);
 
             query = SqlString.format(
-                'SELECT Activity.id, Activity.name AS name_activity, Sport.name AS name_sport, (SELECT COUNT(*) FROM BookedActivity WHERE BookedActivity.id_activity = Activity.id) AS booked_capacity, Facility.name AS facility_name, Facility.capacity AS capacity, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE DAY(start_time) = ? AND MONTH(start_time) = ? AND YEAR(start_time) = ? ORDER BY start_time;',
+                'SELECT Activity.id, Activity.name AS name_activity, Activity.cost AS cost, Activity.discount AS discount, Sport.name AS name_sport, (SELECT COUNT(*) FROM BookedActivity WHERE BookedActivity.id_activity = Activity.id) AS booked_capacity, Facility.name AS facility_name, Facility.capacity AS capacity, start_time, duration, WEEKDAY(start_time) AS weekday FROM Activity INNER JOIN Sport on id_sport = Sport.id INNER JOIN Facility on id_facility = Facility.id WHERE DAY(start_time) = ? AND MONTH(start_time) = ? AND YEAR(start_time) = ? ORDER BY start_time;',
                 [day, month, year]
             );
 
@@ -1886,7 +1886,7 @@ exports.getActivityObj = function(id) {
 
             query = SqlString.format(
         
-                'SELECT Activity.*, Facility.capacity FROM Activity INNER JOIN Facility ON Facility.id = Activity.id_facility WHERE Activity.id = ?',
+                'SELECT Activity.*, Facility.capacity, Facility.name AS facility_name, (SELECT COUNT(*) FROM BookedActivity WHERE BookedActivity.id_activity = Activity.id) AS booked_capacity, Sport.name AS name_sport FROM Activity INNER JOIN Facility ON Facility.id = Activity.id_facility INNER JOIN Sport ON Sport.id = Activity.id_sport WHERE Activity.id = ?',
                 [id]
             );
         
