@@ -2497,3 +2497,77 @@ exports.getBookedCapacity = function(activityId) {
         });
     });
 }
+
+exports.getMembership = function(id) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT Membership.id, Card.number, start_date,Pricing.type,name,Payment.amount AS price FROM Membership INNER JOIN Pricing on id_pricing = Pricing.id INNER JOIN Sport on id_sport = Sport.id INNER JOIN Payment ON Membership.id = id_membership INNER JOIN Card on Card.id = id_card HAVING Membership.id = ?;',
+                    [id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                conn.end();
+
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.length > 0)
+                    resolve(results[0]);
+
+                else
+                    reject("Membership not found.");
+
+            });
+        });
+    });
+}
+
+exports.getBookedActivity = function(id) {
+
+    var conn = getConnection();
+
+    // Synching request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+            
+            // Error 
+            if (err) reject(err);
+
+            query = SqlString.format(
+        
+                'SELECT BookedActivity.id, amount AS price, Card.number AS Card, Activity.name AS name_activity, Sport.name as name_sport, start_time, duration FROM BookedActivity INNER JOIN Activity ON id_activity = Activity.id INNER JOIN Payment ON BookedActivity.id = id_booked_activity INNER JOIN Sport ON id_sport = Sport.id INNER JOIN Card on Card.id = id_card HAVING BookedActivity.id = ?;',
+                    [id]
+            );
+
+            // Query
+            conn.query(query, function (err, results, fields) {
+                conn.end();
+
+                // Error
+                if (err) return reject(err);
+
+                // Result
+                if (results.length > 0)
+                    resolve(results[0]);
+
+                else
+                    reject("User not found.");
+
+            });
+        });
+    });
+}

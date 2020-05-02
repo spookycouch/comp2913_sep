@@ -1,5 +1,82 @@
 var db = require('./db.js');
 var user = require('./user.js');
+var QRCode = require('qrcode');
+var nodemailer = require('nodemailer');
+var ejs = require('ejs');
+var path = require('path');
+
+
+const sendMembershipEmailConfirmation = async function(userId, pricingId, membershipId) {
+    var details = await db.getMembership(membershipId);
+    var id = 'M' + details.id.toString();
+    var qr = await QRCode.toDataURL('M' + details.id.toString());
+    
+    var name;
+    if (details.type == 1)
+        name =  '1 Month ' + details.name + ' membership';
+    else if (details.type == 2)
+        name = '1 Year ' + details.name + ' membership';
+    else if (details.type == 3)
+        name = '1 Year Sports Pass membership';
+
+    var description = 'Starting ' + details.start_date;
+    var price = details.price;
+    var card = details.number;
+
+    sendEmailConfirmation(userId, {
+        id : id,
+        qr: qr,
+        name: name,
+        description: description,
+        price: price,
+        card: card,
+    })
+};
+
+const sendActivityEmailConfirmatio = async function(userId, activityId, bookedActivityId){
+    var details = await db.getBookedActivity(membershipId);
+    var id = 'A' + details.id.toString();
+    var qr = await QRCode.toDataURL('A' + details.id.toString());
+
+    console.log(details);
+
+    // sendEmailConfirmation(userId, {
+    //     id : id,
+    //     qr: qr,
+    //     name: name,
+    //     description: description,
+    //     price: price,
+    //     card: card,
+    // })
+};
+
+const sendEmailConfirmation = async function(userId, payment_details) {
+    console.log('emailing');
+
+    // Set QR code
+    var user_details = await user.getDetails(userId);
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'leeds.comp2913.sep.17@gmail.com',
+            pass: 'edgyGym2001'
+        }
+    });
+
+    var html = await ejs.renderFile(path.join(__dirname + '/../views/email/payment-confirmation.ejs'),
+    {
+        details: payment_details
+    });
+
+    var info = await transporter.sendMail({
+        from: '"Edgy Gym" <leeds.comp2913.sep.17@gmail.com>',
+        to: 'sc18j3j@leeds.ac.uk',
+        subject: 'test',
+        html: html
+    });
+    console.log(info);
+};
 
 /*
  *  Function:   Pre-processing of Payment with check
@@ -22,8 +99,9 @@ exports.processMembershipPayment = function(pricingId, userId, cardId){
                     // Generate payment
                     module.exports.generateMembershipPayment(membershipId, pricingCost, userId, cardId).then(function(paymentId){
 
+                        sendMembershipEmailConfirmation(userId, pricingId, membershipId);
                         // Return successful payment id with redirect
-                        resolve(paymentId);
+                        resolve(paymentId); 
 
                     // Payment failure
                     }).catch(function(err){
@@ -239,6 +317,3 @@ exports.getBookingPrice = function(userId, activityObj) {
         });
     });
 }
-
-
-
