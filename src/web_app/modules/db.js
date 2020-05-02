@@ -2549,7 +2549,7 @@ exports.getBookedActivity = function(id) {
 
             query = SqlString.format(
         
-                'SELECT BookedActivity.id, amount AS price, Card.number AS Card, Activity.name AS name_activity, Sport.name as name_sport, start_time, duration FROM BookedActivity INNER JOIN Activity ON id_activity = Activity.id INNER JOIN Payment ON BookedActivity.id = id_booked_activity INNER JOIN Sport ON id_sport = Sport.id INNER JOIN Card on Card.id = id_card HAVING BookedActivity.id = ?;',
+                'SELECT BookedActivity.id, amount AS price, Card.number, Activity.name AS name_activity, Sport.name as name_sport, start_time, duration FROM BookedActivity INNER JOIN Activity ON id_activity = Activity.id INNER JOIN Payment ON BookedActivity.id = id_booked_activity INNER JOIN Sport ON id_sport = Sport.id INNER JOIN Card on Card.id = id_card HAVING BookedActivity.id = ?;',
                     [id]
             );
 

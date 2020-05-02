@@ -1,13 +1,14 @@
 <%- include('../partials/head') %>
 
     <body>
-        <img src="../../../img/icons/logo.png"/>
+        <img src="cid:logo"/>
         
 
         <% if (locals.details){ %>
-            <h1>Booking confirmed: <%=details.id%></h1>
-            <h2><%=details.price%> paid with card ending in <%=details.card%></h2>
+            <h1>Reference #<%=details.id%>: payment confirmed</h1>
+            <h2>Paid £<%=details.price%> with <%=details.card%></h2>
             <p><%=details.name%>. <%=details.description%></p>
+            <p>Validation QR code:</p>
             <image src="<%=details.qr%>">
         <% } %>
     </body>

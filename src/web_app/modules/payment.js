@@ -21,7 +21,12 @@ const sendMembershipEmailConfirmation = async function(userId, pricingId, member
 
     var description = 'Starting ' + details.start_date;
     var price = details.price;
-    var card = details.number;
+
+    var card;
+    if (details.number == '0000')
+        card = 'Edgy Gym membership'
+    else
+        var card = 'card ending in ' + details.number;
 
     sendEmailConfirmation(userId, {
         id : id,
@@ -33,21 +38,29 @@ const sendMembershipEmailConfirmation = async function(userId, pricingId, member
     })
 };
 
-const sendActivityEmailConfirmatio = async function(userId, activityId, bookedActivityId){
-    var details = await db.getBookedActivity(membershipId);
+const sendActivityEmailConfirmation = async function(userId, bookedActivityId){
+    var details = await db.getBookedActivity(bookedActivityId);
     var id = 'A' + details.id.toString();
     var qr = await QRCode.toDataURL('A' + details.id.toString());
 
-    console.log(details);
+    var name = details.name_activity;
+    var description = details.name_sport + ' activity, ' + details.duration + ' minutes from ' + details.start_time;
+    var price = details.price;
+    
+    var card;
+    if (details.number == '0000')
+        card = 'Edgy Gym membership'
+    else
+        var card = 'card ending in ' + details.number;
 
-    // sendEmailConfirmation(userId, {
-    //     id : id,
-    //     qr: qr,
-    //     name: name,
-    //     description: description,
-    //     price: price,
-    //     card: card,
-    // })
+    sendEmailConfirmation(userId, {
+        id : id,
+        qr: qr,
+        name: name,
+        description: description,
+        price: price,
+        card: card,
+    })
 };
 
 const sendEmailConfirmation = async function(userId, payment_details) {
@@ -71,9 +84,14 @@ const sendEmailConfirmation = async function(userId, payment_details) {
 
     var info = await transporter.sendMail({
         from: '"Edgy Gym" <leeds.comp2913.sep.17@gmail.com>',
-        to: 'sc18j3j@leeds.ac.uk',
-        subject: 'test',
-        html: html
+        to: user_details.email,
+        subject: payment_details.id + ' payment confirmation',
+        html: html,
+        attachments: [{
+            filename: 'logo.png',
+            path: path.join(__dirname + '/../src/img/icons/logo.png'),
+            cid: 'logo'
+        }]
     });
     console.log(info);
 };
@@ -156,6 +174,7 @@ exports.processBookingPayment = function(activityId, userId, cardId){
                         // Generate payment
                         module.exports.generateBookingPayment(bookedActivityId, cost, userId, cardId).then(function(paymentId){
 
+                            sendActivityEmailConfirmation(userId, bookedActivityId);
                             // Successful payment
                             resolve(paymentId);
 
@@ -197,6 +216,7 @@ exports.processBookingPaymentFree = function(activityId, userId) {
                 // Generate payment // card 2 is free payments
                 module.exports.generateBookingPayment(bookedActivityId, 0, userId, 2).then(function(paymentId){
 
+                    sendActivityEmailConfirmation(userId, bookedActivityId);
                     // Successful payment
                     resolve(paymentId);
 
