@@ -26,6 +26,8 @@ test_1:
     command: 'INSERT INTO Activity(name, description, discount, cost, start_time, duration, id_sport, id_facility) VALUES("name", "description", 0, 0, "2020-01-01 24:01:00", 2, 1, 1)'
   - result: False
     command: 'INSERT INTO Activity(name, description, discount, cost, start_time, duration, id_sport, id_facility) VALUES("name", "description", 0, 0, "2020-01-01 10:00:00", 2, 99, 1)'
+  - result: False
+    command: 'INSERT INTO Activity(name, description, discount, cost, start_time, duration, id_sport, id_facility) VALUES("name", "description", 0, 0, "2020-01-01 10:00:00", 2, 1, 99)'
 
   
 test_2:
@@ -44,19 +46,15 @@ test_2:
 test_3:
   # Normal data
   - result: True
-    command: 'INSERT INTO Card(number, cvv, expire_date, type) VALUES("1234 1234 1234 1234", 000, "01/20", "visa")'
+    command: 'INSERT INTO Card(stripe_token, number, cvv, expire_date, type) VALUES("test", "1234 1234 1234 1234", 000, "01/20", "visa")'
   # Extreme data
   - result: True
-    command: 'INSERT INTO Card(number, cvv, expire_date, type) VALUES("1234 1234 1234 1234 1", 999999999, "012020", "vvvvvvvvvvvvvvvvvisa")'
+    command: 'INSERT INTO Card(stripe_token, number, cvv, expire_date, type) VALUES("test", "1234 1234 1234 1234 1", 999999999, "012020", "vvvvvvvvvvvvvvvvvisa")'
   # Abnormal data
   - result: False
-    command: 'INSERT INTO Card(number, cvv, expire_date, type) VALUES("", 000, "01/20", "visa")'
+    command: 'INSERT INTO Card(stripe_token, number, cvv, expire_date, type) VALUES("test", "1234 1234 1234 1234", 000, , "visa")'
   - result: False
-    command: 'INSERT INTO Card(number, cvv, expire_date, type) VALUES("1234 1234 1234 1234", 000, "", "visa")'
-  - result: False
-    command: 'INSERT INTO Card(number, cvv, expire_date, type) VALUES("1234 1234 1234 1234", 000, "01/20", "")'
-  - result: False
-    command: 'INSERT INTO Card(number, expire_date, type) VALUES("1234 1234 1234 1234", "01/20", "visa")'
+    command: 'INSERT INTO Card(stripe_token, number, cvv, expire_date, type) VALUES("test", "1234 1234 1234 1234", "abc", "01/20", "")'
 
 test_4:
   # Normal data
