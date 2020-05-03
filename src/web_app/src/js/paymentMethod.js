@@ -1,13 +1,17 @@
 
 var membershipToggle = false; // Membership selected toggle
+var cardToggle = false;
 var paymentCount = 0;         // Payment current page
 var optionId = 0;
 
 
 $(document).ready(function() {
     //Display the default card
-    displayMembership($('.membership__sport').val());
-    
+
+    if ($('#refresh-membership-auto')[0]) {
+        displayMembership($('.membership__sport').val());
+    }    
+
 
     $('.membership__sport').on('change', function(e) {
         displayMembership($(this).val());
@@ -16,8 +20,6 @@ $(document).ready(function() {
 
     $('.payment__card').on('change', function(e) {
         displayCard($(this).val());
-        $('.total__payment').addClass('total__payment--d-none');
-        $('.total__pay').addClass('total__pay--d-none');
     });
 
 
@@ -33,9 +35,15 @@ $(document).ready(function() {
     });
 
 
-    $('#card-select').on('click', function(e) {
-        $('.total__payment').removeClass('total__payment--d-none');
-        $('.total__pay').removeClass('total__pay--d-none');
+    $('#card-select.details__card--selectable').on('click', function(e) {
+
+        cardToggle = !cardToggle;
+
+        if (cardToggle) {
+            enablePayment();
+        } else {
+            disablePayment();
+        }  
     });
 
 
@@ -46,7 +54,6 @@ $(document).ready(function() {
 
         paymentCount++;
         changePage(paymentCount, "next", 2);
-        window.history.pushState({option: optionId}, '', '?option=' + optionId);
 
         $('.total__content').removeClass('total__content--d-none');
         $('.total__total--default').addClass('total__total--d-none');
@@ -54,9 +61,20 @@ $(document).ready(function() {
     });
 
 
+    $('#membership-next').on('click', function(e) {
+        e.preventDefault();
+        window.history.pushState({option: optionId}, '', '?option=' + optionId);
+    })
+
+    $('#booking-next').on('click', function(e) {
+        e.preventDefault();
+        window.history.pushState({page: 2}, '', '?page=2');
+    });
+
 
     $('.edit__slide').on('click', function(e) {
         disableButton();
+        disablePayment();
         $('.total__content').addClass('total__content--d-none');
         $('.total__payment').addClass('total__payment--d-none');
         $('.total__total--default').removeClass('total__total--d-none');
@@ -77,7 +95,7 @@ function disableButton() {
     $('.inline__button--next').addClass('inline__button--d-none');
 }
 
-function enableButton(button) {
+function enableButton() {
     membershipToggle = true;
     $('.details__card').addClass('details__card--selected');
     $('.inline__button--disabled').addClass('inline__button--d-none');
@@ -85,11 +103,23 @@ function enableButton(button) {
 }
 
 
+function enablePayment() {
+    cardToggle = true;
+    $('.total__payment').removeClass('total__payment--d-none');
+    $('.total__pay').removeClass('total__pay--d-none');
+}
+
+function disablePayment() {
+    cardToggle = false;
+    $('.total__payment').addClass('total__payment--d-none');
+    $('.total__pay').addClass('total__pay--d-none');
+}
 
 
 function displayCard(cardId) {
 
     disableButton();
+    disablePayment();
 
     $.ajax({
         url: '/ajax/get/card',

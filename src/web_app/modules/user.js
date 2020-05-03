@@ -456,9 +456,13 @@ exports.getActivity = function(activityId) {
     return new Promise(function(resolve, reject) {
         db.getActivityObj(activityId).then(function(result) {
 
+            endTime = moment(result.start_time).add(result.duration, 'm').toDate();
+            result.end_time = moment(endTime.getTime()).format('DD/MM/YYYY HH:mm:ss');
+
             let date = result.start_time.getTime();
             date = moment(date).format('DD/MM/YYYY HH:mm:ss');
             result.start_time = date;
+
 
             resolve(result);
 

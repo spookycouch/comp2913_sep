@@ -144,7 +144,6 @@
                     }
 
                     &__inline {
-
                         text-align: right;
 
                         .inline {
@@ -225,6 +224,20 @@
                 }
 
                 .pay {
+                    &__submit {
+                        border: $border_thickness solid $white;
+                        display: inline-block;
+                        padding: $padding_border_block;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            &__cancel {
+                margin-top: 10px;
+                text-align: right;
+
+                .cancel {
                     &__submit {
                         border: $border_thickness solid $white;
                         display: inline-block;

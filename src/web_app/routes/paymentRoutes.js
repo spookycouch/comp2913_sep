@@ -34,6 +34,7 @@ const webname = ' The Edgy ';
 router.get('/booking/:id*', function(req, res) {
 
     activityId = req.params['id'];
+    page = 1;
 
     if (req.session.userId == undefined) {
         req.session.from = "/payment" + req.url;
@@ -55,6 +56,9 @@ router.get('/booking/:id*', function(req, res) {
             res.redirect(back + connective + "admin=" + activityId);
 
         } else {
+            if (req.query.page && Number(req.query.page) == 2)
+                page = req.query.page;
+
             user.getActivity(activityId).then(function(activity) {
 
                 user.getActivityBookedCapacity(activityId).then(function(bookedCapacity) {
@@ -75,6 +79,7 @@ router.get('/booking/:id*', function(req, res) {
                     } else {
                         payment.getBookingPrice(req.session.userId, activity).then(function(cost) {
 
+                            activity.original_cost = activity.cost;
                             activity.cost = cost;
 
                             // they have the correct membership so get the booking for free
@@ -101,6 +106,8 @@ router.get('/booking/:id*', function(req, res) {
                                         var cardId = 0;
                                         if (cards.length > 0) cardId = cards[0].id;
         
+                                        console.log(activity);
+
                                         // Render
                                         res.render(path.join(__dirname + '/../views/pages/payment/payment-booking.ejs'),
                                         {
@@ -111,7 +118,8 @@ router.get('/booking/:id*', function(req, res) {
                                             user: userDetails,
                                             cards: cards,
                                             form: req.body,
-                                            csrfToken: req.csrfToken()
+                                            csrfToken: req.csrfToken(),
+                                            page: page
                                         });
         
         
@@ -141,12 +149,56 @@ router.get('/booking/:id*', function(req, res) {
 });
 
 
+
+function renderMembership(req, res, type) {
+    facility.getPricingByType(type).then(function(pricing) {
+
+        // User details
+        user.getDetails(req.session.userId).then(function(userDetails) {
+
+            // Cards
+            user.getCards(req.session.userId).then(function(cards){
+                var cardId = 0;
+                if (cards.length > 0) cardId = cards[0].id;
+
+                // Render
+                res.render(path.join(__dirname + '/../views/pages/payment/payment-membership.ejs'),
+                {
+                    title: webname + "| Payment | Membership",
+                    session: req.session,
+                    user: userDetails,
+                    cards: cards,
+                    form: req.body,
+                    pricing: pricing,
+                    type: type,
+                    csrfToken: req.csrfToken(),
+                    option: option
+                });
+
+
+            }).catch(function(err){
+
+                error.defaultError(req, res, webname, err);
+            });   
+
+        }).catch(function(err) {
+            error.defaultError(req, res, webname, err);
+            
+        });
+    }).catch(function(err) {
+        error.defaultError(req, res, webname, err);
+        
+    });
+}
+
+
 /*
  *  Function:   Membership payment page
 */
 router.get('/membership/:id*', function(req, res) {
 
-    var type = req.params['id']
+    var type = req.params['id'];
+    option = 0;
 
     // If user not logged in -> store url intent -> redirect login
     if (req.session.userId == undefined) {
@@ -156,64 +208,25 @@ router.get('/membership/:id*', function(req, res) {
 
     // Else render payment page
     } else {
-
-        option = 0;
-
         if (req.query.option) {
             option = req.query.option;
 
             payment.getMembershipPrice(option).then(function(optionObj) {
-
                 if (optionObj.type != type) {
                     res.status(404).render(path.join(__dirname + '/../views/pages/error-404.ejs'), {
                         title: "Page not found",
                         session: req.session
                     });
+
+                } else {
+                    renderMembership(req, res, type);
                 }
-
             }).catch(function(err) {
                 error.defaultError(req, res, webname, err);
-            })
-        }
-
-        facility.getPricingByType(type).then(function(pricing) {
-
-            // User details
-            user.getDetails(req.session.userId).then(function(userDetails) {
-
-                // Cards
-                user.getCards(req.session.userId).then(function(cards){
-                    var cardId = 0;
-                    if (cards.length > 0) cardId = cards[0].id;
-
-                    // Render
-                    res.render(path.join(__dirname + '/../views/pages/payment/payment-membership.ejs'),
-                    {
-                        title: webname + "| Payment | Membership",
-                        session: req.session,
-                        user: userDetails,
-                        cards: cards,
-                        form: req.body,
-                        pricing: pricing,
-                        type: type,
-                        csrfToken: req.csrfToken(),
-                        option: option
-                    });
-
-
-                }).catch(function(err){
-
-                    error.defaultError(req, res, webname, err);
-                });   
-
-            }).catch(function(err) {
-                error.defaultError(req, res, webname, err);
-                
             });
-        }).catch(function(err) {
-            error.defaultError(req, res, webname, err);
-            
-        });
+        } else {
+            renderMembership(req, res, type);
+        }       
     }
 });
 

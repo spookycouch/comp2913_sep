@@ -1,5 +1,9 @@
 <%- include('../../partials/head') %>
 
+<% if (option > 0 ) { %>
+  <div id="refresh-membership-auto"></div>
+<% } %>
+
 <div class="modal modal--modal">
   <div class="modal__container">
     <div class="modal__header">
@@ -72,7 +76,6 @@
 </div>
 
 <div class="container container--full-height">
-
   <div class="page-title">
     <div class="page-title__header">
         <h2>New Membership</h2>
@@ -160,13 +163,13 @@
             </div>
 
             <div class="details__inline">
-                <div class="inline__button inline__button--next hvr-sweep-to-right inline__button--d-none">
-                  <h3>Next</h3>
-                </div>
+              <div class="inline__button inline__button--next hvr-sweep-to-right inline__button--d-none" id="membership-next">
+                <h3>Next</h3>
+              </div>
 
-                <button type="button" disabled class="inline__button inline__button--disabled">
-                  <h3>Next</h3>
-                </button>
+              <button type="button" disabled class="inline__button inline__button--disabled">
+                <h3>Next</h3>
+              </button>
             </div>
           </div>
         </div>
@@ -321,6 +324,12 @@
         <div class="pay__submit hvr-sweep-to-right modal--open-delete">
           <h3>Pay Now</h3>
         </div>
+      </div>
+
+      <div class="total__cancel">
+        <a href="/memberships" class="cancel__submit hvr-sweep-to-right">
+          <h3>Cancel Payment</h3>
+        </a>
       </div>
     </div>
   </div>
