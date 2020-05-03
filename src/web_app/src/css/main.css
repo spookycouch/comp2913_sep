@@ -4027,6 +4027,7 @@ ul {
   color: white;
   height: 100%;
   position: relative;
+  overflow-y: auto;
 }
 
 .payment__total .total__total {
@@ -4094,6 +4095,27 @@ ul {
   display: inline-block;
   padding: 5px 15px;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 950px) {
+  .payment__order {
+    width: 100%;
+  }
+  .payment__total {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .payment__half .half__container {
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .payment__order .order__details .details__card {
+    margin: 40px 0;
+  }
 }
 
 .modal {

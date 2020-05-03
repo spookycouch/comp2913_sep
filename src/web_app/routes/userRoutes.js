@@ -296,30 +296,37 @@ router.post('/account/update/details', function(req, res) {
                 if(value.error != undefined)
                     throw value.error.details;
 
-                user.checkEmailRegistered(req.body.email).then(function(email) {
+                user.getDetails(req.session.userId).then(function(userObj) {
+                    user.checkEmailRegistered(req.body.email).then(function(email) {
 
-                    if (email == true) throw [{
-                        message: 'Email already registered',
-                        path: 'email'
-                    }];
-
-                    user.updateDetails(req.body).then(function(result) {
-                        error.updateErrorPage(req, res, webname, user, [{
-                            message: 'Details Updated Successfully',
-                            path: 'success'
-                        }]);
+                        // Dont compare if it is the same email
+                        if (req.body.email != userObj.email) {
+                            if (email == true) throw [{
+                                message: 'Email already registered',
+                                path: 'email'
+                            }];
+                        }
+    
+                        user.updateDetails(req.body).then(function(result) {
+                            error.updateErrorPage(req, res, webname, user, [{
+                                message: 'Details Updated Successfully',
+                                path: 'success'
+                            }]);
+        
+                        }).catch(function(err) {
+                            error.updateErrorPage(req, res, webname, user, [{
+                                message: err,
+                                path: 'unsuccessful-details'
+                            }]);
+                        });
     
                     }).catch(function(err) {
-                        error.updateErrorPage(req, res, webname, user, [{
-                            message: err,
-                            path: 'unsuccessful-details'
-                        }]);
+                        error.updateErrorPage(req, res, webname, user, err);
                     });
 
                 }).catch(function(err) {
                     error.updateErrorPage(req, res, webname, user, err);
                 });
-
             } catch(err) {
                 error.updateErrorPage(req, res, webname, user, err);
             }

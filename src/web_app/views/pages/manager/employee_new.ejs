@@ -80,7 +80,7 @@
                     
                     <div class="update-form__group">
                         <label class="update-form__label"><h3>Email</h3></label>
-                        <input id="email" class="update-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%- form.email %>"/>
+                        <input id="email" class="update-form__input" name="email" type="text" placeholder="E-mail" value="<%- form.email %>"/>
                         <% if(locals.error){ %>
                             <% for (var i =0; i < error.length;  i++ ) { %>
                                 <% if(error[i].path == 'email'){ %>

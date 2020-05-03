@@ -172,6 +172,7 @@
         color: $white;
         height: 100%;
         position: relative;
+        overflow-y: auto;
 
         .total {
             &__total {
@@ -246,6 +247,48 @@
                     }
                 }
             }
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_primary) {
+    .payment {
+        
+
+        &__order {
+            width: 100%
+        }   
+
+        &__total {
+            width: 100%;
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_secondary) {
+    .payment {
+        &__half {
+            .half {
+                &__container {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $max_width_tertiary) {
+    .payment {
+        &__order {
+            .order {
+                &__details {
+                    .details {
+                        &__card {
+                            margin: 40px 0;
+                        }
+                    }
+                }
+            }           
         }
     }
 }
