@@ -69,7 +69,9 @@ function sendPayment(){
 
   var type = queryString[queryString.length -2];
   var id = queryString[queryString.length -1] ;
-  var cardId = window.location.href.split("card=")[1];
+
+  var cards = document.querySelector(".payment__card");
+  var cardId = cards.options[cards.selectedIndex].value;
 
   
   if (type == 'membership') {

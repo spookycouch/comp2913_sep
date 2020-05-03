@@ -191,12 +191,12 @@ exports.generateMembershipPayment = function(membershipId, cost, userId, cardId)
         
         db.generateMembershipPayment(membershipId, cost, userId, cardId).then(function(result){
 
-            resolve(result)
+            resolve(result);
 
         }).catch(function(err){
 
             reject(err);
-        })
+        });
     });
 }
 
@@ -236,6 +236,37 @@ exports.getBookingPrice = function(userId, activityObj) {
 
         }).catch(function(err) {
             reject(err);
+        });
+    });
+}
+
+
+exports.getMembershipPrice = function(pricingId) {
+    return new Promise(function(resolve, reject) {
+        db.getPricingDetails(pricingId).then(function(result) {
+
+            if (result.type == 2) {
+                db.getPricingByType(1).then(function(monthly) {
+
+                    for (var j = 0; j < monthly.length; j++) {
+                        if (monthly[j].id_sport == result.id_sport) {
+                            result.monthly = monthly[j].amount * 12;
+                            result.savings = ((monthly[j].amount * 12) - result.amount).toFixed(2);
+
+                        }
+                    }
+
+                    resolve(result);
+
+                }).catch(function(err) {
+                    reject(err);
+                });
+            } else {
+                resolve(result);
+            }
+
+        }).catch(function(err) {
+            reject(err);    
         });
     });
 }

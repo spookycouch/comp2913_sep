@@ -30,14 +30,14 @@
                         <% if(locals.error){ %>
                             <% for (var i =0; i < error.length;  i++ ) { %>
                                 <% if(error[i].path == 'email'){ %>
-                                    <input class="login-form__input login-form__input--error wobble-horizontal" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                                    <input class="login-form__input login-form__input--error wobble-horizontal" name="email" type="text" placeholder="E-mail" value="<%-form.email %>"/>
                                     <p class="login-form__error"><%- error[i].message %></p>
                                 <% }else{ %>
-                                    <input class="login-form__input " name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                                    <input class="login-form__input " name="email" type="text" placeholder="E-mail" value="<%-form.email %>"/>
                                 <% } %>
                             <% } %>
                         <% }else{ %>
-                            <input class="login-form__input " name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail" value="<%-form.email %>"/>
+                            <input class="login-form__input " name="email" type="text" placeholder="E-mail" value="<%-form.email %>"/>
                         <% }%>
                     </div>
                     
@@ -114,7 +114,7 @@
 
                         <div class="login-form__group">
                             <label class="login-form__label"><h3>Email</h3></label>
-                            <input id="email" class="login-form__input" name="email" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="E-mail"/>
+                            <input id="email" class="login-form__input" name="email" type="text" placeholder="E-mail"/>
                             <p id="email-error" class="login-form__error login-form__error--d-none"></p>
                         </div>
                         
@@ -222,4 +222,7 @@
 </div>
 
 
+<script type="text/javascript" src="/js/registration.js" defer></script>
+
 <%- include('../partials/foot') %>
+

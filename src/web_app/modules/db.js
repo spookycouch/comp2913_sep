@@ -51,7 +51,7 @@ exports.checkEmailRegistered = function(email) {
 
                 // Result
                 if (results.length > 0)
-                    resolve(results);
+                    resolve(true);
 
                 else
                     resolve(false);
@@ -2430,6 +2430,45 @@ exports.getPricingAmount = function(id) {
     });
 }
 
+
+
+exports.getPricingDetails = function(pricingId) {
+    
+    var conn = getConnection();
+
+    //Synching Request
+    return new Promise(function(resolve, reject) {
+        conn.connect(function(err) {
+
+            if (err) reject(err);
+
+            query = SqlString.format(
+
+                'SELECT Pricing.*, Sport.name, Sport.description FROM Pricing INNER JOIN Sport ON Sport.id = Pricing.id_sport WHERE Pricing.id = ?;',
+                [pricingId]
+            );
+
+            //Query
+            conn.query(query, function(err, results, fields) {
+
+                conn.end();
+
+                //Error
+                if (err) return reject(err);
+
+                if (results.length > 0) 
+                    resolve(results[0]);
+                
+                else
+                    reject("No pricing found");
+
+            });
+        });
+    });
+}
+
+
+
 /*
  *  Function:   Create Membership
  *  Input:      User {id}, Pricing {id}
@@ -2493,6 +2532,38 @@ exports.getBookedCapacity = function(activityId) {
                 if (err) return reject(err);
 
                 resolve(results[0]);
+            });
+        });
+    });
+}
+
+
+exports.getCardDetails = function(cardId) {
+
+    var conn = getConnection();
+
+    //Synching Request
+    return new Promise(function(resolve, reject) {
+
+        conn.connect(function(err) {
+
+            if (err) reject(err);
+
+            query = SqlString.format(
+                'SELECT * FROM Card WHERE Card.id = ?;',
+                [cardId]  
+            );
+
+            conn.query(query, function(err, results, fields) {
+
+                // Error
+                if (err) return reject(err);
+
+                if (results.length > 0)
+                    resolve(results[0]);
+
+                else 
+                    reject("No card exists in DB");
             });
         });
     });

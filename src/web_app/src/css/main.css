@@ -3877,6 +3877,213 @@ ul {
   cursor: pointer;
 }
 
+.payment {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  height: 100%;
+}
+
+.payment__half {
+  width: 50%;
+  padding: 40px;
+  color: #413E4B;
+}
+
+.payment__half .half__slide--d-none {
+  display: none;
+}
+
+.payment__half .half__container {
+  margin: 0 60px;
+}
+
+.payment__half .half__title {
+  padding: 20px 0;
+}
+
+.payment__order {
+  width: 65%;
+}
+
+.payment__order .order__current {
+  border-top: 2px solid #413E4B;
+}
+
+.payment__order .order__current .current__option {
+  padding: 15px 5px;
+  width: 100%;
+}
+
+.payment__order .order__current .current__option .option__edit {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.payment__order .order__select {
+  border-top: 2px solid #413E4B;
+}
+
+.payment__order .order__select .select__group {
+  margin: 15px 0;
+}
+
+.payment__order .order__select .select__label {
+  display: block;
+  padding: 5px;
+}
+
+.payment__order .order__select .select__select {
+  border: 2px solid #413E4B;
+  background-color: white;
+  padding: 5px 15px;
+  color: #413E4B;
+  width: 100%;
+  cursor: pointer;
+}
+
+.payment__order .order__details .details__card {
+  background-color: #00A984;
+  color: white;
+  margin: 40px;
+  padding: 20px;
+  display: block;
+}
+
+.payment__order .order__details .details__card--selected {
+  border: 2px solid #413E4B;
+}
+
+.payment__order .order__details .details__card--selectable {
+  cursor: pointer;
+}
+
+.payment__order .order__details .details__card--d-none {
+  display: none;
+}
+
+.payment__order .order__details .details__card .card__title {
+  border-bottom: 2px solid white;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.payment__order .order__details .details__card .card__title img {
+  width: 35px;
+  padding-right: 10px;
+}
+
+.payment__order .order__details .details__card .card__content {
+  margin-top: 20px;
+}
+
+.payment__order .order__details .details__card .card__content .content__content {
+  padding: 5px 0;
+}
+
+.payment__order .order__details .details__card .card__content .content__content .content__type {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.payment__order .order__details .details__card .card__content .content__content .content__type img {
+  width: 35px;
+  padding-right: 10px;
+}
+
+.payment__order .order__details .details__card .card__content .content__content .content__price .price__last {
+  padding-top: 10px;
+}
+
+.payment__order .order__details .details__inline {
+  text-align: right;
+}
+
+.payment__order .order__details .details__inline .inline__button {
+  border: 2px solid #413E4B;
+  display: inline-block;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.payment__order .order__details .details__inline .inline__button--d-none {
+  display: none;
+}
+
+.payment__total {
+  width: 35%;
+  background-color: #413E4B;
+  color: white;
+  height: 100%;
+  position: relative;
+}
+
+.payment__total .total__total {
+  padding: 20px 0 40px 0;
+  font-size: 23px;
+  border-bottom: 2px solid white;
+}
+
+.payment__total .total__total--d-none {
+  display: none;
+}
+
+.payment__total .total__content {
+  padding: 40px 0;
+  border-bottom: 2px solid white;
+}
+
+.payment__total .total__content--d-none {
+  display: none;
+}
+
+.payment__total .total__content .content__order {
+  border-bottom: 2px solid white;
+  padding: 10px 0;
+}
+
+.payment__total .total__content .content__order:first-child {
+  padding-top: 0;
+}
+
+.payment__total .total__content .content__order:last-child {
+  border: none;
+}
+
+.payment__total .total__payment {
+  padding: 40px 0;
+}
+
+.payment__total .total__payment--d-none {
+  display: none;
+}
+
+.payment__total .total__pay {
+  text-align: right;
+}
+
+.payment__total .total__pay--d-none {
+  display: none;
+}
+
+.payment__total .total__pay .pay__submit {
+  border: 2px solid white;
+  display: inline-block;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
 .modal {
   width: 100%;
   height: 100%;
@@ -4229,6 +4436,12 @@ h3 {
 .container {
   width: 100%;
   position: relative;
+}
+
+.container--center {
+  max-width: 60%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container--full-height {

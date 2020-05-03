@@ -551,6 +551,22 @@ exports.getCards = function(id){
     });
 }
 
+
+exports.getCard = function(cardId) {
+    return new Promise(function(resolve, reject){
+
+        db.getCardDetails(cardId).then(function(result){
+
+            resolve(result);
+
+        }).catch(function(err) {
+            reject(err);
+        })
+    });
+}
+
+
+
 /*
  *  Function:   Add new User Card
  *  Input:      User Id, Stripe card object

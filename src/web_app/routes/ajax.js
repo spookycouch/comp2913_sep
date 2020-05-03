@@ -10,6 +10,7 @@ const validation = require('../modules/validation');
 const report = require('../modules/report');
 const facility = require('../modules/facility');
 var employee = require('../modules/employee');
+var payment = require('../modules/payment');
 var moment = require('moment');
 
 
@@ -494,9 +495,45 @@ router.post('/get/activity', function(req, res) {
         res.end(JSON.stringify({
             error: err
         }));
-    })
-
+    });
 });
+
+
+router.post('/get/pricing', function(req, res) {
+    payment.getMembershipPrice(req.body.pricingId).then(function(price) {
+
+        res.send(JSON.stringify({
+            results: price
+        }));
+    }).catch(function(err) {
+    
+        console.log(err);
+
+        res.send(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+
+
+router.post('/get/card', function(req, res) {
+    console.log(req.body.cardId);
+
+    user.getCard(req.body.cardId).then(function(card) {
+
+        res.send(JSON.stringify({
+            results: card
+        }));
+
+    }).catch(function(err) {
+
+        res.send(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
 
 /*
  *  Function:   Export module functions

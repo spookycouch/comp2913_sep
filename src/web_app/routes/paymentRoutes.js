@@ -156,24 +156,27 @@ router.get('/membership/:id*', function(req, res) {
 
     // Else render payment page
     } else {
+
+        option = 0;
+
+        if (req.query.option) {
+            option = req.query.option;
+
+            payment.getMembershipPrice(option).then(function(optionObj) {
+
+                if (optionObj.type != type) {
+                    res.status(404).render(path.join(__dirname + '/../views/pages/error-404.ejs'), {
+                        title: "Page not found",
+                        session: req.session
+                    });
+                }
+
+            }).catch(function(err) {
+                error.defaultError(req, res, webname, err);
+            })
+        }
+
         facility.getPricingByType(type).then(function(pricing) {
-
-            if (type == 2) {
-                facility.getMonthlyPricing().then(function(monthly) {
-
-                    for(var i = 0; i < pricing.length; i++) {
-                        for (var j = 0; j < monthly.length; j++) {
-                            if (monthly[j].id_sport == pricing[i].id_sport) {
-                                pricing[i].savings = ((monthly[j].amount * 12) - pricing[i].amount).toFixed(2);
-
-                            }
-                        }
-                    }
-
-                }).catch(function(err) {
-                    error.defaultError(req, res, webname, err);
-                });
-            }
 
             // User details
             user.getDetails(req.session.userId).then(function(userDetails) {
@@ -193,7 +196,8 @@ router.get('/membership/:id*', function(req, res) {
                         form: req.body,
                         pricing: pricing,
                         type: type,
-                        csrfToken: req.csrfToken()
+                        csrfToken: req.csrfToken(),
+                        option: option
                     });
 
 
