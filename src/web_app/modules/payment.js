@@ -1,5 +1,100 @@
 var db = require('./db.js');
 var user = require('./user.js');
+var QRCode = require('qrcode');
+var nodemailer = require('nodemailer');
+var ejs = require('ejs');
+var path = require('path');
+
+
+const sendMembershipEmailConfirmation = async function(userId, pricingId, membershipId) {
+    var details = await db.getMembership(membershipId);
+    var id = 'M' + details.id.toString();
+    var qr = await QRCode.toDataURL('M' + details.id.toString());
+    
+    var name;
+    if (details.type == 1)
+        name =  '1 Month ' + details.name + ' membership';
+    else if (details.type == 2)
+        name = '1 Year ' + details.name + ' membership';
+    else if (details.type == 3)
+        name = '1 Year Sports Pass membership';
+
+    var description = 'Starting ' + details.start_date;
+    var price = details.price;
+
+    var card;
+    if (details.number == '0000')
+        card = 'Edgy Gym membership'
+    else
+        var card = 'card ending in ' + details.number;
+
+    sendEmailConfirmation(userId, {
+        id : id,
+        qr: qr,
+        name: name,
+        description: description,
+        price: price,
+        card: card,
+    })
+};
+
+const sendActivityEmailConfirmation = async function(userId, bookedActivityId){
+    var details = await db.getBookedActivity(bookedActivityId);
+    var id = 'A' + details.id.toString();
+    var qr = await QRCode.toDataURL('A' + details.id.toString());
+
+    var name = details.name_activity;
+    var description = details.name_sport + ' activity, ' + details.duration + ' minutes from ' + details.start_time;
+    var price = details.price;
+    
+    var card;
+    if (details.number == '0000')
+        card = 'Edgy Gym membership'
+    else
+        var card = 'card ending in ' + details.number;
+
+    sendEmailConfirmation(userId, {
+        id : id,
+        qr: qr,
+        name: name,
+        description: description,
+        price: price,
+        card: card,
+    })
+};
+
+const sendEmailConfirmation = async function(userId, payment_details) {
+    console.log('emailing');
+
+    // Set QR code
+    var user_details = await user.getDetails(userId);
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'leeds.comp2913.sep.17@gmail.com',
+            pass: 'edgyGym2001'
+        }
+    });
+
+    var html = await ejs.renderFile(path.join(__dirname + '/../views/email/payment-confirmation.ejs'),
+    {
+        details: payment_details
+    });
+
+    var info = await transporter.sendMail({
+        from: '"Edgy Gym" <leeds.comp2913.sep.17@gmail.com>',
+        to: user_details.email,
+        subject: payment_details.id + ' payment confirmation',
+        html: html,
+        attachments: [{
+            filename: 'logo.png',
+            path: path.join(__dirname + '/../src/img/icons/logo.png'),
+            cid: 'logo'
+        }]
+    });
+    console.log(info);
+};
 
 /*
  *  Function:   Pre-processing of Payment with check
@@ -22,8 +117,9 @@ exports.processMembershipPayment = function(pricingId, userId, cardId){
                     // Generate payment
                     module.exports.generateMembershipPayment(membershipId, pricingCost, userId, cardId).then(function(paymentId){
 
+                        sendMembershipEmailConfirmation(userId, pricingId, membershipId);
                         // Return successful payment id with redirect
-                        resolve(paymentId);
+                        resolve(paymentId); 
 
                     // Payment failure
                     }).catch(function(err){
@@ -78,6 +174,7 @@ exports.processBookingPayment = function(activityId, userId, cardId){
                         // Generate payment
                         module.exports.generateBookingPayment(bookedActivityId, cost, userId, cardId).then(function(paymentId){
 
+                            sendActivityEmailConfirmation(userId, bookedActivityId);
                             // Successful payment
                             resolve(paymentId);
 
@@ -119,6 +216,7 @@ exports.processBookingPaymentFree = function(activityId, userId) {
                 // Generate payment // card 2 is free payments
                 module.exports.generateBookingPayment(bookedActivityId, 0, userId, 2).then(function(paymentId){
 
+                    sendActivityEmailConfirmation(userId, bookedActivityId);
                     // Successful payment
                     resolve(paymentId);
 

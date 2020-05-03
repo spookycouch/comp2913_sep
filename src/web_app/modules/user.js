@@ -337,7 +337,7 @@ exports.getBookings = function(id){
                 result[i].start_time = date;
 
                 // Set QR code
-                await QRCode.toDataURL(result[i].id.toString()).then(function(url,err) {
+                await QRCode.toDataURL('A' + result[i].id.toString()).then(function(url,err) {
                     result[i].qr = url;
                 });
             }
