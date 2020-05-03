@@ -126,11 +126,10 @@
           </div>
 
           <div class="order__details">
-            <div class="details__card details__card--empty">
+            <div class="details__card details__card--empty" id="order-error">
               No Membership Selected
             </div>
 
-            
             <div class="details__card details__card--selectable details__card--d-none" id="order-select">
               <div class="card__title">
                 <img src="/img/account/membership.png" />
@@ -214,6 +213,10 @@
                 No Payment Methods Available
               </div>
             <% } else { %>
+
+              <div class="details__card details__card--d-none details__card--empty" id="card-error">
+                No Card Selected
+              </div>
 
               <div class="details__card details__card--selectable" id="card-select">
                 <div class="card__title">

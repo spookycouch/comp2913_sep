@@ -132,12 +132,15 @@ function displayCard(cardId) {
             data = JSON.parse(data);
 
             if (data.error) {
-                // do something when there is an erorr
-
+                $('#card-select.details__card--selectable').addClass('details__card--d-none');
+                $('#card-error.details__card--empty').removeClass('details__card--d-none');
                 console.log(data.error);
+
             } else {
                 console.log(data.results);
 
+                $('#card-select.details__card--selectable').removeClass('details__card--d-none');
+                $('#card-error.details__card--empty').addClass('details__card--d-none');
                 $('#card-type, #order-payment').text(data.results.type + " ending in " + data.results.number);
                 $('#card-expire').text(data.results.expire_date);
             }
@@ -165,8 +168,8 @@ function displayMembership(pricingId) {
             data = JSON.parse(data);
 
             if (data.error) {
-                $('.details__card--selectable').addClass('details__card--d-none');
-                $('.details__card--empty').removeClass('details__card--d-none');
+                $('#order-select.details__card--selectable').addClass('details__card--d-none');
+                $('#order-error.details__card--empty').removeClass('details__card--d-none');
 
                 console.log(data.error);
             } else {
@@ -183,8 +186,8 @@ function displayMembership(pricingId) {
 
 
 function updateMembershipDetails(data) {
-    $('.details__card--empty').addClass('details__card--d-none');
-    $('.details__card--selectable').removeClass('details__card--d-none');
+    $('#order-error.details__card--empty').addClass('details__card--d-none');
+    $('#order-select.details__card--selectable').removeClass('details__card--d-none');
 
     $price = $("<div></div>").attr({id: "membership-price", class: "content__price"});
 
@@ -209,12 +212,7 @@ function updateMembershipDetails(data) {
         $('#order-plan, #order-total').text("£" + data.amount + " p/y");
     }
 
-    $('#item-title').text(title);
-    $('#membership-type').text(title);
-    $('#order-type').text(title);
-
-
-
+    $('#item-title, #membership-type, #order-type').text(title);
     $('#membership-description').text(data.description);
     
     $price.append("<p class=\"price__last\">Option to renew automatically</p>");
