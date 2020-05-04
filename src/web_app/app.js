@@ -1,5 +1,5 @@
 // Port
-const hostname = '127.0.0.1';
+// const hostname = '127.0.0.1';
 const port = process.env.PORT || 3000; // use the provided heroku port, of if running locally use port 3000
 
 // Packages
@@ -52,6 +52,6 @@ app.get('*', function(req, res){
 });
 
 // Run the app
-app.listen(port, hostname, function() {
-    console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(port, function() {
+    console.log(`Server running at localhost:${port}`);
 });
