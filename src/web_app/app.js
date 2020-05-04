@@ -1,6 +1,6 @@
 // Port
 const hostname = '127.0.0.1';
-const port = 3000;
+const port = process.env.PORT || 3000; // use the provided heroku port, of if running locally use port 3000
 
 // Packages
 var express = require('express');

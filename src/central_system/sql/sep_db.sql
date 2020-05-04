@@ -403,34 +403,6 @@ INSERT INTO Card (number, cvv, expire_date, type, stripe_token) VALUES ('0000', 
 
 INSERT INTO Card_User(id_card, id_user) VALUES (1, 3); -- for now we add cash card to admin
 
-INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
-INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (1, '2020-01-01');
-
-INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (2, '2020-01-01');
-INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (2, '2020-01-01');
-
-INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (3, '2020-01-01');
-INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (4, '2020-01-01');
-INSERT INTO BookedActivity (id_activity, purchase_date) VALUES (5, '2020-01-01');
-
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 1, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 2, 2);
-
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 3, 2, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 3, 2, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 2, 1);
-
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 3, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-03', 1, 150, 2, 4, 1);
-
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 2, 2, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-04', 1, 150, 2, 2, 1);
-
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 3, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 4, 1);
--- INSERT INTO Payment (purchase_date, status, amount, id_card, id_booked_activity, id_user) VALUES ('2020-01-01', 1, 150, 2, 5, 1);
 
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-02-01', 2);
 INSERT INTO Log_User (id_user, time, type) VALUES (1, '2020-01-01', 2);
