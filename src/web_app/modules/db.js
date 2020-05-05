@@ -1,11 +1,20 @@
 var mysql = require('mysql');
 var SqlString = require('sqlstring');
 
+
+// IF RUNNING ON LOCALHOST PLEASE DONT REMOVE THESE, THEY ARE NEEDED FOR THE WEB SERVER
+// DO NOT COMMENT OUT *************
+// let host = "eu-cdbr-west-03.cleardb.net"; 
+// let db = "heroku_398af5fddeed461";        
+// let user = "b071c1cdfacc4b";
+// let psw = "c313e7e1";
+
+
 let host = "127.0.0.1"
 let db = "comp2913_sep"
 let user = "web_comp2913"
 let psw = ""
-let port = 3306
+
 
 
 

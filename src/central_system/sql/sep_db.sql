@@ -1,7 +1,14 @@
+
+-- Heroku DB --- DO NOT REMOVE PLEASE
+-- CREATE DATABASE heroku_398af5fddeed461;
+-- USE heroku_398af5fddeed461;
+
 CREATE DATABASE comp2913_sep;
 USE comp2913_sep;
 
 -- --------------------------------------------------------
+
+SET @@auto_increment_increment=1;
 
 --
 -- Definition of the table `Card`
@@ -108,7 +115,7 @@ CREATE TABLE `User` (
   `birth` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `stripe_token` varchar(200) DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Definition of the table `Pricing`
