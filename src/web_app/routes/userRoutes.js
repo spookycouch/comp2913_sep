@@ -748,7 +748,9 @@ router.post('/account/payment/cash', function(req, res) {
             if (value.error != undefined)
                 throw value.error.details;
 
+
             user.checkEmailRegistered(req.body.email).then(function(userBuying) {
+
                 if (userBuying == false) throw [{
                     message: "No user exists for such email",
                     path: "email"
@@ -768,7 +770,9 @@ router.post('/account/payment/cash', function(req, res) {
                             path: "activity_id"
                         }];
 
-                        employee.newCashPayment(userBuying[0], req.body, req.session.userId).then (function (result){
+                        employee.newCashPayment(req.body, req.session.userId).then (function (result){
+                            console.log("is it getting here??");
+
                             error.cashPaymentError(req, res, webname, user, facility, employee, [{
                                 message: "Cash Payment Booking created successfully",
                                 path: 'success',
@@ -776,6 +780,7 @@ router.post('/account/payment/cash', function(req, res) {
                             }]);
     
                         }).catch(function(err) {
+
                             error.cashPaymentError(req, res, webname, user, facility, employee, [{
                                 message: err,
                                 path: 'unsuccessful'
@@ -793,6 +798,7 @@ router.post('/account/payment/cash', function(req, res) {
                 });
 
             }).catch(function(err) {
+
                 error.cashPaymentError(req, res, webname, user, facility, employee, err);
             });
 

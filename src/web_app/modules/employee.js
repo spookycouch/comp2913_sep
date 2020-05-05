@@ -225,27 +225,34 @@ exports.getFacilityImages = function(facility_id) {
     });
 }
 
-exports.newCashPayment = function(userBuying, req_body, employee_id){
+exports.newCashPayment = function(req_body, employee_id){
 
     // Parameters
     let activity_id = req_body.activity_id;
     let amount = req_body.amount;
-    let user_id = userBuying.id;
+    let user_email = req_body.email;
+
 
     return new Promise(function(resolve, reject) {
 
-        db.createBooking(activity_id).then(function(result){
+        // get id by email
+        db.getUserIdType(user_email).then(function(userObj) {
+            db.createBooking(activity_id).then(function(result){
 
-            db.createPaymentCash(amount, result[1][0].id, user_id, employee_id).then(function(result) {
-
-                resolve(result);
+                db.createPaymentCash(amount, result[1][0].id, userObj.id, employee_id).then(function(result) {
+    
+                    resolve(result);
+                }).catch(function(err) {
+                    reject(err);
+                })
+    
+            }).catch(function(err){
+    
+                reject(err);
             });
-
-        }).catch(function(err){
-
+        }).catch(function(err) {
             reject(err);
         });
-
     });
 }
 
