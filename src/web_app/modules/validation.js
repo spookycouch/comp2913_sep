@@ -1,3 +1,19 @@
+/*
+    validation.js
+        -- Functions to validate user inputs from forms and return meaningful error messages
+
+    To do:
+        -- add comment headers to all functions *
+
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 const joi = require('@hapi/joi');
 
 /*

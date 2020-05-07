@@ -771,8 +771,6 @@ router.post('/account/payment/cash', function(req, res) {
                         }];
 
                         employee.newCashPayment(req.body, req.session.userId).then (function (result){
-                            console.log("is it getting here??");
-
                             error.cashPaymentError(req, res, webname, user, facility, employee, [{
                                 message: "Cash Payment Booking created successfully",
                                 path: 'success',

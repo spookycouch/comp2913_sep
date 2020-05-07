@@ -1,8 +1,24 @@
+/*
+    facility.js
+        -- functions for getting data about facilities, activities, sports
+        and the pricing of each (including memberships)
+
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations 
 var db = require('./db.js');
+
 
 /*
  *  Function:   Get Facility Activities
- *  Output:     Error Message
+ *  Input:      Id of facility to get facilities for
+ *  Output:     Error Message / activities (array of objects)
 */
 exports.getFacilityActivities = function(id){
 
@@ -10,6 +26,7 @@ exports.getFacilityActivities = function(id){
 
         db.getFacilityActivities(id).then(function(results){
 
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -19,9 +36,10 @@ exports.getFacilityActivities = function(id){
     });
 }
 
+
 /*
  *  Function:   Get All Activities
- *  Output:     Error Message
+ *  Output:     Error Message / activities (array of objects)
 */
 exports.getAllActivities = function(){
 
@@ -29,12 +47,7 @@ exports.getAllActivities = function(){
 
         db.getAllActivities().then(function(results){
 
-            // let arr = [];
-            // results.forEach(function(element){
-
-            //     arr.push(element.id);
-            // });
-
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -44,9 +57,10 @@ exports.getAllActivities = function(){
     });
 }
 
+
 /*
  *  Function:   Get All Facilities
- *  Output:     Error Message
+ *  Output:     Error Message / facilities (array of objects)
 */
 exports.getAllFacilities = function(){
 
@@ -54,6 +68,7 @@ exports.getAllFacilities = function(){
 
         db.getAllFacilities().then(function(results){
 
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -63,9 +78,10 @@ exports.getAllFacilities = function(){
     });
 }
 
+
 /*
  *  Function:   Get All Sports
- *  Output:     Error Message
+ *  Output:     Error Message / sports (array of objects)
 */
 exports.getAllSports = function(){
 
@@ -73,6 +89,7 @@ exports.getAllSports = function(){
 
         db.getAllSports().then(function(results){
 
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -82,10 +99,11 @@ exports.getAllSports = function(){
     });
 }
 
+
 /*
  *  Function:   Get Monthly Pricing
  *  Input:      Type:int
- *  Output:     Error Message
+ *  Output:     Error Message / pricing obj
 */
 exports.getMonthlyPricing = function(){
 
@@ -93,6 +111,7 @@ exports.getMonthlyPricing = function(){
 
         db.getPricingByType(1).then(function(results){
 
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -102,10 +121,11 @@ exports.getMonthlyPricing = function(){
     });
 }
 
+
 /*
  *  Function:   Get Yearly Pricing
  *  Input:      Type:int
- *  Output:     Error Message
+ *  Output:     Error Message / pricing obj
 */
 exports.getYearlyPricing = function(){
 
@@ -113,6 +133,7 @@ exports.getYearlyPricing = function(){
 
         db.getPricingByType(2).then(function(results){
 
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -122,10 +143,11 @@ exports.getYearlyPricing = function(){
     });
 }
 
+
 /*
  *  Function:   Get Sports Pass
  *  Input:      Type:int
- *  Output:     Error Message
+ *  Output:     Error Message / pricing obj
 */
 exports.getSportsPassPricing = function(){
 
@@ -133,6 +155,7 @@ exports.getSportsPassPricing = function(){
 
         db.getPricingByType(3).then(function(results){
 
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -142,9 +165,11 @@ exports.getSportsPassPricing = function(){
     });
 }
 
+
 /*
  *  Function:   Get All Pricings
- *  Output:     Error Message
+ *  Input:      Id of sport to get pricing for
+ *  Output:     Error Message / pricing obj
 */
 exports.getPricingBySport = function(sportId){
 
@@ -152,6 +177,7 @@ exports.getPricingBySport = function(sportId){
 
         db.getPricingBySport(sportId).then(function(results){
 
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -161,11 +187,18 @@ exports.getPricingBySport = function(sportId){
     });
 }
 
+
+/*
+ *  Function:   Get pricing by membership type (monthly, annual, sports pass) ; (1, 2, 3)
+ *  Input:      type of membership to get pricing for
+ *  Output:     Error Message / pricing obj
+*/
 exports.getPricingByType = function(type) {
     return new Promise(function(resolve, reject) {
 
         db.getPricingByType(type).then(function(results) {
 
+            // Result
             resolve(results);
 
         }).catch(function(err) {
@@ -178,10 +211,16 @@ exports.getPricingByType = function(type) {
 }   
 
 
+/*
+ *  Function:   Get pricing amount by payment id
+ *  Input:      Id of payment to get pricing for
+ *  Output:     Error Message / int: pricing amount
+*/
 exports.getPricingAmount = function(paymentId) {
     return new Promise(function(resolve, reject) {
         db.getPricingAmount(paymentId).then(function(result) {
 
+            // Result
             resolve(result);
 
         }).catch(function(err) {

@@ -1,5 +1,17 @@
+/*
+    report.js
+        -- statistics functions for reporting user, activity, memberships and payment data
+        to the admins
+
+    Contributers
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 var db = require('./db.js');
 var moment = require('moment');
+
 
 /*
  *  Function:   Login Activity
@@ -24,6 +36,7 @@ exports.getLoginActivity = function(start, end){
     });
 }
 
+
 /*
  *  Function:   Login Activity
  *  Output:     Error Message
@@ -43,6 +56,7 @@ exports.getRegistrationActivity = function(){
     });
 }
 
+
 /*
  *  Function:   Get Overall Activity Usage
  *  Output:     Error Message
@@ -61,6 +75,7 @@ exports.getOverallActivityUsage = function(id){
         });
     });
 }
+
 
 /*
  *  Function:   Get Weekly Activity Usage
@@ -86,6 +101,7 @@ exports.getWeeklyActivityUsage = function(id, start, end){
     });
 }
 
+
 /*
  *  Function:   Get Overall Facility Usage
  *  Output:     Error Message
@@ -104,6 +120,7 @@ exports.getOverallFacilityUsage = function(id){
         });
     });
 }
+
 
 /*
  *  Function:   Get Weekly Facility Usage
@@ -129,6 +146,7 @@ exports.getWeeklyFacilityUsage = function(id, start, end){
     });
 }
 
+
 /*
  *  Function:   Get Overall Sport Usage
  *  Output:     Error Message
@@ -147,6 +165,7 @@ exports.getOverallSportUsage = function(id){
         });
     });
 }
+
 
 /*
  *  Function:   Get Weekly Sport Usage

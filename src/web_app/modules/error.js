@@ -1,8 +1,20 @@
+/*
+    error.js
+        -- error pages for specific routes to render error messages to front end
+
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
+
+
+// Variable declaration
 var path = require('path');
 var moment = require('moment');
-
-
 const webname = ' The Edgy ';
+
 
 /*
  *  Function:   Renders login page with errors
@@ -34,6 +46,8 @@ exports.registerEmployeeErrorPage = function(req, res, webname, user, err) {
             form: req.body,
             user: result
         });
+
+    // Error getting user details
     }).catch(function(err) {
         module.exports.defaultError(req, res, webname, err);
     })   
@@ -57,15 +71,22 @@ exports.newFacilityErrorPage = function(req, res, webname, user, facility, icons
                 facilities: facilities,
                 form: req_body
             });
+
+        // Error getting all facilities
         }).catch(function(err) {
             module.exports.defaultError(req, res, webname, err);
         });
 
+    // Error getting user details
     }).catch(function(err) {
         module.exports.defaultError(req, res, webname, err);
     }); 
 }
 
+
+/*
+ *  Function:   Renders edit facility page with errors
+*/
 exports.editFacilityErrorPage = function(req, res, webname, user, icons, err) {
     user.getDetails(req.session.userId).then(function(userObj) {
         user.facilities_discover(req.params['id']).then(function(result) {
@@ -81,9 +102,12 @@ exports.editFacilityErrorPage = function(req, res, webname, user, icons, err) {
                 error: err
             });
 
+        // Error getting facility details (by id)
         }).catch(function(err) {
             module.exports.defaultError(req, res, webname, err);
-        })
+        });
+
+    // Error getting user details
     }).catch(function(err) {
         module.exports.defaultError(req, res, webname, err);
     });
@@ -109,23 +133,32 @@ exports.newActivityErrorPage = function(req, res, webname, user, facility, req_b
                         activities: activities,
                         form: req_body
                     });
+                
+                // Error getting all activities
                 }).catch(function(err) {
                     module.exports.defaultError(req, res, webname, err);
                 });
                 
+            // Error getting all sports
             }).catch(function(err) {
                 module.exports.defaultError(req, res, webname, err);
             });
 
+        // Error getting all facilities
         }).catch(function(err) {
             module.exports.defaultError(req, res, webname, err);
         });
+
+    // Error getting user details
     }).catch(function(err) {
         module.exports.defaultError(req, res, webname, err);
-    })
+    });
 }
 
 
+/*
+ *  Function:   Renders edit activity page with errors
+*/
 exports.editActivityErrorPage = function(req, res, webname, user, facility, employee, err) {
     user.getDetails(req.session.userId).then(function(userObj) {
         user.getActivity(req.params['id']).then(function(result) {
@@ -149,26 +182,30 @@ exports.editActivityErrorPage = function(req, res, webname, user, facility, empl
                             error: err
                         });
 
-
+                    // Error getting activity images
                     }).catch(function(err) {
                         module.exports.defaultError(req, res, webname, err);
                     });
 
+                // Error getting all sports
                 }).catch(function(err) {
                     module.exports.defaultError(req, res, webname, err);
                 });
 
+            // Error getting all facilities
             }).catch(function(err) {
                 module.exports.defaultError(req, res, webname, err);
             });
 
+        // Error getting activity object
         }).catch(function(err) {
             module.exports.defaultError(req, res, webname, err);
         });
 
+    // Error getting user details
     }).catch(function(err) {
         module.exports.defaultError(req, res, webname, err);
-    })
+    });
 }
 
 
@@ -189,7 +226,7 @@ exports.updateErrorPage = function(req, res, webname, user, err) {
             csrfToken: req.csrfToken()
         });
         
-    // Error
+    // Error getting user details
     }).catch(function(err) {
         
         module.exports.defaultError(req, res, webname, err);
@@ -227,25 +264,29 @@ exports.cardPaymentErrorPage = function(req, res, webname, user, err) {
                         csrfToken: req.csrfToken()
                     });
 
+                // Error getting user cash payments (history)
                 }).catch(function(err) {
                     module.exports.defaultError(req, res, webname, err);
                 });
 
+            // Error getting user payments (history)
             }).catch(function(err) {
                 module.exports.defaultError(req, res, webname, err);
             });
 
+        // Error getting user cards
         }).catch(function(err){
 
             module.exports.defaultError(req, res, webname, err);
         });
         
-    // Error
+    // Error getting user details
     }).catch(function(err) {
         
         module.exports.defaultError(req, res, webname, err);
     });
 }
+
 
 /*
  *  Function:   Cash payment error
@@ -266,16 +307,19 @@ exports.cashPaymentError = function(req, res, webname, user, facility, employee,
                     form: req.body
                 });
     
+            // Error getting all activities
             }).catch(function(err) {
     
                 module.exports.defaultError(req, res, webname, err);
             });
 
+        // Error getting all employee payments (by id)
         }).catch(function(err) {
             module.exports.defaultError(req, res, webname, err);
 
         });
-    
+
+    // Error getting user details
     }).catch(function(err) {
 
         module.exports.defaultError(req, res, webname, err);
