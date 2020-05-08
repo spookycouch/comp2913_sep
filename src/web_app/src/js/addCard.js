@@ -1,3 +1,14 @@
+/*
+    addCard.js
+        -- Front end functions for adding a new card to strip and the database,
+        uses provided stripe template
+        
+    Contributers
+        -- Samuel Barnes
+        -- Artyom Tiunelis
+*/
+
+
 // A reference to Stripe.js
 var stripe;
 
@@ -37,6 +48,11 @@ fetch("/pay/stripe-key")
     });
 });
 
+
+/*
+*   Function:   setup stripe elements
+*   Input:      clientsecret
+*/
 var setupElements = function(data) {
   stripe = Stripe(data.publishableKey);
   /* ------- Set up Stripe Elements to use in checkout form ------- */
@@ -52,6 +68,11 @@ var setupElements = function(data) {
   };
 };
 
+
+/*
+*   Function:   handle user action
+*   Input:      clientsecret
+*/
 var handleAction = function(clientSecret) {
   stripe.handleCardAction(clientSecret).then(function(data) {
 
@@ -85,6 +106,10 @@ var handleAction = function(clientSecret) {
 };
 
 
+/*
+*   Function:   add card to stripe (and db)
+*   Input:      stripe object, card object
+*/
 var addCard = function(stripe, card) {
   changeLoadingState(true);
 
@@ -176,6 +201,11 @@ var orderComplete = function(clientSecret) {
   });
 };
 
+
+/*
+*   Function: render the error to the page
+*   Input:    string: error message
+*/
 var showError = function(errorMsgText) {
   changeLoadingState(false);
   var errorMsg = document.querySelector(".sr-field-error");

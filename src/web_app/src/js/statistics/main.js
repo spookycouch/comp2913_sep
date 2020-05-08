@@ -1,4 +1,15 @@
 /*
+    statistics > main.js
+        -- javascript front end functions for providing interation to the user
+        on the statistics page (including fetching and replacing data)
+        
+    Contributers
+        -- Samuel Barnes
+        -- Diego Calanzone
+*/
+
+
+/*
  *  Function:   Get all activities id to populate dropdown (session)
 */
 $.getJSON('/ajax/data/activity/all/', function(result) { 
@@ -28,6 +39,7 @@ $.getJSON('/ajax/data/activity/all/', function(result) {
         $('.activity-result').css('display', 'none');
     }
 });
+
 
 /*
  *  Function:   Get all facilities id to populate dropdown
@@ -64,6 +76,7 @@ $.getJSON('/ajax/data/facility/all/', function(result) {
     }
 });
 
+
 /*
  *  Function:   Get all sports id to populate dropdown (activities)
 */
@@ -98,44 +111,60 @@ $.getJSON('/ajax/data/sport/all/', function(result) {
     }
 });
 
+
 /*
  *  Function:   Load login activity
 */
-
 renderWeeklyLoginUsage();
 $('#loader-7').fadeOut();
 
+
+/*
+ *  Function:   Login week start change
+*/
 $('#login-week-start').on('change', function(e) {
     renderWeeklyLoginUsage();
 });
 
-$('#login-week-end').on('change', function(e) {
-    renderWeeklyLoginUsage();
-})
 
 /*
- *  Function:   Handle overall select change
+ *  Function:   Load week end change
+*/
+$('#login-week-end').on('change', function(e) {
+    renderWeeklyLoginUsage();
+});
+
+
+/*
+ *  Function:   Handle overall activity select change
 */
 $('#activity-select-1').on('change', function() {
-    
     var id = this.value;
     renderActivity(id);
 });
 
+
 /*
- *  Function:   Handle weekly select change
+ *  Function:   Handle weekly activity select change
 */
 $('#activity-select-2').on('change', function() {
-    
     var id = this.value;
     renderWeeklyActivity(id);
 });
 
+
+/*
+ *  Function:   Handle weekly activity week start select change
+*/
 $('#activity-week-start').on('change', function(e) {
     var id = $('#activity-select-2').val();
     renderWeeklyActivity(id);
 });
 
+
+/*
+ *  Function:   Handle weekly activity week end select change
+*/
 $('#activity-week-end').on('change', function(e) {
     var id = $('#activity-select-2').val();
     renderWeeklyActivity(id);
@@ -143,7 +172,7 @@ $('#activity-week-end').on('change', function(e) {
 
 
 /*
- *  Function:   Handle overall select change
+ *  Function:   Handle overall facility select change
 */
 $('#facility-select-1').on('change', function() {
     
@@ -151,8 +180,9 @@ $('#facility-select-1').on('change', function() {
     renderFacility(id);
 });
 
+
 /*
- *  Function:   Handle weekly select change
+ *  Function:   Handle weekly facility select change
 */
 $('#facility-select-2').on('change', function() {
     
@@ -161,12 +191,19 @@ $('#facility-select-2').on('change', function() {
 });
 
 
+/*
+ *  Function:   Handle weekly facility week state select change
+*/
 $('#facility-week-start').on('change', function(e) {
     var id = $('#facility-select-2').val();
     renderWeeklyFacility(id);
 
 });
 
+
+/*
+ *  Function:   Handle weekly facility week end select change
+*/
 $('#facility-week-end').on('change', function(e) {
     var id = $('#facility-select-2').val();
     renderWeeklyFacility(id);
@@ -174,7 +211,7 @@ $('#facility-week-end').on('change', function(e) {
 
 
 /*
- *  Function:   Handle overall select change
+ *  Function:   Handle overall sport select change
 */
 $('#sport-select-1').on('change', function() {
     
@@ -182,8 +219,9 @@ $('#sport-select-1').on('change', function() {
     renderSport(id);
 });
 
+
 /*
- *  Function:   Handle weekly select change
+ *  Function:   Handle weekly sport select change
 */
 $('#sport-select-2').on('change', function() {
     
@@ -191,14 +229,20 @@ $('#sport-select-2').on('change', function() {
     renderWeeklySport(id);
 });
 
+
+/*
+ *  Function:   Handle weekly sport start date select change
+*/
 $('#sport-week-start').on('change', function(e) {
     var id = $('#sport-select-2').val();
     renderWeeklySport(id);
+});
 
-})
 
+/*
+ *  Function:   Handle weekly sport end date select change
+*/
 $('#sport-week-end').on('change', function(e) {
     var id = $('#sport-select-2').val();
     renderWeeklySport(id);
-
-})
+});
