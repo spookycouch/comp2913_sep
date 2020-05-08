@@ -1,4 +1,16 @@
+/*
+    ajax.js
+        -- Routes to facilitate ajax asynchronous calls from javascript
 
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 const express = require('express');
 const router = express.Router();
 var path = require('path');
@@ -14,7 +26,6 @@ var payment = require('../modules/payment');
 var moment = require('moment');
 
 
-
 var urlEncoded = bodyParser.urlencoded({ extended: true });
 var jsonEncoded = bodyParser.json();
 
@@ -24,8 +35,11 @@ router.use(cookieParser(process.env.SESSION_SECRET));
 // Website header
 const webname = ' The Edgy ';
 
+
 /*
  *  Function:   Register Backend Query (for Registration subform 1)
+ *  Input:      first name, surname, email, password, confirm password
+ *  Output:     Error message / name, surname, email, password, confirm password (json object)
 */
 router.post('/register/response-1', function(req, res) {
     
@@ -75,6 +89,8 @@ router.post('/register/response-1', function(req, res) {
 
 /*
  *  Function:   Register Backend Query (for Registration subform 2)
+ *  Input:      Birth date, phone No.
+ *  Output:     Error message / birth, phone (json object)
 */
 router.post('/register/response-2', function(req, res) {
     
@@ -85,6 +101,7 @@ router.post('/register/response-2', function(req, res) {
         if(value.error != undefined)
             throw value.error.details;
 
+        // Result
         res.end(JSON.stringify({
             birth: req.body.birth,
             phone: req.body.phone
@@ -101,6 +118,8 @@ router.post('/register/response-2', function(req, res) {
 
 /*
  *  Function:   Register Backend Query (for Registration subform 3)
+ *  Input:      address line 1, address line 2, city, zipcode
+ *  Output:     Error message / address_1, address_2, city, zipcode (json object)
 */
 router.post('/register/response-3', function(req, res) {
     try {
@@ -110,6 +129,7 @@ router.post('/register/response-3', function(req, res) {
         if(value.error != undefined)
             throw value.error.details;
 
+        // Result
         res.end(JSON.stringify({
             address_1: req.body.address_1,
             address_2: req.body.address_2,
@@ -125,17 +145,23 @@ router.post('/register/response-3', function(req, res) {
     }
 });
 
+
 /*
  *  Function:   Facilities Timetable
+ *  Input:      date, Id of facility to get activities for
+ *  Output:     Error message / timetable (json object of results)
 */
 router.post('/facility/timetable', function(req, res) {
     date = new Date(req.body.date);
 
     user.facilities_timetable(req.body.id, date).then(function(timetable) {
+
+        // Result
         res.end(JSON.stringify({
             results: timetable
         }));
         
+    // Error getting facilities timetable
     }).catch(function(err) {
 
         res.end(JSON.stringify({
@@ -147,15 +173,20 @@ router.post('/facility/timetable', function(req, res) {
 
 /*
  *  Function:   Activities Timetable
+ *  Input:      date
+ *  Output:     Error message / timetable (json object of results)
 */
 router.post('/activities/timetable', function(req, res) {
     date = new Date(req.body.date);
 
     user.activitiesTimetable(date).then(function(timetable) {
+
+        // Result
         res.end(JSON.stringify({
             results: timetable
         }));
-        
+    
+    // Error getting activities timetable
     }).catch(function(err) {
 
         res.end(JSON.stringify({
@@ -163,6 +194,7 @@ router.post('/activities/timetable', function(req, res) {
         }));
     });
 });
+
 
 /*
  *  Function:   Activity Weekly Usage
@@ -186,6 +218,7 @@ router.get('/report/overall/activity/:id*', function(req, res) {
         }));
     });
 });
+
 
 /*
  *  Function:   Activity Weekly Usage
@@ -241,8 +274,10 @@ router.get('/data/activity/all', function(req, res) {
     });
 });
 
+
 /*
  *  Function:   Get all facilities
+ *  Output:     Error message / facilities (json objects)
 */
 router.get('/data/facility/all', function(req, res) {
     
@@ -264,8 +299,10 @@ router.get('/data/facility/all', function(req, res) {
     });
 });
 
+
 /*
  *  Function:   Get all sports
+ *  Output:     Error message / sports (json objects)
 */
 router.get('/data/sport/all', function(req, res) {
     
@@ -286,6 +323,7 @@ router.get('/data/sport/all', function(req, res) {
         }));
     });
 });
+
 
 /*
  *  Function:   Activity Weekly Usage
@@ -310,8 +348,9 @@ router.get('/report/overall/facility/:id*', function(req, res) {
     });
 });
 
+
 /*
- *  Function:   Activity Weekly Usage
+ *  Function:   Facility Weekly Usage
 */
 router.post('/report/weekly/facility/', function(req, res) {
     
@@ -340,8 +379,9 @@ router.post('/report/weekly/facility/', function(req, res) {
     });
 });
 
+
 /*
- *  Function:   Sport Weekly Usage
+ *  Function:   Sport Overal Usage
 */
 router.get('/report/overall/sport/:id*', function(req, res) {
     
@@ -363,8 +403,9 @@ router.get('/report/overall/sport/:id*', function(req, res) {
     });
 });
 
+
 /*
- *  Function:   Activity Weekly Usage
+ *  Function:   Sport weekly usage
 */
 router.post('/report/weekly/sport/', function(req, res) {
     
@@ -392,6 +433,7 @@ router.post('/report/weekly/sport/', function(req, res) {
         }));
     });
 });
+
 
 /*
  *  Function:   Login Weekly Usage
@@ -423,41 +465,28 @@ router.post('/report/usage/weekly/', function(req, res) {
 });
 
 
+/*
+ *  Function:   Delete activity image
+ *  Input:      Id of activity to delete from, Id of image to delete
+ *  Output:     Error message / activity images 
+*/
 router.post('/delete/image/activity', function(req, res) {
     employee.deleteActivityImage(req.body.activityId, req.body.imageId).then(function() {
         employee.getActivityImages(req.body.activityId).then(function(result) {
 
+            // Result
             res.end(JSON.stringify({
                 results: result
             }));
 
-        }).catch(function(err) {
-            res.end(JSON.stringify({
-                error: err
-            }));
-        })
-
-    }).catch(function(err) {
-        res.end(JSON.stringify({
-            error: err
-        }));
-    })
-});
-
-
-router.post('/delete/image/facility', function(req, res) {
-    employee.deleteFacilityImage(req.body.facilityId, req.body.imageId).then(function() {
-        employee.getFacilityImages(req.body.facilityId).then(function(result) {
-            res.end(JSON.stringify({
-                results: result
-            }));
-
+        // Error getting activity images
         }).catch(function(err) {
             res.end(JSON.stringify({
                 error: err
             }));
         });
 
+    // Error deleting activity image
     }).catch(function(err) {
         res.end(JSON.stringify({
             error: err
@@ -466,16 +495,52 @@ router.post('/delete/image/facility', function(req, res) {
 });
 
 
+/*
+ *  Function:   Delete facility image
+ *  Input:      Id of facility to delete from, Id of image to delete
+ *  Output:     Error message / facility images 
+*/
+router.post('/delete/image/facility', function(req, res) {
+    employee.deleteFacilityImage(req.body.facilityId, req.body.imageId).then(function() {
+        employee.getFacilityImages(req.body.facilityId).then(function(result) {
 
+            // Result
+            res.end(JSON.stringify({
+                results: result
+            }));
+
+        // Error getting facility images
+        }).catch(function(err) {
+            res.end(JSON.stringify({
+                error: err
+            }));
+        });
+
+    // Error deleting facility image
+    }).catch(function(err) {
+        res.end(JSON.stringify({
+            error: err
+        }));
+    });
+});
+
+
+/*
+ *  Function:   get (update?) payments
+ *  Input:      Id of user to get payments for, Id of card to get payments from
+ *  Output:     Error message / paymentd (json objects)
+*/
 router.post('/update/payment', function(req, res) {
     console.log(req.session.userId);
 
     user.getPayments(req.session.userId, req.body.cardId).then(function(payments) {
 
+        // Result
         res.end(JSON.stringify({
             results: payments
         }));
 
+    // Error getting user payments
     }).catch(function(err) {
         res.end(JSON.stringify({
             error: err
@@ -484,13 +549,20 @@ router.post('/update/payment', function(req, res) {
 });
 
 
+/*
+ *  Function:   Get activiy by Id
+ *  Input:      Id of activity to get
+ *  Output:     Error message / activity object 
+*/
 router.post('/get/activity', function(req, res) {
     user.getActivity(req.body.activityId).then(function(activity) {
 
+        // Result
         res.end(JSON.stringify({
             results: activity
         }));
 
+    // Error getting activity 
     }).catch(function(err) {
         res.end(JSON.stringify({
             error: err
@@ -499,16 +571,22 @@ router.post('/get/activity', function(req, res) {
 });
 
 
+/*
+ *  Function:   Get pricing by Id
+ *  Input:      Id of pricing to get
+ *  Output:     Error message / pricing object 
+*/
 router.post('/get/pricing', function(req, res) {
     payment.getMembershipPrice(req.body.pricingId).then(function(price) {
 
+        // Result
         res.send(JSON.stringify({
             results: price
         }));
+
+    // Error getting pricing
     }).catch(function(err) {
     
-        console.log(err);
-
         res.send(JSON.stringify({
             error: err
         }));
@@ -516,16 +594,22 @@ router.post('/get/pricing', function(req, res) {
 });
 
 
-
+/*
+ *  Function:   Get card by Id
+ *  Input:      Id of card to get
+ *  Output:     Error message / card object 
+*/
 router.post('/get/card', function(req, res) {
     console.log(req.body.cardId);
 
     user.getCard(req.body.cardId).then(function(card) {
 
+        // Result
         res.send(JSON.stringify({
             results: card
         }));
 
+    // Error getting card
     }).catch(function(err) {
 
         res.send(JSON.stringify({

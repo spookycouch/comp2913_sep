@@ -1,3 +1,17 @@
+/*
+    facility.js
+        -- functions for payment of a new membership or activity, including the 
+        process of booking a new activity / creating a new membership 
+
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 var db = require('./db.js');
 var user = require('./user.js');
 var QRCode = require('qrcode');
@@ -6,6 +20,11 @@ var ejs = require('ejs');
 var path = require('path');
 
 
+/*
+ *  Function:   Send a membership brought email confirmation
+ *  Input:      Id of user to send email to, id of pricing, id of membership brought
+ *  Output:     Email to user; user.email
+*/
 const sendMembershipEmailConfirmation = async function(userId, pricingId, membershipId) {
     var details = await db.getMembership(membershipId);
     var id = 'M' + details.id.toString();
@@ -28,6 +47,7 @@ const sendMembershipEmailConfirmation = async function(userId, pricingId, member
     else
         var card = 'card ending in ' + details.number;
 
+    // Send the email
     sendEmailConfirmation(userId, {
         id : id,
         qr: qr,
@@ -38,6 +58,12 @@ const sendMembershipEmailConfirmation = async function(userId, pricingId, member
     })
 };
 
+
+/*
+ *  Function:   Send a activity booking email confirmation
+ *  Input:      Id of user to send email to, id of booked activity booked
+ *  Output:     Email to user; user.email
+*/
 const sendActivityEmailConfirmation = async function(userId, bookedActivityId){
     var details = await db.getBookedActivity(bookedActivityId);
     var id = 'A' + details.id.toString();
@@ -53,6 +79,7 @@ const sendActivityEmailConfirmation = async function(userId, bookedActivityId){
     else
         var card = 'card ending in ' + details.number;
 
+    // Send the email
     sendEmailConfirmation(userId, {
         id : id,
         qr: qr,
@@ -63,6 +90,12 @@ const sendActivityEmailConfirmation = async function(userId, bookedActivityId){
     })
 };
 
+
+/*
+ *  Function:   Send a confirmation email to the user
+ *  Input:      Id of user to send email to, payment details (attributes)
+ *  Output:     Email to user; user.email
+*/
 const sendEmailConfirmation = async function(userId, payment_details) {
     console.log('emailing');
 
@@ -82,6 +115,7 @@ const sendEmailConfirmation = async function(userId, payment_details) {
         details: payment_details
     });
 
+    // Send the email to the user
     var info = await transporter.sendMail({
         from: '"Edgy Gym" <leeds.comp2913.sep.17@gmail.com>',
         to: user_details.email,
@@ -93,8 +127,8 @@ const sendEmailConfirmation = async function(userId, payment_details) {
             cid: 'logo'
         }]
     });
-    console.log(info);
 };
+
 
 /*
  *  Function:   Pre-processing of Payment with check
@@ -146,7 +180,6 @@ exports.processMembershipPayment = function(pricingId, userId, cardId){
         });
     });
 }
-
 
 
 /*
@@ -207,6 +240,11 @@ exports.processBookingPayment = function(activityId, userId, cardId){
 }
 
 
+/*
+ *  Function:   Process free booking
+ *  Input:      Id of activity being booked, Id of user making the booking
+ *  Output:     Error Message / Bool
+*/
 exports.processBookingPaymentFree = function(activityId, userId) {
     return new Promise(function(resolve, reject) {
         db.getActivityObj(activityId).then(function(activityObj) {
@@ -226,10 +264,12 @@ exports.processBookingPaymentFree = function(activityId, userId) {
                     reject(err);
                 });
 
+            // Error generating activity booking
             }).catch(function(err) {
                 reject(err);
             });
      
+        // Error get activity object
         }).catch(function(err) {
             reject(err);
         });
@@ -248,6 +288,7 @@ exports.generateActivityBooking = function(idActivity){
 
         db.generateActivityBooking(idActivity).then(function(result){
 
+            // Result
             resolve(result)
 
         }).catch(function(err){
@@ -256,6 +297,7 @@ exports.generateActivityBooking = function(idActivity){
         })
     });
 }
+
 
 /*
  *  Function:   Generate Booking Payment Obj
@@ -268,6 +310,7 @@ exports.generateBookingPayment = function(bookedActivityId, activityCost, userId
 
         db.generateBookingPayment(bookedActivityId, activityCost, userId, cardId).then(function(result){
 
+            // Result
             resolve(result)
 
         }).catch(function(err){
@@ -276,6 +319,7 @@ exports.generateBookingPayment = function(bookedActivityId, activityCost, userId
         })
     });
 }
+
 
 /*
  *  Function:   Generate Booking Payment Obj
@@ -286,9 +330,9 @@ exports.generateMembershipPayment = function(membershipId, cost, userId, cardId)
 
     return new Promise(function(resolve, reject) {
 
-        
         db.generateMembershipPayment(membershipId, cost, userId, cardId).then(function(result){
 
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -299,7 +343,11 @@ exports.generateMembershipPayment = function(membershipId, cost, userId, cardId)
 }
 
 
-
+/*
+ *  Function:   Get price of an activity given user membership
+ *  Input:      Id of user to get price for, Activity obj for pricing
+ *  Output:     Error Message / Int: price
+*/
 exports.getBookingPrice = function(userId, activityObj) {
     return new Promise(function(resolve, reject) {
 
@@ -314,7 +362,7 @@ exports.getBookingPrice = function(userId, activityObj) {
                             
                             price = 0;
 
-                            if (activityObj.discount > 0)
+                            if (activityObj.discount > 0)       // if theres a discount on the activity, apply it
                                 price = activityObj.cost - activityObj.discount;
                         
                         } else if (memberships[i].type < 3) { 
@@ -322,7 +370,7 @@ exports.getBookingPrice = function(userId, activityObj) {
                                 
                                 price = 0;
 
-                                if (activityObj.discount > 0)
+                                if (activityObj.discount > 0)   // if theres a discount on the activity, apply it
                                     price = activityObj.cost - activityObj.discount;
                             }
                         }
@@ -330,8 +378,10 @@ exports.getBookingPrice = function(userId, activityObj) {
                 }
             }   
 
+            // Result
             resolve(price);
 
+        // Error getting user memberships
         }).catch(function(err) {
             reject(err);
         });
@@ -339,6 +389,11 @@ exports.getBookingPrice = function(userId, activityObj) {
 }
 
 
+/*
+ *  Function:   Get price of membership by pricing Id
+ *  Input:      Id of pricing to get membership price from
+ *  Output:     Error Message / pricing obj
+*/
 exports.getMembershipPrice = function(pricingId) {
     return new Promise(function(resolve, reject) {
         db.getPricingDetails(pricingId).then(function(result) {
@@ -354,15 +409,19 @@ exports.getMembershipPrice = function(pricingId) {
                         }
                     }
 
+                    // Result of membership type 2
                     resolve(result);
 
                 }).catch(function(err) {
                     reject(err);
                 });
             } else {
+
+                // Result of membership type != 2
                 resolve(result);
             }
 
+        // Error getting pricing details
         }).catch(function(err) {
             reject(err);    
         });

@@ -1,3 +1,17 @@
+/*
+    user.js
+        -- functions for user routes, or for facilitating user actions throughout
+        the webtsite
+
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 var db = require('./db.js');
 var md5 = require('md5');
 var moment = require('moment');
@@ -15,6 +29,7 @@ exports.checkEmailRegistered = function(email){
 
         db.checkEmailRegistered(email).then(function(result){
 
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -23,6 +38,7 @@ exports.checkEmailRegistered = function(email){
         });
     });
 }
+
 
 /*
  *  Function:   Login User 
@@ -38,6 +54,7 @@ exports.loginUser = function(email, password){
 
         db.queryUser(email, password).then(function(user){
 
+            // Result
             resolve(user);
 
         }).catch(function(err){
@@ -46,7 +63,6 @@ exports.loginUser = function(email, password){
         });
     });
 }
-
 
 
  /*
@@ -62,9 +78,14 @@ exports.updateDetails = function(req_body) {
     let phone = req_body.phone;
 
     return new Promise(function(resolve, reject) {
+
         db.updateUserDetails(id, name, surname, email, phone).then(function(result){
+
+            // Result
             resolve(result);
+
         }).catch(function(err){
+
             reject(err);
         });
     });
@@ -84,9 +105,14 @@ exports.updateAddress = function(req_body) {
     let city = req_body.city;
 
     return new Promise(function(resolve, reject) {
+
         db.updateUserAddress(id, address_1, address_2, zipcode, city).then(function(result){
+
+            // Result
             resolve(result);
+
         }).catch(function(err){
+
             reject(err);
         });
     });
@@ -113,13 +139,19 @@ exports.updatePassword = function(req_body) {
 
 
     return new Promise(function(resolve, reject) {
+
         db.updateUserPassword(id, password, current_password).then(function(result){
+
+            // Result
             resolve(result);
+
         }).catch(function(err){
+
             reject(err);
         });
     });   
 }
+
 
  /*
  *  Function:   Update User Stripe Token
@@ -130,8 +162,12 @@ exports.updateStripeToken = function(id, token) {
 
     return new Promise(function(resolve, reject) {
         db.updateUserStripeToken(id, token).then(function(result){
+
+            // Result
             resolve(result);
+            
         }).catch(function(err){
+
             reject(err);
         });
     });   
@@ -140,7 +176,7 @@ exports.updateStripeToken = function(id, token) {
 
 /*
  *  Function:   Create New User 
- *  Input:      FullName, Email, Password, Phone, Address, City, Birthday
+ *  Input:      name, surname, email, phone No., address line 1, address line 2, zipcode, city, password, confirm password
  *  Output:     Bool / Error Message
 */
 exports.registerUser = function(req_body){
@@ -164,24 +200,24 @@ exports.registerUser = function(req_body){
     let confirm_password = req_body.confirm_password;
     let userType = req_body.type;
 
-
     // Md5 encryption
     password = md5(password);
     confirm_password = md5(confirm_password);
 
+    // Check password and confirm password fields match
     if(password != confirm_password) throw "Passwords not matching.";
 
     return new Promise(function(resolve, reject) {
 
         db.createUser(name, surname, email, password, userType, phone, address_1, address_2, zipcode, city, birth).then(function(result){
 
+            // Result
             resolve(result);
 
         }).catch(function(err){
 
             reject(err);
         });
-
     });
 }
 
@@ -201,21 +237,21 @@ exports.setUserSession = function(req, email){
             req.session.userId = user.id;
             req.session.userType = user.type;
 
+            // Result
             resolve(true);
 
         }).catch(function(err){
 
             reject(err);
         });
-
     });
 }
 
 
 /*
  *  Function:   Get User Details
- *  Input:      Id
- *  Output:     Error Message
+ *  Input:      Id of user to get details for
+ *  Output:     Error Message / user object
 */
 exports.getDetails = function(id){
 
@@ -223,6 +259,7 @@ exports.getDetails = function(id){
 
         db.getUserDetails(id).then(function(user){
 
+            // Result
             resolve(user);
 
         }).catch(function(err){
@@ -267,6 +304,7 @@ exports.getMemberships = function(id){
                 memberships[i].expired = (moment(date).add(memberships[i].validity, 'days').diff(now, 'days') < 0);
             }
 
+            // Result
             resolve(memberships);
 
         }).catch(function(err){
@@ -275,6 +313,7 @@ exports.getMemberships = function(id){
         });
     });
 }
+
 
 /*
  *  Function:   Cancel User's Membership
@@ -287,6 +326,7 @@ exports.cancelMembership = function(userId, membershipId){
 
         db.cancelMembership(userId, membershipId).then(function(result){
 
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -295,6 +335,7 @@ exports.cancelMembership = function(userId, membershipId){
         });
     });
 }
+
 
 /*
  *  Function:   Cancel User's Credit Card
@@ -341,7 +382,7 @@ exports.getBookings = function(id){
                     result[i].qr = url;
                 });
             }
-            // Render
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -350,6 +391,7 @@ exports.getBookings = function(id){
         });
     });
 }
+
 
 /*
  *  Function:   Delete Booked Activity
@@ -362,6 +404,7 @@ exports.cancelBooking = function(id){
 
         db.cancelBooking(id).then(function(result){
 
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -373,9 +416,9 @@ exports.cancelBooking = function(id){
 
 
 /*
- *  Function:   Upcoming activities
- *  Input:      No Items, Page No
- *  Output:     Error Message
+ *  Function:   get Upcoming activities
+ *  Input:      No Items, Page No, filters (attributes)
+ *  Output:     Error Message / activities (array of objects)
 */
 exports.upcomingActivities = function(no_items, page_no, filters){
 
@@ -389,7 +432,7 @@ exports.upcomingActivities = function(no_items, page_no, filters){
                 result[1][i].start_time = date;
             }
 
-
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -401,15 +444,17 @@ exports.upcomingActivities = function(no_items, page_no, filters){
 
 
 /*
- *  Function:   Upcoming activities
+ *  Function:   get facilities
  *  Input:      No Items, Page No
- *  Output:     Error Message
+ *  Output:     Error Message / facilities (array of objects)
 */
 exports.facilities = function(no_items, page_no){
 
     return new Promise(function(resolve, reject) {
 
         db.getFacilities(no_items, page_no).then(function(result){
+
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -420,12 +465,17 @@ exports.facilities = function(no_items, page_no){
 }
 
 
-
+/*
+ *  Function:   Delete a specified facility
+ *  Input:      Id of facility to delete
+ *  Output:     Error Message / Bool
+*/
 exports.deleteFacility = function(facilityId) {
     return new Promise(function(resolve, reject) {
 
         db.deleteFacility(facilityId).then(function(result){
 
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -436,12 +486,17 @@ exports.deleteFacility = function(facilityId) {
 }
 
 
-
+/*
+ *  Function:   Delete a specified activity
+ *  Input:      Id of activity to delete
+ *  Output:     Error Message / Bool
+*/
 exports.deleteActivity = function(activityId) {
     return new Promise(function(resolve, reject) {
 
         db.deleteActivity(activityId).then(function(result){
 
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -452,6 +507,11 @@ exports.deleteActivity = function(activityId) {
 }
 
 
+/*
+ *  Function:   get a specified activity 
+ *  Input:      Id of activity to get
+ *  Output:     Error Message / activity object
+*/
 exports.getActivity = function(activityId) {
     return new Promise(function(resolve, reject) {
         db.getActivityObj(activityId).then(function(result) {
@@ -463,7 +523,7 @@ exports.getActivity = function(activityId) {
             date = moment(date).format('DD/MM/YYYY HH:mm:ss');
             result.start_time = date;
 
-
+            // Result
             resolve(result);
 
         }).catch(function(err) {
@@ -475,15 +535,17 @@ exports.getActivity = function(activityId) {
 
 
 /*
- *  Function:   Upcoming activities
- *  Input:      No Items, Page No
- *  Output:     Error Message
+ *  Function:   get a facility by id
+ *  Input:      Id of facility to get 
+ *  Output:     Error Message / facility object
 */
 exports.facilities_discover = function(id){
 
     return new Promise(function(resolve, reject) {
 
         db.getFacility(id).then(function(results){
+
+            // Result
             resolve(results);
 
         }).catch(function(err){
@@ -493,10 +555,11 @@ exports.facilities_discover = function(id){
     });
 }
 
+
 /*
  *  Function:   Timetable for facilities, week of given date
  *  Input:      Facility id, date
- *  Output:     Error Message
+ *  Output:     Error Message / activities (array of objects)
 */
 exports.facilities_timetable = function(facilityId, date){
     return new Promise(function(resolve, reject) {
@@ -507,7 +570,9 @@ exports.facilities_timetable = function(facilityId, date){
                 result[i].start_time = date;
             }
 
+            // Result
             resolve(result);
+
         }).catch(function(err){
 
             reject(err);
@@ -516,6 +581,11 @@ exports.facilities_timetable = function(facilityId, date){
 }
 
 
+/*
+ *  Function:   Timetable for activities, week of given date
+ *  Input:      activities id, date
+ *  Output:     Error Message / activities (array of objects)
+*/
 exports.activitiesTimetable = function(date) {
     console.log(date.getYear());
 
@@ -527,7 +597,9 @@ exports.activitiesTimetable = function(date) {
                 result[i].start_time = date;
             }
 
+            // Result
             resolve(result);
+
         }).catch(function(err) {
 
             reject(err);
@@ -535,10 +607,11 @@ exports.activitiesTimetable = function(date) {
     });
 }
 
+
 /*
  *  Function:   Get User Cards
  *  Input:      User Id
- *  Output:     Error Message
+ *  Output:     Error Message / cards (array of objects)
 */
 exports.getCards = function(id){
 
@@ -546,6 +619,7 @@ exports.getCards = function(id){
 
         db.getUserCards(id).then(function(cards){
 
+            // Result
             resolve(cards);
 
         }).catch(function(err){
@@ -556,19 +630,25 @@ exports.getCards = function(id){
 }
 
 
+/*
+ *  Function:   Get User Card
+ *  Input:      Id of card to get
+ *  Output:     Error Message / card object
+*/
 exports.getCard = function(cardId) {
     return new Promise(function(resolve, reject){
 
         db.getCardDetails(cardId).then(function(result){
 
+            // Result
             resolve(result);
 
         }).catch(function(err) {
             reject(err);
-        })
+
+        });
     });
 }
-
 
 
 /*
@@ -582,6 +662,7 @@ exports.addCard = function(userId, card, stripe_id){
 
         db.createUserCard(userId, card, stripe_id).then(function(result){
             
+            // Result
             resolve(result);
 
         }).catch(function(err){
@@ -592,6 +673,11 @@ exports.addCard = function(userId, card, stripe_id){
 }
 
 
+/*
+ *  Function:   get payments
+ *  Input:      Id of user to get payments for, Id of card of payments made
+ *  Output:     Error Message / payments (array of objects)
+*/
 exports.getPayments = function(userId, cardId) {
     return new Promise(function(resolve, reject) {
 
@@ -607,17 +693,22 @@ exports.getPayments = function(userId, cardId) {
                 result[i].purchase_date = date;
             }
 
+            // Result
             resolve(result);
             
         }).catch(function(err) {
 
             reject(err);    
-        })
-
+        });
     });
 }
 
 
+/*
+ *  Function:   get cash payments
+ *  Input:      Id of user to get cash payments for
+ *  Output:     Error Message / payments (array of objects)
+*/
 exports.getPaymentsCash = function(userId) {
     return new Promise(function(resolve, reject) {
 
@@ -633,35 +724,48 @@ exports.getPaymentsCash = function(userId) {
                 result[i].purchase_date = date;
             }
 
+            // Result
             resolve(result);
             
         }).catch(function(err) {
 
             reject(err);    
-        })
-
+        });
     });
 }
 
 
+/*
+ *  Function:   get payment receipt
+ *  Input:      Id of payment to get receipt for
+ *  Output:     Error message / payment object
+*/
 exports.getPaymentReceipt = function(paymentId) {
     return new Promise(function(resolve, reject) {
+
         db.receiptPayment(paymentId).then(function(result) {
             
+            // Result
             resolve(result);
 
         }).catch(function(err) {
             reject(err);
-        })
+        });
     });
 }
 
 
+/*
+ *  Function:   get activity booked capacity
+ *  Input:      Id of activity to get booked capacity for 
+ *  Output:     Error Message / int: capacity
+*/
 exports.getActivityBookedCapacity = function(activityId) {
     return new Promise(function(resolve, reject) {
 
         db.getBookedCapacity(activityId).then(function(result) {
 
+            // result
             resolve(result);
 
         }).catch(function(err) {

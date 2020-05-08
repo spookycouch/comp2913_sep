@@ -1,3 +1,19 @@
+/*
+    statistics > chatFunctions.js
+        -- functions for getting data to populate the charts; weekly, monthly
+        and overall
+        
+    Contributers
+        -- Samuel Barnes
+        -- Diego Calanzone
+*/
+
+
+/*
+*  Function:   Form date
+*  Input:      date
+*  Output:     date: year, month, day
+*/
 function formatDate(date) {
 
     var d = new Date(date),

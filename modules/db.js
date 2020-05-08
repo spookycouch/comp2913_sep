@@ -1,14 +1,37 @@
+/*
+    db.js
+        -- Database communication functions for inserting, updating, deleting and selecting data
+        from the comp2913 database.
+        -- Functions provided may be used through the rest API or through the web routes
+
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 var mysql = require('mysql');
 var SqlString = require('sqlstring');
 
-let host = "eu-cdbr-west-03.cleardb.net";
-let db = "heroku_398af5fddeed461";
+
+// IF RUNNING ON LOCALHOST PLEASE DONT REMOVE THESE, THEY ARE NEEDED FOR THE WEB SERVER
+// DO NOT COMMENT OUT *************
+let host = "eu-cdbr-west-03.cleardb.net"; 
+let db = "heroku_398af5fddeed461";        
 let user = "b071c1cdfacc4b";
 let psw = "c313e7e1";
-let port = 3306;
 
 
+// let host = "127.0.0.1"
+// let db = "comp2913_sep"
+// let user = "web_comp2913"
+// let psw = ""
 
+
+// Return a mysql connection to the database
 function getConnection() {
     return mysql.createConnection({
         host: host,
@@ -18,6 +41,7 @@ function getConnection() {
         multipleStatements: true
     });
 }
+
 
 /*
  *  Function:   Check for email registration existance
@@ -59,6 +83,7 @@ exports.checkEmailRegistered = function(email) {
         });
     });
 }
+
 
 /*
  *  Function:   Query User by email
@@ -104,17 +129,19 @@ exports.queryUser = function(email, password) {
                         reject(err);
                     });
                 }
-                else
+                // No results returned from query
+                else 
                     reject("Email or Password Incorrect.");
             });
         });
     });
 }
 
+
 /*
- *  Function:   Query User id by email
+ *  Function:   Query User id & type by email
  *  Input:      Email
- *  Output:     Id / Error Message
+ *  Output:     Id & type / Error Message
 */
 exports.getUserIdType = function(email) {
 
@@ -145,13 +172,14 @@ exports.getUserIdType = function(email) {
                 if (results.length > 0)
                     resolve(results[0]);
 
+                // No results returned from query
                 else
                     reject("User not found.");
-
             });
         });
     });
 }
+
 
 /*
  *  Function:   Query User by id once logged in
@@ -187,9 +215,9 @@ exports.getUserDetails = function(id) {
                 if (results.length > 0)
                     resolve(results[0]);
 
+                // No results returned from query
                 else
                     reject("User not found.");
-
             });
         });
     });
@@ -227,13 +255,17 @@ exports.updateUserDetails = function(id, name, surname, email, phone) { //TODO: 
 
                 else
                     resolve(true);
-
             });
         });
     });
 }
 
 
+/*
+ *  Function:   Change user address
+ *  Input:      Id, address line 1, address line 2, zipcode, city
+ *  Output:     Error object / true for successfully updated
+*/
 exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) { 
     var conn = getConnection();
 
@@ -265,6 +297,11 @@ exports.updateUserAddress = function(id, address_1, address_2, zipcode, city) {
 }
 
 
+/*
+ *  Function:   Change user password
+ *  Input:      Id, new password, current password
+ *  Output:     Error object / true if password successfully updated
+*/
 exports.updateUserPassword = function(id, password, current_password) { 
     var conn = getConnection();
 
@@ -299,6 +336,12 @@ exports.updateUserPassword = function(id, password, current_password) {
     });
 }
 
+
+/*
+ *  Function:   change user stripe token
+ *  Input:      user id, new stripe token
+ *  Output:     Error object / true if succesfully updated
+*/
 exports.updateUserStripeToken = function(id, new_token) { 
     var conn = getConnection();
 
@@ -332,6 +375,7 @@ exports.updateUserStripeToken = function(id, new_token) {
         });
     });
 }
+
 
 /*
  *  Function:   Create New User
@@ -379,7 +423,6 @@ exports.createUser = function(name, surname, email, password, userType, phone, a
 }
 
 
-
 /*
  *  Function:   Create New Activity
  *  Input:      Discount, Cost, Start Time, Duration, Sport ID
@@ -418,6 +461,11 @@ exports.createActivity = function(name, description, discount, cost, start_time,
 }
 
 
+/*
+ *  Function:   Update existing activity
+ *  Input:      activity name, description, discount, cost, start time, duration, sport id, facility id, activity being updated id
+ *  Output:     Error object / bool
+*/
 exports.updateActivity = function(name, description, discount, cost, start_time, duration, id_sport, id_facility, activityId) {
     var conn = getConnection();
 
@@ -451,9 +499,9 @@ exports.updateActivity = function(name, description, discount, cost, start_time,
 
 
 /*
- *  Function:   Create New User
- *  Input:      Discount, Cost, Start Time, Duration, Sport ID
- *  Output:     Bool / Error Message
+ *  Function:   new activity image
+ *  Input:      id of activity for new image, id of new image
+ *  Output:     Error object / row count 
 */
 exports.newActivityImage = function(activity_id, image_id) {
 
@@ -481,13 +529,17 @@ exports.newActivityImage = function(activity_id, image_id) {
 
                 // Result
                 resolve(results);
-            
             });
         });
     });
 }
 
 
+/*
+ *  Function:   delete an existing activity image
+ *  Input:      id of activity where image being deleted, id of image to delete
+ *  Output:     Error object / bool
+*/
 exports.deleteActivityImage = function(activity_id, image_id) {
     var conn = getConnection();
 
@@ -513,13 +565,17 @@ exports.deleteActivityImage = function(activity_id, image_id) {
 
                 // Result
                 resolve(true);
-            
             });
         });
     });
 }
 
 
+/*
+ *  Function:   get all images for a specific activity
+ *  Input:      id of activity to get images for
+ *  Output:     Error object / list of images
+*/
 exports.getActivityImages = function(activity_id) {
     var conn = getConnection();
 
@@ -553,9 +609,9 @@ exports.getActivityImages = function(activity_id) {
 
 
 /*
- *  Function:   Create New User
- *  Input:      Discount, Cost, Start Time, Duration, Sport ID
- *  Output:     Bool / Error Message
+ *  Function:   Create New Facility
+ *  Input:      Facility name, description, price, capacitym icon
+ *  Output:     Error object / row count
 */
 exports.createFacility = function(name, description, price, capacity, icon) {
 
@@ -589,10 +645,11 @@ exports.createFacility = function(name, description, price, capacity, icon) {
     });
 }
 
+
 /*
- *  Function:   Create New User
- *  Input:      Discount, Cost, Start Time, Duration, Sport ID
- *  Output:     Bool / Error Message
+ *  Function:   Create New Facility Image
+ *  Input:      Id of facility for new image, id of new image
+ *  Output:     Error object / row count
 */
 exports.newFacilityImage = function(facility_id, image_id) {
 
@@ -627,6 +684,11 @@ exports.newFacilityImage = function(facility_id, image_id) {
 }
 
 
+/*
+ *  Function:   delete an existing facility image
+ *  Input:      id of facility where image being deleted, id of image to delete
+ *  Output:     Error object / bool
+*/
 exports.deleteFacilityImage = function(facility_id, image_id) {
     var conn =  getConnection();
 
@@ -652,13 +714,17 @@ exports.deleteFacilityImage = function(facility_id, image_id) {
 
                 // Result
                 resolve(true);
-            
             });
         });
     });
 }
 
 
+/*
+ *  Function:   get all images for a specific facility
+ *  Input:      id of facility to get images for
+ *  Output:     Error object / list of images
+*/
 exports.getFacilityImages = function(facility_id) {
     var conn =  getConnection();
 
@@ -691,10 +757,11 @@ exports.getFacilityImages = function(facility_id) {
 }
 
 
-
-
-
-
+/*
+ *  Function:   Update existing facility
+ *  Input:      facility name, description, price, capacity, icon and id
+ *  Output:     Error object / row count
+*/
 exports.updateFacility = function(name, description, price, capacity, icon, facilityId) {
 
     var conn = getConnection();
@@ -721,13 +788,17 @@ exports.updateFacility = function(name, description, price, capacity, icon, faci
 
                 // Result
                 resolve(results);
-            
             });
         });
     });
 }
 
 
+/*
+ *  Function:   Create a new activity booking
+ *  Input:      Id of activity being booked
+ *  Output:     Error object / row count
+*/
 exports.createBooking = function(activity_id) {
 
     var conn = getConnection();
@@ -754,12 +825,17 @@ exports.createBooking = function(activity_id) {
 
                 // Result
                 resolve(results);
-            
             });
         });
     });
 }
 
+
+/*
+ *  Function:   Create a new cash payment for a user
+ *  Input:      amount being paid, id of activity being booked, id of user booking the activity, id of employee making the booking
+ *  Output:     Error object / row count
+*/
 exports.createPaymentCash = function(amount, activity_id, user_id, employee_id) {
 
     var conn = getConnection();
@@ -786,12 +862,17 @@ exports.createPaymentCash = function(amount, activity_id, user_id, employee_id) 
 
                 // Result
                 resolve(results);
-            
             });
         });
     });
 }
 
+
+/*
+ *  Function:   Select data to insert into cash payment receipt
+ *  Input:      id of payment to get receipt for 
+ *  Output:     Error object / Receipt data
+*/
 exports.receiptPaymentCash = function(payment_id) {
     var conn = getConnection();
 
@@ -819,7 +900,8 @@ exports.receiptPaymentCash = function(payment_id) {
                 // Result
                 if (results.length > 0)
                     resolve(results[0]);
-
+                
+                // If no results returned from query
                 else
                     reject("Payment not found.");
 
@@ -828,7 +910,12 @@ exports.receiptPaymentCash = function(payment_id) {
     });
 }
 
-//
+
+/*
+ *  Function:   Select data to insert into payment receipt (online payment)
+ *  Input:      id of payment to get receipt for 
+ *  Output:     Error object / Receipt data
+*/
 exports.receiptPayment = function(payment_id) {
     var conn = getConnection();
 
@@ -861,6 +948,7 @@ exports.receiptPayment = function(payment_id) {
                 if (results.length > 0)
                     resolve(results[0]);
 
+                // If no results returned from query
                 else
                     reject("Payment not found.");
 
@@ -907,6 +995,7 @@ exports.getUserMemberships = function(id) {
     });
 }
 
+
 /*
  *  Function:   Delete Membership by id 
  *  Input:      User {id}, Membership {id}
@@ -944,6 +1033,7 @@ exports.cancelMembership = function(userId, membershipId) {
     });
 }
 
+
 /*
  *  Function:   Delete Card by id 
  *  Input:      User {id}, Card {id}
@@ -980,7 +1070,6 @@ exports.deleteUserCard = function(userId, cardId) {
         });
     });
 }
-
 
 
 /*
@@ -1060,7 +1149,6 @@ exports.getUserPaymentsCash = function(userId) {
 }
 
 
-
 /*
  *  Function:   Query payments by employee id (passed from session)
  *  Input:      User {id}
@@ -1097,8 +1185,6 @@ exports.getEmployeePayments = function(employeeId) {
         });
     });
 }
-
-
 
 
 /*
@@ -1138,8 +1224,9 @@ exports.getUserBookings = function(id) {
     });
 }
 
+
 /*
- *  Function:   Delete Booked Activity
+ *  Function:   Delete Booked Activity (cancel a booking)
  *  Input:      BookedActivity Id
  *  Output:     Boolean Result / Error Message
 */
@@ -1175,10 +1262,11 @@ exports.cancelBooking = function(id) {
     });
 }
 
+
 /*
- *  Function:   Query User by id once logged in
- *  Input:      Id
- *  Output:     User Object / Error Message
+ *  Function:   Get all the upcoming activities given a set of filters 
+ *  Input:      No. items to return, page number, filters to query against (start date, end date, sport, facility)
+ *  Output:     Error object, Upocming activites
 */
 exports.getUpcomingActivities = function(no_items, page_no, filters) {
 
@@ -1227,19 +1315,16 @@ exports.getUpcomingActivities = function(no_items, page_no, filters) {
                 
                 // Result
                 resolve(results);
-            
             });
         });
     });
 }
 
 
-
-
 /*
- *  Function:   Query User by id once logged in
- *  Input:      Id
- *  Output:     User Object / Error Message
+ *  Function:   Get all the facilities from the db
+ *  Input:      no items to return, page number
+ *  Output:     Error object, facilities
 */
 exports.getFacilities = function(no_items, page_no) {
 
@@ -1273,10 +1358,11 @@ exports.getFacilities = function(no_items, page_no) {
     });
 }
 
+
 /*
- *  Function:   Query User by id once logged in
- *  Input:      Id
- *  Output:     User Object / Error Message
+ *  Function:   Get a specific facility by id
+ *  Input:      Id of facility
+ *  Output:     Error object / facility
 */
 exports.getFacility = function(id) {
 
@@ -1304,13 +1390,17 @@ exports.getFacility = function(id) {
 
                 // Result
                 resolve(results);
-            
             });
         });
     });
 }
 
 
+/*
+ *  Function:   Delete a specific facility by id
+ *  Input:      Id of facility to delete
+ *  Output:     Error object / bool
+*/
 exports.deleteFacility = function(facilityId) {
     var conn = getConnection();
 
@@ -1330,17 +1420,22 @@ exports.deleteFacility = function(facilityId) {
             conn.query(query, function(err, results, fields) {
                 conn.end();
 
+                // Error
                 if (err) return reject(err);
             
+                // Result
                 resolve(true);
-                
             });
         });
     });
 }
 
 
-
+/*
+ *  Function:   Delete a specific activity by id
+ *  Input:      Id of activity to delete
+ *  Output:     Error object / bool
+*/
 exports.deleteActivity = function(activityId) {
     var conn = getConnection();
 
@@ -1360,11 +1455,11 @@ exports.deleteActivity = function(activityId) {
             conn.query(query, function(err, results, fields) {
                 conn.end();
 
+                // Error
                 if (err) return reject(err);
                 
-            
+                // Result
                 resolve(true);
-                
             });
         });
     });
@@ -1372,7 +1467,7 @@ exports.deleteActivity = function(activityId) {
 
 
 /*
- *  Function:   Update Usr Img
+ *  Function:   Update User Img
  *  Input:      String
  *  Output:     Result / Error Message
 */
@@ -1408,6 +1503,7 @@ exports.newImage = function(ext) {
     });
 }
 
+
 /*
  *  Function:   Query User Payment Cards by id once logged in
  *  Input:      User Id
@@ -1438,12 +1534,13 @@ exports.getUserCards = function(user_id) {
                 // Error
                 if (err) return reject(err);
 
+                // Result
                 resolve(results);
-
             });
         });
     });
 }
+
 
 /*
  *  Function:   Create New Card
@@ -1499,6 +1596,7 @@ exports.createUserCard = function(userId, card, stripe_id) {
     });
 }
 
+
 /*
  *  Function:   Log user registration
  *  Input:      User Id, Logging Type: registration (1)
@@ -1535,6 +1633,7 @@ exports.logUserRegistration = function(user_id) {
         });
     });
 }
+
 
 /*
  *  Function:   Log user login
@@ -1573,6 +1672,7 @@ exports.logUserLogin = function(user_id) {
     });
 }
 
+
 /*
  *  Function:   Query User Login Activity
  *  Output:     User Object / Error Message
@@ -1602,12 +1702,13 @@ exports.getUserLoginActivity = function(start, end) {
                 // Error
                 if (err) return reject(err);
 
+                // Result
                 resolve(results);
-
             });
         });
     });
 }
+
 
 /*
  *  Function:   Query User Login Activity
@@ -1638,12 +1739,13 @@ exports.getUserRegistrationActivity = function() {
                 // Error
                 if (err) return reject(err);
 
+                // Result
                 resolve(results);
-
             });
         });
     });
 }
+
 
 /*
  *  Function:   Query Activities per Facility
@@ -1682,10 +1784,11 @@ exports.getFacilityActivities = function(facilityId) {
     });
 }
 
+
 /*
- *  Function:   Generate Activity Booking
- *  Input:      Facility {id}, Date
- *  Output:     Timetable / Error Message
+ *  Function:   Get activities for facilities timetable
+ *  Input:      Id of facility to go get activities for, day, month, year to get activities in
+ *  Output:     Error object / activities in given facilitiy, time range
 */
 exports.getFacilityTimetable = function(facilityId, day, month, year) {
 
@@ -1711,8 +1814,8 @@ exports.getFacilityTimetable = function(facilityId, day, month, year) {
                 // Error
                 if (err) return reject(err);
 
+                // Result
                 resolve(results);
-
             });
         });
     });
@@ -1720,9 +1823,9 @@ exports.getFacilityTimetable = function(facilityId, day, month, year) {
 
 
 /*
- *  Function:   Generate Activity Booking
- *  Input:      Date String
- *  Output:     Activities [] / Error Message
+ *  Function:   Get activities for activities timetable (book an activity page)
+ *  Input:      day, month, year as filters
+ *  Output:     Error object / activities in given time range
 */
 exports.getActivitiesTimetable = function(day, month, year) {
     var conn = getConnection();
@@ -1744,8 +1847,8 @@ exports.getActivitiesTimetable = function(day, month, year) {
                 // Error
                 if (err) return reject(err);
 
+                // Result
                 resolve(results);
-
             });
         });
     });
@@ -1784,11 +1887,11 @@ exports.generateActivityBooking = function(idActivity) {
 
                 // Result
                 resolve(result.insertId);
-            
             });
         });
     });
 }
+
 
 /*
  *  Function:   Generate Booking Payment
@@ -1822,11 +1925,11 @@ exports.generateBookingPayment = function(bookedActivityId, cost, userId, cardId
 
                 // Result
                 resolve(result.insertId);
-            
             });
         });
     });
 }
+
 
 /*
  *  Function:   Generate Membership Payment
@@ -1859,8 +1962,7 @@ exports.generateMembershipPayment = function(membershipId, cost, userId, cardId)
                 if (err) return reject(err);
 
                 // Result
-                resolve(result.insertId);
-            
+                resolve(result.insertId);   
             });
         });
     });
@@ -1900,13 +2002,14 @@ exports.getActivityObj = function(id) {
                 if (results.length > 0)
                     resolve(results[0]);
 
+                // No results returned from query
                 else
                     reject('No activities found.');
-                    
             });
         });
     });
 }
+
 
 /*
  *  Function:   Get Overall Usage per Activity
@@ -1941,12 +2044,14 @@ exports.getOverallActivityUsage = function(id) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No activities found.');     
             });
         });
     });
 }
+
 
 /*
  *  Function:   Get Overall Usage per Activity
@@ -1981,12 +2086,14 @@ exports.getOverallActivityUsage = function(id) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No activities found.');     
             });
         });
     });
 }
+
 
 /*
  *  Function:   Get Weekly Usage per Activity
@@ -2021,6 +2128,7 @@ exports.getWeeklyActivityUsage = function(id, start, end) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No activities found.');     
             });
@@ -2028,9 +2136,10 @@ exports.getWeeklyActivityUsage = function(id, start, end) {
     });
 }
 
+
 /*
  *  Function:   Get All Activities ids
- *  Output:     Activity {id} [] / Error Message
+ *  Output:     Activity {id}, activity data [] / Error Message
 */
 exports.getAllActivities = function() {
 
@@ -2069,9 +2178,10 @@ exports.getAllActivities = function() {
     });
 }
 
+
 /*
- *  Function:   Get All Facility ids
- *  Output:     Facility {id} [] / Error Message
+ *  Function:   Get All Facilities
+ *  Output:     All facilities from db / Error Message
 */
 exports.getAllFacilities = function() {
 
@@ -2110,6 +2220,7 @@ exports.getAllFacilities = function() {
     });
 }
 
+
 /*
  *  Function:   Get Overall Usage per Facility
  *  Input:      Facility {id}
@@ -2143,12 +2254,14 @@ exports.getOverallFacilityUsage = function(id) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No bookings found per facility.');     
             });
         });
     });
 }
+
 
 /*
  *  Function:   Get Weekly Usage per Facility
@@ -2183,12 +2296,14 @@ exports.getWeeklyFacilityUsage = function(id, start, end) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No activities found.');     
             });
         });
     });
 }
+
 
 /*
  *  Function:   Get All Sport ids and name
@@ -2221,6 +2336,7 @@ exports.getAllSports = function() {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No bookings found per activity.');       
             });
@@ -2262,12 +2378,14 @@ exports.getOverallSportUsage = function(id) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No bookings found per facility.');     
             });
         });
     });
 }
+
 
 /*
  *  Function:   Get Weekly Usage per Sport
@@ -2302,12 +2420,14 @@ exports.getWeeklySportUsage = function(id, start, end) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No usage data found.');     
             });
         });
     });
 }
+
 
 /*
  *  Function:   Get Pricing by Sport Id
@@ -2342,12 +2462,14 @@ exports.getPricingBySport = function(sportId) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No pricing found.');     
             });
         });
     });
 }
+
 
 /*
  *  Function:   Get Pricing By Type
@@ -2382,6 +2504,7 @@ exports.getPricingByType = function(type) {
                 if (results.length > 0)
                     resolve(results);
 
+                // No results returned from query
                 else
                     reject('No pricing found.');     
             });
@@ -2423,6 +2546,7 @@ exports.getPricingAmount = function(id) {
                 if (results.length > 0)
                     resolve(results[0].amount);
 
+                // No results returned from query
                 else
                     reject('No pricing found.');     
             });
@@ -2431,7 +2555,11 @@ exports.getPricingAmount = function(id) {
 }
 
 
-
+/*
+ *  Function:   Get Pricing Details
+ *  Input:      Id of pricing to get details for
+ *  Output:     Error object / specified pricing details (attributes)
+*/
 exports.getPricingDetails = function(pricingId) {
     
     var conn = getConnection();
@@ -2459,14 +2587,13 @@ exports.getPricingDetails = function(pricingId) {
                 if (results.length > 0) 
                     resolve(results[0]);
                 
+                // No results returned from query
                 else
                     reject("No pricing found");
-
             });
         });
     });
 }
-
 
 
 /*
@@ -2507,6 +2634,11 @@ exports.createMembership = function(userId, pricingId) {
 }
 
 
+/*
+ *  Function:   Get Booked Capacity of activity
+ *  Input:      Id of activity to get capacity for 
+ *  Output:     Error object / (int) booked capacity of activity
+*/
 exports.getBookedCapacity = function(activityId) {
     
     var conn = getConnection();
@@ -2531,12 +2663,19 @@ exports.getBookedCapacity = function(activityId) {
                 //Error
                 if (err) return reject(err);
 
+                // Result
                 resolve(results[0]);
             });
         });
     });
 }
 
+
+/*
+ *  Function:   Get membership by Id
+ *  Input:      Id of membership to get
+ *  Output:     Error object / membership details (attributes)
+*/
 exports.getMembership = function(id) {
 
     var conn = getConnection();
@@ -2566,14 +2705,20 @@ exports.getMembership = function(id) {
                 if (results.length > 0)
                     resolve(results[0]);
 
+                // No results returned from query
                 else
                     reject("Membership not found.");
-
             });
         });
     });
 }
 
+
+/*
+ *  Function:   Get specified booked activity by Id
+ *  Input:      Id of booked activity to get
+ *  Output:     Error object / Booked activity details (attributes)
+*/
 exports.getBookedActivity = function(id) {
 
     var conn = getConnection();
@@ -2603,14 +2748,20 @@ exports.getBookedActivity = function(id) {
                 if (results.length > 0)
                     resolve(results[0]);
 
+                // No results returned from query
                 else
                     reject("User not found.");
-
             });
         });
     });
 }
 
+
+/*
+ *  Function:   Get card details by Id
+ *  Input:      Id of card to get details for 
+ *  Output:     Error object / Card details
+*/
 exports.getCardDetails = function(cardId) {
 
     var conn = getConnection();
@@ -2635,6 +2786,7 @@ exports.getCardDetails = function(cardId) {
                 if (results.length > 0)
                     resolve(results[0]);
 
+                // No results returned from query
                 else 
                     reject("No card exists in DB");
             });

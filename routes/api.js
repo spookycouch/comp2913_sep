@@ -1,4 +1,15 @@
+/*
+    api.js
+        -- Rest api api to privide an interface for the mobile app to interact 
+        with the database
 
+    Contributers
+        -- Joe Jeffcock
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 const express = require('express');
 const router = express.Router();
 var path = require('path');
@@ -8,7 +19,6 @@ const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const validation = require('../modules/validation');
 var moment = require('moment');
-
 var user = require('../modules/user');
 var employee = require('../modules/employee');
 var busboy = require('busboy');
@@ -21,6 +31,7 @@ router.use(cookieParser(process.env.SESSION_SECRET));
 
 // Website header
 const webname = ' The Edgy ';
+
 
 /*
  *  Function:   Login API Endpoind
@@ -71,8 +82,6 @@ router.post('/login', jsonEncoded, function(req, res) {
             JSON.stringify(err)
         );
     }
-    
-    
 });
 
 
@@ -127,6 +136,9 @@ router.post('/register', jsonEncoded, function(req, res) {
 });
 
 
+/*
+ *  Function:   New facility API Endpoint
+*/
 router.post('/upload_facility', jsonEncoded, function(req, res) {
 
     // Validation
@@ -255,4 +267,5 @@ router.post('/upload_activity', jsonEncoded, function(req, res) {
 });
 
 
+// Exports
 module.exports = router;

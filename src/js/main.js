@@ -1,4 +1,13 @@
 /*
+    main.js
+        -- javascript front end functions for providing interation to the user
+        
+    Contributers
+        -- Samuel Barnes
+*/
+
+
+/*
 *    Scroll function
 */
 $(window).scroll(function() {
@@ -18,7 +27,8 @@ $(window).scroll(function() {
 *       document load function (on ready)
 */
 $(document).ready(function() {
-    // Variables 
+
+    // Variable declarations
     var hamburgerPressed = false; // Menu dropdown toggle
     var accountToggle = false;    // Account side-bar toggle
 
@@ -242,6 +252,10 @@ $(document).ready(function() {
     });
 
 
+    /*
+    *  Automatically open the modal and fill it with the activity details from Id
+    *  Input:   Id of activity 
+    */ 
     if ($('.modal--open-auto')[0]) {
         var id = $('#full-error').attr('data_attr');
         
@@ -261,6 +275,7 @@ $(document).ready(function() {
                     members = data.results.discount == 0 ? "Free" : "£" + (data.results.cost - data.results.discount);
                     nonMembers = data.results.cost == 0 ? "Free" : "£" + data.results.cost;
                     
+                    // replace the modal with the new dats
                     updateBookingModal(
                         data.results.name_sport,
                         data.results.start_time,
@@ -525,7 +540,11 @@ $(document).ready(function() {
 });
 
   
-
+/*
+*  Function:   Update booking modal
+*  Input:      activity, start time, duration, capacity, location, price, id of activtiy 
+*  Output:     Booking modal with new data within
+*/ 
 function updateBookingModal(activity, start_time, duration, capacity, location, price, id) {
     $('#full-error').addClass('modal__error--d-none'); // hide any errors that could have been shown
     $('#book-activity').css('display', 'inline-block');

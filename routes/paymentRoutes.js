@@ -1,3 +1,15 @@
+/*
+    paymentRoutes.js
+        -- Routes to facilitate payment, booking an activity or 
+        buying a membership
+        
+    Contributers
+        -- Samuel Barnes
+        -- Artyom Tiunelis
+*/
+
+
+// Variable declarations
 const express = require('express');
 const validation = require('../modules/validation');
 const jwt = require('jsonwebtoken');
@@ -30,6 +42,7 @@ const webname = ' The Edgy ';
 
 /*
  *  Function:   Booking payment page
+ *  Input:      Id of activity being booked
 */
 router.get('/booking/:id*', function(req, res) {
 
@@ -40,19 +53,19 @@ router.get('/booking/:id*', function(req, res) {
         req.session.from = "/payment" + req.url;
         res.redirect('/user/login');
     } else {
-        if (req.session.userType > 2) { // Managers shouldnt be able to book things
-            // res.redirect('/activities?admin=' + activityId);
-
+        // Managers shouldnt be able to book things
+        if (req.session.userType > 2) {
             back = req.header('Referer') || '/';
             attr = url.parse(back, true).query;
             back = url.parse(back, true).pathname;
             connective = "?";
 
-            if (attr.id) {
+            if (attr.id) {  // if theres an id param in url
                 back += "?id=" + attr.id;
                 connective = "&";
             }
             
+            // redirect
             res.redirect(back + connective + "admin=" + activityId);
 
         } else {
@@ -63,17 +76,19 @@ router.get('/booking/:id*', function(req, res) {
 
                 user.getActivityBookedCapacity(activityId).then(function(bookedCapacity) {
 
+                    // Check capacity isnt full
                     if (bookedCapacity.capacity >= activity.capacity) {
                         back = req.header('Referer') || '/';
                         attr = url.parse(back, true).query;
                         back = url.parse(back, true).pathname;
                         connective = "?";
             
-                        if (attr.id) {
+                        if (attr.id) {  // if theres an id param in url
                             back += "?id=" + attr.id;
                             connective = "&";
                         }
                         
+                        // redirect
                         res.redirect(back + connective + "full=" + activityId);
 
                     } else {
@@ -122,25 +137,29 @@ router.get('/booking/:id*', function(req, res) {
                                             page: page
                                         });
         
-        
+                                    // Error getting user cards
                                     }).catch(function(err){
                                         error.defaultError(req, res, webname, err);
                                     });
         
+                                // Error getting user details
                                 }).catch(function(err) {
                                     error.defaultError(req, res, webname, err);
                                 });
                             }
         
+                        // Error getting activity payment price
                         }).catch(function(err) {
                             error.defaultError(req, res, webname, err);
                         });
                     }
 
+                // Error getting activity booked capacity
                 }).catch(function(err) {
                     error.defaultError(req, res, webname, err);
                 });
 
+            // Error getting the activity
             }).catch(function(err) {
                 error.defaultError(req, res, webname, err);            
             });
@@ -149,7 +168,11 @@ router.get('/booking/:id*', function(req, res) {
 });
 
 
-
+/*
+ *  Function:   Render membership
+ *  Input:      req, res, type of membership
+ *  Output:     Error message / render membership page
+*/
 function renderMembership(req, res, type) {
     facility.getPricingByType(type).then(function(pricing) {
 
@@ -175,25 +198,29 @@ function renderMembership(req, res, type) {
                     option: option
                 });
 
-
+            // Error getting user cards
             }).catch(function(err){
 
                 error.defaultError(req, res, webname, err);
             });   
 
+        // Error getting user details
         }).catch(function(err) {
+
             error.defaultError(req, res, webname, err);
-            
         });
+
+    // Error getting pricing by type
     }).catch(function(err) {
+
         error.defaultError(req, res, webname, err);
-        
     });
 }
 
 
 /*
  *  Function:   Membership payment page
+ *  Input:      Id of membership type being brought
 */
 router.get('/membership/:id*', function(req, res) {
 
@@ -218,12 +245,17 @@ router.get('/membership/:id*', function(req, res) {
                         session: req.session
                     });
 
+                // type exists
                 } else {
                     renderMembership(req, res, type);
                 }
+
+            // Error getting payment price
             }).catch(function(err) {
                 error.defaultError(req, res, webname, err);
             });
+
+        // no membership type option in url
         } else {
             renderMembership(req, res, type);
         }       
@@ -231,4 +263,5 @@ router.get('/membership/:id*', function(req, res) {
 });
 
 
+// Exports
 module.exports = router;

@@ -1,4 +1,17 @@
+/*
+    index.js
+        -- Routes for when the user is not logged in; i.e everthing
+        the user can do without creating an account
+        
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
 
+
+// Variable declarations
 const express = require('express');
 const router = express.Router();
 var path = require('path');
@@ -11,7 +24,6 @@ const session = require('client-sessions');
 var facility = require('../modules/facility');
 var error = require('../modules/error');
 const url = require('url');
-
 
 var csrf = csurf({ cookie: true });
 
@@ -32,10 +44,13 @@ router.use(bodyParser.urlencoded({ extended: true }));
 // Website header
 const webname = ' The Edgy ';
 
+
 /*
  *  Function:   Homepage Router
 */
 router.get(['/', '/home'], csrf, function(req, res) {
+
+    // Render
     res.render(path.join(__dirname + '/../views/pages/index.ejs'),
     {
         title: webname + "| Home",
@@ -44,9 +59,15 @@ router.get(['/', '/home'], csrf, function(req, res) {
 });
 
 
+/*
+ *  Function:   Get smallest price
+ *  Input:      array: prices
+ *  Output:     smallest price from array
+*/
 var getSmallestPrice = function(prices) {
     var smallest = prices[0];
     
+    // Calculate smallest
     for (var i = 0; i < prices.length; i++) {
         if (prices[i].amount < smallest.amount) {
             smallest.amount = prices[i].amount;
@@ -55,6 +76,7 @@ var getSmallestPrice = function(prices) {
 
     return smallest;
 }
+
 
 /*
  *  Function:   Memberships Page Router
@@ -88,11 +110,12 @@ router.get('/memberships', csrf, function(req, res) {
 
         error.defaultError(req, res, webname, err);
     });
-
 });
 
+
 /*
- *  Function:   Facilities Page Router
+ *  Function:   Facilities Page Router GET
+ *  Input:      No. items, page No.
 */
 router.get('/facilities', csrf, function(req, res) {
 
@@ -100,6 +123,8 @@ router.get('/facilities', csrf, function(req, res) {
     var page_no = 1;
 
     user.facilities(no_items, page_no).then(function (results) {
+
+        // Render page
         res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
         {
             no_items: no_items,
@@ -112,6 +137,7 @@ router.get('/facilities', csrf, function(req, res) {
             csrfToken: req.csrfToken()
         });
 
+    // Error getting facilities
     }).catch(function(err){
         
         error.defaultError(req, res, webname, err);
@@ -119,8 +145,10 @@ router.get('/facilities', csrf, function(req, res) {
 
 });
 
+
 /*
- *  Function:   Facilities Page Router
+ *  Function:   Facilities Page Router POST
+ *  Input:      No. items, page No.
 */
 router.post('/facilities', csrf, function(req, res) {
 
@@ -128,6 +156,8 @@ router.post('/facilities', csrf, function(req, res) {
     var page_no = parseInt(req.body.page_no);
 
     user.facilities(no_items, page_no).then(function (results) {
+
+        // Render
         res.render(path.join(__dirname + '/../views/pages/facilities.ejs'),
         {
             no_items: no_items,
@@ -140,15 +170,17 @@ router.post('/facilities', csrf, function(req, res) {
             csrfToken: req.csrfToken()
         });
 
+    // Error getting facilities
     }).catch(function(err){
         
         error.defaultError(req, res, webname, err);
     });
-
 });
+
 
 /*
  *  Function:   Facilities Page Router
+ *  Input:      Id of facility to render
 */
 router.get('/facilities/discover', csrf, function(req, res) {
 
@@ -191,7 +223,6 @@ router.get('/facilities/discover', csrf, function(req, res) {
     user.facilities_discover(facilityId).then(function(results) {
 
         if (results[0].length < 1) 
-
             // Throw 404 if no facility under id 
             res.status(404).render(path.join(__dirname + '/../views/pages/error-404.ejs'), {
                 title: "Page not found",
@@ -200,6 +231,8 @@ router.get('/facilities/discover', csrf, function(req, res) {
 
         else {
             user.facilities_timetable(facilityId, currentDate).then(function(timetable) {
+
+                // Render
                 res.render(path.join(__dirname + '/../views/pages/facilities_discover.ejs'),
                 {
                     facility: results[0],
@@ -225,23 +258,11 @@ router.get('/facilities/discover', csrf, function(req, res) {
         
         error.defaultError(req, res, webname, err);
     });
-
 });
 
 
 /*
- *  Function:   Contact Page Router
-*/
-router.get('/contact', csrf, function(req, res) {
-    res.render(path.join(__dirname + '/../views/pages/contact.ejs'),
-    {
-        title: webname + "| Contact",
-        session: req.session
-    });
-});
-
-/*
- *  Function:   Login Page Router
+ *  Function:   Login Page Router GET
 */
 router.get('/user/login', csrf, function(req, res) {
 
@@ -271,8 +292,10 @@ router.get('/user/login', csrf, function(req, res) {
     }
 });
 
+
 /*
  *  Function:   Activities page
+ *  Input:      No. items, page No., filters (attributes)
 */
 router.get('/activities', csrf, function(req, res) {
     var currentDate = new Date();
@@ -301,7 +324,6 @@ router.get('/activities', csrf, function(req, res) {
         filters['start_date'] = req.query.start_date;
     if (req.query.end_date)
         filters['end_date'] = req.query.end_date;
-        
 
     errors = [];
 
@@ -340,6 +362,8 @@ router.get('/activities', csrf, function(req, res) {
         user.activitiesTimetable(currentDate).then(function(timetable) {
             facility.getAllSports().then(function(sports) {
                 facility.getAllFacilities().then(function(facilities) {
+
+                    // Render
                     res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
                     {
                         no_items: no_items,
@@ -358,31 +382,36 @@ router.get('/activities', csrf, function(req, res) {
                         facilities: facilities,
                         error: errors
                     });
+                
+                // Error getting all facilities
                 }).catch(function(err) {
                     
                     error.defaultError(req, res, webname, err);
                 });
                 
+            // Error getting all sports
             }).catch(function(err) {
                 
                 error.defaultError(req, res, webname, err);
             });
         
+        // Error getting activities timetable
         }).catch(function(err) {
             
             error.defaultError(req, res, webname, err);
         }); 
 
+    // Error getting upcoming activities 
     }).catch(function(err){
         
         error.defaultError(req, res, webname, err);
     });
-
 });
 
 
 /*
- *  Function:   Facilities Page Router
+ *  Function:   Facilities Page Router POST
+ *  Input:      No. items, page No.
 */
 router.post('/activities', csrf, function(req, res) {
 
@@ -390,6 +419,8 @@ router.post('/activities', csrf, function(req, res) {
     var page_no = parseInt(req.body.page_no);
 
     user.upcomingActivities(no_items, page_no).then(function (results) {
+
+        // Render
         res.render(path.join(__dirname + '/../views/pages/activities.ejs'),
         {
             no_items: no_items,
@@ -402,10 +433,13 @@ router.post('/activities', csrf, function(req, res) {
             csrfToken: req.csrfToken()
         });
 
+    // Error getting upcoming activities 
     }).catch(function(err){
         
         error.defaultError(req, res, webname, err);
     });
 });
 
+
+// Exports
 module.exports = router;

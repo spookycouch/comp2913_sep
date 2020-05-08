@@ -1,3 +1,15 @@
+/*
+    paymentForm.js
+        -- Front end functions for facilitating payment using the stripe API,
+        uses provided stripe template
+        
+    Contributers
+        -- Samuel Barnes
+        -- Artyom Tiunelis
+*/
+
+
+
 // A reference to Stripe.js
 var stripe;
 
@@ -38,6 +50,9 @@ var handleAction = function(clientSecret) {
 };
 
 
+/*
+*       document load function (on ready)
+*/
 $(document).ready(function(e) {
   form = document.getElementById("submit-form");
 
@@ -56,9 +71,8 @@ $(document).ready(function(e) {
 
 
 /*
- * Collect card details and pay for the order
- */
-
+* Collect card details and pay for the order
+*/
 function sendPayment(){
 
   //activity ID is stored here
@@ -142,11 +156,17 @@ var orderComplete = function(clientSecret) {
   });
 };
 
+
+/*
+*   Function: render the error to the page
+*   Input:    string: error message
+*/
 var showErrorPayment = function(errorMsgText) {
   changeLoadingStatePayment(false);
   var errorMsg = document.querySelector(".sr-field-error-payment");
   errorMsg.textContent = errorMsgText;
 };
+
 
 // Show a spinner on payment submission
 var changeLoadingStatePayment = function(isLoading) {

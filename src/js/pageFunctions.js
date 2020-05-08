@@ -1,4 +1,14 @@
 /*
+    pageFunctions.js
+        -- javascript front end functions for use in multi-form page forms
+        that needs access to cross-functions
+        
+    Contributers
+        -- Samuel Barnes
+*/
+
+
+/*
     *  Function:   Change the current page of the form
     *  Input:      int count:        the current page the form is on
     *              string direction: 'prev' or 'next' for which page to go to

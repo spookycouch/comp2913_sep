@@ -1,5 +1,16 @@
+/*
+    registation.js
+        -- javascript front end functions for facilitating interaction
+        and multi-form process on registration page
+        
+    Contributers
+        -- Samuel Barnes
+*/
 
 
+/*
+*       document load function (on ready)
+*/
 $(document).ready(function() {
 
     // Variable declarations
