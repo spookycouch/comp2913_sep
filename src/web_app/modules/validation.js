@@ -16,6 +16,7 @@
 // Variable declarations
 const joi = require('@hapi/joi');
 
+
 /*
  *  Function:   Register form (whole form) Validation 
  *  Input:      Request Body
@@ -215,6 +216,12 @@ const registerValidation3 = function(data) {
 }
 
 
+
+/*
+ *  Function:   Update details validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
 const updateDetailsValidation = function(data) {
     const updateDetailsValidationSchema = joi.object({
         name: joi.string()
@@ -254,6 +261,12 @@ const updateDetailsValidation = function(data) {
 }
 
 
+
+/*
+ *  Function:   update password validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
 const updatePasswordValidation = function(data) {
     const updatePasswordValidationSchema = joi.object({
         current_password: joi.string()
@@ -285,6 +298,12 @@ const updatePasswordValidation = function(data) {
     return updatePasswordValidationSchema.validate(data, {abortEarly: false});
 }
 
+
+/*
+ *  Function:   new facility validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
 const newFacilityValidation = function(data) {
     const newFacilityValidationSchema = joi.object({
         name: joi.string()
@@ -320,6 +339,11 @@ const newFacilityValidation = function(data) {
 }
 
 
+/*
+ *  Function:   new activity validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
 const newActivityValidation = function(data) {
     const newActivityValidationSchema = joi.object({
         name: joi.string()
@@ -372,6 +396,11 @@ const newActivityValidation = function(data) {
 }
 
 
+/*
+ *  Function:   cash payment validation
+ *  Input:      Request Body
+ *  Output:     Null/Error Object
+*/
 const cashPaymentValidation = function(data) {
     const cashPaymentValidationSchema = joi.object({
         amount: joi.number()
@@ -441,6 +470,7 @@ const apiRegisterValidation = function(data){
     return registerValidationSchema.validate(data, {abortEarly: false});
 }
 
+
 /*
  *  Function:   Login Validation
  *  Input:      Request Body
@@ -472,6 +502,7 @@ const loginValidation = function(data){
     
     return LoginValidationSchema.validate(data);
 }
+
 
 /*
  *  Function:   API Login Validation
@@ -519,8 +550,9 @@ const apiNewActivityValidation = function(data){
     return registerValidationSchema.validate(data, {abortEarly: false});
 }
 
+
 /*
- *  Function:   Login Validation
+ *  Function:   new card validation
  *  Input:      Request Body
  *  Output:     Null/Error Object
 */
@@ -561,6 +593,8 @@ const newCardValidation = function(data){
     return newCardSchema.validate(data, {abortEarly: false});
 }
 
+
+// Exports
 module.exports.registerValidation = registerValidation;                 // Registration (whole form)
 module.exports.registerValidation1 = registerValidation1;               // Registration (subform 1)
 module.exports.registerValidation2 = registerValidation2;               // Registration (subform 2)

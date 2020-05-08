@@ -1,3 +1,15 @@
+/*
+    pay.js
+        -- Backend for stripe payment, allowing users to securely buy
+        products through the website
+
+    Contributers
+        -- Samuel Barnes
+        -- Artyom Tiunelis
+*/
+
+
+// Variable declarations
 const express = require('express');
 const router = express.Router();
 var user = require('../modules/user');
@@ -25,12 +37,13 @@ router.get("/stripe-key", function(req, res){
     res.send({ publishableKey: "pk_test_M2OkvXhkSGXf5hSxOXXFuJn400HaRqhZZc" });
 });
 
+
  /*
   * Function returnes stripe API public key
  */
 router.post("/setup-intent", async function(req, res){
 
-    if (req.session.userId == undefined)
+    if (req.session.userId == undefined) // not logged in
         res.redirect('/home');
 
     else {
@@ -48,7 +61,6 @@ router.post("/setup-intent", async function(req, res){
                 stripeCustomerId = stripeCustomer.id;
                 user.updateStripeToken(userObj.id, stripeCustomerId);
 
-
             }else{
 
                 stripeCustomerId = userObj.stripe_token;
@@ -62,6 +74,12 @@ router.post("/setup-intent", async function(req, res){
     }
 });
 
+
+ /*
+  * Function:   Calculate the price of the payment
+  * Input:      item, Id of user
+  * Output:     Error message / int: price
+ */
 const calculatePrice = async function(item, userId){
     // Replace this constant with a calculation of the order's amount
     // You should always calculate the order total on the server to prevent
@@ -100,6 +118,11 @@ const calculatePrice = async function(item, userId){
 };
 
 
+ /*
+  * Function:   Check an activity is fully booked
+  * Input:      item
+  * Output:     Error Message / Bool
+ */
 const checkFullyBooked = async function(item) {
     try {
         activity = await user.getActivity(item.id);
@@ -114,7 +137,6 @@ const checkFullyBooked = async function(item) {
         return true;
         
     } catch(err) {
-        console.log(err.message);
         return false;
     }
 }
@@ -202,6 +224,7 @@ router.post("/pay", async function(req, res){
     
 });
 
+
 /*
  * Function is used to decide on the action required in different cases of payment.
 */
@@ -264,4 +287,5 @@ const generateResponse = function(userId, item, price, cardId, intent){
 };
 
 
+// Exports
 module.exports = router;

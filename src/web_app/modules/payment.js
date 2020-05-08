@@ -264,10 +264,12 @@ exports.processBookingPaymentFree = function(activityId, userId) {
                     reject(err);
                 });
 
+            // Error generating activity booking
             }).catch(function(err) {
                 reject(err);
             });
      
+        // Error get activity object
         }).catch(function(err) {
             reject(err);
         });

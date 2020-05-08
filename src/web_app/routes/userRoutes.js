@@ -1,3 +1,20 @@
+/*
+    userRoutes.js
+        -- Routes for non-specific user actions, users being those who have joined
+        the gym by creating an account.
+
+    To do
+        -- state which errors are occuring
+        
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Artyom Tiunelis
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 const express = require('express');
 const validation = require('../modules/validation');
 const PDFDocument = require('pdfkit');
@@ -14,7 +31,6 @@ var moment = require('moment');
 var employee = require('../modules/employee');
 const stripe = require('stripe')('sk_test_6QysuydtyRi7yOTPx9c2dtBf000bOnLDIM');
 
-
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
 router.use(bodyParser.json());
@@ -23,6 +39,7 @@ router.use(csurf({ cookie: true }));
 
 // Website header
 const webname = ' The Edgy ';
+
 
 /*
  *  Function:   Register Backend Query
@@ -58,7 +75,7 @@ router.post('/register', function(req, res) {
                     res.redirect('/user/account');
                 }
 
-            // Error
+            // Error setting user session
             }).catch(function(err){
 
                 error.loginErrorPage(req, res, webname, [{
@@ -67,7 +84,7 @@ router.post('/register', function(req, res) {
                 }]);
             });
 
-        // Error
+        // Error registering user
         }). catch(function(err){
 
             error.loginErrorPage(req, res, webname, [{
@@ -76,7 +93,7 @@ router.post('/register', function(req, res) {
             }]);
         });
 
-    // Error
+    // All other errors
     } catch(err) {
         error.loginErrorPage(req, res, webname, err);
     }
@@ -120,7 +137,7 @@ router.post('/login', function(req, res) {
 
                 }
 
-            // Error
+            // Error setting user session
             }).catch(function(err){
 
                 error.loginErrorPage(req, res, webname, [{
@@ -130,7 +147,7 @@ router.post('/login', function(req, res) {
 
             });
 
-        // Error
+        // Error logging user in
         }). catch(function(err){
 
             error.loginErrorPage(req, res, webname, [{
@@ -139,12 +156,13 @@ router.post('/login', function(req, res) {
             }]);
         });
 
-
+    // All other errors
     } catch(err) {
 
         error.loginErrorPage(req, res, webname, err);
     }
 });
+
 
 /*
  *  Function:   Account Page
@@ -163,6 +181,7 @@ router.get('/account', function(req, res) {
             // Get user details
             user.getDetails(req.session.userId).then(function(result) {
 
+                // Render
                 res.render(path.join(__dirname + '/../views/pages/account/account.ejs'),
                 {
                     title: webname + "| Account",
@@ -170,8 +189,9 @@ router.get('/account', function(req, res) {
                     user: result
                 });
 
+            // Error getting user details
             }).catch(function(err) {
-                console.log(err);
+
                 error.loginErrorPage(req, res, webname);
             });
         }
@@ -190,6 +210,7 @@ router.get('/logout', function(req, res) {
     // -> Homepage
     res.redirect('/');
 });
+
 
 /*
  *  Function:   Account Bookings Page Router
@@ -222,12 +243,13 @@ router.get('/account/bookings', function(req, res) {
                         csrfToken: req.csrfToken()
                     });
 
-                // Error catching
+                // Error getting user bookings
                 }).catch(function(err){
 
                     error.defaultError(req, res, webname, err);
                 });
 
+            // error getting user details
             }).catch(function(err) {
 
                 error.defaultError(req, res, webname, err);
@@ -266,7 +288,7 @@ router.get('/account/details', function(req, res) {
                     csrfToken: req.csrfToken()
                 });
 
-            // Error -> logout
+            // Error getting user details
             }).catch(function(err) {
 
                 error.defaultError(req, res, webname, err);
@@ -308,11 +330,14 @@ router.post('/account/update/details', function(req, res) {
                         }
     
                         user.updateDetails(req.body).then(function(result) {
+
+                            // success
                             error.updateErrorPage(req, res, webname, user, [{
                                 message: 'Details Updated Successfully',
                                 path: 'success'
                             }]);
         
+                        // error updating user details
                         }).catch(function(err) {
                             error.updateErrorPage(req, res, webname, user, [{
                                 message: err,
@@ -320,13 +345,17 @@ router.post('/account/update/details', function(req, res) {
                             }]);
                         });
     
+                    // error checking email is already registered
                     }).catch(function(err) {
                         error.updateErrorPage(req, res, webname, user, err);
                     });
 
+                // error getting user details
                 }).catch(function(err) {
                     error.updateErrorPage(req, res, webname, user, err);
                 });
+
+            // all other errors
             } catch(err) {
                 error.updateErrorPage(req, res, webname, user, err);
             }
@@ -361,11 +390,14 @@ router.post('/account/update/address', function(req, res) {
 
 
                 user.updateAddress(req.body).then(function(result) {
+
+                    // success
                     error.updateErrorPage(req, res, webname, user, [{
                         message: 'Address Updated Successfully',
                         path: 'success'
                     }]);
 
+                // error updating user address
                 }).catch(function(err) {
                     error.updateErrorPage(req, res, webname, user, [{
                         message: err,
@@ -373,13 +405,14 @@ router.post('/account/update/address', function(req, res) {
                     }]);
                 });
 
-            // If an error with the data
+            // all other errors
             } catch(err) {
                 error.updateErrorPage(req, res, webname, user, err);
             }
         }
     }
 });
+
 
 /*
  *  Function:   Update Account Password
@@ -404,11 +437,14 @@ router.post('/account/update/password', function(req, res) {
                     throw value.error.details;
 
                 user.updatePassword(req.body).then(function(result) {
+
+                    // success
                     error.updateErrorPage(req, res, webname, user, [{
                         message: 'Password Updated Successfully',
                         path: 'success'
                     }]);
 
+                // error updating user password
                 }).catch(function(err) {
                     error.updateErrorPage(req, res, webname, user, [{
                         message: err,
@@ -416,7 +452,9 @@ router.post('/account/update/password', function(req, res) {
                     }]);
                 });
 
+            // all other errors
             } catch(err) {
+
                 error.updateErrorPage(req, res, webname, user, err);
             }
         }
@@ -453,11 +491,13 @@ router.get('/account/memberships', function(req, res) {
                         csrfToken: req.csrfToken()
                     });
 
+                // error getting user details
                 }).catch(function(err) {
 
                     error.defaultError(req, res, webname, err);
                 });
 
+            // error getting user memberships
             }).catch(function(err) {
 
                 error.defaultError(req, res, webname, err);
@@ -508,18 +548,24 @@ router.get('/account/payment', function(req, res) {
                                 csrfToken: req.csrfToken()
                             });
 
+                        // error getting cach payments
                         }).catch(function(err) {
                             console.log(err);
-                        })
+                        });
 
+                    // error getting payments
                     }).catch(function(err) {
+
                         error.defaultError(req, res, webname, err);
-                        
                     });
+                
+                // error getting user cards
                 }).catch(function(err){
 
                     error.defaultError(req, res, webname, err);
                 });   
+
+            // error getting user details
             }).catch(function(err) {
 
                 error.defaultError(req, res, webname, err);
@@ -529,6 +575,10 @@ router.get('/account/payment', function(req, res) {
 });
 
 
+/*
+ *  Function:   display payment receipt
+ *  Input:      Id of payment to display
+*/
 router.get('/account/payment/receipt', function(req, res) {
     if(req.session.userId == undefined) 
         res.redirect('/user/logout');
@@ -560,6 +610,7 @@ router.get('/account/payment/receipt', function(req, res) {
 
                 doc.text('\n\n');
 
+                // if its a membership payment 
                 if (result.membership_type != null) {
                     var membership = "";
 
@@ -573,6 +624,7 @@ router.get('/account/payment/receipt', function(req, res) {
                     doc.text('Pricing ID: ' + result.pricing_id);
                     doc.text('Membership ID: ' + result.id_membership + '; ' + membership);
 
+                // booking payment
                 } else {
                     doc.text('Booking ID: ' + result.booking_id);
                     doc.text('Activity ID: ' + result.activity_id + '; ' + result.activity_name);
@@ -597,20 +649,20 @@ router.get('/account/payment/receipt', function(req, res) {
                 doc.pipe(res);
                 doc.end();
 
+            // error getting payment receipt details
             }).catch(function(err) {
 
-                // TODO: proper error handle
-                console.log(err);
+                error.defaultError(req, res, webname, err);
             });
 
         // Catch all other errors thrown
         } catch(err) {
 
-            // TODO: proper error handle
-            console.log(err);
+            error.defaultError(req, res, webname, err);
         }
     }
 }); 
+
 
 /*
  *  Function:   add a payment method to the user.
@@ -646,11 +698,8 @@ router.post('/account/add/card', async function(req, res) {
                     stripeCustomerId = stripeCustomer.id;
                     user.updateStripeToken(userObj.id, stripeCustomerId);
 
-
-                }else{
-
+                } else
                     stripeCustomerId = userObj.stripe_token;
-                }
 
                 try {
                     // Query
@@ -663,16 +712,16 @@ router.post('/account/add/card', async function(req, res) {
                             result: "success"
                         }));
         
+                    // error adding card 
                     }).catch(function(err) {    
-                        console.log(err);
 
                         res.end(JSON.stringify({
                             message: err,
                             result: "unsuccessful"
                         }));
-
                     });
         
+                // all other errros
                 } catch(err) {    
                     console.log(err);    
                     res.end(JSON.stringify({
@@ -680,8 +729,9 @@ router.post('/account/add/card', async function(req, res) {
                         result: "unsuccessful"
                     }));
                 }
+
+            // error getting user details
             }).catch(function(err){     
-                console.log(err);       
 
                 res.end(JSON.stringify({
                     message: err,
@@ -690,7 +740,6 @@ router.post('/account/add/card', async function(req, res) {
             });
         }
     }
-
 });
 
 
@@ -706,6 +755,8 @@ router.get('/account/payment/cash', function (req, res) {
         user.getDetails(req.session.userId).then(function(result) {
             employee.getEmployeePayments(req.session.userId).then(function(payments) {
                 facility.getAllActivities().then(function(activities) {
+
+                    // render
                     return res.render(path.join(__dirname + '/../views/pages/account/account-cash-payment.ejs'), {
                         title: webname + "| Account | Payments | Cash",
                         session: req.session,
@@ -715,16 +766,20 @@ router.get('/account/payment/cash', function (req, res) {
                         payments: payments,
                         form: req.body
                     });
+
+                // error getting all activities
                 }).catch(function(err) {
                     console.log(err); // for debugging
                     res.redirect('/user/logout');
                 });
 
+            // error getting employee payments
             }).catch(function(err) {
                 console.log(err);
                 res.redirect('/user/logout');
             });
 
+        // error getting user details
         }).catch(function(err) {
             console.log(err);
             res.redirect('/user/logout');
@@ -748,9 +803,9 @@ router.post('/account/payment/cash', function(req, res) {
             if (value.error != undefined)
                 throw value.error.details;
 
-
             user.checkEmailRegistered(req.body.email).then(function(userBuying) {
 
+                // email doesnt exist
                 if (userBuying == false) throw [{
                     message: "No user exists for such email",
                     path: "email"
@@ -758,6 +813,7 @@ router.post('/account/payment/cash', function(req, res) {
 
                 user.getActivity(req.body.activity_id).then(function(activity) {
 
+                    // cash provided is less than the cost of the activity
                     if (req.body.amount < activity.cost) throw [{
                         message: "Amount Paid cannot be less than cost of activity",
                         path: "amount"
@@ -765,6 +821,7 @@ router.post('/account/payment/cash', function(req, res) {
 
                     user.getActivityBookedCapacity(activity.id).then(function(bookedCapacity) {
 
+                        // activity is already fully booked
                         if (bookedCapacity.capacity >= activity.capacity) throw [{
                             message: "This activity is fully booked",
                             path: "activity_id"
@@ -777,6 +834,7 @@ router.post('/account/payment/cash', function(req, res) {
                                 payment_id: result[1][0].id
                             }]);
     
+                        // error creating new cash payment
                         }).catch(function(err) {
 
                             error.cashPaymentError(req, res, webname, user, facility, employee, [{
@@ -785,21 +843,23 @@ router.post('/account/payment/cash', function(req, res) {
                             }]);
                         });
 
+                    // error getting activity booked capacity
                     }).catch(function(err) {
-                        error.cashPaymentError(req, res, webname, user, facility, employee, err);
 
+                        error.cashPaymentError(req, res, webname, user, facility, employee, err);
                     });
 
+                // error getting the activity details
                 }).catch(function(err) {
 
                     error.cashPaymentError(req, res, webname, user, facility, employee, err);
                 });
 
+            // error checking the email is already registered
             }).catch(function(err) {
 
                 error.cashPaymentError(req, res, webname, user, facility, employee, err);
             });
-
 
         // Catch all other errors thrown
         } catch(err) {
@@ -872,20 +932,20 @@ router.get('/account/payment/cash/receipt', function(req, res) {
                 doc.pipe(res);
                 doc.end();
 
+            // error getting cash payment receipt details
             }).catch(function(err) {
 
-                // TODO: proper error handle
-                console.log(err);
+                error.defaultError(req, res, webname, err);
             });
 
         // Catch all other errors thrown
         } catch(err) {
 
-            // TODO: proper error handle
-            console.log(err);
+            error.defaultError(req, res, webname, err);
         }
     }
 });
 
 
+// exports
 module.exports = router;

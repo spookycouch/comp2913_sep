@@ -1,3 +1,19 @@
+/*
+    managerRoutes.js
+        -- Routes for the manager ; routes that only the manager can
+        take.
+
+    To do:
+        -- replce console.log, logout in err with default error
+
+    Contributers
+        -- Samuel Barnes
+        -- Joe Jeffcock
+        -- Diego Calanzone
+*/
+
+
+// Variable declarations
 const express = require('express');
 const validation = require('../modules/validation');
 const jwt = require('jsonwebtoken');
@@ -13,18 +29,13 @@ var facility = require('../modules/facility');
 var employee = require('../modules/employee');
 var moment = require('moment');
 var busboy = require('busboy');
-// let multer = require('multer');
 var fs = require('fs');
-
-
 
 // Router settings
 router.use(cookieParser(process.env.SESSION_SECRET));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(csurf({ cookie: true }));
-
-
 
 // Website header
 const webname = ' The Edgy ';
@@ -121,9 +132,9 @@ router.get('/statistics', function(req, res) {
         // Look at this ninja way to solve all the asynch queries
         Promise.all(queries).then(results => { 
         
-            // Render results
             var user = results[0];
 
+            // Render results
             res.render(path.join(__dirname + '/../views/pages/manager/statistics.ejs'), {
                 title: webname + "| Statistics",
                 session: req.session,
@@ -467,7 +478,6 @@ router.post('/activities/new', function (req, res) {
                     }
                 }
 
-
                 employee.newActivity(req_body).then(function (results) {
                     var activity_id = results[1][0].id;
                 
@@ -675,17 +685,17 @@ router.get('/facilities/edit/:id*', function(req, res) {
                     images: result[1]
                 });
 
-
+            // Error getting facility details (by id)
             }).catch(function(err) {
                 console.log(err);
                 res.redirect('/user/logout');
-            })
+            });
 
+        // Error getting user details
         }).catch(function(err) {
             console.log(err);
             res.redirect('/user/logout');
         });
-        
     }
 });
 
@@ -801,4 +811,5 @@ router.post('/facilities/edit/:id*', function(req, res) {
 });
 
 
+// Exports
 module.exports = router;
